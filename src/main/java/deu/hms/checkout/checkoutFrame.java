@@ -29,22 +29,23 @@ public class checkoutFrame extends javax.swing.JDialog {
 
         serchTextField = new javax.swing.JTextField();
         nameComboBox = new javax.swing.JComboBox<>();
-        checkInLabel = new javax.swing.JLabel();
+        checkoutLabel = new javax.swing.JLabel();
         reqestTextField = new javax.swing.JTextField();
         reservationlistLabel = new javax.swing.JLabel();
         onSitePaymentButton = new javax.swing.JRadioButton();
         editButton = new javax.swing.JButton();
         cardRegistButton = new javax.swing.JRadioButton();
-        reqestLabel = new javax.swing.JLabel();
+        feedbackLabel = new javax.swing.JLabel();
         paymentTypeRegistButton = new javax.swing.JButton();
         checkInTextField = new javax.swing.JTextField();
         requestRegistButton = new javax.swing.JButton();
-        checkinButton = new javax.swing.JButton();
+        checkoutButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         reservationListTable = new javax.swing.JTable();
         paymentTypeLabel = new javax.swing.JLabel();
         roomAmountLabel = new javax.swing.JLabel();
         serchButton = new javax.swing.JButton();
+        serviceCheckButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -55,9 +56,9 @@ public class checkoutFrame extends javax.swing.JDialog {
             }
         });
 
-        checkInLabel.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
-        checkInLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        checkInLabel.setText("체크아웃");
+        checkoutLabel.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
+        checkoutLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        checkoutLabel.setText("체크아웃");
 
         reqestTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,7 +80,7 @@ public class checkoutFrame extends javax.swing.JDialog {
 
         cardRegistButton.setText("카드 등록");
 
-        reqestLabel.setText("요청 사항");
+        feedbackLabel.setText("피드백");
 
         paymentTypeRegistButton.setText("등록");
         paymentTypeRegistButton.addActionListener(new java.awt.event.ActionListener() {
@@ -95,7 +96,7 @@ public class checkoutFrame extends javax.swing.JDialog {
             }
         });
 
-        checkinButton.setText("체크인");
+        checkoutButton.setText("체크아웃");
 
         reservationListTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -121,19 +122,26 @@ public class checkoutFrame extends javax.swing.JDialog {
             }
         });
 
+        serviceCheckButton.setText("서비스 확인");
+        serviceCheckButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serviceCheckButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(checkInLabel)
+                .addComponent(checkoutLabel)
                 .addGap(234, 234, 234))
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(reqestLabel)
+                        .addComponent(feedbackLabel)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -141,15 +149,9 @@ public class checkoutFrame extends javax.swing.JDialog {
                             .addComponent(reqestTextField)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(reservationlistLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(serviceCheckButton)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(requestRegistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(paymentTypeLabel)
@@ -160,32 +162,45 @@ public class checkoutFrame extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(paymentTypeRegistButton)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(roomAmountLabel)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(checkInTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(checkInTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(checkinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(checkoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(roomAmountLabel)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(requestRegistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(12, 12, 12))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addComponent(checkInLabel)
+                .addComponent(checkoutLabel)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(serchButton))
-                .addGap(18, 18, 18)
-                .addComponent(reservationlistLabel)
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reservationlistLabel)
+                    .addComponent(serviceCheckButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editButton)
                 .addGap(12, 12, 12)
-                .addComponent(reqestLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(feedbackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(reqestTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -200,7 +215,7 @@ public class checkoutFrame extends javax.swing.JDialog {
                     .addComponent(paymentTypeRegistButton)
                     .addComponent(onSitePaymentButton)
                     .addComponent(checkInTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(checkinButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(checkoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15))
         );
 
@@ -230,6 +245,10 @@ public class checkoutFrame extends javax.swing.JDialog {
     private void serchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serchButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_serchButtonActionPerformed
+
+    private void serviceCheckButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceCheckButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serviceCheckButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -275,16 +294,16 @@ public class checkoutFrame extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton cardRegistButton;
-    private javax.swing.JLabel checkInLabel;
     private javax.swing.JTextField checkInTextField;
-    private javax.swing.JButton checkinButton;
+    private javax.swing.JButton checkoutButton;
+    private javax.swing.JLabel checkoutLabel;
     private javax.swing.JButton editButton;
+    private javax.swing.JLabel feedbackLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> nameComboBox;
     private javax.swing.JRadioButton onSitePaymentButton;
     private javax.swing.JLabel paymentTypeLabel;
     private javax.swing.JButton paymentTypeRegistButton;
-    private javax.swing.JLabel reqestLabel;
     private javax.swing.JTextField reqestTextField;
     private javax.swing.JButton requestRegistButton;
     private javax.swing.JTable reservationListTable;
@@ -292,5 +311,6 @@ public class checkoutFrame extends javax.swing.JDialog {
     private javax.swing.JLabel roomAmountLabel;
     private javax.swing.JButton serchButton;
     private javax.swing.JTextField serchTextField;
+    private javax.swing.JButton serviceCheckButton;
     // End of variables declaration//GEN-END:variables
 }

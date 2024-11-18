@@ -10,6 +10,7 @@ deu\hms\roomservice\roomserviceFrame$1$1.class
 deu\hms\checkout\checkoutFrame$6.class
 deu\hms\login\loginFrame$1.class
 deu\hms\reservation\EditForm$1.class
+deu\hms\checkout\checkoutFrame$8.class
 deu\hms\reservation\reservationFrame$3.class
 deu\hms\reservation\reservationFrame$1.class
 deu\hms\restaurant\restaurantFrame$1.class
@@ -19,6 +20,7 @@ deu\hms\reservation\EditForm$2.class
 deu\hms\checkin\checkinFrame$2.class
 deu\hms\checkin\checkinFrame$8.class
 deu\hms\reservation\EditForm.class
+deu\hms\checkout\checkoutFrame$8$1.class
 deu\hms\checkout\checkoutFrame$2.class
 deu\hms\checkin\checkinFrame$5.class
 deu\hms\checkin\checkinFrame.class
@@ -43,7 +45,6 @@ deu\hms\checkin\checkinFrame$6.class
 deu\hms\login\loginFrame$1$1.class
 deu\hms\checkin\checkinFrame$10.class
 deu\hms\roomservice\roomserviceFrame$1.class
-deu\hms\checkout\checkoutFrame$7$1.class
 deu\hms\report\reportFrame$1.class
 deu\hms\reservation\Registration.class
 deu\hms\checkout\checkoutFrame$7.class
