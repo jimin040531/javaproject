@@ -473,10 +473,11 @@ public class checkinFrame extends javax.swing.JDialog {
             */
         
             // 요청 사항이 비어있는지 확인
-            if (requestTextField == null) {
+            /*if (requestTextField == null) {
                 JOptionPane.showMessageDialog(null, "요청 사항을 입력해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
                 return;
-            }
+            } 
+            */
   
             // 요청 사항을 파일에 저장 (BufferedWriter 사용)
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("requests_data.txt", true))) {
