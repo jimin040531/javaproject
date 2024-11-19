@@ -36,6 +36,7 @@ deu\hms\reservation\Registration$1.class
 deu\hms\roomservice\ReservationDialog$4.class
 deu\hms\checkin\checkinFrame$9.class
 deu\hms\checkin\checkinFrame$4.class
+deu\hms\reservation\Registration$9.class
 deu\hms\checkout\checkoutFrame$1.class
 deu\hms\reservation\Registration$2.class
 deu\hms\login\MainScreenManager.class

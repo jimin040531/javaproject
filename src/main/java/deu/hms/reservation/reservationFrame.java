@@ -27,24 +27,24 @@ public class reservationFrame extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        goEitFom = new javax.swing.JButton();
+        goDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
+        mainTable = new javax.swing.JTable();
+        goreservation = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton2.setText("수정");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        goEitFom.setText("수정");
+        goEitFom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                goEitFomActionPerformed(evt);
             }
         });
 
-        jButton1.setText("삭제");
+        goDelete.setText("삭제");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        mainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
@@ -55,16 +55,16 @@ public class reservationFrame extends javax.swing.JDialog {
                 "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜", "방번호", "인원수", "숙박비", "결제수단", "상태"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(9).setResizable(false);
-            jTable1.getColumnModel().getColumn(10).setResizable(false);
+        jScrollPane1.setViewportView(mainTable);
+        if (mainTable.getColumnModel().getColumnCount() > 0) {
+            mainTable.getColumnModel().getColumn(9).setResizable(false);
+            mainTable.getColumnModel().getColumn(10).setResizable(false);
         }
 
-        jButton3.setText("등록");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        goreservation.setText("등록");
+        goreservation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                goreservationActionPerformed(evt);
             }
         });
 
@@ -76,11 +76,11 @@ public class reservationFrame extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(goEitFom, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(goDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(goreservation, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -88,32 +88,32 @@ public class reservationFrame extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(goDelete)
+                    .addComponent(goEitFom))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(goreservation)
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
 
         Registration registrationFrame = new Registration();
         registrationFrame.setVisible(true); // Registration 프레임을 보이게 함
         this.dispose(); // 현재 프
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_goEitFomActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void goreservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goreservationActionPerformed
        
         this.dispose();
 
         Registration registrationFrame = new Registration(); // Registration 프레임 생성
 
-        registrationFrame.setSize(500, 400);  // 다이얼로그 크기 설정
+        registrationFrame.setSize(400, 450);  // 다이얼로그 크기 설정
         registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
         registrationFrame.setTitle("카드 등록");  // 다이얼로그 제목 설정 
 
@@ -121,7 +121,7 @@ public class reservationFrame extends javax.swing.JDialog {
         registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
 
 // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_goreservationActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,10 +166,10 @@ public class reservationFrame extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton goDelete;
+    private javax.swing.JButton goEitFom;
+    private javax.swing.JButton goreservation;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable mainTable;
     // End of variables declaration//GEN-END:variables
 }
