@@ -3,20 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package deu.hms.reservation;
-
+import javax.swing.JFrame;
 /**
  *
  * @author adsd3
  */
-public class Registration extends javax.swing.JPanel {
+public class Registration extends JFrame {
 
     /**
      * Creates new form Registration
      */
-    public Registration() {
-        initComponents();
-    }
-
+   public Registration() {
+   }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

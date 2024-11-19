@@ -59,7 +59,7 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="checkInTextField" min="-2" pref="149" max="-2" attributes="0"/>
+                                      <Component id="checkoutTextField" min="-2" pref="149" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="checkoutButton" min="-2" pref="94" max="-2" attributes="0"/>
                                   </Group>
@@ -123,7 +123,7 @@
                   <Component id="cardRegistButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="paymentTypeRegistButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="onSitePaymentButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="checkInTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="checkoutTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="checkoutButton" alignment="3" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -201,7 +201,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="paymentTypeRegistButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="checkInTextField">
+    <Component class="javax.swing.JTextField" name="checkoutTextField">
     </Component>
     <Component class="javax.swing.JButton" name="requestRegistButton">
       <Properties>

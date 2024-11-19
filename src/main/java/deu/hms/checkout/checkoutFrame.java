@@ -37,7 +37,7 @@ public class checkoutFrame extends javax.swing.JDialog {
         cardRegistButton = new javax.swing.JRadioButton();
         feedbackLabel = new javax.swing.JLabel();
         paymentTypeRegistButton = new javax.swing.JButton();
-        checkInTextField = new javax.swing.JTextField();
+        checkoutTextField = new javax.swing.JTextField();
         requestRegistButton = new javax.swing.JButton();
         checkoutButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -164,7 +164,7 @@ public class checkoutFrame extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(checkInTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(checkoutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(checkoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(roomAmountLabel)))
@@ -214,7 +214,7 @@ public class checkoutFrame extends javax.swing.JDialog {
                     .addComponent(cardRegistButton)
                     .addComponent(paymentTypeRegistButton)
                     .addComponent(onSitePaymentButton)
-                    .addComponent(checkInTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkoutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15))
         );
@@ -294,9 +294,9 @@ public class checkoutFrame extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton cardRegistButton;
-    private javax.swing.JTextField checkInTextField;
     private javax.swing.JButton checkoutButton;
     private javax.swing.JLabel checkoutLabel;
+    private javax.swing.JTextField checkoutTextField;
     private javax.swing.JButton editButton;
     private javax.swing.JLabel feedbackLabel;
     private javax.swing.JScrollPane jScrollPane1;
