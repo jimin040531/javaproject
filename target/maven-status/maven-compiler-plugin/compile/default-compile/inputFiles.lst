@@ -1,7 +1,7 @@
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\EditForm.java
 C:\javaProject\javaproject\src\main\java\deu\hms\restaurant\ReservationViewDialog.java
 C:\javaProject\javaproject\src\main\java\deu\hms\mangement\managementFrame.java
-C:\javaProject\javaproject\src\main\java\deu\hms\reservation\CardIn.java
+C:\javaProject\javaproject\src\main\java\deu\hms\login\MainScreenManager.java
 C:\javaProject\javaproject\src\main\java\deu\hms\checkout\checkoutFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\restaurant\ReservationDialog.java
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\Registration.java
@@ -12,4 +12,5 @@ C:\javaProject\javaproject\src\main\java\deu\hms\checkin\checkinFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\report\reportFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\reservationFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\login\loginFrame.java
+C:\javaProject\javaproject\src\main\java\deu\hms\login\MainScreenEmployees.java
 C:\javaProject\javaproject\src\main\java\deu\hms\roomservice\ReservationDialog.java
