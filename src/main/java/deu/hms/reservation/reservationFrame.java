@@ -4,20 +4,51 @@
  */
 package deu.hms.reservation;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author Jimin
  */
 public class reservationFrame extends javax.swing.JDialog {
 
+    private DefaultTableModel tableModel;
+    private JTable dataTable;
+
     /**
      * Creates new form reservationFrame
      */
     public reservationFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+
         initComponents();
+        {
+
+        }
     }//
 
+    // 기본 생성자 추가
+    public reservationFrame() {
+        setTitle("Reservation Frame");
+        setSize(600, 400);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        initComponents();  // 
+
+// setTitle("Reservation Frame");
+        //   setSize(500, 500);
+        //  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //  setLocationRelativeTo(null);
+    }
+
+    // 클래스의 나머지 내용들...
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,6 +74,11 @@ public class reservationFrame extends javax.swing.JDialog {
         });
 
         goDelete.setText("삭제");
+        goDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goDeleteActionPerformed(evt);
+            }
+        });
 
         mainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,28 +136,38 @@ public class reservationFrame extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
+        this.dispose();
 
         Registration registrationFrame = new Registration();
-        registrationFrame.setVisible(true); // Registration 프레임을 보이게 함
-        this.dispose(); // 현재 프
+        registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
+        registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+        registrationFrame.setTitle("정보등록");  // 다이얼로그 제목 설정 
+
+        registrationFrame.toFront();
+        registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goreservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goreservationActionPerformed
-       
+
         this.dispose();
 
         Registration registrationFrame = new Registration(); // Registration 프레임 생성
 
-        registrationFrame.setSize(400, 450);  // 다이얼로그 크기 설정
+        registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
         registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
-        registrationFrame.setTitle("카드 등록");  // 다이얼로그 제목 설정 
+        registrationFrame.setTitle("정보등록");  // 다이얼로그 제목 설정 
 
         registrationFrame.toFront();
         registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
 
 // TODO add your handling code here:
     }//GEN-LAST:event_goreservationActionPerformed
+
+    private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_goDeleteActionPerformed
 
     /**
      * @param args the command line arguments
