@@ -16,7 +16,7 @@ public class reservationFrame extends javax.swing.JDialog {
     public reservationFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-    }//ㅁㄴㅇㄴㅁㅇㄴㅁ
+    }//
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -101,15 +101,25 @@ public class reservationFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-           
-    Registration registrationFrame = new Registration();
-    registrationFrame.setVisible(true); // Registration 프레임을 보이게 함
-    this.dispose(); // 현재 프
+
+        Registration registrationFrame = new Registration();
+        registrationFrame.setVisible(true); // Registration 프레임을 보이게 함
+        this.dispose(); // 현재 프
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
        
-     
+        this.dispose();
+
+        Registration registrationFrame = new Registration(); // Registration 프레임 생성
+
+        registrationFrame.setSize(500, 400);  // 다이얼로그 크기 설정
+        registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+        registrationFrame.setTitle("카드 등록");  // 다이얼로그 제목 설정 
+
+        registrationFrame.toFront();
+        registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
+
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
