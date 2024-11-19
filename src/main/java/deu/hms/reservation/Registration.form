@@ -72,7 +72,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="pwLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="pwTextField" min="-2" pref="108" max="-2" attributes="0"/>
+                          <Component id="pwTextField" min="-2" pref="38" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -103,9 +103,9 @@
                       <Component id="cvcTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="pwLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="pwTextField" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="pwLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="pwTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="18" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -124,6 +124,12 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="pwTextField">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="**"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pwTextFieldActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="registButton">
           <Properties>

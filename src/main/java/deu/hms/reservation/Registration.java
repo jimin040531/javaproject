@@ -19,6 +19,9 @@ public class Registration extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 창 닫기 설정
         setLocationRelativeTo(null); // 화면 중앙에 표시
         initComponents(); // UI 초기화 메서드 호출
+        
+  
+   
    }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -83,6 +86,13 @@ public class Registration extends JFrame {
         jScrollPane1.setViewportView(jTextPane1);
 
         pwLabel.setText("비밀번호");
+
+        pwTextField.setText("**");
+        pwTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pwTextFieldActionPerformed(evt);
+            }
+        });
 
         registButton.setText("등록");
         registButton.addActionListener(new java.awt.event.ActionListener() {
@@ -180,7 +190,7 @@ public class Registration extends JFrame {
                     .addGroup(cardRegistLayout.createSequentialGroup()
                         .addComponent(pwLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pwTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(pwTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         cardRegistLayout.setVerticalGroup(
@@ -205,7 +215,7 @@ public class Registration extends JFrame {
                     .addComponent(cvcLabel)
                     .addComponent(cvcTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pwLabel)
                     .addComponent(pwTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
@@ -467,15 +477,11 @@ public class Registration extends JFrame {
             return;
         }
 
-        if (!month.matches("\\d{2}") || !year.matches("\\d{2}") || Integer.parseInt(month) < 1 || Integer.parseInt(month) > 12) {
-            javax.swing.JOptionPane.showMessageDialog(cardRegist, "유효기간을 올바르게 입력하세요! (MM/YY)", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
+        if(!pw.matches("\\d{2}\\*\\*")){
+           javax.swing.JOptionPane.showMessageDialog(cardRegist,"비밀번호는 앞 2자리 숫자로 입력하세요!","오류",javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        if (!pw.matches("\\d{2}")) { // 비밀번호는 2자리 숫자로 제한
-            javax.swing.JOptionPane.showMessageDialog(cardRegist, "비밀번호는 앞 2자리 숫자로 입력하세요!", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        
 
         if (!cvc.matches("\\d{3}")) {
             javax.swing.JOptionPane.showMessageDialog(cardRegist, "CVC 번호는 3자리 숫자로 입력하세요!", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -529,6 +535,10 @@ public class Registration extends JFrame {
     private void textnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textnameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textnameActionPerformed
+
+    private void pwTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pwTextFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

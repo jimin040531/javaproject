@@ -70,6 +70,7 @@ deu\hms\login\MainScreenManager$4.class
 deu\hms\reservation\EditForm$1.class
 deu\hms\login\Users.class
 deu\hms\checkout\checkoutFrame$8.class
+deu\hms\reservation\Registration$10.class
 deu\hms\checkin\ReservationManager.class
 deu\hms\report\reportFrame.class
 deu\hms\checkout\checkoutFrame$5.class
