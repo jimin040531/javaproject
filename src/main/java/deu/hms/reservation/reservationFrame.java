@@ -16,7 +16,7 @@ public class reservationFrame extends javax.swing.JDialog {
     public reservationFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-    }
+    }//ㅁㄴㅇㄴㅁㅇㄴㅁ
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,7 +94,7 @@ public class reservationFrame extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
