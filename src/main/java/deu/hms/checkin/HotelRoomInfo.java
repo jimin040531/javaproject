@@ -15,6 +15,7 @@ import java.util.*;
 
 import com.toedter.calendar.JDateChooser; // JCalendar 라이브러리 임포트
 import java.awt.event.ActionEvent;
+import java.time.DayOfWeek;
 
 public class HotelRoomInfo {
     private final JFrame frame;
@@ -28,7 +29,7 @@ public class HotelRoomInfo {
 
         frame = new JFrame("호텔 객실 정보");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(800, 150);
         frame.setLayout(new BorderLayout());
 
         // 화면을 중앙에 띄우기
@@ -71,25 +72,77 @@ public class HotelRoomInfo {
         return dateChooser;
     }
 
+    public class RoomPricing {
+        private static final int[] FLOOR_BASE_PRICE = {50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000};
+        private static final int WEEKEND_SURCHARGE = 50000;
+
+        public static int calculateRoomPrice(int floor, LocalDate date) {
+            if (floor < 1 || floor > 10) {
+                throw new IllegalArgumentException("유효하지 않은 층 번호입니다.");
+            }
+
+            int basePrice = FLOOR_BASE_PRICE[floor - 1];
+            if (isWeekend(date)) {
+                basePrice += WEEKEND_SURCHARGE;
+            }
+
+            return basePrice;
+        }
+
+        private static boolean isWeekend(LocalDate date) {
+            DayOfWeek dayOfWeek = date.getDayOfWeek();
+            return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
+        }
+    }
+
+    
     private void updateRoomAvailability() {
         roomPanel.removeAll();
 
-        // 체크인과 체크아웃 날짜가 null인 경우 기본 날짜를 설정
+        // 체크인과 체크아웃 날짜를 선택한 경우
         LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate());
         LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate());
 
-        // 만약 날짜가 null일 경우 오늘 날짜로 기본 설정
+        // 체크인 날짜가 선택되지 않았다면 기본값으로 현재 날짜를 설정
         if (checkInDate == null) {
             checkInDate = LocalDate.now();
         }
+
+        // 체크아웃 날짜가 선택되지 않았거나, 체크아웃 날짜가 체크인 날짜보다 이전일 경우 오류 처리
         if (checkOutDate == null) {
-            checkOutDate = checkInDate.plusDays(1); // 기본 체크아웃을 체크인 날짜의 다음 날로 설정
+            checkOutDate = checkInDate.plusDays(1); // 기본적으로 1박
+        } else if (checkOutDate.isBefore(checkInDate)) {
+            // 체크아웃 날짜가 체크인 날짜보다 이전인 경우 오류창을 띄운다.
+            JOptionPane.showMessageDialog(
+                roomPanel, 
+                "체크아웃 날짜는 체크인 날짜보다 나중이어야 합니다. 최소 1박 이상 예약 가능합니다.", 
+                "날짜 선택 오류", 
+                JOptionPane.WARNING_MESSAGE
+            );
+            checkOutDate = checkInDate.plusDays(1);  // 최소 1박 보장
         }
 
         int selectedFloor = floorSelector.getSelectedIndex();
 
+        // GridLayout으로 변경하여 위에 5개, 아래에 5개 배치
+        roomPanel.setLayout(new GridLayout(2, 5)); // 2행, 5열로 설정
+
         for (int room = 0; room < 10; room++) {
-            JButton roomButton = new JButton("Room " + (selectedFloor + 1) + "-" + (room + 1));
+            // 방 번호 생성
+            String roomNumber = "Room " + (selectedFloor + 1) + String.format("%02d", (room + 1));
+
+            // 전체 기간 요금 계산
+            int totalPrice = 0;
+            LocalDate currentDate = checkInDate;
+            while (!currentDate.isAfter(checkOutDate.minusDays(1))) {
+                totalPrice += RoomPricing.calculateRoomPrice(selectedFloor + 1, currentDate);
+                currentDate = currentDate.plusDays(1);
+            }
+
+            // 버튼 텍스트에 방 번호와 총 가격 표시
+            JButton roomButton = new JButton(roomNumber + " - " + totalPrice + "원");
+
+            // 해당 방이 예약 가능한지 확인
             boolean isAvailable = reservationManager.isRoomAvailable(selectedFloor, room, checkInDate, checkOutDate);
             roomButton.setBackground(isAvailable ? Color.GREEN : Color.LIGHT_GRAY);
 
@@ -97,9 +150,12 @@ public class HotelRoomInfo {
             final LocalDate checkIn = checkInDate;  // 추가된 부분
             final LocalDate checkOut = checkOutDate; // 추가된 부분
 
+            // 버튼 클릭 시 예약 시도
             roomButton.addActionListener((ActionEvent e) -> {
                 attemptReservation(selectedFloor, currentRoom, checkIn, checkOut);  // 람다식에서 캡처된 변수 사용
             });
+
+            // 버튼을 roomPanel에 추가
             roomPanel.add(roomButton);
         }
 
