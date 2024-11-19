@@ -1,5 +1,4 @@
 deu\hms\login\MainScreenManager$8.class
-deu\hms\checkin\checkinFrame$16$1.class
 deu\hms\login\MainScreenEmployees$1.class
 deu\hms\checkout\checkoutFrame$9.class
 deu\hms\checkin\checkinFrame$3.class
@@ -22,6 +21,7 @@ deu\hms\checkin\checkinFrame$8.class
 deu\hms\reservation\EditForm.class
 deu\hms\roomservice\roomserviceFrame$3.class
 deu\hms\checkin\checkinFrame$12.class
+deu\hms\checkin\checkinFrame$17$1.class
 deu\hms\checkin\checkinFrame$16.class
 deu\hms\login\MainScreenManager$3.class
 deu\hms\checkin\checkinFrame.class
@@ -39,6 +39,7 @@ deu\hms\checkin\checkinFrame$4.class
 deu\hms\checkout\checkoutFrame$1.class
 deu\hms\reservation\Registration$2.class
 deu\hms\login\MainScreenManager.class
+deu\hms\reservation\EditForm$3.class
 deu\hms\checkin\checkinFrame$10.class
 deu\hms\restaurant\ReservationViewDialog.class
 deu\hms\roomservice\ReservationDialog$3.class
@@ -46,11 +47,14 @@ deu\hms\restaurant\ReservationViewDialog$1$1.class
 deu\hms\reservation\Registration.class
 deu\hms\restaurant\restaurantFrame$5$1.class
 deu\hms\checkout\checkoutFrame$7.class
+deu\hms\checkin\checkinFrame$17.class
 deu\hms\login\MainScreenEmployees$2.class
 deu\hms\checkout\checkoutFrame$9$1.class
 deu\hms\roomservice\ReservationViewDialog$1.class
+deu\hms\reservation\Registration$3.class
 deu\hms\restaurant\restaurantFrame$2.class
 deu\hms\reservation\reservationFrame$2.class
+deu\hms\checkin\Room.class
 deu\hms\checkin\checkinFrame$11.class
 deu\hms\login\MainScreenManager$1.class
 deu\hms\checkin\checkinFrame$14.class
@@ -64,6 +68,7 @@ deu\hms\login\MainScreenManager$4.class
 deu\hms\reservation\EditForm$1.class
 deu\hms\login\Users.class
 deu\hms\checkout\checkoutFrame$8.class
+deu\hms\checkin\ReservationManager.class
 deu\hms\report\reportFrame.class
 deu\hms\checkout\checkoutFrame$5.class
 deu\hms\restaurant\ReservationDialog.class
@@ -78,6 +83,7 @@ deu\hms\checkout\checkoutFrame$4.class
 deu\hms\restaurant\restaurantFrame$4.class
 deu\hms\checkin\checkinFrame$13.class
 deu\hms\login\loginFrame$4$1.class
+deu\hms\checkin\Floor.class
 deu\hms\checkin\checkinFrame$1.class
 deu\hms\checkout\checkoutFrame.class
 deu\hms\login\MainScreenEmployees$6.class
@@ -85,6 +91,7 @@ deu\hms\reservation\reservationFrame$3$1.class
 deu\hms\checkout\checkoutFrame$3.class
 deu\hms\roomservice\roomserviceFrame$4.class
 deu\hms\checkin\checkinFrame$6.class
+deu\hms\checkin\HotelRoomInfo.class
 deu\hms\login\loginFrame$3.class
 deu\hms\login\MainScreenManager$7.class
 deu\hms\restaurant\restaurantFrame$5.class

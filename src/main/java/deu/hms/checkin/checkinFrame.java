@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class checkinFrame extends javax.swing.JDialog {
     
@@ -87,8 +88,9 @@ public class checkinFrame extends javax.swing.JDialog {
         paymentTypeLabel = new javax.swing.JLabel();
         onSitePaymentButton = new javax.swing.JRadioButton();
         roomAmountLabel = new javax.swing.JLabel();
-        editButton = new javax.swing.JButton();
+        guestRegistButton = new javax.swing.JButton();
         serchButton = new javax.swing.JButton();
+        roomInfoButton = new javax.swing.JButton();
 
         cardNumLabel.setText("카드번호");
 
@@ -300,10 +302,11 @@ public class checkinFrame extends javax.swing.JDialog {
 
         roomAmountLabel.setText("객실 금액");
 
-        editButton.setText("수정");
-        editButton.addActionListener(new java.awt.event.ActionListener() {
+        guestRegistButton.setText("손님 등록");
+        guestRegistButton.setActionCommand("등록");
+        guestRegistButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editButtonActionPerformed(evt);
+                guestRegistButtonActionPerformed(evt);
             }
         });
 
@@ -311,6 +314,13 @@ public class checkinFrame extends javax.swing.JDialog {
         serchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 serchButtonActionPerformed(evt);
+            }
+        });
+
+        roomInfoButton.setText("객실 정보");
+        roomInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomInfoButtonActionPerformed(evt);
             }
         });
 
@@ -336,14 +346,6 @@ public class checkinFrame extends javax.swing.JDialog {
                                 .addComponent(reservationlistLabel)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(requestRegistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(paymentTypeLabel)
                                     .addGroup(layout.createSequentialGroup()
@@ -353,12 +355,25 @@ public class checkinFrame extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(paymentTypeRegistButton)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(roomAmountLabel)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(checkInTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(roomAmountLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(roomInfoButton))
+                                    .addComponent(checkInTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(checkinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(checkinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(requestRegistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(guestRegistButton))))
                         .addGap(12, 12, 12))))
         );
         layout.setVerticalGroup(
@@ -376,25 +391,28 @@ public class checkinFrame extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editButton)
-                .addGap(12, 12, 12)
-                .addComponent(reqestLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(guestRegistButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(reqestLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(reqestTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(requestRegistButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(paymentTypeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(roomAmountLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cardRegistButton)
-                    .addComponent(paymentTypeRegistButton)
-                    .addComponent(onSitePaymentButton)
-                    .addComponent(checkInTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(checkinButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(paymentTypeLabel)
+                            .addComponent(roomAmountLabel)
+                            .addComponent(roomInfoButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(onSitePaymentButton)
+                            .addComponent(cardRegistButton)
+                            .addComponent(paymentTypeRegistButton)
+                            .addComponent(checkInTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(checkinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -501,9 +519,9 @@ public class checkinFrame extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_reqestTextFieldActionPerformed
 
-    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+    private void guestRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guestRegistButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_editButtonActionPerformed
+    }//GEN-LAST:event_guestRegistButtonActionPerformed
 
     private void serchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serchButtonActionPerformed
         // TODO add your handling code here:
@@ -604,6 +622,10 @@ public class checkinFrame extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_serchTextFieldActionPerformed
 
+    private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
+    
+    }//GEN-LAST:event_roomInfoButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -666,8 +688,8 @@ public class checkinFrame extends javax.swing.JDialog {
     private javax.swing.JButton checkinButton;
     private javax.swing.JLabel cvcLabel;
     private javax.swing.JTextField cvcTextField;
-    private javax.swing.JButton editButton;
     private javax.swing.JLabel expirationDateLabel;
+    private javax.swing.JButton guestRegistButton;
     private javax.swing.JTextField monthTextField;
     private javax.swing.JComboBox<String> nameComboBox;
     private javax.swing.JRadioButton onSitePaymentButton;
@@ -683,6 +705,7 @@ public class checkinFrame extends javax.swing.JDialog {
     private javax.swing.JTable reservationListTable;
     private javax.swing.JLabel reservationlistLabel;
     private javax.swing.JLabel roomAmountLabel;
+    private javax.swing.JButton roomInfoButton;
     private javax.swing.JButton serchButton;
     private javax.swing.JTextField serchTextField;
     private javax.swing.JLabel slashLabel;

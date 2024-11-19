@@ -242,15 +242,6 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="nameComboBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="serchTextField" min="-2" pref="322" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="serchButton" min="-2" pref="72" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="editButton" alignment="1" min="-2" pref="72" max="-2" attributes="0"/>
-                          <Component id="requestRegistButton" alignment="1" min="-2" pref="72" max="-2" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="paymentTypeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
@@ -262,13 +253,29 @@
                                   </Group>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="roomAmountLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="checkInTextField" min="-2" pref="171" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="checkinButton" min="-2" pref="72" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="roomAmountLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="roomInfoButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="checkInTextField" min="-2" pref="171" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="checkinButton" min="-2" pref="72" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="nameComboBox" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                      <Component id="serchTextField" min="-2" pref="322" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="serchButton" min="-2" pref="72" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="requestRegistButton" alignment="1" min="-2" pref="72" max="-2" attributes="0"/>
+                                  <Component id="guestRegistButton" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -294,27 +301,32 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="ScrollPane" min="-2" pref="65" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="editButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Component id="reqestLabel" min="-2" pref="17" max="-2" attributes="0"/>
+              <Component id="guestRegistButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="reqestLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="reqestTextField" min="-2" pref="77" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="requestRegistButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="paymentTypeLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="roomAmountLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="paymentTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="roomAmountLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="roomInfoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="onSitePaymentButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cardRegistButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="paymentTypeRegistButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkInTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="checkinButton" min="-2" pref="52" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="cardRegistButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="paymentTypeRegistButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="onSitePaymentButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="checkInTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="checkinButton" alignment="3" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -439,12 +451,13 @@
         <Property name="text" type="java.lang.String" value="&#xac1d;&#xc2e4; &#xae08;&#xc561;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="editButton">
+    <Component class="javax.swing.JButton" name="guestRegistButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#xc218;&#xc815;"/>
+        <Property name="text" type="java.lang.String" value="&#xc190;&#xb2d8; &#xb4f1;&#xb85d;"/>
+        <Property name="actionCommand" type="java.lang.String" value="&#xb4f1;&#xb85d;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guestRegistButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="serchButton">
@@ -453,6 +466,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serchButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="roomInfoButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#xac1d;&#xc2e4; &#xc815;&#xbcf4;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="roomInfoButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
