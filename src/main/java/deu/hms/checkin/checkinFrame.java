@@ -9,7 +9,11 @@ package deu.hms.checkin;
  * @author Jimin
  */
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 public class checkinFrame extends javax.swing.JDialog {
     
@@ -19,16 +23,6 @@ public class checkinFrame extends javax.swing.JDialog {
         return cardRegist;
     }
     
-    public String getpaymentButtonGroup() {
-        
-        if (onSitePaymentButton.isSelected()) {
-            return "현금";
-        } else if (cardRegistButton.isSelected()) {
-            return "카드";
-        } else {
-            return "";
-        }
-    }
     
     /**
      * Creates new form checkinFramee
@@ -38,7 +32,10 @@ public class checkinFrame extends javax.swing.JDialog {
     public checkinFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initRadioButtons();
         initializePlaceholders(); // Placeholder 초기화
+        configurePaymentButtonState(); // 라디오 버튼 상태 설정
+        paymentTypeRegistButton.setEnabled(false); // 초기 상태 비활성화
         setTitle("체크인");
         setLocationRelativeTo(null); // 화면 중앙에 배치
         
@@ -83,7 +80,7 @@ public class checkinFrame extends javax.swing.JDialog {
         nameComboBox = new javax.swing.JComboBox<>();
         checkinButton = new javax.swing.JButton();
         checkInLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        ScrollPane = new javax.swing.JScrollPane();
         reservationListTable = new javax.swing.JTable();
         reqestTextField = new javax.swing.JTextField();
         reservationlistLabel = new javax.swing.JLabel();
@@ -281,7 +278,7 @@ public class checkinFrame extends javax.swing.JDialog {
                 "고유 번호", "이름", "전화 번호", "방 번호", "객실 금액", "결제 수단", "상태"
             }
         ));
-        jScrollPane1.setViewportView(reservationListTable);
+        ScrollPane.setViewportView(reservationListTable);
 
         reqestTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -333,7 +330,7 @@ public class checkinFrame extends javax.swing.JDialog {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(reqestTextField)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(reservationlistLabel)
@@ -377,7 +374,7 @@ public class checkinFrame extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(reservationlistLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editButton)
                 .addGap(12, 12, 12)
@@ -403,7 +400,21 @@ public class checkinFrame extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    // 다른 컴포넌트 초기화 후에 호출되는 메서드에 작성
+    private void initRadioButtons() {
+        // paymentButtonGroup은 이미 생성되어 있다고 가정
+        // JDialog에 있는 onSitePaymentButton과 cardRegistButton을 ButtonGroup에 추가
+        paymentButtonGroup.add(onSitePaymentButton);
+        paymentButtonGroup.add(cardRegistButton);
+    }
     
+    private void configurePaymentButtonState() {
+        // cardRegistButton을 선택했을 때 paymentTypeRegistButton 활성화
+        cardRegistButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(true));
+
+        // onSitePaymentButton을 선택했을 때 paymentTypeRegistButton 비활성화
+        onSitePaymentButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(false));
+    }
     
     private void initializePlaceholders() {
         setTextFieldPlaceholder(cardNumTextField1, "****");
@@ -414,8 +425,9 @@ public class checkinFrame extends javax.swing.JDialog {
         setTextFieldPlaceholder(yearTextField, "YY");
         setTextFieldPlaceholder(pwTextField, "비밀번호 앞 2자리");
         setTextFieldPlaceholder(cvcTextField, "***");
+        setTextFieldPlaceholder(reqestTextField, "요청 사항 없을 시  '없음'  입력");
     }
-
+    
     private void setTextFieldPlaceholder(javax.swing.JTextField textField, String placeholder) {
         textField.setText(placeholder);
         textField.setForeground(java.awt.Color.GRAY);
@@ -449,24 +461,34 @@ public class checkinFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_paymentTypeRegistButtonActionPerformed
 
     private void requestRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestRegistButtonActionPerformed
-        // 요청 사항을 가져오기
-        String request = requestTextField.getText().trim();
+        /* int selectedRow = ReservationListTable.getSelectedRow();
 
-        // 요청 사항이 비어 있으면 아무 작업도 하지 않음
-        if (request.isEmpty()) {
-            return; // 요청 사항이 없으면 메서드 종료
-        }
+        if (selectedRow == -1) {
+            // 고객이 선택되지 않은 경우
+            JOptionPane.showMessageDialog(null, "고객을 선택해주세요.", "에러", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // 고객의 요청 사항 입력하기
+            String request = SpecialRequests.getText().trim();
 
-        // 요청 사항 저장 (파일에 저장)
-        try (java.io.FileWriter writer = new java.io.FileWriter("requests_data.txt", true)) { // 기존 데이터에 추가
-            writer.write("요청 사항: " + request + System.lineSeparator());
-            javax.swing.JOptionPane.showMessageDialog(this, "요청 사항이 성공적으로 저장되었습니다!", "성공", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            */
+        
+            // 요청 사항이 비어있는지 확인
+            if (requestTextField == null) {
+                JOptionPane.showMessageDialog(null, "요청 사항을 입력해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+  
+            // 요청 사항을 파일에 저장 (BufferedWriter 사용)
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("requests_data.txt", true))) {
+                writer.write("고객 요청 사항: " + reqestTextField);  // 요청 사항을 파일에 기록
+                writer.newLine();       // 줄바꿈 추가
+                JOptionPane.showMessageDialog(null, "요청 사항이 저장되었습니다.");
 
-            // 입력 필드 초기화
-            requestTextField.setText("");
-        } catch (java.io.IOException ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "저장 중 오류가 발생했습니다!", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
+                // 요청 사항 입력 필드 초기화
+                reqestTextField.setText("");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "저장 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
         }
     }//GEN-LAST:event_requestRegistButtonActionPerformed
 
@@ -487,7 +509,7 @@ public class checkinFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_serchButtonActionPerformed
 
     private void cardRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardRegistButtonActionPerformed
-    cardRegistButton.setEnabled(true);
+        
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void cardNumTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardNumTextField1ActionPerformed
@@ -537,10 +559,12 @@ public class checkinFrame extends javax.swing.JDialog {
         String fullCardNumber = cardNum1 + "-" + cardNum2 + "-" + cardNum3 + "-" + cardNum4; // 카드 번호를 하나로 합침
         String expirationDate = month + "/" + year; // 유효기간을 MM/YY 형식으로 저장
 
-        // 카드 정보를 저장 (예: 파일 저장)
-        try (java.io.FileWriter writer = new java.io.FileWriter("card_data.txt", true)) { // 기존 데이터에 추가
+        // 카드 정보를 저장 (BufferedWriter 사용)
+        try (java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.FileWriter("card_data.txt", true))) { // 기존 데이터에 추가
             writer.write("카드 번호: " + fullCardNumber + ", 유효기간: " + expirationDate
-                + ", 비밀번호: " + pw + ", CVC: " + cvc + System.lineSeparator());
+                    + ", 비밀번호: " + pw + ", CVC: " + cvc);
+            writer.newLine();  // 줄바꿈 추가
+
             javax.swing.JOptionPane.showMessageDialog(cardRegist, "카드 정보가 성공적으로 저장되었습니다!", "성공", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
             // 입력 필드 초기화 및 다이얼로그 닫기
@@ -572,7 +596,7 @@ public class checkinFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_yearTextFieldActionPerformed
 
     private void onSitePaymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSitePaymentButtonActionPerformed
-        onSitePaymentButton.setEnabled(false);   
+        
     }//GEN-LAST:event_onSitePaymentButtonActionPerformed
 
     private void serchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serchTextFieldActionPerformed
@@ -622,11 +646,12 @@ public class checkinFrame extends javax.swing.JDialog {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Label1;
     private javax.swing.JLabel Label2;
     private javax.swing.JLabel Label3;
+    private javax.swing.JScrollPane ScrollPane;
     private javax.swing.JButton cancleButton;
     private javax.swing.JLabel cardNumLabel;
     private javax.swing.JTextField cardNumTextField1;
@@ -642,7 +667,6 @@ public class checkinFrame extends javax.swing.JDialog {
     private javax.swing.JTextField cvcTextField;
     private javax.swing.JButton editButton;
     private javax.swing.JLabel expirationDateLabel;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField monthTextField;
     private javax.swing.JComboBox<String> nameComboBox;
     private javax.swing.JRadioButton onSitePaymentButton;
