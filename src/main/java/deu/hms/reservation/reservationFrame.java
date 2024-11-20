@@ -21,10 +21,28 @@ public class reservationFrame extends javax.swing.JDialog {
 
     private DefaultTableModel tableModel;
     private JTable dataTable;
-
+    private javax.swing.JTable reservationTable;
+    private static reservationFrame instance;
+    
+    public static reservationFrame getInstance() {
+        if (instance == null) {
+            instance = new reservationFrame();
+        }
+        return instance;
+    }
     /**
      * Creates new form reservationFrame
      */
+    public DefaultTableModel getReservationTableModel() {
+    return (DefaultTableModel) reservationTable.getModel();
+}
+    private void openRegistrationFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    Registration registrationForm = new Registration(this);  // 현재의 reservationFrame 객체를 전달
+    registrationForm.setVisible(true);
+}
+    
+
+    
     public reservationFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
 
@@ -33,7 +51,7 @@ public class reservationFrame extends javax.swing.JDialog {
 
         }
     }//
-
+  
     // 기본 생성자 추가
     public reservationFrame() {
         setTitle("Reservation Frame");
@@ -42,10 +60,10 @@ public class reservationFrame extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         initComponents();  // 
 
-// setTitle("Reservation Frame");
-        //   setSize(500, 500);
-        //  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //  setLocationRelativeTo(null);
+       // setTitle("Reservation Frame");
+         //  setSize(500, 500);
+       //  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+       //  setLocationRelativeTo(null);
     }
 
     // 클래스의 나머지 내용들...
@@ -121,16 +139,16 @@ public class reservationFrame extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(goDelete)
                     .addComponent(goEitFom))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(goreservation)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -150,7 +168,6 @@ public class reservationFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goreservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goreservationActionPerformed
-
         this.dispose();
 
         Registration registrationFrame = new Registration(); // Registration 프레임 생성
@@ -167,6 +184,17 @@ public class reservationFrame extends javax.swing.JDialog {
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
         // TODO add your handling code here:
+            int selectedRow = mainTable.getSelectedRow();
+    
+    // 선택된 행이 있는지 확인
+    if (selectedRow != -1) {
+        // 테이블 모델에서 해당 행 삭제
+        DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
+        model.removeRow(selectedRow);
+    } else {
+        // 선택된 행이 없는 경우 경고 메시지 표시
+        JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
+    }
     }//GEN-LAST:event_goDeleteActionPerformed
 
     /**

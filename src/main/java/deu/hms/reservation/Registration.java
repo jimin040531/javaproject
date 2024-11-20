@@ -13,42 +13,47 @@ import javax.swing.table.DefaultTableModel;
  * @author adsd3
  */
 public class Registration extends JFrame {
+private reservationFrame reservationFrame;
 
-   
+   private String generateUniqueId() {
+    return java.util.UUID.randomUUID().toString();
+}
 
+private void clearFields() {
+        textname.setText("");
+        textaddress.setText("");
+        textnumber.setText("");
+        textcheckindate.setText("");
+        textcheckoutdate.setText("");
+        textroomnumber.setText("");
+        textcount.setText("");
+    }
     /**
      * Creates new form Registration
      */
+public Registration(reservationFrame reservationFrame) {
+    this.reservationFrame = reservationFrame; // 전달받은 객체를 멤버 변수로 저장
+    initComponents(); // UI 초기화
+}
 
     public Registration() {
-        setTitle("Registration Form"); // 창 제목 설정
-        setSize(500, 600); // 창 크기 설정
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 창 닫기 설정
-        setLocationRelativeTo(null); // 화면 중앙에 표시
-        initComponents(); // UI 초기화 메서드 호출
+          initComponents();
+
+        initRadioButtons();
+        this.reservationFrame = reservationFrame.getInstance(); // Singleton 인스턴스 얻기
+        initializePlaceholders(); // Placeholder 초기화
+        configurePaymentButtonState();
+        paymentTypeRegistButton.setEnabled(false);
+    //
 
     }
-
-    public Registration(JTable dataTable, DefaultTableModel tableModel) {
-      
-        setTitle("Registration Form");
-        setSize(500, 500);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-        initComponents();
-    }
-
-
-      
-
-    // 다른 컴포넌트 초기화 후에 호출되는 메서드에 작성
-    private void initRadioButtons() {
+private void initRadioButtons() {
         // paymentButtonGroup은 이미 생성되어 있다고 가정
         // JDialog에 있는 onSitePaymentButton과 cardRegistButton을 ButtonGroup에 추가
         paymentButtonGroup.add(onSitePaymentButton);
         paymentButtonGroup.add(cardRegistButton);
     }
-
+    
     private void configurePaymentButtonState() {
         // cardRegistButton을 선택했을 때 paymentTypeRegistButton 활성화
         cardRegistButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(true));
@@ -56,6 +61,12 @@ public class Registration extends JFrame {
         // onSitePaymentButton을 선택했을 때 paymentTypeRegistButton 비활성화
         onSitePaymentButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(false));
     }
+   
+
+
+      
+    // 다른 컴포넌트 초기화 후에 호출되는 메서드에 작성
+   
 
     private void initializePlaceholders() {
         setTextFieldPlaceholder(cardNumTextField1, "****");
@@ -140,7 +151,7 @@ public class Registration extends JFrame {
         cardRegistButton = new javax.swing.JRadioButton();
         paymentTypeRegistButton = new javax.swing.JButton();
         textname = new java.awt.TextField();
-        textchekoutdate = new java.awt.TextField();
+        textcheckoutdate = new java.awt.TextField();
         textaddress = new java.awt.TextField();
         textnumber = new java.awt.TextField();
         textcheckindate = new java.awt.TextField();
@@ -322,6 +333,7 @@ public class Registration extends JFrame {
 
         jLabel10.setText("결제수단");
 
+        paymentButtonGroup.add(onSitePaymentButton);
         onSitePaymentButton.setText("현장결제");
         onSitePaymentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,6 +341,7 @@ public class Registration extends JFrame {
             }
         });
 
+        paymentButtonGroup.add(cardRegistButton);
         cardRegistButton.setText("카드결제");
         cardRegistButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -368,6 +381,7 @@ public class Registration extends JFrame {
 
         jScrollPane3.setViewportView(choseroom);
 
+        weekGroup.add(thisweek);
         thisweek.setText("평일");
         thisweek.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -375,6 +389,7 @@ public class Registration extends JFrame {
             }
         });
 
+        weekGroup.add(weekend);
         weekend.setText("주말");
 
         back.setText("뒤로");
@@ -407,7 +422,7 @@ public class Registration extends JFrame {
                             .addComponent(textname, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(textroomnumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                                .addComponent(textchekoutdate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(textcheckoutdate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(textcheckindate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(97, 97, 97))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -476,7 +491,7 @@ public class Registration extends JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
-                            .addComponent(textchekoutdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(textcheckoutdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6))
                     .addComponent(textroomnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -644,12 +659,47 @@ public class Registration extends JFrame {
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
         // TODO add your handling code here:
+        String name = textname.getText();
+    String address = textaddress.getText();
+    String phoneNumber = textnumber.getText();
+    String checkInDate = textcheckindate.getText();
+    String checkOutDate = textcheckoutdate.getText();
+    String roomNumber = textroomnumber.getText();
+    String numberOfPeople = textcount.getText();
+    
+   
+    // 유효성 검사 - 모든 필드가 채워졌는지 확인
+    if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || checkInDate.isEmpty() || checkOutDate.isEmpty() || roomNumber.isEmpty() || numberOfPeople.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "모든 필드를 입력해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // reservationFrame의 테이블 모델에 데이터 추가
+    DefaultTableModel model = (DefaultTableModel) reservationFrame.getReservationTableModel();
+    model.addRow(new Object[]{generateUniqueId(), name, address, phoneNumber, checkInDate, checkOutDate, roomNumber, numberOfPeople});
+    clearFields();
+    // 저장 후 입력 필드 초기화
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        dispose(); // 현재 창 닫기
+     setVisible(false);
+
+    // 이전에 생성된 reservationFrame을 다시 표시
+     if (reservationFrame != null) {
+            reservationFrame.setVisible(true); // 기존 예약 화면 보이기
+        } else {
+            JOptionPane.showMessageDialog(this, "Reservation frame is not available.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+      /*   setVisible(false);
+
+    // reservationFrame을 다시 보이도록 설정
+    reservationFrame reservation = (reservationFrame) getParent();
+    reservation.setVisible(true); // 이전 예약 화면 보이기
+        
+         dispose(); // 현재 창 닫기
         reservationFrame reservation = new reservationFrame(); // 예약 화면 호출
-        reservation.setVisible(true); // 예약 화면 보이기         // TODO add your handling code here:
+        reservation.setVisible(true);  */ 
+ // 예약 화면 보이기         // TODO add your handling code here:
     }//GEN-LAST:event_backActionPerformed
 
 
@@ -699,7 +749,7 @@ public class Registration extends JFrame {
     private javax.swing.JLabel slashLabel;
     private java.awt.TextField textaddress;
     private java.awt.TextField textcheckindate;
-    private java.awt.TextField textchekoutdate;
+    private java.awt.TextField textcheckoutdate;
     private java.awt.TextField textcount;
     private java.awt.TextField textname;
     private java.awt.TextField textnumber;

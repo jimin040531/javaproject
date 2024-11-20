@@ -289,7 +289,7 @@
                               <Component id="textname" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="textroomnumber" alignment="0" pref="74" max="32767" attributes="0"/>
-                                  <Component id="textchekoutdate" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="textcheckoutdate" alignment="0" max="32767" attributes="0"/>
                                   <Component id="textcheckindate" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -380,7 +380,7 @@
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="textchekoutdate" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="textcheckoutdate" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -482,6 +482,9 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="onSitePaymentButton">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="paymentButtonGroup"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#xd604;&#xc7a5;&#xacb0;&#xc81c;"/>
           </Properties>
           <Events>
@@ -490,6 +493,9 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="cardRegistButton">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="paymentButtonGroup"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#xce74;&#xb4dc;&#xacb0;&#xc81c;"/>
           </Properties>
           <Events>
@@ -509,7 +515,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textnameActionPerformed"/>
           </Events>
         </Component>
-        <Component class="java.awt.TextField" name="textchekoutdate">
+        <Component class="java.awt.TextField" name="textcheckoutdate">
         </Component>
         <Component class="java.awt.TextField" name="textaddress">
           <Events>
@@ -561,6 +567,9 @@
         </Container>
         <Component class="javax.swing.JRadioButton" name="thisweek">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="weekGroup"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#xd3c9;&#xc77c;"/>
           </Properties>
           <Events>
@@ -569,6 +578,9 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="weekend">
           <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="weekGroup"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#xc8fc;&#xb9d0;"/>
           </Properties>
         </Component>
