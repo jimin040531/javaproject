@@ -284,13 +284,13 @@
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="textaddress" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
-                              <Component id="textnumber" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
-                              <Component id="textname" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
+                              <Component id="textAddress" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
+                              <Component id="textPhoneNumber" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
+                              <Component id="textName" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="textroomnumber" alignment="0" pref="74" max="32767" attributes="0"/>
-                                  <Component id="textcheckoutdate" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="textcheckindate" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="textRoomNumber" alignment="0" pref="74" max="32767" attributes="0"/>
+                                  <Component id="textCheckOutDate" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="textCheckInDate" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
@@ -309,7 +309,7 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="textcount" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
+                              <Component id="textGuestCount" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
                       </Group>
@@ -320,7 +320,7 @@
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="thisweek" min="-2" max="-2" attributes="0"/>
+                                          <Component id="thisWeek" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
@@ -360,37 +360,37 @@
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="textname" min="-2" max="-2" attributes="0"/>
+                          <Component id="textName" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="textaddress" min="-2" max="-2" attributes="0"/>
+                          <Component id="textAddress" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="textnumber" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="textPhoneNumber" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="textcheckindate" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="textCheckInDate" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="textcheckoutdate" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="textCheckOutDate" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="textroomnumber" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="textRoomNumber" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                      <Component id="textcount" min="-2" max="-2" attributes="0"/>
+                      <Component id="textGuestCount" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
@@ -406,7 +406,7 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="thisweek" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="thisWeek" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="weekend" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -510,25 +510,25 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="paymentTypeRegistButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="java.awt.TextField" name="textname">
+        <Component class="java.awt.TextField" name="textName">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textnameActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textNameActionPerformed"/>
           </Events>
         </Component>
-        <Component class="java.awt.TextField" name="textcheckoutdate">
+        <Component class="java.awt.TextField" name="textCheckOutDate">
         </Component>
-        <Component class="java.awt.TextField" name="textaddress">
+        <Component class="java.awt.TextField" name="textAddress">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textaddressActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textAddressActionPerformed"/>
           </Events>
         </Component>
-        <Component class="java.awt.TextField" name="textnumber">
+        <Component class="java.awt.TextField" name="textPhoneNumber">
         </Component>
-        <Component class="java.awt.TextField" name="textcheckindate">
+        <Component class="java.awt.TextField" name="textCheckInDate">
         </Component>
-        <Component class="java.awt.TextField" name="textroomnumber">
+        <Component class="java.awt.TextField" name="textRoomNumber">
         </Component>
-        <Component class="java.awt.TextField" name="textcount">
+        <Component class="java.awt.TextField" name="textGuestCount">
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
           <AuxValues>
@@ -537,7 +537,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextPane" name="jTextPane2">
+            <Component class="javax.swing.JTextPane" name="Money">
             </Component>
           </SubComponents>
         </Container>
@@ -561,11 +561,11 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextPane" name="choseroom">
+            <Component class="javax.swing.JTextPane" name="ChoseRoom">
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JRadioButton" name="thisweek">
+        <Component class="javax.swing.JRadioButton" name="thisWeek">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="weekGroup"/>
@@ -573,7 +573,7 @@
             <Property name="text" type="java.lang.String" value="&#xd3c9;&#xc77c;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="thisweekActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="thisWeekActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="weekend">

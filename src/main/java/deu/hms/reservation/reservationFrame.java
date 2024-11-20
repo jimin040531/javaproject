@@ -23,6 +23,8 @@ public class reservationFrame extends javax.swing.JDialog {
     private JTable dataTable;
     private javax.swing.JTable reservationTable;
     private static reservationFrame instance;
+
+    
     
     public static reservationFrame getInstance() {
         if (instance == null) {
@@ -30,6 +32,10 @@ public class reservationFrame extends javax.swing.JDialog {
         }
         return instance;
     }
+    public JTable getMainTable() {
+    return mainTable;
+}
+
     /**
      * Creates new form reservationFrame
      */
@@ -54,11 +60,13 @@ public class reservationFrame extends javax.swing.JDialog {
   
     // 기본 생성자 추가
     public reservationFrame() {
+                mainTable = new JTable();
+
         setTitle("Reservation Frame");
         setSize(600, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        initComponents();  // 
+        initComponents();  
 
        // setTitle("Reservation Frame");
          //  setSize(500, 500);
@@ -133,9 +141,9 @@ public class reservationFrame extends javax.swing.JDialog {
                         .addComponent(goEitFom, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(goDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(goreservation, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(goreservation, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 827, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,9 +152,9 @@ public class reservationFrame extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(goDelete)
                     .addComponent(goEitFom))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(goreservation)
                 .addGap(24, 24, 24))
         );
@@ -184,13 +192,24 @@ public class reservationFrame extends javax.swing.JDialog {
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
         // TODO add your handling code here:
-            int selectedRow = mainTable.getSelectedRow();
-    
-    // 선택된 행이 있는지 확인
+      /*   int selectedRow = mainTable.getSelectedRow();
     if (selectedRow != -1) {
-        // 테이블 모델에서 해당 행 삭제
+        // 선택된 행이 있는 경우 삭제
         DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
         model.removeRow(selectedRow);
+    } else {
+        // 행이 선택되지 않았을 경우 경고 메시지
+        JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.");
+    }*/    //테이블칸도 삭제   
+        
+        int selectedRow = mainTable.getSelectedRow();
+
+    // 선택된 행이 있는지 확인
+    if (selectedRow != -1) {
+        // 선택된 행의 텍스트를 빈 값으로 설정하여 내용만 삭제
+        for (int i = 0; i < mainTable.getColumnCount(); i++) {
+            mainTable.setValueAt("", selectedRow, i);
+        }
     } else {
         // 선택된 행이 없는 경우 경고 메시지 표시
         JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
