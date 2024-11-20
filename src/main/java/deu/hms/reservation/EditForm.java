@@ -4,11 +4,24 @@
  */
 package deu.hms.reservation;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author adsd3
  */
-public class EditForm extends javax.swing.JPanel {
+public class EditForm extends JFrame {
+
+    
+    
+    private void initCardRegistDialog() {
+    GroupLayout cardRegistLayout = new GroupLayout(cardRegist.getContentPane());
+    cardRegist.getContentPane().setLayout(cardRegistLayout);
+
+    // 기존 cardRegist 레이아웃 설정 코드 여기에 추가
+}
+   
 
     /**
      * Creates new form EditForm
@@ -16,7 +29,7 @@ public class EditForm extends javax.swing.JPanel {
     public EditForm() {
         initComponents();
     }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,34 +59,35 @@ public class EditForm extends javax.swing.JPanel {
         cardNumTextField1 = new javax.swing.JTextField();
         Label1 = new javax.swing.JLabel();
         registButton1 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        thisweek = new javax.swing.JRadioButton();
-        jLabel6 = new javax.swing.JLabel();
-        weekend = new javax.swing.JRadioButton();
-        jLabel7 = new javax.swing.JLabel();
+        textGuestCount = new java.awt.TextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Money = new javax.swing.JTextPane();
+        jLabel11 = new javax.swing.JLabel();
+        reservationsubmit = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ChoseRoom = new javax.swing.JTextPane();
+        thisWeek = new javax.swing.JRadioButton();
+        back = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         onSitePaymentButton = new javax.swing.JRadioButton();
         cardRegistButton = new javax.swing.JRadioButton();
         paymentTypeRegistButton = new javax.swing.JButton();
-        textname = new java.awt.TextField();
-        textchekoutdate = new java.awt.TextField();
-        textaddress = new java.awt.TextField();
-        textnumber = new java.awt.TextField();
-        textcheckindate = new java.awt.TextField();
-        textroomnumber = new java.awt.TextField();
-        textcount = new java.awt.TextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
+        textName = new java.awt.TextField();
+        textCheckOutDate = new java.awt.TextField();
+        textAddress = new java.awt.TextField();
+        textPhoneNumber = new java.awt.TextField();
         name = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        reservationsubmit = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        choseroom = new javax.swing.JTextPane();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        textCheckInDate = new java.awt.TextField();
+        textRoomNumber = new java.awt.TextField();
+        weekend1 = new javax.swing.JRadioButton();
 
         cardNumTextField2.setToolTipText("");
 
@@ -225,20 +239,32 @@ public class EditForm extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jLabel5.setText("예상 체크아웃 날짜");
+        jScrollPane2.setViewportView(Money);
 
-        thisweek.setText("평일");
-        thisweek.addActionListener(new java.awt.event.ActionListener() {
+        jLabel11.setText("원");
+
+        reservationsubmit.setText("저장");
+        reservationsubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                thisweekActionPerformed(evt);
+                reservationsubmitActionPerformed(evt);
             }
         });
 
-        jLabel6.setText("방번호");
+        jScrollPane3.setViewportView(ChoseRoom);
 
-        weekend.setText("주말");
+        thisWeek.setText("평일");
+        thisWeek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                thisWeekActionPerformed(evt);
+            }
+        });
 
-        jLabel7.setText("인원수");
+        back.setText("뒤로");
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("객실선택");
 
@@ -267,40 +293,40 @@ public class EditForm extends javax.swing.JPanel {
             }
         });
 
-        textname.addActionListener(new java.awt.event.ActionListener() {
+        textName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textnameActionPerformed(evt);
+                textNameActionPerformed(evt);
             }
         });
 
-        textaddress.addActionListener(new java.awt.event.ActionListener() {
+        textAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textaddressActionPerformed(evt);
+                textAddressActionPerformed(evt);
             }
         });
-
-        jScrollPane2.setViewportView(jTextPane2);
 
         name.setText("이름");
 
-        jLabel11.setText("원");
-
         jLabel2.setText("전화번호");
-
-        reservationsubmit.setText("저장");
 
         jLabel3.setText("주소");
 
-        jScrollPane3.setViewportView(choseroom);
-
         jLabel4.setText("예상 체크인 날짜");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        jLabel5.setText("예상 체크아웃 날짜");
+
+        jLabel6.setText("방번호");
+
+        jLabel7.setText("인원수");
+
+        weekend1.setText("주말");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(92, 92, 92)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,14 +339,18 @@ public class EditForm extends javax.swing.JPanel {
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textaddress, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textnumber, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textname, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(textroomnumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                                .addComponent(textchekoutdate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textcheckindate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(97, 97, 97))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(97, 97, 97))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(textRoomNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                                    .addComponent(textCheckOutDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(textCheckInDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(78, 78, 78))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -333,7 +363,7 @@ public class EditForm extends javax.swing.JPanel {
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel11))
-                            .addComponent(textcount, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(textGuestCount, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(185, 185, 185))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -342,7 +372,7 @@ public class EditForm extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(thisweek))
+                                        .addComponent(thisWeek))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(43, 43, 43)
                                         .addComponent(onSitePaymentButton)
@@ -353,11 +383,16 @@ public class EditForm extends javax.swing.JPanel {
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(reservationsubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(77, 77, 77)))
-                        .addGap(18, 18, 18)
-                        .addComponent(weekend)
-                        .addGap(23, 23, 23))))
+                        .addGap(88, 88, 88))))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(441, Short.MAX_VALUE)
+                    .addComponent(weekend1)
+                    .addGap(13, 13, 13)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,30 +404,30 @@ public class EditForm extends javax.swing.JPanel {
                         .addGap(15, 15, 15)
                         .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(textname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textaddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(textAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
-                    .addComponent(textnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
-                    .addComponent(textcheckindate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textCheckInDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
-                            .addComponent(textchekoutdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(textCheckOutDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6))
-                    .addComponent(textroomnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textRoomNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7)
-                    .addComponent(textcount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textGuestCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -404,8 +439,7 @@ public class EditForm extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel11)
-                        .addComponent(thisweek)
-                        .addComponent(weekend))
+                        .addComponent(thisWeek))
                     .addComponent(jLabel9)
                     .addComponent(jScrollPane2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -415,39 +449,17 @@ public class EditForm extends javax.swing.JPanel {
                     .addComponent(cardRegistButton)
                     .addComponent(paymentTypeRegistButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(reservationsubmit)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reservationsubmit)
+                    .addComponent(back))
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(278, Short.MAX_VALUE)
+                    .addComponent(weekend1)
+                    .addGap(61, 61, 61)))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void thisweekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thisweekActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_thisweekActionPerformed
-
-    private void onSitePaymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSitePaymentButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_onSitePaymentButtonActionPerformed
-
-    private void cardRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardRegistButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cardRegistButtonActionPerformed
-
-    private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
-        cardRegist.setSize(295, 220);  // 다이얼로그 크기 설정
-        cardRegist.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치
-        cardRegist.setTitle("카드 등록");  // 다이얼로그 제목 설정
-        cardRegist.setModal(true);
-        cardRegist.setVisible(true);  // 다이얼로그 표시
-        cardRegist.toFront();
-    }//GEN-LAST:event_paymentTypeRegistButtonActionPerformed
-
-    private void textnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textnameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textnameActionPerformed
-
-    private void textaddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textaddressActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textaddressActionPerformed
 
     private void cancleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleButtonActionPerformed
         cardRegist.setVisible(false);
@@ -536,11 +548,52 @@ public class EditForm extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_registButton1ActionPerformed
 
+    private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
+        
+    }//GEN-LAST:event_reservationsubmitActionPerformed
+
+    private void thisWeekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thisWeekActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_thisWeekActionPerformed
+
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+      
+
+    }//GEN-LAST:event_backActionPerformed
+
+    private void onSitePaymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSitePaymentButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_onSitePaymentButtonActionPerformed
+
+    private void cardRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardRegistButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cardRegistButtonActionPerformed
+
+    private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
+        cardRegist.setSize(295, 220);  // 다이얼로그 크기 설정
+        cardRegist.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치
+        cardRegist.setTitle("카드 등록");  // 다이얼로그 제목 설정
+        cardRegist.setModal(true);
+        cardRegist.setVisible(true);  // 다이얼로그 표시
+        cardRegist.toFront();
+    }//GEN-LAST:event_paymentTypeRegistButtonActionPerformed
+
+    private void textNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textNameActionPerformed
+
+    private void textAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAddressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textAddressActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextPane ChoseRoom;
     private javax.swing.JLabel Label1;
     private javax.swing.JLabel Label2;
     private javax.swing.JLabel Label3;
+    private javax.swing.JTextPane Money;
+    private javax.swing.JButton back;
     private javax.swing.JButton cancleButton;
     private javax.swing.JLabel cardNumLabel;
     private javax.swing.JTextField cardNumTextField1;
@@ -549,7 +602,6 @@ public class EditForm extends javax.swing.JPanel {
     private javax.swing.JTextField cardNumTextField4;
     private javax.swing.JDialog cardRegist;
     private javax.swing.JRadioButton cardRegistButton;
-    private javax.swing.JTextPane choseroom;
     private javax.swing.JLabel cvcLabel;
     private javax.swing.JTextField cvcTextField;
     private javax.swing.JLabel expirationDateLabel;
@@ -565,7 +617,6 @@ public class EditForm extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextPane jTextPane2;
     private javax.swing.JTextField monthTextField;
     private javax.swing.JLabel name;
     private javax.swing.JRadioButton onSitePaymentButton;
@@ -576,15 +627,15 @@ public class EditForm extends javax.swing.JPanel {
     private javax.swing.JButton registButton1;
     private javax.swing.JButton reservationsubmit;
     private javax.swing.JLabel slashLabel;
-    private java.awt.TextField textaddress;
-    private java.awt.TextField textcheckindate;
-    private java.awt.TextField textchekoutdate;
-    private java.awt.TextField textcount;
-    private java.awt.TextField textname;
-    private java.awt.TextField textnumber;
-    private java.awt.TextField textroomnumber;
-    private javax.swing.JRadioButton thisweek;
-    private javax.swing.JRadioButton weekend;
+    private java.awt.TextField textAddress;
+    private java.awt.TextField textCheckInDate;
+    private java.awt.TextField textCheckOutDate;
+    private java.awt.TextField textGuestCount;
+    private java.awt.TextField textName;
+    private java.awt.TextField textPhoneNumber;
+    private java.awt.TextField textRoomNumber;
+    private javax.swing.JRadioButton thisWeek;
+    private javax.swing.JRadioButton weekend1;
     private javax.swing.JTextField yearTextField;
     // End of variables declaration//GEN-END:variables
 }
