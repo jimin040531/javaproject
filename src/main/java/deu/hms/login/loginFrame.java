@@ -4,6 +4,11 @@
  */
 package deu.hms.login;
 
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
+
 /**
  *
  * @author Jimin
@@ -17,7 +22,8 @@ public class loginFrame extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,15 +99,61 @@ public class loginFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-        // TODO add your handling code here:
+        String userId = IDField.getText();
+        String password = new String(PasswordField.getPassword());
+
+        boolean loginSuccess = false;
+        String userRole = "";
+        String userName = "";
+
+        try {
+            // users.txt 파일을 읽어 사용자 정보 확인
+            File file = new File("users.txt");
+            Scanner scanner = new Scanner(file);
+
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] userInfo = line.split(",");
+                String storedId = userInfo[0].trim();
+                String storedPassword = userInfo[1].trim();
+                String storedName = userInfo[2].trim();
+                String storedRole = userInfo[3].trim(); // manager 또는 employee
+
+                // 아이디와 비밀번호 비교
+                if (userId.equals(storedId) && password.equals(storedPassword)) {
+                    loginSuccess = true;
+                    userRole = storedRole;
+                    userName = storedName;
+                    break;
+                }
+            }
+
+            if (loginSuccess) {
+                // 로그인 성공: manager일 경우 MainScreenManager, employee일 경우 MainScreenEmployees
+                JOptionPane.showMessageDialog(this, "Welcome, " + userName, "Login Success", JOptionPane.INFORMATION_MESSAGE);
+                if (userRole.equals("manager")) {
+                    new MainScreenManager();
+                } else {
+                    new MainScreenEmployees();
+                }
+                this.setVisible(false); // 로그인 창 숨기기
+            } else {
+                // 로그인 실패 메시지
+                JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error loading user data.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void IDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDFieldActionPerformed
-        // TODO add your handling code here:
+        PasswordField.requestFocus();
     }//GEN-LAST:event_IDFieldActionPerformed
 
     private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
-        // TODO add your handling code here:
+        LoginButton.doClick();
     }//GEN-LAST:event_PasswordFieldActionPerformed
 
     /**
@@ -130,7 +182,6 @@ public class loginFrame extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
