@@ -75,9 +75,6 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JPasswordField" name="PasswordField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="password"/>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PasswordFieldActionPerformed"/>
       </Events>
@@ -91,9 +88,6 @@
       </Events>
     </Component>
     <Component class="java.awt.TextField" name="IDField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ID"/>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="IDFieldActionPerformed"/>
       </Events>

@@ -5,14 +5,10 @@
 package deu.hms.login;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,55 +22,8 @@ public class loginFrame extends javax.swing.JDialog {
     public loginFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initializeFieldBehaviors();
     }
-    
-        private void initializeFieldBehaviors() {
-        addIDFieldBehavior();         // IDField의 기본 메시지와 입력 동작 설정
-        addPasswordFieldBehavior();   // PasswordField의 클릭 시 초기화 및 입력 동작 설정
-    }
-    
-    // IDField의 기본 메시지 동작 설정
-    private void addIDFieldBehavior() {
-        String placeholderText = "ID";
-        Color placeholderColor = Color.GRAY;
-        Color inputColor = Color.BLACK;
-
-        IDField.setText(placeholderText);
-        IDField.setForeground(placeholderColor);
-
-        IDField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (IDField.getText().equals(placeholderText)) {
-                    IDField.setText("");
-                    IDField.setForeground(inputColor);
-                }
-            }
-
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (IDField.getText().isEmpty()) {
-                    IDField.setText(placeholderText);
-                    IDField.setForeground(placeholderColor);
-                }
-            }
-        });
-    }
-
-    // PasswordField의 초기화 및 동작 설정
-    private void addPasswordFieldBehavior() {
-        
-        PasswordField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                PasswordField.setText("");
-            }
-
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (PasswordField.getPassword().length == 0) {
-                    PasswordField.setText("");
-                }
-            }
-        });
-    }
-
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -92,7 +41,6 @@ public class loginFrame extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        PasswordField.setText("password");
         PasswordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PasswordFieldActionPerformed(evt);
@@ -106,7 +54,6 @@ public class loginFrame extends javax.swing.JDialog {
             }
         });
 
-        IDField.setText("ID");
         IDField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IDFieldActionPerformed(evt);
@@ -208,7 +155,78 @@ public class loginFrame extends javax.swing.JDialog {
     private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
         LoginButton.doClick();
     }//GEN-LAST:event_PasswordFieldActionPerformed
+   
+    
+    /**
+     * 필드 동작 초기화 메서드
+     */
+    private void initializeFieldBehaviors() {
+        addIDFieldBehavior();         // IDField의 기본 메시지와 입력 동작 설정
+        addPasswordFieldBehavior();   // PasswordField의 클릭 시 초기화 및 입력 동작 설정
+    }
 
+    /**
+     * IDField의 기본 메시지 설정 및 동작 관리
+     */
+    private void addIDFieldBehavior() {
+        String placeholderText = "ID";
+        Color placeholderColor = Color.GRAY;
+        Color inputColor = Color.BLACK;
+
+        IDField.setText(placeholderText);
+        IDField.setForeground(placeholderColor);
+
+        IDField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent evt) {
+                if (IDField.getText().equals(placeholderText)) {
+                    IDField.setText("");
+                    IDField.setForeground(inputColor);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent evt) {
+                if (IDField.getText().isEmpty()) {
+                    IDField.setText(placeholderText);
+                    IDField.setForeground(placeholderColor);
+                }
+            }
+        });
+    }
+
+    /**
+     * PasswordField의 기본 상태 설정 및 동작 관리
+     */
+    private void addPasswordFieldBehavior() {
+        String placeholderText = "******";
+        Color placeholderColor = Color.GRAY;
+        Color inputColor = Color.BLACK;
+
+        PasswordField.setText(placeholderText);
+        PasswordField.setForeground(placeholderColor);
+        PasswordField.setEchoChar((char) 0);  // 기본 메시지를 보여주기 위해 echo char 비활성화
+
+        PasswordField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent evt) {
+                if (new String(PasswordField.getPassword()).equals(placeholderText)) {
+                    PasswordField.setText("");
+                    PasswordField.setForeground(inputColor);
+                    PasswordField.setEchoChar('*');  // 비밀번호 입력 시 echo char 활성화
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent evt) {
+                if (PasswordField.getPassword().length == 0) {
+                    PasswordField.setText(placeholderText);
+                    PasswordField.setForeground(placeholderColor);
+                    PasswordField.setEchoChar((char) 0);  // 기본 메시지를 보여주기 위해 echo char 비활성화
+                }
+            }
+        });
+    }
     /**
      * @param args the command line arguments
      */
