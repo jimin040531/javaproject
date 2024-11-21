@@ -118,7 +118,7 @@ public class loginFrame extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
+    
         
     
     }//GEN-LAST:event_LoginButtonActionPerformed
