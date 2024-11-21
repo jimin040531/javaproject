@@ -107,13 +107,21 @@ public class loginFrame extends javax.swing.JDialog {
 
         try {
             // users.txt 파일을 읽어 사용자 정보 확인
-            File file = new File("users.txt");
-            Scanner scanner = new Scanner(file);
+            File file = new File("C:\\Users\\yunhe\\Desktop\\javaproject\\HMS\\javaproject\\users.txt");
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(this, "User data file not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                // 공백을 포함한 쉼표로 분리
                 String[] userInfo = line.split(",\\s*");  // 쉼표 뒤 공백도 처리
+
+                if (userInfo.length < 4) {
+                    continue;  // 잘못된 형식의 데이터가 있을 경우 무시
+                }
+
                 String storedId = userInfo[0].trim();
                 String storedPassword = userInfo[1].trim();
                 String storedName = userInfo[2].trim();
@@ -146,6 +154,7 @@ public class loginFrame extends javax.swing.JDialog {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error loading user data.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void IDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDFieldActionPerformed
@@ -199,7 +208,7 @@ public class loginFrame extends javax.swing.JDialog {
      * PasswordField의 기본 상태 설정 및 동작 관리
      */
     private void addPasswordFieldBehavior() {
-        String placeholderText = "******";
+        String placeholderText = "*******";
         Color placeholderColor = Color.GRAY;
         Color inputColor = Color.BLACK;
 

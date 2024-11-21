@@ -1,3 +1,3 @@
-gildongH, asdfg1, manager
-cskim, lkjh0987, employee
-kimyh, mnbv1234, employee
+gildongH, asdfg1, 홍길동, manager
+cskim, lkjh0987, 김철수, employee
+kimyh, mnbv1234, 김영희, employee
