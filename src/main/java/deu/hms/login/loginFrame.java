@@ -99,7 +99,7 @@ public class loginFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-      String userId = IDField.getText();
+        String userId = IDField.getText();
         String password = new String(PasswordField.getPassword());
 
         if (auth.authenticate(userId, password)) {
@@ -108,12 +108,18 @@ public class loginFrame extends javax.swing.JDialog {
             
             JOptionPane.showMessageDialog(this, "Welcome, " + userName, "Login Success", JOptionPane.INFORMATION_MESSAGE);
             
-            
+            if ("manager".equals(userRole)) {
+                
+            } else {
+                
+            }
             
             this.setVisible(false); // 로그인 창 숨기기
         } else {
             JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+        
     
     }//GEN-LAST:event_LoginButtonActionPerformed
 

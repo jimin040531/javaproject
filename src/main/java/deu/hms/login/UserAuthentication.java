@@ -4,6 +4,7 @@
  */
 package deu.hms.login;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
@@ -12,28 +13,31 @@ import java.util.*;
  * @author yunhe
  */
 public class UserAuthentication {
-     // users.txt 파일에서 사용자 정보를 읽어 User 객체를 생성하고 인증을 수행하는 메소드
-    public static Users authenticateUser(String userId, String password) {
-        try {
-            File file = new File("users.txt");
-            Scanner scanner = new Scanner(file);
+    private Users users;
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] userInfo = line.split(",\\s*");
-                String storedId = userInfo[0].trim();
-                String storedPassword = userInfo[1].trim();
-                String storedName = userInfo[2].trim();
-                String storedRole = userInfo[3].trim(); // manager 또는 employee
+    public UserAuthentication() {
+        users = new Users();
+        users.loadUsersFromFile(); // users.txt 파일에서 사용자 데이터 로드
+    }
 
-                // 아이디와 비밀번호 비교
-                if (userId.equals(storedId) && password.equals(storedPassword)) {
-                    return new Users(storedId, storedPassword, storedName, storedRole);  // 인증된 사용자 객체 반환
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    // 사용자 인증 메서드
+    public boolean authenticate(String userId, String password) {
+        User user = users.findUserById(userId);
+        if (user != null && user.getPassword().equals(password)) {
+            return true;
         }
-        return null;  // 인증 실패 시 null 반환
+        return false;
+    }
+
+    // 인증된 사용자의 역할을 반환
+    public String getUserRole(String userId) {
+        User user = users.findUserById(userId);
+        return (user != null) ? user.getRole() : null;
+    }
+
+    // 인증된 사용자의 이름을 반환
+    public String getUserName(String userId) {
+        User user = users.findUserById(userId);
+        return (user != null) ? user.getName() : null;
     }
 }
