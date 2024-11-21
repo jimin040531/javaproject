@@ -7,121 +7,124 @@ package deu.hms.reservation;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author adsd3
  */
 public class Registration extends JFrame {
-private reservationFrame reservationFrame;
 
- private static Registration instance; // Singleton 인스턴스
+    private reservationFrame reservationFrame;
+
+    private static Registration instance; // Singleton 인스턴스
     private JTable mainTable; // Reservation 테이블과 연결
-   private DefaultTableModel tableModel;
+    private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
 
-
-
-public void setRoomSelection(boolean isWeekday) {
-    if (isWeekday) {
-        thisWeek.setSelected(true);
-    } else {
-        weekend.setSelected(true);
+    public void setRoomSelection(boolean isWeekday) {
+        if (isWeekday) {
+            thisWeek.setSelected(true);
+        } else {
+            weekend.setSelected(true);
+        }
     }
-}
+
     public static Registration getInstance(JTable table) {
         if (instance == null) {
             instance = new Registration(table);
         }
         return instance;
     }
-    
-     private Registration(JTable table) {
+
+    private Registration(JTable table) {
         this.mainTable = table;
         initComponents();
     }
-     public void setMainTable(JTable table) {
+
+    public void setMainTable(JTable table) {
         this.mainTable = table;
     }
-       public JTable getMainTable() {
+
+    public JTable getMainTable() {
         return mainTable;
     }
-     
-   private String generateUniqueId() {
-    return java.util.UUID.randomUUID().toString();
-}
-   private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
-    // Registration 클래스의 각 텍스트 필드로부터 데이터를 가져옴
-    String name = textName.getText();
-    String address = textAddress.getText();
-    String phoneNumber = textPhoneNumber.getText();
-    String checkInDate = textCheckInDate.getText();
-    String checkOutDate = textCheckOutDate.getText();
-    String roomNumber = textRoomNumber.getText();
-    String count = textGuestCount.getText();
-    String paymentMethod = onSitePaymentButton.isSelected() ? "현장결제" : "카드결제";
-    String roomSelection = thisWeek.isSelected() ? "평일" : "주말";
-
-    // 새로운 행 데이터를 생성 (고유번호 포함)
-    Object[] rowData = { uniqueNumber, name, address, phoneNumber, checkInDate, checkOutDate, roomNumber, count, paymentMethod, roomSelection };
-
-    // 새 행을 추가
-    model.addRow(rowData);
-
-    // 고유번호 증가
-    uniqueNumber++;
-
-    // 창 숨기기
-    this.setVisible(false);
-}
-
-public void transferRegistrationToReservation() {
-           DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
-
-    // 테이블 내용이 초기화되지 않도록 기존 데이터 유지
-    if (model.getRowCount() == 0) {
-        model.setRowCount(0); // 기존 데이터를 유지하도록 초기화를 방지
+    private String generateUniqueId() {
+        return java.util.UUID.randomUUID().toString();
     }
 
-    // Registration 클래스의 각 텍스트 필드로부터 데이터를 가져옴
-    String name = textName.getText();
-    String address = textAddress.getText();
-    String phoneNumber = textPhoneNumber.getText();
-    String checkInDate = textCheckInDate.getText();
-    String checkOutDate = textCheckOutDate.getText();
-    String roomNumber = textRoomNumber.getText();
-    String count = textGuestCount.getText();
-    
-    String paymentMethod = onSitePaymentButton.isSelected() ? "현장결제" : "카드결제";
-    String roomSelection = thisWeek.isSelected() ? "평일" : "주말";
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
-    // 새로운 행 데이터를 생성
-Object[] rowData = { uniqueNumber, name, address, phoneNumber, checkInDate, checkOutDate, roomNumber, count, paymentMethod, roomSelection };
-    
-    // 첫 번째 빈 행을 찾고, 빈 행이 없으면 새 행을 추가
-    boolean added = false;
-  
-    for (int i = 0; i < model.getRowCount(); i++) {
-        if (model.getValueAt(i, 1) == null || model.getValueAt(i, 1).toString().trim().isEmpty()) {
-            // 빈 행이 있으면 해당 위치에 데이터를 삽입
-            for (int j = 0; j < rowData.length; j++) {
-                model.setValueAt(rowData[j], i, j);
+        // Registration 클래스의 각 텍스트 필드로부터 데이터를 가져옴
+        String name = textName.getText();
+        String address = textAddress.getText();
+        String phoneNumber = textPhoneNumber.getText();
+        String checkInDate = textCheckInDate.getText();
+        String checkOutDate = textCheckOutDate.getText();
+        String roomNumber = textRoomNumber.getText();
+        String count = textGuestCount.getText();
+        String paymentMethod = onSitePaymentButton.isSelected() ? "현장결제" : "카드결제";
+        String roomSelection = thisWeek.isSelected() ? "평일" : "주말";
 
+        // 새로운 행 데이터를 생성 (고유번호 포함)
+        Object[] rowData = {uniqueNumber, name, address, phoneNumber, checkInDate, checkOutDate, roomNumber, count, paymentMethod, roomSelection};
+
+        // 새 행을 추가
+        model.addRow(rowData);
+
+        // 고유번호 증가
+        uniqueNumber++;
+
+        // 창 숨기기
+        this.setVisible(false);
+    }
+
+    public void transferRegistrationToReservation() {
+        DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+
+        // 테이블 내용이 초기화되지 않도록 기존 데이터 유지
+        if (model.getRowCount() == 0) {
+            model.setRowCount(0); // 기존 데이터를 유지하도록 초기화를 방지
+        }
+
+        // Registration 클래스의 각 텍스트 필드로부터 데이터를 가져옴
+        String name = textName.getText();
+        String address = textAddress.getText();
+        String phoneNumber = textPhoneNumber.getText();
+        String checkInDate = textCheckInDate.getText();
+        String checkOutDate = textCheckOutDate.getText();
+        String roomNumber = textRoomNumber.getText();
+        String count = textGuestCount.getText();
+
+        String paymentMethod = onSitePaymentButton.isSelected() ? "현장결제" : "카드결제";
+        String roomSelection = thisWeek.isSelected() ? "평일" : "주말";
+
+        // 새로운 행 데이터를 생성
+        Object[] rowData = {uniqueNumber, name, address, phoneNumber, checkInDate, checkOutDate, roomNumber, count, paymentMethod, roomSelection};
+
+        // 첫 번째 빈 행을 찾고, 빈 행이 없으면 새 행을 추가
+        boolean added = false;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 1) == null || model.getValueAt(i, 1).toString().trim().isEmpty()) {
+                // 빈 행이 있으면 해당 위치에 데이터를 삽입
+                for (int j = 0; j < rowData.length; j++) {
+                    model.setValueAt(rowData[j], i, j);
+
+                }
+                added = true;
+                break;
             }
-            added = true;
-            break;
+        }
+
+        // 모든 행이 채워져 있는 경우 새 행을 추가
+        if (!added) {
+            model.addRow(rowData);
+
         }
     }
 
-    // 모든 행이 채워져 있는 경우 새 행을 추가
-    if (!added) {
-        model.addRow(rowData);
-
-    }
-}
-private void clearFields() {
+    private void clearFields() {
         textName.setText("");
         textAddress.setText("");
         textPhoneNumber.setText("");
@@ -130,35 +133,36 @@ private void clearFields() {
         textRoomNumber.setText("");
         textGuestCount.setText("");
     }
+
     /**
      * Creates new form Registration
      */
-public Registration(reservationFrame reservationFrame) {
-    this.reservationFrame = reservationFrame; // 전달받은 객체를 멤버 변수로 저장
-    initComponents(); // UI 초기화
-    
-}
+    public Registration(reservationFrame reservationFrame) {
+        this.reservationFrame = reservationFrame; // 전달받은 객체를 멤버 변수로 저장
+        initComponents(); // UI 초기화
+
+    }
 
     public Registration() {
-          initComponents();
+        initComponents();
 
         initRadioButtons();
         this.reservationFrame = reservationFrame.getInstance(); // Singleton 인스턴스 얻기
-        
+
         initializePlaceholders(); // Placeholder 초기화
         configurePaymentButtonState();
         paymentTypeRegistButton.setEnabled(false);
-        
-    //
 
+        //
     }
-private void initRadioButtons() {
+
+    private void initRadioButtons() {
         // paymentButtonGroup은 이미 생성되어 있다고 가정
         // JDialog에 있는 onSitePaymentButton과 cardRegistButton을 ButtonGroup에 추가
         paymentButtonGroup.add(onSitePaymentButton);
         paymentButtonGroup.add(cardRegistButton);
     }
-    
+
     private void configurePaymentButtonState() {
         // cardRegistButton을 선택했을 때 paymentTypeRegistButton 활성화
         cardRegistButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(true));
@@ -166,13 +170,8 @@ private void initRadioButtons() {
         // onSitePaymentButton을 선택했을 때 paymentTypeRegistButton 비활성화
         onSitePaymentButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(false));
     }
-   
 
-
-      
     // 다른 컴포넌트 초기화 후에 호출되는 메서드에 작성
-   
-
     private void initializePlaceholders() {
         setTextFieldPlaceholder(cardNumTextField1, "****");
         setTextFieldPlaceholder(cardNumTextField2, "****");
@@ -764,20 +763,20 @@ private void initRadioButtons() {
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
         // TODO add your handling code here:
-         transferRegistrationToReservation();
-      uniqueNumber++;
+        transferRegistrationToReservation();
+        uniqueNumber++;
 
-    // 저장 후 입력 필드 초기화
+        // 저장 후 입력 필드 초기화
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-     setVisible(false);
+        setVisible(false);
 
-    // 이전에 생성된 reservationFrame을 다시 표시
-     if (reservationFrame != null) {
+        // 이전에 생성된 reservationFrame을 다시 표시
+        if (reservationFrame != null) {
             reservationFrame.setVisible(true); // 기존 예약 화면 보이기
-        } 
-    
+        }
+
     }//GEN-LAST:event_backActionPerformed
 
 

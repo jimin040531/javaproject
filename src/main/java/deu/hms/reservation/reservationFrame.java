@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package deu.hms.reservation;
- 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -13,7 +13,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**d
+/**
+ * d
  *
  * @author adsd3
  */
@@ -24,31 +25,30 @@ public class reservationFrame extends javax.swing.JDialog {
     private javax.swing.JTable reservationTable;
     private static reservationFrame instance;
     private Registration registrationFrame;
-    
-    
+
     public static reservationFrame getInstance() {
         if (instance == null) {
             instance = new reservationFrame();
         }
         return instance;
     }
+
     public JTable getMainTable() {
-    return mainTable;
-}
+        return mainTable;
+    }
 
     /**
      * Creates new form reservationFrame
      */
     public DefaultTableModel getReservationTableModel() {
-    return (DefaultTableModel) reservationTable.getModel();
-}
-    private void openRegistrationFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    Registration registrationForm = new Registration(this);  // 현재의 reservationFrame 객체를 전달
-    registrationForm.setVisible(true);
-}
-    
+        return (DefaultTableModel) reservationTable.getModel();
+    }
 
-    
+    private void openRegistrationFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        Registration registrationForm = new Registration(this);  // 현재의 reservationFrame 객체를 전달
+        registrationForm.setVisible(true);
+    }
+
     public reservationFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
 
@@ -57,21 +57,21 @@ public class reservationFrame extends javax.swing.JDialog {
 
         }
     }//
-  
+
     // 기본 생성자 추가
     public reservationFrame() {
-                mainTable = new JTable();
+        mainTable = new JTable();
 
         setTitle("Reservation Frame");
         setSize(600, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        initComponents();  
+        initComponents();
 
-       // setTitle("Reservation Frame");
-         //  setSize(500, 500);
-       //  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-       //  setLocationRelativeTo(null);
+        // setTitle("Reservation Frame");
+        //  setSize(500, 500);
+        //  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //  setLocationRelativeTo(null);
     }
 
     // 클래스의 나머지 내용들...
@@ -176,24 +176,23 @@ public class reservationFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
- int selectedRow = mainTable.getSelectedRow();
+        int selectedRow = mainTable.getSelectedRow();
 
-    // 선택된 행이 있는지 확인
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-
-    // 선택된 행이 있는지 확인
-    if (selectedRow != -1) {
-        // 선택된 행의 텍스트를 빈 값으로 설정하여 내용만 삭제
-        for (int i = 0; i < mainTable.getColumnCount(); i++) {
-            mainTable.setValueAt("", selectedRow, i);
+        // 선택된 행이 있는지 확인
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    } 
 
-      this.dispose();
+        // 선택된 행이 있는지 확인
+        if (selectedRow != -1) {
+            // 선택된 행의 텍스트를 빈 값으로 설정하여 내용만 삭제
+            for (int i = 0; i < mainTable.getColumnCount(); i++) {
+                mainTable.setValueAt("", selectedRow, i);
+            }
+        }
+
+        this.dispose();
 
         Registration registrationFrame = new Registration();
         registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
@@ -202,12 +201,12 @@ public class reservationFrame extends javax.swing.JDialog {
 
         registrationFrame.toFront();
         registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
-        
+
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
         // TODO add your handling code here:
-      /*   int selectedRow = mainTable.getSelectedRow();
+        /*   int selectedRow = mainTable.getSelectedRow();
     if (selectedRow != -1) {
         // 선택된 행이 있는 경우 삭제
         DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
@@ -216,19 +215,19 @@ public class reservationFrame extends javax.swing.JDialog {
         // 행이 선택되지 않았을 경우 경고 메시지
         JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.");
     }*/    //테이블칸도 삭제   
-        
+
         int selectedRow = mainTable.getSelectedRow();
 
-    // 선택된 행이 있는지 확인
-    if (selectedRow != -1) {
-        // 선택된 행의 텍스트를 빈 값으로 설정하여 내용만 삭제
-        for (int i = 0; i < mainTable.getColumnCount(); i++) {
-            mainTable.setValueAt("", selectedRow, i);
+        // 선택된 행이 있는지 확인
+        if (selectedRow != -1) {
+            // 선택된 행의 텍스트를 빈 값으로 설정하여 내용만 삭제
+            for (int i = 0; i < mainTable.getColumnCount(); i++) {
+                mainTable.setValueAt("", selectedRow, i);
+            }
+        } else {
+            // 선택된 행이 없는 경우 경고 메시지 표시
+            JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
         }
-    } else {
-        // 선택된 행이 없는 경우 경고 메시지 표시
-        JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
-    }
     }//GEN-LAST:event_goDeleteActionPerformed
 
     /**
