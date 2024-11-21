@@ -99,7 +99,22 @@ public class loginFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-      
+      String userId = IDField.getText();
+        String password = new String(PasswordField.getPassword());
+
+        if (auth.authenticate(userId, password)) {
+            String userRole = auth.getUserRole(userId);
+            String userName = auth.getUserName(userId);
+            
+            JOptionPane.showMessageDialog(this, "Welcome, " + userName, "Login Success", JOptionPane.INFORMATION_MESSAGE);
+            
+            
+            
+            this.setVisible(false); // 로그인 창 숨기기
+        } else {
+            JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void IDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDFieldActionPerformed
@@ -222,6 +237,7 @@ public class loginFrame extends javax.swing.JDialog {
         });
     }
 
+    private UserAuthentication auth;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextField IDField;
     private javax.swing.JButton LoginButton;
