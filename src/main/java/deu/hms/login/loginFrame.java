@@ -5,10 +5,7 @@
 package deu.hms.login;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-import java.util.*;
 
 /**
  *
@@ -24,6 +21,7 @@ public class loginFrame extends javax.swing.JDialog {
         initComponents();
         initializeFieldBehaviors();
     }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,63 +96,7 @@ public class loginFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-        String userId = IDField.getText();
-        String password = new String(PasswordField.getPassword());
-
-        boolean loginSuccess = false;
-        String userRole = "";
-        String userName = "";
-
-        try {
-            // users.txt 파일을 읽어 사용자 정보 확인
-            File file = new File("C:\\Users\\yunhe\\Desktop\\javaproject\\HMS\\javaproject\\users.txt");
-            if (!file.exists()) {
-                JOptionPane.showMessageDialog(this, "User data file not found.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] userInfo = line.split(",\\s*");  // 쉼표 뒤 공백도 처리
-
-                if (userInfo.length < 4) {
-                    continue;  // 잘못된 형식의 데이터가 있을 경우 무시
-                }
-
-                String storedId = userInfo[0].trim();
-                String storedPassword = userInfo[1].trim();
-                String storedName = userInfo[2].trim();
-                String storedRole = userInfo[3].trim(); // manager 또는 employee
-
-                // 아이디와 비밀번호 비교
-                if (userId.equals(storedId) && password.equals(storedPassword)) {
-                    loginSuccess = true;
-                    userRole = storedRole;
-                    userName = storedName;
-                    break;
-                }
-            }
-
-            if (loginSuccess) {
-                // 로그인 성공: manager일 경우 MainScreenManager, employee일 경우 MainScreenEmployees
-                JOptionPane.showMessageDialog(this, "Welcome, " + userName, "Login Success", JOptionPane.INFORMATION_MESSAGE);
-                if (userRole.equals("manager")) {
-                    new MainScreenManager();
-                } else {
-                    new MainScreenEmployees();
-                }
-                this.setVisible(false); // 로그인 창 숨기기
-            } else {
-                // 로그인 실패 메시지
-                JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error loading user data.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    
+      
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void IDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDFieldActionPerformed
