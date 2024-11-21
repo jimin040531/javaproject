@@ -21,8 +21,40 @@ public class loginFrame extends javax.swing.JDialog {
     public loginFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        addPlaceholderTextBehavior();
     }
     
+    // 로그인 창 생성 시 기본 텍스트를 처리하는 부분
+private void addPlaceholderTextBehavior() {
+    // IDField에 포커스를 받았을 때 기본 텍스트를 지우기
+    IDField.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            if (IDField.getText().equals("ID")) {
+                IDField.setText("");  // 기본 텍스트 지우기
+            }
+        }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            if (IDField.getText().isEmpty()) {
+                IDField.setText("ID");  // 텍스트가 비어 있으면 기본 텍스트로 복원
+            }
+        }
+    });
+
+    // PasswordField에 포커스를 받았을 때 기본 텍스트를 지우기
+    PasswordField.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            if (new String(PasswordField.getPassword()).equals("********")) {
+                PasswordField.setText("");  // 기본 텍스트 지우기
+            }
+        }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            if (new String(PasswordField.getPassword()).isEmpty()) {
+                PasswordField.setText("********");  // 텍스트가 비어 있으면 기본 텍스트로 복원
+            }
+        }
+    });
+}
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -113,7 +145,8 @@ public class loginFrame extends javax.swing.JDialog {
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String[] userInfo = line.split(",");
+                // 공백을 포함한 쉼표로 분리
+                String[] userInfo = line.split(",\\s*");  // 쉼표 뒤 공백도 처리
                 String storedId = userInfo[0].trim();
                 String storedPassword = userInfo[1].trim();
                 String storedName = userInfo[2].trim();
