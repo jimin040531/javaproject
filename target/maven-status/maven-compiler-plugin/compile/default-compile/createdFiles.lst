@@ -47,6 +47,7 @@ deu\hms\roomservice\roomserviceFrame.class
 deu\hms\reservation\EditForm$9.class
 deu\hms\reservation\Registration$1.class
 deu\hms\roomservice\ReservationDialog$4.class
+deu\hms\login\UserAuthentication.class
 deu\hms\reservation\Change$7.class
 deu\hms\checkin\checkinFrame$9.class
 deu\hms\checkin\checkinFrame$4.class
