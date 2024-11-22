@@ -69,7 +69,30 @@ public class HotelRoomInfo {
         JDateChooser dateChooser = new JDateChooser();
         dateChooser.setDateFormatString("yyyy-MM-dd");
         parent.add(dateChooser);
+
+        // 체크아웃 날짜 선택 시 유효성 검사 이벤트 추가
+        if (label.equals("예상 체크아웃 날짜:")) {
+            dateChooser.addPropertyChangeListener("date", evt -> {
+                validateCheckOutDate();
+            });
+        }
+
         return dateChooser;
+    }
+
+    private void validateCheckOutDate() {
+        LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate());
+        LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate());
+
+        if (checkInDate != null && checkOutDate != null && checkOutDate.isBefore(checkInDate)) {
+            JOptionPane.showMessageDialog(
+                roomPanel,
+                "체크아웃 날짜는 체크인 날짜보다 나중이어야 합니다. 최소 1박 이상 예약 가능합니다.",
+                "날짜 선택 오류",
+                JOptionPane.WARNING_MESSAGE
+            );
+            checkOutDateChooser.setDate(java.sql.Date.valueOf(checkInDate.plusDays(1))); // 기본값으로 변경
+        }
     }
 
     public class RoomPricing {
