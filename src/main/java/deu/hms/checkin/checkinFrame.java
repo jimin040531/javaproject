@@ -8,7 +8,7 @@ package deu.hms.checkin;
  *
  * @author Jimin
  */
-
+//내이름은 이지민
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
