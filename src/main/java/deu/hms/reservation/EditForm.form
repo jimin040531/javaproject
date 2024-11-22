@@ -253,23 +253,16 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="textAddress" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
-                                  <Component id="textPhoneNumber" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
-                                  <Component id="textName" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="textRoomNumber" alignment="0" pref="74" max="32767" attributes="0"/>
-                                  <Component id="textCheckOutDate" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="textCheckInDate" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                          <Component id="textAddress" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
+                          <Component id="textPhoneNumber" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
+                          <Component id="textName" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="textRoomNumber" alignment="0" pref="74" max="32767" attributes="0"/>
+                              <Component id="textCheckOutDate" alignment="0" max="32767" attributes="0"/>
+                              <Component id="textCheckInDate" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
