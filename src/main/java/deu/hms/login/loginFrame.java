@@ -109,9 +109,9 @@ public class loginFrame extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Welcome, " + userName, "Login Success", JOptionPane.INFORMATION_MESSAGE);
             
             if ("manager".equals(userRole)) {
-                
+                new MainScreenManager();
             } else {
-                
+                new MainScreenEmployees();
             }
             
             this.setVisible(false); // 로그인 창 숨기기
