@@ -23,9 +23,16 @@ public class Users {
 
     // users.txt 파일에서 사용자 데이터를 읽어와 userList에 저장
     public void loadUsersFromFile() {
-        try {
-            String paths = System.getProperty("user.dir");
-            File file = new File(paths + "/users.txt");
+         try {
+            // 상대경로로 수정: "users.txt" 파일이 프로젝트 폴더에 있어야 합니다.
+            File file = new File("users.txt");
+            System.out.println("현재 경로: " + file.getAbsolutePath());  // 디버깅을 위해 절대경로 출력
+
+            if (!file.exists()) {
+                System.out.println("파일이 존재하지 않습니다. 경로를 다시 확인하세요.");
+                return;
+            }
+
             Scanner scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {

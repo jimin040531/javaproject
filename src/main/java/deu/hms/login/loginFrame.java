@@ -19,8 +19,11 @@ public class loginFrame extends javax.swing.JDialog {
     /**
      * Creates new form loginFrame
      */
-    public loginFrame(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+     private UserAuthentication auth;
+     
+    public loginFrame(UserAuthentication auth) {
+        super(new JFrame(), true);
+        this.auth = auth;
         initComponents();
         initializeFieldBehaviors();
     }
@@ -109,9 +112,9 @@ public class loginFrame extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Welcome, " + userName, "Login Success", JOptionPane.INFORMATION_MESSAGE);
             
             if ("manager".equals(userRole)) {
-                new MainScreenManager();
+                new MainScreenManager().setVisible(true); // 관리자 창 띄우기
             } else {
-                new MainScreenEmployees();
+                new MainScreenEmployees().setVisible(true); // 직원 창 띄우기
             }
             
             this.setVisible(false); // 로그인 창 숨기기
@@ -126,7 +129,7 @@ public class loginFrame extends javax.swing.JDialog {
     private void IDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDFieldActionPerformed
         PasswordField.requestFocus();
     }//GEN-LAST:event_IDFieldActionPerformed
-
+   
     private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
         LoginButton.doClick();
     }//GEN-LAST:event_PasswordFieldActionPerformed
@@ -228,10 +231,30 @@ public class loginFrame extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        UserAuthentication auth = new UserAuthentication(); 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                loginFrame dialog = new loginFrame(new javax.swing.JFrame(), true);
+                try {
+                // UserAuthentication 객체를 인자로 전달하여 loginFrame 생성
+                loginFrame dialog = new loginFrame(auth);  // UserAuthentication 전달
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -239,11 +262,15 @@ public class loginFrame extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             }
         });
     }
 
-    private UserAuthentication auth;
+    
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextField IDField;
     private javax.swing.JButton LoginButton;
