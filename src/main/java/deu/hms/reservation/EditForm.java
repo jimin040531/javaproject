@@ -6,7 +6,10 @@ package deu.hms.reservation;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-//ㅇㅇ
+
+
+
+//나는야 퉁퉁이
 /**
  *
  * @author adsd3
