@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 
-
+//나는 진짜 퉁퉁이
 /**
  *
  * @author adsd3
