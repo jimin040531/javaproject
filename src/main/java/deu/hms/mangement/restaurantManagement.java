@@ -12,6 +12,8 @@ public class restaurantManagement extends javax.swing.JDialog {
 
     /**
      * Creates new form restaurantManagement
+     * @param parent
+     * @param modal
      */
     public restaurantManagement(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -132,10 +134,11 @@ public class restaurantManagement extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(saveButton)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteButton))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(saveButton)
+                                .addComponent(deleteButton)))
                         .addGap(21, 21, 21))))
         );
 
@@ -143,39 +146,19 @@ public class restaurantManagement extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void restTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restTableMouseClicked
-        // TODO add your handling code here:
-        if(evt.getClickCount() == 2) {
-            int selRow = restTable.getSelectedRow();
-            if(selRow != -1) {
-                showEditDialog(selRow);
-            }
-        }
+  
     }//GEN-LAST:event_restTableMouseClicked
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // TODO add your handling code here:
-        updateFile();
+     
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
-        int selectedRow = restTable.getSelectedRow();
-        if (selectedRow != -1) {
-            // Delete the row from the JTable
-            restTableModel.removeRow(selectedRow);
-        } else {
-            JOptionPane.showMessageDialog(this,"셀을 선택하십시오! ", "Warning",JOptionPane.WARNING_MESSAGE);
-        }
+       
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        // TODO add your handling code here:
-        ModifyRestDialog addDialog = new ModifyRestDialog(this,"add menu",true,null);
-        addDialog.setVisible(true);
 
-        Object[] newData = addDialog.getEditedData();
-
-        restTableModel.addRow(newData);
     }//GEN-LAST:event_addButtonActionPerformed
 
     /**

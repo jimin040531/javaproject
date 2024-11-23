@@ -12,6 +12,8 @@ public class managementFrame extends javax.swing.JDialog {
 
     /**
      * Creates new form managementFrame
+     * @param parent
+     * @param modal
      */
     public managementFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -27,21 +29,97 @@ public class managementFrame extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        userInfoButton = new javax.swing.JButton();
+        roomInfoButton = new javax.swing.JButton();
+        restButton = new javax.swing.JButton();
+        hotelInfo = new javax.swing.JLabel();
+        backButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        userInfoButton.setText("계정 관리");
+        userInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userInfoButtonActionPerformed(evt);
+            }
+        });
+
+        roomInfoButton.setText("객실 관리");
+        roomInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomInfoButtonActionPerformed(evt);
+            }
+        });
+
+        restButton.setText("식당 관리");
+        restButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restButtonActionPerformed(evt);
+            }
+        });
+
+        hotelInfo.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
+        hotelInfo.setText("호텔 정보");
+
+        backButton.setText("<");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 258, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(roomInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hotelInfo)
+                            .addComponent(restButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(userInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(backButton)))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(backButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(hotelInfo)
+                .addGap(30, 30, 30)
+                .addComponent(roomInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(restButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(userInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void userInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userInfoButtonActionPerformed
+
+    }//GEN-LAST:event_userInfoButtonActionPerformed
+
+    private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
+       
+    }//GEN-LAST:event_roomInfoButtonActionPerformed
+
+    private void restButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restButtonActionPerformed
+   
+    }//GEN-LAST:event_restButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -86,5 +164,10 @@ public class managementFrame extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
+    private javax.swing.JLabel hotelInfo;
+    private javax.swing.JButton restButton;
+    private javax.swing.JButton roomInfoButton;
+    private javax.swing.JButton userInfoButton;
     // End of variables declaration//GEN-END:variables
 }
