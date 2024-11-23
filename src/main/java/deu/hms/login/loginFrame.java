@@ -26,6 +26,8 @@ public class loginFrame extends javax.swing.JDialog {
         this.auth = auth;
         initComponents();
         initializeFieldBehaviors();
+        
+        this.setLocationRelativeTo(null);
     }
     
     
@@ -112,9 +114,13 @@ public class loginFrame extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Welcome, " + userName, "Login Success", JOptionPane.INFORMATION_MESSAGE);
             
             if ("manager".equals(userRole)) {
-                new MainScreenManager().setVisible(true); // 관리자 창 띄우기
+                MainScreenManager managerScreen = new MainScreenManager();
+                managerScreen.setLocationRelativeTo(null); // 중앙에 띄우기
+                managerScreen.setVisible(true);
             } else {
-                new MainScreenEmployees().setVisible(true); // 직원 창 띄우기
+                MainScreenEmployees employeeScreen = new MainScreenEmployees();
+                employeeScreen.setLocationRelativeTo(null); // 중앙에 띄우기
+                employeeScreen.setVisible(true); // 직원 창 띄우기
             }
             
             this.setVisible(false); // 로그인 창 숨기기
