@@ -214,7 +214,6 @@ public class MainScreenManager extends javax.swing.JFrame {
         loginScreen.setLocationRelativeTo(null);  // 화면 중앙에 배치
         loginScreen.setVisible(true);  // 로그인 화면 표시
         
-        System.out.println("Disposing MainScreenManager...");
         // MainScreenManager 창 닫기
         this.dispose();  // 현재 창 (MainScreenManager) 닫기
     }//GEN-LAST:event_logoutButtonActionPerformed

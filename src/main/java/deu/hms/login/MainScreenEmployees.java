@@ -9,11 +9,15 @@ package deu.hms.login;
  * @author yunhe
  */
 public class MainScreenEmployees extends javax.swing.JFrame {
-
+    
+    
+    private UserAuthentication auth;
+    
     /**
      * Creates new form MainScreenEmployees
      */
-    public MainScreenEmployees() {
+    public MainScreenEmployees(UserAuthentication auth) {
+        this.auth = auth;  // 로그인 인증 객체를 생성자로 전달받음
         initComponents();
     }
 
@@ -31,6 +35,7 @@ public class MainScreenEmployees extends javax.swing.JFrame {
         GoCheckoutEmployees = new javax.swing.JButton();
         GoRoomserviceEmployees = new javax.swing.JButton();
         GoRestaurantEmployees = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,6 +74,13 @@ public class MainScreenEmployees extends javax.swing.JFrame {
             }
         });
 
+        logoutButton.setText("out");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -85,17 +97,25 @@ public class MainScreenEmployees extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(GoCheckinEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(40, 40, 40)
-                                .addComponent(GoCheckoutEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(GoCheckoutEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 44, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(130, 130, 130)
-                        .addComponent(GoReservationEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                        .addComponent(GoReservationEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(GoReservationEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(GoReservationEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(logoutButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(GoCheckinEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -145,6 +165,19 @@ public class MainScreenEmployees extends javax.swing.JFrame {
         this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_GoRestaurantEmployeesActionPerformed
 
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        // 로그아웃 처리
+        auth.logout();  // UserAuthentication 객체에서 로그아웃 처리
+
+        // 로그인 창으로 돌아가기
+        loginFrame loginScreen = new loginFrame(auth); // 로그인 화면 생성
+        loginScreen.setLocationRelativeTo(null);  // 화면 중앙에 배치
+        loginScreen.setVisible(true);  // 로그인 화면 표시
+
+        // MainScreenManager 창 닫기
+        this.dispose();  // 현재 창 (MainScreenManager) 닫기
+    }//GEN-LAST:event_logoutButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -171,11 +204,26 @@ public class MainScreenEmployees extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainScreenEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
+         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainScreenEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainScreenEmployees().setVisible(true);
+                 // UserAuthentication 객체를 생성하고 MainScreenEmployees 생성자에 전달
+                UserAuthentication auth = new UserAuthentication(); // UserAuthentication 객체 생성
+                new MainScreenEmployees(auth).setVisible(true); // 생성자에 auth 객체 전달
             }
         });
     }
@@ -186,5 +234,6 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     private javax.swing.JButton GoReservationEmployees;
     private javax.swing.JButton GoRestaurantEmployees;
     private javax.swing.JButton GoRoomserviceEmployees;
+    private javax.swing.JButton logoutButton;
     // End of variables declaration//GEN-END:variables
 }
