@@ -104,32 +104,35 @@ public class loginFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+        // ID와 비밀번호 가져오기
         String userId = IDField.getText();
         String password = new String(PasswordField.getPassword());
 
-        if (auth.authenticate(userId, password)) {
-            String userRole = auth.getUserRole(userId);
+        // 로그인 인증 시도
+        boolean authenticated = auth.authenticate(userId, password);
+
+        // 로그인 성공 여부에 따라 분기
+        if (authenticated) {
+            // 인증된 사용자 이름 가져오기
             String userName = auth.getUserName(userId);
-            
+
+            // 로그인 성공 메시지 표시
             JOptionPane.showMessageDialog(this, "Welcome, " + userName, "Login Success", JOptionPane.INFORMATION_MESSAGE);
+
+            // 사용자가 '확인' 버튼을 클릭하면 MainScreenManager 창 열기
+            MainScreenManager managerScreen = new MainScreenManager(auth);
+            managerScreen.setLocationRelativeTo(null);
+            managerScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 창 닫을 때 정상적으로 종료되도록 설정
+            managerScreen.setVisible(true);  // MainScreenManager 화면 띄우기
             
-            if ("manager".equals(userRole)) {
-                MainScreenManager managerScreen = new MainScreenManager();
-                managerScreen.setLocationRelativeTo(null); // 중앙에 띄우기
-                managerScreen.setVisible(true);
-            } else {
-                MainScreenEmployees employeeScreen = new MainScreenEmployees();
-                employeeScreen.setLocationRelativeTo(null); // 중앙에 띄우기
-                employeeScreen.setVisible(true); // 직원 창 띄우기
-            }
-            
-            this.setVisible(false); // 로그인 창 숨기기
+            System.out.println("Disposing loginFrame...");
+            // 로그인 창 닫기
+            this.dispose();
         } else {
+            // 로그인 실패 메시지 표시
             JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    
-        
-    
+
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void IDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDFieldActionPerformed
@@ -264,7 +267,7 @@ public class loginFrame extends javax.swing.JDialog {
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                        dialog.dispose();
                     }
                 });
                 dialog.setVisible(true);
