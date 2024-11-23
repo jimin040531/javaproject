@@ -67,7 +67,9 @@ public class reservationFrame extends javax.swing.JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         initComponents();
+            registrationFrame = new Registration(this);  // Registration 인스턴스를 초기화
 
+        
         // setTitle("Reservation Frame");
         //  setSize(500, 500);
         //  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -114,12 +116,12 @@ public class reservationFrame extends javax.swing.JDialog {
                 {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜", "방번호", "인원수", "숙박비", "결제수단", "상태"
+                "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜", "방번호", "인원수", "결제수단", "상태", "금액"
             }
         ));
         jScrollPane1.setViewportView(mainTable);
         if (mainTable.getColumnModel().getColumnCount() > 0) {
-            mainTable.getColumnModel().getColumn(9).setResizable(false);
+            mainTable.getColumnModel().getColumn(8).setResizable(false);
             mainTable.getColumnModel().getColumn(10).setResizable(false);
         }
 
@@ -176,7 +178,7 @@ public class reservationFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
-        int selectedRow = mainTable.getSelectedRow();
+/*        int selectedRow = mainTable.getSelectedRow();
 
         // 선택된 행이 있는지 확인
         if (selectedRow == -1) {
@@ -201,6 +203,38 @@ public class reservationFrame extends javax.swing.JDialog {
 
         registrationFrame.toFront();
         registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
+*/int selectedRow = mainTable.getSelectedRow();
+
+    // 선택된 행이 있는지 확인
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // 선택된 행의 데이터를 가져옴
+    String name = getStringValue(mainTable.getValueAt(selectedRow, 1));
+    String address = getStringValue(mainTable.getValueAt(selectedRow, 2));
+      String phoneNumber = getStringValue(mainTable.getValueAt(selectedRow, 3));
+    String checkInDate = getStringValue(mainTable.getValueAt(selectedRow, 4));
+   String checkOutDate = getStringValue(mainTable.getValueAt(selectedRow, 5));
+    String roomNumber = getStringValue(mainTable.getValueAt(selectedRow, 6));
+    String guestCount = getStringValue(mainTable.getValueAt(selectedRow, 7));
+    String paymentMethod = getStringValue(mainTable.getValueAt(selectedRow, 8));
+    String status = getStringValue(mainTable.getValueAt(selectedRow, 9));
+    String stayCost = getStringValue(mainTable.getValueAt(selectedRow, 10));
+
+   // Registration 폼에 데이터 설정
+    registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate,
+                                          roomNumber, guestCount, paymentMethod, status, stayCost);
+
+    // Registration 폼 보이기
+    registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
+    registrationFrame.setVisible(true);
+}
+
+// NullPointerException 방지용 유틸리티 메서드 추가
+private String getStringValue(Object value) {
+    return value == null ? "" : value.toString();
 
     }//GEN-LAST:event_goEitFomActionPerformed
 
