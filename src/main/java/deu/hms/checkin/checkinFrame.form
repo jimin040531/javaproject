@@ -286,7 +286,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="nameComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="serchTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="serchButton" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                  <Component id="serchButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="reservationlistLabel" min="-2" max="-2" attributes="0"/>
@@ -298,7 +298,7 @@
               <Component id="reqestLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="reqestTextField" min="-2" pref="77" max="-2" attributes="0"/>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace pref="24" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="paymentTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="roomAmountLabel" alignment="3" min="-2" max="-2" attributes="0"/>
