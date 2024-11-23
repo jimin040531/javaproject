@@ -27,8 +27,8 @@ public class restaurantManagement extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        restaurantManagement = new javax.swing.JLabel();
+        jScrollPane = new javax.swing.JScrollPane();
         restTable = new javax.swing.JTable();
         saveButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
@@ -37,8 +37,8 @@ public class restaurantManagement extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
-        jLabel1.setText("식당 관리");
+        restaurantManagement.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
+        restaurantManagement.setText("식당 관리");
 
         restTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,7 +71,7 @@ public class restaurantManagement extends javax.swing.JDialog {
                 restTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(restTable);
+        jScrollPane.setViewportView(restTable);
 
         saveButton.setText("저장");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +106,7 @@ public class restaurantManagement extends javax.swing.JDialog {
                         .addGap(6, 6, 6)
                         .addComponent(backButton)
                         .addGap(142, 142, 142)
-                        .addComponent(jLabel1))
+                        .addComponent(restaurantManagement))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -116,7 +116,7 @@ public class restaurantManagement extends javax.swing.JDialog {
                                 .addComponent(deleteButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(saveButton))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -128,9 +128,9 @@ public class restaurantManagement extends javax.swing.JDialog {
                         .addComponent(backButton)
                         .addGap(304, 304, 304))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(restaurantManagement)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(saveButton)
@@ -224,9 +224,9 @@ public class restaurantManagement extends javax.swing.JDialog {
     private javax.swing.JButton addButton;
     private javax.swing.JButton backButton;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable restTable;
+    private javax.swing.JLabel restaurantManagement;
     private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 }
