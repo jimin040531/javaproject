@@ -168,7 +168,10 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // 로그아웃 처리
         auth.logout();  // UserAuthentication 객체에서 로그아웃 처리
-
+        
+        // MainScreenManager 창 닫기
+        this.dispose();  // 현재 창 (MainScreenManager) 닫기
+        
         // 로그인 창으로 돌아가기
         loginFrame loginScreen = new loginFrame(auth); // 로그인 화면 생성
         loginScreen.setLocationRelativeTo(null);  // 화면 중앙에 배치
