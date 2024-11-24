@@ -4,6 +4,7 @@
  */
 package deu.hms.reservation;
 
+import deu.hms.report.reportFrame;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -210,7 +211,7 @@ public class reservationFrame extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         return;
     }
-
+    
     // 선택된 행의 데이터를 가져옴
     String name = getStringValue(mainTable.getValueAt(selectedRow, 1));
     String address = getStringValue(mainTable.getValueAt(selectedRow, 2));
@@ -230,12 +231,24 @@ public class reservationFrame extends javax.swing.JDialog {
     // Registration 폼 보이기
     registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
     registrationFrame.setVisible(true);
+    
+        // 선택된 행이 있는지 확인
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    else{
+    for (int i = 0; i < mainTable.getColumnCount(); i++) {
+                mainTable.setValueAt("", selectedRow, i);
+            }
+    }
 }
 
 // NullPointerException 방지용 유틸리티 메서드 추가
 private String getStringValue(Object value) {
     return value == null ? "" : value.toString();
 
+    
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
@@ -281,13 +294,13 @@ private String getStringValue(Object value) {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(reservationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reportFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(reservationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reportFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(reservationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reportFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(reservationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reportFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
