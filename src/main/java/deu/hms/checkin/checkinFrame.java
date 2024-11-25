@@ -39,7 +39,7 @@ public class checkinFrame extends javax.swing.JDialog {
         paymentTypeRegistButton.setEnabled(false); // 초기 상태 비활성화
         setTitle("체크인");
         setLocationRelativeTo(null); // 화면 중앙에 배치
-        //test
+        //testasdfadsf
         
     }
  
