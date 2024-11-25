@@ -4,20 +4,77 @@
  */
 package deu.hms.reservation;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
+ * d
  *
- * @author Jimin
+ * @author adsd3
  */
 public class reservationFrame extends javax.swing.JDialog {
+
+    private DefaultTableModel tableModel;
+    private JTable dataTable;
+    private javax.swing.JTable reservationTable;
+    private static reservationFrame instance;
+    private Registration registrationFrame;
+
+    public static reservationFrame getInstance() {
+        if (instance == null) {
+            instance = new reservationFrame();
+        }
+        return instance;
+    }
+
+    public JTable getMainTable() {
+        return mainTable;
+    }
 
     /**
      * Creates new form reservationFrame
      */
-    public reservationFrame(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
+    public DefaultTableModel getReservationTableModel() {
+        return (DefaultTableModel) reservationTable.getModel();
     }
 
+    private void openRegistrationFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        Registration registrationForm = new Registration(this);  // 현재의 reservationFrame 객체를 전달
+        registrationForm.setVisible(true);
+    }
+
+    public reservationFrame(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+
+        initComponents();
+        {
+
+        }
+    }//
+
+    // 기본 생성자 추가
+    public reservationFrame() {
+        mainTable = new JTable();
+
+        setTitle("Reservation Frame");
+        setSize(600, 400);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        initComponents();
+
+        // setTitle("Reservation Frame");
+        //  setSize(500, 500);
+        //  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //  setLocationRelativeTo(null);
+    }
+
+    // 클래스의 나머지 내용들...
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,21 +84,151 @@ public class reservationFrame extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        goReservation = new javax.swing.JButton();
+        goDelete = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        mainTable = new javax.swing.JTable();
+        goEitFom = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        goReservation.setText("등록");
+        goReservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goReservationActionPerformed(evt);
+            }
+        });
+
+        goDelete.setText("삭제");
+        goDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goDeleteActionPerformed(evt);
+            }
+        });
+
+        mainTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜", "방번호", "인원수", "숙박비", "결제수단", "상태"
+            }
+        ));
+        jScrollPane1.setViewportView(mainTable);
+        if (mainTable.getColumnModel().getColumnCount() > 0) {
+            mainTable.getColumnModel().getColumn(9).setResizable(false);
+            mainTable.getColumnModel().getColumn(10).setResizable(false);
+        }
+
+        goEitFom.setText("수정");
+        goEitFom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goEitFomActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 316, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(goEitFom, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(goDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 827, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(goReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(goDelete)
+                    .addComponent(goEitFom))
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(goReservation)
+                .addGap(24, 24, 24))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+
+    private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
+        this.dispose();
+
+        Registration registrationFrame = new Registration();
+        registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
+        registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+        registrationFrame.setTitle("정보등록");  // 다이얼로그 제목 설정 
+
+        registrationFrame.toFront();
+        registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
+    }//GEN-LAST:event_goReservationActionPerformed
+
+    private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
+        int selectedRow = mainTable.getSelectedRow();
+
+        // 선택된 행이 있는지 확인
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 선택된 행이 있는지 확인
+        if (selectedRow != -1) {
+            // 선택된 행의 텍스트를 빈 값으로 설정하여 내용만 삭제
+            for (int i = 0; i < mainTable.getColumnCount(); i++) {
+                mainTable.setValueAt("", selectedRow, i);
+            }
+        }
+
+        this.dispose();
+
+        Registration registrationFrame = new Registration();
+        registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
+        registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+        registrationFrame.setTitle("정보등록");  // 다이얼로그 제목 설정 
+
+        registrationFrame.toFront();
+        registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
+
+    }//GEN-LAST:event_goEitFomActionPerformed
+
+    private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
+        // TODO add your handling code here:
+        /*   int selectedRow = mainTable.getSelectedRow();
+    if (selectedRow != -1) {
+        // 선택된 행이 있는 경우 삭제
+        DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
+        model.removeRow(selectedRow);
+    } else {
+        // 행이 선택되지 않았을 경우 경고 메시지
+        JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.");
+    }*/    //테이블칸도 삭제   
+
+        int selectedRow = mainTable.getSelectedRow();
+
+        // 선택된 행이 있는지 확인
+        if (selectedRow != -1) {
+            // 선택된 행의 텍스트를 빈 값으로 설정하여 내용만 삭제
+            for (int i = 0; i < mainTable.getColumnCount(); i++) {
+                mainTable.setValueAt("", selectedRow, i);
+            }
+        } else {
+            // 선택된 행이 없는 경우 경고 메시지 표시
+            JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_goDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -86,5 +273,10 @@ public class reservationFrame extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton goDelete;
+    private javax.swing.JButton goEitFom;
+    private javax.swing.JButton goReservation;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable mainTable;
     // End of variables declaration//GEN-END:variables
 }
