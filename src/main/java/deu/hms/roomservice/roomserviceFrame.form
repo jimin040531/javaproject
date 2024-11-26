@@ -3,11 +3,6 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Container class="javax.swing.JFrame" name="Reservationlist">
-      <Properties>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[750, 450]"/>
-        </Property>
-      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -180,11 +175,6 @@
     <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
     </Component>
     <Container class="javax.swing.JFrame" name="Reservation">
-      <Properties>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[700, 500]"/>
-        </Property>
-      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -1010,7 +1000,7 @@
                       <Font name="&#xb9d1;&#xc740; &#xace0;&#xb515;" size="12" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="11"/>
+                    <Property name="text" type="java.lang.String" value="&#xb5a1;&#xbcf6;&#xc774;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel39">
@@ -1019,7 +1009,7 @@
                       <Font name="&#xb9d1;&#xc740; &#xace0;&#xb515;" size="12" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="10000&#xc6d0;"/>
+                    <Property name="text" type="java.lang.String" value="8000&#xc6d0;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JSpinner" name="Qty2">
@@ -1144,7 +1134,7 @@
                       <Font name="&#xb9d1;&#xc740; &#xace0;&#xb515;" size="12" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="11"/>
+                    <Property name="text" type="java.lang.String" value="&#xac04;&#xc7a5; &#xce58;&#xd0a8;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel43">
@@ -1278,7 +1268,7 @@
                       <Font name="&#xb9d1;&#xc740; &#xace0;&#xb515;" size="12" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="11"/>
+                    <Property name="text" type="java.lang.String" value="&#xc591;&#xb150; &#xce58;&#xd0a8;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel47">
@@ -1349,7 +1339,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace pref="18" max="32767" attributes="0"/>
+                          <EmptySpace pref="15" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1412,7 +1402,7 @@
                       <Font name="&#xb9d1;&#xc740; &#xace0;&#xb515;" size="12" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="11"/>
+                    <Property name="text" type="java.lang.String" value="&#xd6c4;&#xb77c;&#xc774;&#xb4dc; &#xce58;&#xd0a8;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel51">
@@ -1546,7 +1536,7 @@
                       <Font name="&#xb9d1;&#xc740; &#xace0;&#xb515;" size="12" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="11"/>
+                    <Property name="text" type="java.lang.String" value="&#xd56b;&#xbc14;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel55">
@@ -2484,7 +2474,7 @@
                       <Font name="&#xb9d1;&#xc740; &#xace0;&#xb515;" size="12" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="11"/>
+                    <Property name="text" type="java.lang.String" value="&#xcf5c;&#xb77c;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel87">

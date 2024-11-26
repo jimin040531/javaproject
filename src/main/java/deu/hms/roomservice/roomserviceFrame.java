@@ -298,8 +298,6 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         total = new javax.swing.JLabel();
 
-        Reservationlist.setPreferredSize(new java.awt.Dimension(750, 450));
-
         jLabel13.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("예약 리스트");
@@ -409,8 +407,6 @@ public class roomserviceFrame extends javax.swing.JFrame {
             ReservationlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-
-        Reservation.setPreferredSize(new java.awt.Dimension(700, 500));
 
         jPanel7.setMinimumSize(new java.awt.Dimension(700, 500));
 
@@ -774,11 +770,11 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
         jLabel38.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel38.setText("11");
+        jLabel38.setText("떡볶이");
 
         jLabel39.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel39.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel39.setText("10000원");
+        jLabel39.setText("8000원");
 
         Qty2.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         Qty2.setModel(new javax.swing.SpinnerNumberModel(0, 0, 20, 1));
@@ -848,7 +844,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
         jLabel42.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel42.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel42.setText("11");
+        jLabel42.setText("간장 치킨");
 
         jLabel43.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel43.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -922,7 +918,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
         jLabel46.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel46.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel46.setText("11");
+        jLabel46.setText("양념 치킨");
 
         jLabel47.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel47.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -996,7 +992,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
         jLabel50.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel50.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel50.setText("11");
+        jLabel50.setText("후라이드 치킨");
 
         jLabel51.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel51.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1029,7 +1025,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton14)
                             .addComponent(Qty5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1070,7 +1066,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
         jLabel54.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel54.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel54.setText("11");
+        jLabel54.setText("핫바");
 
         jLabel55.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel55.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1588,7 +1584,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
         jLabel86.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel86.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel86.setText("11");
+        jLabel86.setText("콜라");
 
         jLabel87.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         jLabel87.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2074,13 +2070,16 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-    // 예약 하기
+    // 예약 창 버튼
     Reservation.setSize(800, 600);
         Reservation.setLocationRelativeTo(null);
         Reservation.setVisible(true);
      
     DefaultTableModel sourceModel = (DefaultTableModel) jTable5.getModel();
     DefaultTableModel targetModel = (DefaultTableModel) jTable1.getModel();
+    
+    // Table1의 모든 행 초기화
+    targetModel.setRowCount(0);
     
     // Table5의 모든 행 데이터를 가져와서 Table1에 추가
         for (int i = 0; i < sourceModel.getRowCount(); i++) {
@@ -2089,13 +2088,29 @@ public class roomserviceFrame extends javax.swing.JFrame {
                 rowData.add(sourceModel.getValueAt(i, j));
             }
             targetModel.addRow(rowData);
+           
         }
+        
+        double totalAmount = 0;
+    for (int i = 0; i < sourceModel.getRowCount(); i++) {
+        totalAmount += Double.parseDouble(sourceModel.getValueAt(i, 2).toString());
+    }
+    
+    // jLabel6에 총 금액 표시
+    jLabel6.setText(String.format("%.2f", totalAmount));
     
         
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
+        int Qty = Integer.parseInt(Qty2.getValue().toString());
+        
+        if(Qty > 0)
+        addtable("떡볶이",Qty,8000);         
+        
+        cal();
+        
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -2188,8 +2203,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // 예약 버튼
-     int year = (Integer)jSpinner1.getValue();
+        // 예약 하기 버튼
+    int year = (Integer)jSpinner1.getValue();
     int month = (Integer)jSpinner2.getValue(); 
     int day = (Integer)jSpinner3.getValue();
     int hour = (Integer)jSpinner4.getValue();
@@ -2233,6 +2248,10 @@ public class roomserviceFrame extends javax.swing.JFrame {
     
     model.addRow(row);
     
+    
+    
+    // 예약 완료 메시지 표시
+    javax.swing.JOptionPane.showMessageDialog(null, "예약이 완료되었습니다.", "예약 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
     // 예약 창 닫기
     Reservation.setVisible(false);
 
