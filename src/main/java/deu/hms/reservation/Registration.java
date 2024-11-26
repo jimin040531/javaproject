@@ -134,7 +134,7 @@ private static void scheduleStatusUpdateForTest(String checkInDate, int rowIndex
         LocalDate checkInDay = LocalDate.parse(checkInDate);
         LocalDateTime now = LocalDateTime.now();
         //LocalDateTime targetTime = checkInDay.atTime(18, 0); // 체크인 시간 오후 6시
-                LocalDateTime targetTime = LocalDateTime.now().plusSeconds(10);
+                LocalDateTime targetTime = LocalDateTime.now().plusSeconds(20);
 
         long delay = Duration.between(now, targetTime).toMillis();
 
