@@ -9,11 +9,15 @@ package deu.hms.login;
  * @author yunhe
  */
 public class MainScreenEmployees extends javax.swing.JFrame {
-
+    
+    
+    private UserAuthentication auth;
+    
     /**
      * Creates new form MainScreenEmployees
      */
-    public MainScreenEmployees() {
+    public MainScreenEmployees(UserAuthentication auth) {
+        this.auth = auth;  // 로그인 인증 객체를 생성자로 전달받음
         initComponents();
     }
 
@@ -26,46 +30,54 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        GoReservationE = new javax.swing.JButton();
-        GoCheckinE = new javax.swing.JButton();
-        GoCheckoutE = new javax.swing.JButton();
-        GoRoomserviceE = new javax.swing.JButton();
-        GoRestaurantE = new javax.swing.JButton();
+        GoReservationEmployees = new javax.swing.JButton();
+        GoCheckinEmployees = new javax.swing.JButton();
+        GoCheckoutEmployees = new javax.swing.JButton();
+        GoRoomserviceEmployees = new javax.swing.JButton();
+        GoRestaurantEmployees = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        GoReservationE.setText("예약 관리");
-        GoReservationE.addActionListener(new java.awt.event.ActionListener() {
+        GoReservationEmployees.setText("예약 관리");
+        GoReservationEmployees.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GoReservationEActionPerformed(evt);
+                GoReservationEmployeesActionPerformed(evt);
             }
         });
 
-        GoCheckinE.setText("체크인");
-        GoCheckinE.addActionListener(new java.awt.event.ActionListener() {
+        GoCheckinEmployees.setText("체크인");
+        GoCheckinEmployees.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GoCheckinEActionPerformed(evt);
+                GoCheckinEmployeesActionPerformed(evt);
             }
         });
 
-        GoCheckoutE.setText("체크아웃");
-        GoCheckoutE.addActionListener(new java.awt.event.ActionListener() {
+        GoCheckoutEmployees.setText("체크아웃");
+        GoCheckoutEmployees.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GoCheckoutEActionPerformed(evt);
+                GoCheckoutEmployeesActionPerformed(evt);
             }
         });
 
-        GoRoomserviceE.setText("룸서비스");
-        GoRoomserviceE.addActionListener(new java.awt.event.ActionListener() {
+        GoRoomserviceEmployees.setText("룸서비스");
+        GoRoomserviceEmployees.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GoRoomserviceEActionPerformed(evt);
+                GoRoomserviceEmployeesActionPerformed(evt);
             }
         });
 
-        GoRestaurantE.setText("레스토랑");
-        GoRestaurantE.addActionListener(new java.awt.event.ActionListener() {
+        GoRestaurantEmployees.setText("레스토랑");
+        GoRestaurantEmployees.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GoRestaurantEActionPerformed(evt);
+                GoRestaurantEmployeesActionPerformed(evt);
+            }
+        });
+
+        logoutButton.setText("out");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
             }
         });
 
@@ -79,56 +91,95 @@ public class MainScreenEmployees extends javax.swing.JFrame {
                         .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(GoRoomserviceE, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(GoRoomserviceEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(40, 40, 40)
-                                .addComponent(GoRestaurantE, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(GoRestaurantEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(GoCheckinE, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(GoCheckinEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(40, 40, 40)
-                                .addComponent(GoCheckoutE, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(GoCheckoutEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 44, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(130, 130, 130)
-                        .addComponent(GoReservationE, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                        .addComponent(GoReservationEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(GoReservationE, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(GoReservationEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(logoutButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(GoCheckinE, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GoCheckoutE, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(GoCheckinEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(GoCheckoutEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(GoRoomserviceE, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GoRestaurantE, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(GoRoomserviceEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(GoRestaurantEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void GoReservationEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoReservationEActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_GoReservationEActionPerformed
+    private void GoReservationEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoReservationEmployeesActionPerformed
+        deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
+        reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+        reservationFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_GoReservationEmployeesActionPerformed
 
-    private void GoCheckinEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoCheckinEActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_GoCheckinEActionPerformed
+    private void GoCheckinEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoCheckinEmployeesActionPerformed
+        deu.hms.checkin.checkinFrame checkinFrame = new deu.hms.checkin.checkinFrame(new java.awt.Frame(), true);
+        checkinFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+        checkinFrame.setVisible(true);
+        this.dispose();  // 현재 창 닫기
+    }//GEN-LAST:event_GoCheckinEmployeesActionPerformed
 
-    private void GoCheckoutEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoCheckoutEActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_GoCheckoutEActionPerformed
+    private void GoCheckoutEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoCheckoutEmployeesActionPerformed
+        deu.hms.checkout.checkoutFrame checkoutFrame = new deu.hms.checkout.checkoutFrame(new java.awt.Frame(), true);
+        checkoutFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+        checkoutFrame.setVisible(true);
+        this.dispose();  // 현재 창 닫기
+    }//GEN-LAST:event_GoCheckoutEmployeesActionPerformed
 
-    private void GoRoomserviceEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoRoomserviceEActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_GoRoomserviceEActionPerformed
+    private void GoRoomserviceEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoRoomserviceEmployeesActionPerformed
+        deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
+        roomserviceFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+        roomserviceFrame.setVisible(true);
+        this.dispose();  // 현재 창 닫기
+    }//GEN-LAST:event_GoRoomserviceEmployeesActionPerformed
 
-    private void GoRestaurantEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoRestaurantEActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_GoRestaurantEActionPerformed
+    private void GoRestaurantEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoRestaurantEmployeesActionPerformed
+        deu.hms.restaurant.restaurantFrame restaurantFrame = new deu.hms.restaurant.restaurantFrame(new java.awt.Frame(), true);
+        restaurantFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+        restaurantFrame.setVisible(true);
+        this.dispose();  // 현재 창 닫기
+    }//GEN-LAST:event_GoRestaurantEmployeesActionPerformed
+
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        // 로그아웃 처리
+        auth.logout();  // UserAuthentication 객체에서 로그아웃 처리
+        
+        // MainScreenManager 창 닫기
+        this.dispose();  // 현재 창 (MainScreenManager) 닫기
+        
+        // 로그인 창으로 돌아가기
+        loginFrame loginScreen = new loginFrame(auth); // 로그인 화면 생성
+        loginScreen.setLocationRelativeTo(null);  // 화면 중앙에 배치
+        loginScreen.setVisible(true);  // 로그인 화면 표시
+
+        // MainScreenManager 창 닫기
+        this.dispose();  // 현재 창 (MainScreenManager) 닫기
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,20 +207,36 @@ public class MainScreenEmployees extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainScreenEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
+         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainScreenEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainScreenEmployees().setVisible(true);
+                 // UserAuthentication 객체를 생성하고 MainScreenEmployees 생성자에 전달
+                UserAuthentication auth = new UserAuthentication(); // UserAuthentication 객체 생성
+                new MainScreenEmployees(auth).setVisible(true); // 생성자에 auth 객체 전달
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton GoCheckinE;
-    private javax.swing.JButton GoCheckoutE;
-    private javax.swing.JButton GoReservationE;
-    private javax.swing.JButton GoRestaurantE;
-    private javax.swing.JButton GoRoomserviceE;
+    private javax.swing.JButton GoCheckinEmployees;
+    private javax.swing.JButton GoCheckoutEmployees;
+    private javax.swing.JButton GoReservationEmployees;
+    private javax.swing.JButton GoRestaurantEmployees;
+    private javax.swing.JButton GoRoomserviceEmployees;
+    private javax.swing.JButton logoutButton;
     // End of variables declaration//GEN-END:variables
 }
