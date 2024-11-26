@@ -4,7 +4,9 @@
  */
 package deu.hms.roomservice;
 
+import deu.hms.reservation.reservationFrame;
 import deu.hms.restaurant.*;
+
 
 /**
  *
@@ -204,6 +206,8 @@ public class roomserviceFrame extends javax.swing.JDialog {
             }
         });
     }
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
