@@ -26,6 +26,7 @@ public class loginFrame extends javax.swing.JDialog {
         this.auth = auth;
         initComponents();
         initializeFieldBehaviors();
+        setTitle("로그인");
         
         this.setLocationRelativeTo(null);
     }
@@ -44,6 +45,7 @@ public class loginFrame extends javax.swing.JDialog {
         PasswordField = new javax.swing.JPasswordField();
         LoginButton = new javax.swing.JButton();
         IDField = new java.awt.TextField();
+        label1 = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -66,6 +68,9 @@ public class loginFrame extends javax.swing.JDialog {
             }
         });
 
+        label1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        label1.setText("호텔 관리자 시스템");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,23 +78,28 @@ public class loginFrame extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(283, 283, 283)
-                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(80, 80, 80)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(PasswordField)
+                                    .addComponent(IDField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(LoginButton))
+                            .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(PasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                            .addComponent(IDField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(LoginButton)))
-                .addGap(0, 87, Short.MAX_VALUE))
+                        .addGap(91, 91, 91)
+                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(97, Short.MAX_VALUE)
+                .addContainerGap(49, Short.MAX_VALUE)
                 .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(17, 17, 17)
+                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
@@ -97,7 +107,7 @@ public class loginFrame extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(127, 127, 127))
+                .addGap(115, 115, 115))
         );
 
         pack();
@@ -115,18 +125,44 @@ public class loginFrame extends javax.swing.JDialog {
         if (authenticated) {
             // 인증된 사용자 이름 가져오기
             String userName = auth.getUserName(userId);
+            String userRole = auth.getUserRole(userId);  // 사용자의 역할 가져오기
+
+            // 사용자 역할에 따라 메시지 구성
+            String roleMessage;
+            if ("manager".equalsIgnoreCase(userRole)) {
+                roleMessage = "현재 권한은 관리자입니다.";
+            } else if ("employee".equalsIgnoreCase(userRole)) {
+                roleMessage = "현재 권한은 일반 직원입니다.";
+            } else {
+                roleMessage = "정의되지 않은 권한입니다.";
+            }
 
             // 로그인 성공 메시지 표시
-            JOptionPane.showMessageDialog(this, "Welcome, " + userName, "Login Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, 
+                "Welcome, " + userName + "\n" + roleMessage, 
+                "Login Success", 
+                JOptionPane.INFORMATION_MESSAGE);
 
-            // 사용자가 '확인' 버튼을 클릭하면 MainScreenManager 창 열기
-            MainScreenManager managerScreen = new MainScreenManager(auth);
-            managerScreen.setLocationRelativeTo(null);
-            managerScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 창 닫을 때 정상적으로 종료되도록 설정
-            managerScreen.setVisible(true);  // MainScreenManager 화면 띄우기
-            
-            System.out.println("Disposing loginFrame...");
+            // 사용자의 역할에 따라 화면 열기
+            if ("manager".equalsIgnoreCase(userRole)) {
+                // 사용자가 'manager'일 경우 MainScreenManager 창 열기
+                MainScreenManager managerScreen = new MainScreenManager(auth);
+                managerScreen.setLocationRelativeTo(null);
+                managerScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                managerScreen.setVisible(true);
+            } else if ("employee".equalsIgnoreCase(userRole)) {
+                // 사용자가 'employee'일 경우 MainScreenEmployee 창 열기
+                MainScreenEmployees employeeScreen = new MainScreenEmployees(auth);
+                employeeScreen.setLocationRelativeTo(null);
+                employeeScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                employeeScreen.setVisible(true);
+            } else {
+                // 정의되지 않은 역할에 대한 처리 (예외 처리)
+                JOptionPane.showMessageDialog(this, "Undefined User Role", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
             // 로그인 창 닫기
+            System.out.println("Disposing loginFrame...");
             this.dispose();
         } else {
             // 로그인 실패 메시지 표시
@@ -285,5 +321,6 @@ public class loginFrame extends javax.swing.JDialog {
     private javax.swing.JButton LoginButton;
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.Box.Filler filler1;
+    private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
 }
