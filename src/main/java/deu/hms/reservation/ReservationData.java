@@ -9,7 +9,6 @@ package deu.hms.reservation;
  * @author adsd3
  */
 public class ReservationData {
-    private String uniqueNumber;
     private String name;
     private String address;
     private String phoneNumber;
@@ -23,11 +22,11 @@ public class ReservationData {
     private String cardStatus;
 
     // 생성자
-    public ReservationData(String uniqueNumber, String name, String address, String phoneNumber, 
+    public ReservationData(String name, String address, String phoneNumber, 
                            String checkInDate, String checkOutDate, String roomNumber,
                            String guestCount, String paymentMethod, String roomSelection, 
                            String stayCost, String cardStatus) {
-        this.uniqueNumber = uniqueNumber;
+        
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -42,7 +41,6 @@ public class ReservationData {
     }
 
     // Getter 메서드들 추가
-    public String getUniqueNumber() { return uniqueNumber; }
     public String getName() { return name; }
     public String getAddress() { return address; }
     public String getPhoneNumber() { return phoneNumber; }

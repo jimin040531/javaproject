@@ -223,30 +223,44 @@ int selectedRow = mainTable.getSelectedRow();
         JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         return;
     }
+    
+    // 선택된 행의 데이터를 가져옴
+    String name = getStringValue(mainTable.getValueAt(selectedRow, 1));
+    String address = getStringValue(mainTable.getValueAt(selectedRow, 2));
+      String phoneNumber = getStringValue(mainTable.getValueAt(selectedRow, 3));
+    String checkInDate = getStringValue(mainTable.getValueAt(selectedRow, 4));
+   String checkOutDate = getStringValue(mainTable.getValueAt(selectedRow, 5));
+    String roomNumber = getStringValue(mainTable.getValueAt(selectedRow, 6));
+    String guestCount = getStringValue(mainTable.getValueAt(selectedRow, 7));
+    String paymentMethod = getStringValue(mainTable.getValueAt(selectedRow, 8));
+    String status = getStringValue(mainTable.getValueAt(selectedRow, 9));
+    String stayCost = getStringValue(mainTable.getValueAt(selectedRow, 10));
 
-    // 선택된 행에 대한 ReservationData 객체 가져오기
-    System.out.println("선택된 행 인덱스: " + selectedRow);
-    if (selectedRow >= reservations.size()) {
-        JOptionPane.showMessageDialog(this, "리스트와 테이블 데이터 불일치", "오류", JOptionPane.ERROR_MESSAGE);
+   // Registration 폼에 데이터 설정
+    registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate,
+                                          roomNumber, guestCount, paymentMethod, status, stayCost,);
+
+    // Registration 폼 보이기
+    registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
+    registrationFrame.setVisible(true);
+    
+        // 선택된 행이 있는지 확인
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         return;
     }
-    ReservationData data = reservations.get(selectedRow);
+    else{
+    for (int i = 0; i < mainTable.getColumnCount(); i++) {
+                mainTable.setValueAt("", selectedRow, i);
+            }
+    }
+}
 
-    // Registration 폼을 열고 데이터 설정
-    Registration registrationForm = new Registration();
-    registrationForm.setRegistrationData(data);
-    registrationForm.setSize(500, 450);
-    registrationForm.setVisible(true);
+// NullPointerException 방지용 유틸리티 메서드 추가
+private String getStringValue(Object value) {
+    return value == null ? "" : value.toString();
 
-    // 수정 후, ReservationData 리스트 및 UI 테이블 업데이트
-    ReservationData updatedData = registrationForm.getReservationData();
-    System.out.println("수정된 데이터: " + updatedData);
-    reservations.set(selectedRow, updatedData);
-    updateTable();
 
-    System.out.println("테이블 행 수: " + mainTable.getRowCount());
-    System.out.println("리스트 크기: " + reservations.size());
-    
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
