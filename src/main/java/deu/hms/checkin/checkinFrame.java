@@ -9,7 +9,6 @@ package deu.hms.checkin;
  * @author Jimin
  */
 //내이름은 이지민
-import java.awt.Frame;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,10 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class checkinFrame extends javax.swing.JDialog {
-    
-    private javax.swing.JTextField requestTextField;
-    private HotelRoomInfo hotelRoomInfo;
-
     
     public JDialog getcardRegist() {
         return cardRegist;
@@ -36,6 +31,7 @@ public class checkinFrame extends javax.swing.JDialog {
     public checkinFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initTable();
         initRadioButtons();
         initializePlaceholders(); // Placeholder 초기화
         configurePaymentButtonState(); // 라디오 버튼 상태 설정
@@ -274,10 +270,7 @@ public class checkinFrame extends javax.swing.JDialog {
 
         reservationListTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "고유 번호", "이름", "전화 번호", "방 번호", "객실 금액", "결제 수단", "상태"
@@ -421,6 +414,10 @@ public class checkinFrame extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void initTable() {
+        new ReservationLoad(reservationListTable);
+    }
     
     // 다른 컴포넌트 초기화 후에 호출되는 메서드에 작성
     private void initRadioButtons() {
