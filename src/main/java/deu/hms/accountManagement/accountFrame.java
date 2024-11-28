@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package deu.hms.restaurantManagement;
+package deu.hms.accountManagement;
 
 /**
  *
  * @author Jimin
  */
-public class restaurantFrame extends javax.swing.JDialog {
+public class accountFrame extends javax.swing.JDialog {
 
     /**
-     * Creates new form restaurantFrame
+     * Creates new form accountFrame
      */
-    public restaurantFrame(java.awt.Frame parent, boolean modal) {
+    public accountFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -38,7 +38,7 @@ public class restaurantFrame extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         restaurantManagement.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
-        restaurantManagement.setText("식당 관리");
+        restaurantManagement.setText("사용자 관리");
 
         restTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -48,7 +48,7 @@ public class restaurantFrame extends javax.swing.JDialog {
                 {null, null, null}
             },
             new String [] {
-                "서비스 종류", "음식 이름", "음식 가격"
+                "사용자 권한", "사용자 아이디", "사용자 비밀번호"
             }
         ) {
             Class[] types = new Class [] {
@@ -101,14 +101,14 @@ public class restaurantFrame extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addComponent(backButton)
-                        .addGap(142, 142, 142)
+                        .addGap(131, 131, 131)
                         .addComponent(restaurantManagement))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(addButton)
@@ -126,7 +126,7 @@ public class restaurantFrame extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
-                        .addGap(304, 304, 304))
+                        .addGap(275, 275, 275))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(restaurantManagement)
                         .addGap(18, 18, 18)
@@ -135,8 +135,8 @@ public class restaurantFrame extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(saveButton)
                             .addComponent(deleteButton)
-                            .addComponent(addButton))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(addButton))))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
@@ -175,20 +175,20 @@ public class restaurantFrame extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(accountFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(accountFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(accountFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(accountFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                restaurantFrame dialog = new restaurantFrame(new javax.swing.JFrame(), true);
+                accountFrame dialog = new accountFrame(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
