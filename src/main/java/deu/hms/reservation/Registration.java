@@ -30,8 +30,24 @@ public class Registration extends JFrame {
     private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
+    private ReservationData reservationData;
 
-
+    public ReservationData getReservationData() {
+        return new ReservationData(
+            String.valueOf(uniqueNumber),
+            textName.getText(),
+            textAddress.getText(),
+            textPhoneNumber.getText(),
+            textCheckInDate.getText(),
+            textCheckOutDate.getText(),
+            textRoomNumber.getText(),
+            textGuestCount.getText(),
+            onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
+            thisWeek.isSelected() ? "평일" : "주말",
+            Money.getText(),
+            labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
+        );
+    }
         
     public void setRoomSelection(boolean isWeekday) {
         if (isWeekday) {
@@ -40,30 +56,33 @@ public class Registration extends JFrame {
             weekend.setSelected(true);
         }
     }
+public void setRegistrationData(ReservationData data) {
+    this.reservationData = data;
 
-      public void setRegistrationData(String name, String address, String phoneNumber, String checkInDate,
-                                String checkOutDate, String roomNumber, String guestCount,
-                                String paymentMethod, String status, String stayCost) {
-          textName.setText(name);
-         textAddress.setText(address);
-         textPhoneNumber.setText(phoneNumber);
-         textCheckInDate.setText(checkInDate);
-         textCheckOutDate.setText(checkOutDate);
-         textRoomNumber.setText(roomNumber);
-         textGuestCount.setText(guestCount);
-         Money.setText(stayCost);  // 금액 설정
+    textName.setText(data.getName());
+    textAddress.setText(data.getAddress());
+    textPhoneNumber.setText(data.getPhoneNumber());
+    textCheckInDate.setText(data.getCheckInDate());
+    textCheckOutDate.setText(data.getCheckOutDate());
+    textRoomNumber.setText(data.getRoomNumber());
+    textGuestCount.setText(data.getGuestCount());
+    Money.setText(data.getStayCost());
 
-        if (paymentMethod.equals("현장결제")) {
+    if (data.getPaymentMethod().equals("현장결제")) {
         onSitePaymentButton.setSelected(true);
-    } else if (paymentMethod.equals("카드결제")) {
+    } else {
         cardRegistButton.setSelected(true);
     }
-         if (status.equals("평일")) {
+
+    if (data.getRoomSelection().equals("평일")) {
         thisWeek.setSelected(true);
-    } else if (status.equals("주말")) {
+    } else {
         weekend.setSelected(true);
     }
-    }
+}
+
+    
+    
     public static Registration getInstance(JTable table) {
         if (instance == null) {
             instance = new Registration(table);

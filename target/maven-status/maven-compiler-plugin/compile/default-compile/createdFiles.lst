@@ -41,6 +41,7 @@ deu\hms\reservation\reservationFrame.class
 deu\hms\reservation\Registration$8.class
 deu\hms\login\loginFrame$6.class
 deu\hms\restaurant\ReservationDialog$2.class
+deu\hms\reservation\ReservationData.class
 deu\hms\roomservice\roomserviceFrame.class
 deu\hms\management\managementFrame$4.class
 deu\hms\login\MainScreenManager$9.class
