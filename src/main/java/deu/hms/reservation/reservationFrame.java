@@ -32,11 +32,7 @@ import deu.hms.reservation.ReservationUtils;
  * @author adsd3
  */
 
-/**
- * d
- *
- * @author adsd3
- */
+
 public class reservationFrame extends javax.swing.JDialog {
 
     private DefaultTableModel tableModel;
@@ -60,6 +56,20 @@ private List<ReservationData> reservations = new ArrayList<>();
     public JTable getMainTable() {
         return mainTable;
     }
+    private void updateTable() {
+    DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
+    model.setRowCount(0); // 기존의 모든 행 삭제
+
+    // reservations 리스트의 데이터를 테이블에 추가
+    for (ReservationData data : reservations) {
+        model.addRow(new Object[]{
+            data.getUniqueNumber(), data.getName(), data.getAddress(),
+            data.getPhoneNumber(), data.getCheckInDate(), data.getCheckOutDate(),
+            data.getRoomNumber(), data.getGuestCount(), data.getStayCost(),
+            data.getPaymentMethod(), data.getRoomSelection(), data.getCardStatus()
+        });
+    }
+}
 
     /**
      * Creates new form reservationFrame
@@ -103,20 +113,9 @@ private List<ReservationData> reservations = new ArrayList<>();
         this.add(cardStatusLabel);
         this.add(reservationStatusLabel);
     }
-    private void updateTable() {
-    DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
-    model.setRowCount(0); // 기존의 행 삭제
-
-    // 각 ReservationData 객체를 테이블에 추가
-    for (ReservationData data : reservations) {
-        model.addRow(new Object[]{
-            data.getUniqueNumber(), data.getName(), data.getAddress(),
-            data.getPhoneNumber(), data.getCheckInDate(), data.getCheckOutDate(),
-            data.getRoomNumber(), data.getGuestCount(), data.getPaymentMethod(),
-            data.getRoomSelection(), data.getStayCost(), data.getCardStatus()
-        });
-    }
-}
+   
+   
+    
 
     
     // 클래스의 나머지 내용들...

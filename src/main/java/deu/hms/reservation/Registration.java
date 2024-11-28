@@ -31,24 +31,8 @@ public class Registration extends JFrame {
     private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
-    private ReservationData reservationData;
 
-    public ReservationData getReservationData() {
-        return new ReservationData(
-            String.valueOf(uniqueNumber),
-            textName.getText(),
-            textAddress.getText(),
-            textPhoneNumber.getText(),
-            textCheckInDate.getText(),
-            textCheckOutDate.getText(),
-            textRoomNumber.getText(),
-            textGuestCount.getText(),
-            onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
-            thisWeek.isSelected() ? "평일" : "주말",
-            Money.getText(),
-            labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
-        );
-    }
+
         
     public void setRoomSelection(boolean isWeekday) {
         if (isWeekday) {
@@ -57,9 +41,8 @@ public class Registration extends JFrame {
             weekend.setSelected(true);
         }
     }
-public void setRegistrationData(ReservationData data) {
-    this.reservationData = data;
 
+      public void setRegistrationData(ReservationData data) {
     textName.setText(data.getName());
     textAddress.setText(data.getAddress());
     textPhoneNumber.setText(data.getPhoneNumber());
@@ -81,9 +64,6 @@ public void setRegistrationData(ReservationData data) {
         weekend.setSelected(true);
     }
 }
-
-    
-    
     public static Registration getInstance(JTable table) {
         if (instance == null) {
             instance = new Registration(table);
@@ -184,7 +164,22 @@ private static void scheduleStatusUpdateForTest(String checkInDate, int rowIndex
         System.err.println("체크인 날짜 형식이 잘못되었습니다: " + e.getMessage());
     }
 }
-
+public ReservationData getReservationData() {
+    return new ReservationData(
+        String.valueOf(uniqueNumber),
+        textName.getText(),
+        textAddress.getText(),
+        textPhoneNumber.getText(),
+        textCheckInDate.getText(),
+        textCheckOutDate.getText(),
+        textRoomNumber.getText(),
+        textGuestCount.getText(),
+        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
+        thisWeek.isSelected() ? "평일" : "주말",
+        Money.getText(),
+        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
+    );
+}
 
 private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
@@ -282,6 +277,7 @@ public void transferRegistrationToReservation() {
             }
         });
     }
+
 
 
     /**
