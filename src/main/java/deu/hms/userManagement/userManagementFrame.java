@@ -39,6 +39,18 @@ public class userManagementFrame extends javax.swing.JDialog {
         nameLabel1 = new java.awt.Label();
         nameLabel2 = new java.awt.Label();
         UserManagementTitle = new java.awt.Label();
+        jButton1 = new javax.swing.JButton();
+        Modify = new javax.swing.JDialog();
+        nameLabel3 = new java.awt.Label();
+        UserManagementTitle1 = new java.awt.Label();
+        InUserName1 = new javax.swing.JTextField();
+        InUserID1 = new javax.swing.JTextField();
+        InUserPW1 = new javax.swing.JTextField();
+        PickManager1 = new javax.swing.JCheckBox();
+        PickEmployee1 = new javax.swing.JCheckBox();
+        nameLabel4 = new java.awt.Label();
+        nameLabel5 = new java.awt.Label();
+        jButton2 = new javax.swing.JButton();
         usertManagement = new javax.swing.JLabel();
         userModifyButton = new javax.swing.JButton();
         userDeleteButton = new javax.swing.JButton();
@@ -82,6 +94,13 @@ public class userManagementFrame extends javax.swing.JDialog {
         UserManagementTitle.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         UserManagementTitle.setText("사용자 등록");
 
+        jButton1.setText("완료");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout AddLayout = new javax.swing.GroupLayout(Add.getContentPane());
         Add.getContentPane().setLayout(AddLayout);
         AddLayout.setHorizontalGroup(
@@ -90,25 +109,31 @@ public class userManagementFrame extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(AddLayout.createSequentialGroup()
-                        .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(nameLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InUserPW, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(InUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(InUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(AddLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(PickManager)
-                        .addGap(18, 18, 18)
-                        .addComponent(PickEmployee)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                            .addGroup(AddLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(PickManager)
+                                .addGap(18, 18, 18)
+                                .addComponent(PickEmployee))
+                            .addGroup(AddLayout.createSequentialGroup()
+                                .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(nameLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(InUserPW, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(InUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(InUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(25, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(UserManagementTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(UserManagementTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         AddLayout.setVerticalGroup(
             AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,10 +156,102 @@ public class userManagementFrame extends javax.swing.JDialog {
                 .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PickManager)
                     .addComponent(PickEmployee))
-                .addGap(29, 29, 29))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         nameLabel1.getAccessibleContext().setAccessibleName("아이디");
+
+        Modify.setPreferredSize(new java.awt.Dimension(224, 246));
+
+        nameLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        nameLabel3.setText("비밀번호");
+
+        UserManagementTitle1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        UserManagementTitle1.setText("사용자 수정");
+
+        InUserID1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InUserID1ActionPerformed(evt);
+            }
+        });
+
+        PickManager1.setText("관리자");
+
+        PickEmployee1.setText("일반 직원");
+
+        nameLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        nameLabel4.setText("이름");
+
+        nameLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        nameLabel5.setText("아이디");
+
+        jButton2.setText("완료");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ModifyLayout = new javax.swing.GroupLayout(Modify.getContentPane());
+        Modify.getContentPane().setLayout(ModifyLayout);
+        ModifyLayout.setHorizontalGroup(
+            ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ModifyLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ModifyLayout.createSequentialGroup()
+                        .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(nameLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InUserPW1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(InUserID1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(InUserName1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(ModifyLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(PickManager1)
+                        .addGap(18, 18, 18)
+                        .addComponent(PickEmployee1)))
+                .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ModifyLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ModifyLayout.createSequentialGroup()
+                        .addComponent(UserManagementTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ModifyLayout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+        );
+        ModifyLayout.setVerticalGroup(
+            ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ModifyLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(UserManagementTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(InUserName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(InUserID1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(InUserPW1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PickManager1)
+                    .addComponent(PickEmployee1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -214,7 +331,7 @@ public class userManagementFrame extends javax.swing.JDialog {
                     .addComponent(userAddButton)
                     .addComponent(userDeleteButton)
                     .addComponent(userModifyButton))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -235,6 +352,18 @@ public class userManagementFrame extends javax.swing.JDialog {
     private void InUserIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InUserIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_InUserIDActionPerformed
+
+    private void InUserID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InUserID1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InUserID1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -282,12 +411,21 @@ public class userManagementFrame extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog Add;
     private javax.swing.JTextField InUserID;
+    private javax.swing.JTextField InUserID1;
     private javax.swing.JTextField InUserName;
+    private javax.swing.JTextField InUserName1;
     private javax.swing.JTextField InUserPW;
+    private javax.swing.JTextField InUserPW1;
+    private javax.swing.JDialog Modify;
     private javax.swing.JCheckBox PickEmployee;
+    private javax.swing.JCheckBox PickEmployee1;
     private javax.swing.JCheckBox PickManager;
+    private javax.swing.JCheckBox PickManager1;
     private java.awt.Label UserManagementTitle;
+    private java.awt.Label UserManagementTitle1;
     private javax.swing.JButton backButton;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
@@ -295,6 +433,9 @@ public class userManagementFrame extends javax.swing.JDialog {
     private java.awt.Label nameLabel;
     private java.awt.Label nameLabel1;
     private java.awt.Label nameLabel2;
+    private java.awt.Label nameLabel3;
+    private java.awt.Label nameLabel4;
+    private java.awt.Label nameLabel5;
     private javax.swing.JButton userAddButton;
     private javax.swing.JButton userDeleteButton;
     private javax.swing.JButton userModifyButton;
