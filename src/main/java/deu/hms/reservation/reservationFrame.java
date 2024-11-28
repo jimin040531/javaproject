@@ -28,6 +28,12 @@ import java.util.concurrent.TimeUnit;
  *
  * @author adsd3
  */
+
+/**
+ * d
+ *
+ * @author adsd3
+ */
 public class reservationFrame extends javax.swing.JDialog {
 
     private DefaultTableModel tableModel;
@@ -93,8 +99,6 @@ private JLabel cardStatusLabel;  // 카드 등록 상태
         this.add(cardStatusLabel);
         this.add(reservationStatusLabel);
     }
-   
-   
     
     // 클래스의 나머지 내용들...
     /**
