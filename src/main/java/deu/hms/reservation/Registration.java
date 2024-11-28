@@ -13,6 +13,7 @@ import java.time.ZoneId;
 import java.util.concurrent.*;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
+import deu.hms.reservation.ReservationUtils;
 
 /**
  *
@@ -824,24 +825,29 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+    DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
-    // addOrUpdateRow를 호출하고 반환된 행 인덱스 사용
-    int rowIndex = addOrUpdateRow(model);
+// ReservationData 객체 생성
+ReservationData data = ReservationUtils.createReservationData(
+    String.valueOf(uniqueNumber),
+    textName, textAddress, textPhoneNumber,
+    textCheckInDate, textCheckOutDate,
+    textRoomNumber, textGuestCount,
+    Money, onSitePaymentButton, thisWeek,
+    labelCardStatus
+);
 
-    // 체크인 날짜 가져오기
-    String checkInDate = textCheckInDate.getText();
+// addOrUpdateRow를 호출하고 반환된 행 인덱스 사용
+int rowIndex = ReservationUtils.addOrUpdateRow(model, data);
 
-    // 상태 업데이트 예약
-    scheduleStatusUpdateForTest(checkInDate, rowIndex, model);
+// 상태 업데이트 예약
+ReservationUtils.scheduleStatusUpdateForTest(data.getCheckInDate(), rowIndex, model);
 
-    // 유니크 번호 증가
-    uniqueNumber++;
+// 유니크 번호 증가
+uniqueNumber++;
 
-    // 예약 완료 메시지 표시
-    labelReservationStatus.setVisible(true);
-
-        // 저장 후 입력 필드 초기화
+// 예약 완료 메시지 표시
+labelReservationStatus.setVisible(true);
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed

@@ -6,7 +6,7 @@ package deu.hms.reservation;
 
 /**
  *
- * @author Jimin
+ * @author Jinho
  */
 public class Reservation {
     private String unique = null;

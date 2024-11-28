@@ -22,6 +22,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.ArrayList;
+import deu.hms.reservation.ReservationUtils;
 
 
 
@@ -223,40 +224,29 @@ int selectedRow = mainTable.getSelectedRow();
         JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         return;
     }
+
     // 선택된 행에 대한 ReservationData 객체 가져오기
-ReservationData data = reservations.get(selectedRow);
-
-// Registration 폼을 열고 데이터 설정
-Registration registrationForm = new Registration();
-registrationForm.setRegistrationData(data);
-registrationForm.setSize(500, 450);
-registrationForm.setVisible(true);
-
-
-    // 수정 후, ReservationData 리스트 및 UI 테이블 업데이트
-reservations.set(selectedRow, registrationForm.getReservationData());
-updateTable();
-
-
-    
-        // 선택된 행이 있는지 확인
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
+    System.out.println("선택된 행 인덱스: " + selectedRow);
+    if (selectedRow >= reservations.size()) {
+        JOptionPane.showMessageDialog(this, "리스트와 테이블 데이터 불일치", "오류", JOptionPane.ERROR_MESSAGE);
         return;
     }
-    else{
-    for (int i = 0; i < mainTable.getColumnCount(); i++) {
-                mainTable.setValueAt("", selectedRow, i);
-            }
-    }
-}
+    ReservationData data = reservations.get(selectedRow);
 
-// NullPointerException 방지용 유틸리티 메서드 추가
-private String getStringValue(Object value) {
-    return value == null ? "" : value.toString();
-// 수정 후, ReservationData 리스트 및 UI 테이블 업데이트
+    // Registration 폼을 열고 데이터 설정
+    Registration registrationForm = new Registration();
+    registrationForm.setRegistrationData(data);
+    registrationForm.setSize(500, 450);
+    registrationForm.setVisible(true);
 
+    // 수정 후, ReservationData 리스트 및 UI 테이블 업데이트
+    ReservationData updatedData = registrationForm.getReservationData();
+    System.out.println("수정된 데이터: " + updatedData);
+    reservations.set(selectedRow, updatedData);
+    updateTable();
 
+    System.out.println("테이블 행 수: " + mainTable.getRowCount());
+    System.out.println("리스트 크기: " + reservations.size());
     
     }//GEN-LAST:event_goEitFomActionPerformed
 
