@@ -10,17 +10,40 @@ package deu.hms.reservation;
  */
 import javax.swing.table.DefaultTableModel;
 public class ReservationUtils {
+    public static ReservationData createReservationData(
+        int uniqueNumber,
+        String name,
+        String address,
+        String phoneNumber,
+        String checkInDate,
+        String checkOutDate,
+        String roomNumber,
+        String guestCount,
+        String stayCost,
+        String paymentMethod,
+        String roomSelection,
+        String cardStatus) {
+    return new ReservationData(
+        uniqueNumber, name, address, phoneNumber, checkInDate, checkOutDate,
+        roomNumber, guestCount, stayCost, paymentMethod, roomSelection, cardStatus
+    );
+}
 
-    public static int addOrUpdateRow(DefaultTableModel model, int uniqueNumber, 
-                                     String name, String address, String phoneNumber, 
-                                     String checkInDate, String checkOutDate, 
-                                     String roomNumber, String guestCount, 
-                                     String stayCost, String paymentMethod, 
-                                     String roomSelection, String cardStatus) {
-        // 새로운 행 데이터를 생성
+     public static int addOrUpdateRow(DefaultTableModel model, ReservationData data) {
+        // 새로운 행 데이터를 ReservationData 객체로 생성
         Object[] rowData = {
-            uniqueNumber, name, address, phoneNumber, checkInDate, checkOutDate,
-            roomNumber, guestCount, stayCost, paymentMethod, roomSelection, cardStatus
+            data.getUniqueNumber(),
+            data.getName(),
+            data.getAddress(),
+            data.getPhoneNumber(),
+            data.getCheckInDate(),
+            data.getCheckOutDate(),
+            data.getRoomNumber(),
+            data.getGuestCount(),
+            data.getStayCost(),
+            data.getPaymentMethod(),
+            data.getRoomSelection(),
+            data.getCardStatus()
         };
 
         // 기존의 빈 행 찾기 또는 새로운 행 추가
@@ -38,4 +61,5 @@ public class ReservationUtils {
         model.addRow(rowData);
         return model.getRowCount() - 1; // 새로 추가된 행의 인덱스 반환
     }
+
 }
