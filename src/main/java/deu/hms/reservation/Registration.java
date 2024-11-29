@@ -13,6 +13,7 @@ import java.time.ZoneId;
 import java.util.concurrent.*;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
+import deu.hms.reservation.ReservationUtils;
 
 /**
  *
@@ -95,39 +96,7 @@ private boolean isCardRegistered() {
         // 카드 등록 여부를 확인하는 로직 구현 (예: cardRegistButton.isSelected() 등)
         return cardRegistButton.isSelected();
     }
-  private int addOrUpdateRow(DefaultTableModel model) {
-    // Registration 클래스의 각 텍스트 필드로부터 데이터를 가져옴
-    String name = textName.getText();
-    String address = textAddress.getText();
-    String phoneNumber = textPhoneNumber.getText();
-    String checkInDate = textCheckInDate.getText();
-    String checkOutDate = textCheckOutDate.getText();
-    String roomNumber = textRoomNumber.getText();
-    String count = textGuestCount.getText();
-    String stayCost = Money.getText(); // 금액 필드
-    String paymentMethod = onSitePaymentButton.isSelected() ? "현장결제" : "카드결제";
-    String roomSelection = thisWeek.isSelected() ? "평일" : "주말";
-    String cardStatus = labelCardStatus.isVisible() ? "카드등록" : "카드미등록";
-
-    // 새로운 행 데이터를 생성
-    Object[] rowData = {uniqueNumber, name, address, phoneNumber, checkInDate, checkOutDate,
-            roomNumber, count, stayCost, paymentMethod, roomSelection, cardStatus};
-
-    // 기존의 빈 행 찾기 또는 새로운 행 추가
-    for (int i = 0; i < model.getRowCount(); i++) {
-        if (model.getValueAt(i, 0) == null || model.getValueAt(i, 0).toString().trim().isEmpty()) {
-            // 빈 행이 있으면 해당 위치에 데이터를 삽입
-            for (int j = 0; j < rowData.length; j++) {
-                model.setValueAt(rowData[j], i, j);
-            }
-            return i; // 수정된 행의 인덱스 반환
-        }
-    }
-
-    // 빈 행이 없다면 새로운 행 추가
-    model.addRow(rowData);
-    return model.getRowCount() - 1; // 새로 추가된 행의 인덱스 반환
-}
+  
 
 private static void scheduleStatusUpdateForTest(String checkInDate, int rowIndex, DefaultTableModel model) {
     try {
@@ -165,16 +134,46 @@ private static void scheduleStatusUpdateForTest(String checkInDate, int rowIndex
 
 
 private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
-    addOrUpdateRow(model); // 공통 메서드 호출
+   DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
-
-    // 창 숨기기
-    this.setVisible(false);
+    // ReservationUtils의 addOrUpdateRow 호출
+    ReservationUtils.addOrUpdateRow(
+        model,
+        uniqueNumber,
+        textName.getText(),
+        textAddress.getText(),
+        textPhoneNumber.getText(),
+        textCheckInDate.getText(),
+        textCheckOutDate.getText(),
+        textRoomNumber.getText(),
+        textGuestCount.getText(),
+        Money.getText(),
+        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
+        thisWeek.isSelected() ? "평일" : "주말",
+        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
+    );
+    uniqueNumber++; // 유니크 번호 증가
+    this.setVisible(false); // 창 숨기기
 }
 public void transferRegistrationToReservation() {
     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
-    addOrUpdateRow(model); // 공통 메서드 호출
+
+    // ReservationUtils의 addOrUpdateRow 호출
+    ReservationUtils.addOrUpdateRow(
+        model,
+        uniqueNumber,
+        textName.getText(),
+        textAddress.getText(),
+        textPhoneNumber.getText(),
+        textCheckInDate.getText(),
+        textCheckOutDate.getText(),
+        textRoomNumber.getText(),
+        textGuestCount.getText(),
+        Money.getText(),
+        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
+        thisWeek.isSelected() ? "평일" : "주말",
+        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
+    );
 }
 
 
@@ -803,10 +802,24 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+    DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
     // addOrUpdateRow를 호출하고 반환된 행 인덱스 사용
-    int rowIndex = addOrUpdateRow(model);
+    int rowIndex = ReservationUtils.addOrUpdateRow(
+            model,
+        uniqueNumber,
+        textName.getText(),
+        textAddress.getText(),
+        textPhoneNumber.getText(),
+        textCheckInDate.getText(),
+        textCheckOutDate.getText(),
+        textRoomNumber.getText(),
+        textGuestCount.getText(),
+        Money.getText(),
+        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
+        thisWeek.isSelected() ? "평일" : "주말",
+        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
+    );
 
     // 체크인 날짜 가져오기
     String checkInDate = textCheckInDate.getText();
