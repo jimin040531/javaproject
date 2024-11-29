@@ -29,7 +29,7 @@ public class Registration extends JFrame {
     private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
-
+    private CardManager cardManager = new CardManager();
 
         
     public void setRoomSelection(boolean isWeekday) {
@@ -709,69 +709,31 @@ public void transferRegistrationToReservation() {
 
     private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
         // 입력 필드에서 값 가져오기
-        String cardNum1 = cardNumTextField1.getText().trim(); // 카드 번호 첫 4자리
-        String cardNum2 = cardNumTextField2.getText().trim(); // 카드 번호 두 번째 4자리
-        String cardNum3 = cardNumTextField3.getText().trim(); // 카드 번호 세 번째 4자리
-        String cardNum4 = cardNumTextField4.getText().trim(); // 카드 번호 네 번째 4자리
-        String month = monthTextField.getText().trim(); // 유효기간 월
-        String year = yearTextField.getText().trim(); // 유효기간 연도
-        String pw = pwTextField.getText().trim(); // 카드 비밀번호 (앞 2자리만 입력받음)
-        String cvc = cvcTextField.getText().trim(); // CVC 번호
+        String cardNum1 = cardNumTextField1.getText().trim();
+    String cardNum2 = cardNumTextField2.getText().trim();
+    String cardNum3 = cardNumTextField3.getText().trim();
+    String cardNum4 = cardNumTextField4.getText().trim();
+    String month = monthTextField.getText().trim();
+    String year = yearTextField.getText().trim();
+    String pw = pwTextField.getText().trim();
+    String cvc = cvcTextField.getText().trim();
 
-        // 입력값 검증
-        if (cardNum1.isEmpty() || cardNum2.isEmpty() || cardNum3.isEmpty() || cardNum4.isEmpty()
-                || month.isEmpty() || year.isEmpty() || pw.isEmpty() || cvc.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(cardRegist, "모든 필드를 입력하세요!", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // 카드 검증
+    if (!cardManager.validateCard(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc)) {
+        JOptionPane.showMessageDialog(cardRegist, "카드 정보가 잘못되었습니다!", "오류", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        if (!cardNum1.matches("\\d{4}") || !cardNum2.matches("\\d{4}")
-                || !cardNum3.matches("\\d{4}") || !cardNum4.matches("\\d{4}")) {
-            javax.swing.JOptionPane.showMessageDialog(cardRegist, "카드 번호는 각 4자리 숫자로 입력하세요!", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (!month.matches("\\d{2}") || !year.matches("\\d{2}") || Integer.parseInt(month) < 1 || Integer.parseInt(month) > 12) {
-            javax.swing.JOptionPane.showMessageDialog(cardRegist, "유효기간을 올바르게 입력하세요! (MM/YY)", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (!pw.matches("\\d{2}")) { // 비밀번호는 2자리 숫자로 제한
-            javax.swing.JOptionPane.showMessageDialog(cardRegist, "비밀번호는 앞 2자리 숫자로 입력하세요!", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (!cvc.matches("\\d{3}")) {
-            javax.swing.JOptionPane.showMessageDialog(cardRegist, "CVC 번호는 3자리 숫자로 입력하세요!", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // 카드 정보 합치기
-        String fullCardNumber = cardNum1 + "-" + cardNum2 + "-" + cardNum3 + "-" + cardNum4; // 카드 번호를 하나로 합침
-        String expirationDate = month + "/" + year; // 유효기간을 MM/YY 형식으로 저장
-
-        // 카드 정보를 저장 (BufferedWriter 사용)
-        try (java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.FileWriter("card_data.txt", true))) { // 기존 데이터에 추가
-            writer.write("카드 번호: " + fullCardNumber + ", 유효기간: " + expirationDate
-                    + ", 비밀번호: " + pw + ", CVC: " + cvc);
-            writer.newLine();  // 줄바꿈 추가
-
-            javax.swing.JOptionPane.showMessageDialog(cardRegist, "카드 정보가 성공적으로 저장되었습니다!", "성공", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-            // 입력 필드 초기화 및 다이얼로그 닫기
-            cardNumTextField1.setText("");
-            cardNumTextField2.setText("");
-            cardNumTextField3.setText("");
-            cardNumTextField4.setText("");
-            monthTextField.setText("");
-            yearTextField.setText("");
-            pwTextField.setText("");
-            cvcTextField.setText("");
-            cardRegist.setVisible(false);
-        } catch (java.io.IOException ex) {
-            javax.swing.JOptionPane.showMessageDialog(cardRegist, "저장 중 오류가 발생했습니다!", "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        }
+    // 카드 정보 저장
+    try {
+        String fullCardNumber = cardNum1 + "-" + cardNum2 + "-" + cardNum3 + "-" + cardNum4;
+        String expirationDate = month + "/" + year;
+        cardManager.saveCardData(fullCardNumber, expirationDate, pw, cvc);
+        JOptionPane.showMessageDialog(cardRegist, "카드 정보가 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
+        cardRegist.setVisible(false);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(cardRegist, "저장 중 오류 발생!", "오류", JOptionPane.ERROR_MESSAGE);
+    }
             labelCardStatus.setVisible(true);
                
 

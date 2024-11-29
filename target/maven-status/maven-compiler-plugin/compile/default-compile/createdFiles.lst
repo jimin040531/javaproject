@@ -85,6 +85,7 @@ deu\hms\login\loginFrame.class
 deu\hms\reservation\Reservation.class
 deu\hms\reservation\Registration$6.class
 deu\hms\login\loginFrame$4.class
+deu\hms\reservation\CardManager.class
 deu\hms\checkin\ReservationLoad.class
 deu\hms\checkin\HotelRoomInfo$RoomPricing.class
 deu\hms\roomservice\ReservationDialog$4$1.class
