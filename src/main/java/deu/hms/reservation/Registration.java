@@ -13,14 +13,11 @@ import java.time.ZoneId;
 import java.util.concurrent.*;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
-import deu.hms.reservation.ReservationUtils;
 
 /**
  *
  * @author adsd3
  */
-
-
 public class Registration extends JFrame {
     
     private reservationFrame reservationFrame;
@@ -42,28 +39,29 @@ public class Registration extends JFrame {
         }
     }
 
-      public void setRegistrationData(ReservationData data) {
-    textName.setText(data.getName());
-    textAddress.setText(data.getAddress());
-    textPhoneNumber.setText(data.getPhoneNumber());
-    textCheckInDate.setText(data.getCheckInDate());
-    textCheckOutDate.setText(data.getCheckOutDate());
-    textRoomNumber.setText(data.getRoomNumber());
-    textGuestCount.setText(data.getGuestCount());
-    Money.setText(data.getStayCost());
+      public void setRegistrationData(String name, String address, String phoneNumber, String checkInDate,
+                                String checkOutDate, String roomNumber, String guestCount,
+                                String paymentMethod, String status, String stayCost) {
+          textName.setText(name);
+         textAddress.setText(address);
+         textPhoneNumber.setText(phoneNumber);
+         textCheckInDate.setText(checkInDate);
+         textCheckOutDate.setText(checkOutDate);
+         textRoomNumber.setText(roomNumber);
+         textGuestCount.setText(guestCount);
+         Money.setText(stayCost);  // 금액 설정
 
-    if (data.getPaymentMethod().equals("현장결제")) {
+        if (paymentMethod.equals("현장결제")) {
         onSitePaymentButton.setSelected(true);
-    } else {
+    } else if (paymentMethod.equals("카드결제")) {
         cardRegistButton.setSelected(true);
     }
-
-    if (data.getRoomSelection().equals("평일")) {
+         if (status.equals("평일")) {
         thisWeek.setSelected(true);
-    } else {
+    } else if (status.equals("주말")) {
         weekend.setSelected(true);
     }
-}
+    }
     public static Registration getInstance(JTable table) {
         if (instance == null) {
             instance = new Registration(table);
@@ -164,22 +162,7 @@ private static void scheduleStatusUpdateForTest(String checkInDate, int rowIndex
         System.err.println("체크인 날짜 형식이 잘못되었습니다: " + e.getMessage());
     }
 }
-public ReservationData getReservationData() {
-    return new ReservationData(
-        String.valueOf(uniqueNumber),
-        textName.getText(),
-        textAddress.getText(),
-        textPhoneNumber.getText(),
-        textCheckInDate.getText(),
-        textCheckOutDate.getText(),
-        textRoomNumber.getText(),
-        textGuestCount.getText(),
-        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
-        thisWeek.isSelected() ? "평일" : "주말",
-        Money.getText(),
-        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
-    );
-}
+
 
 private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
@@ -277,7 +260,6 @@ public void transferRegistrationToReservation() {
             }
         });
     }
-
 
 
     /**
@@ -821,29 +803,24 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-    DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
-// ReservationData 객체 생성
-ReservationData data = ReservationUtils.createReservationData(
-    String.valueOf(uniqueNumber),
-    textName, textAddress, textPhoneNumber,
-    textCheckInDate, textCheckOutDate,
-    textRoomNumber, textGuestCount,
-    Money, onSitePaymentButton, thisWeek,
-    labelCardStatus
-);
+    // addOrUpdateRow를 호출하고 반환된 행 인덱스 사용
+    int rowIndex = addOrUpdateRow(model);
 
-// addOrUpdateRow를 호출하고 반환된 행 인덱스 사용
-int rowIndex = ReservationUtils.addOrUpdateRow(model, data);
+    // 체크인 날짜 가져오기
+    String checkInDate = textCheckInDate.getText();
 
-// 상태 업데이트 예약
-ReservationUtils.scheduleStatusUpdateForTest(data.getCheckInDate(), rowIndex, model);
+    // 상태 업데이트 예약
+    scheduleStatusUpdateForTest(checkInDate, rowIndex, model);
 
-// 유니크 번호 증가
-uniqueNumber++;
+    // 유니크 번호 증가
+    uniqueNumber++;
 
-// 예약 완료 메시지 표시
-labelReservationStatus.setVisible(true);
+    // 예약 완료 메시지 표시
+    labelReservationStatus.setVisible(true);
+
+        // 저장 후 입력 필드 초기화
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed

@@ -20,9 +20,6 @@ import java.time.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.List;
-import java.util.ArrayList;
-import deu.hms.reservation.ReservationUtils;
 
 
 
@@ -31,8 +28,6 @@ import deu.hms.reservation.ReservationUtils;
  *
  * @author adsd3
  */
-
-
 public class reservationFrame extends javax.swing.JDialog {
 
     private DefaultTableModel tableModel;
@@ -43,7 +38,6 @@ public class reservationFrame extends javax.swing.JDialog {
 private JLabel cardStatusLabel;  // 카드 등록 상태
     private JLabel reservationStatusLabel;  // 예약 상태
     private JLabel autoPaymentTimeLabel;  // 자동 결제 시간
-private List<ReservationData> reservations = new ArrayList<>();
 
     
     public static reservationFrame getInstance() {
@@ -56,20 +50,6 @@ private List<ReservationData> reservations = new ArrayList<>();
     public JTable getMainTable() {
         return mainTable;
     }
-    private void updateTable() {
-    DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
-    model.setRowCount(0); // 기존의 모든 행 삭제
-
-    // reservations 리스트의 데이터를 테이블에 추가
-    for (ReservationData data : reservations) {
-        model.addRow(new Object[]{
-            data.getUniqueNumber(), data.getName(), data.getAddress(),
-            data.getPhoneNumber(), data.getCheckInDate(), data.getCheckOutDate(),
-            data.getRoomNumber(), data.getGuestCount(), data.getStayCost(),
-            data.getPaymentMethod(), data.getRoomSelection(), data.getCardStatus()
-        });
-    }
-}
 
     /**
      * Creates new form reservationFrame
@@ -115,8 +95,6 @@ private List<ReservationData> reservations = new ArrayList<>();
     }
    
    
-    
-
     
     // 클래스의 나머지 내용들...
     /**
@@ -238,7 +216,7 @@ int selectedRow = mainTable.getSelectedRow();
 
    // Registration 폼에 데이터 설정
     registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate,
-                                          roomNumber, guestCount, paymentMethod, status, stayCost,);
+                                          roomNumber, guestCount, paymentMethod, status, stayCost);
 
     // Registration 폼 보이기
     registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
@@ -260,7 +238,7 @@ int selectedRow = mainTable.getSelectedRow();
 private String getStringValue(Object value) {
     return value == null ? "" : value.toString();
 
-
+    
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
