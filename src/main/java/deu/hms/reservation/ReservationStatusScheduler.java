@@ -27,7 +27,8 @@ public class ReservationStatusScheduler {
             // 체크인 날짜 파싱
             LocalDate checkInDay = LocalDate.parse(checkInDate);
             LocalDateTime now = LocalDateTime.now();
-            LocalDateTime targetTime = checkInDay.atTime(18, 0); // 오후 6시 기준
+            //LocalDateTime targetTime = checkInDay.atTime(18, 0); // 오후 6시 기준
+            LocalDateTime targetTime = LocalDateTime.now().plusSeconds(20);//test용
 
             // 딜레이 계산
             long delay = Duration.between(now, targetTime).toMillis();
