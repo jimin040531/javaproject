@@ -30,6 +30,7 @@ public class Registration extends JFrame {
     private static int uniqueNumber = 1;
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
     private CardManager cardManager = new CardManager();
+    private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
 
         
     public void setRoomSelection(boolean isWeekday) {
@@ -98,69 +99,45 @@ private boolean isCardRegistered() {
     }
   
 
-private static void scheduleStatusUpdateForTest(String checkInDate, int rowIndex, DefaultTableModel model) {
-    try {
-        LocalDate checkInDay = LocalDate.parse(checkInDate);
-        LocalDateTime now = LocalDateTime.now();
-        //LocalDateTime targetTime = checkInDay.atTime(18, 0); // 체크인 시간 오후 6시
-                LocalDateTime targetTime = LocalDateTime.now().plusSeconds(20);
 
-        long delay = Duration.between(now, targetTime).toMillis();
-
-        if (delay < 0) {
-            System.out.println("체크인 날짜가 이미 지났습니다.");
-            return;
-        }
-
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.schedule(() -> {
-            SwingUtilities.invokeLater(() -> {
-                // 정확한 행 인덱스를 사용하여 상태 업데이트
-                String cardStatus = (String) model.getValueAt(rowIndex, 11);
-
-                if ("카드등록".equals(cardStatus)) {
-                    model.setValueAt("예약확정", rowIndex, 11);
-                } else {
-                    model.setValueAt("예약취소", rowIndex, 11);
-                }
-            });
-            scheduler.shutdown();
-        }, delay, TimeUnit.MILLISECONDS);
-
-    } catch (Exception e) {
-        System.err.println("체크인 날짜 형식이 잘못되었습니다: " + e.getMessage());
-    }
+private ReservationData populateReservationData() { //
+    return new ReservationData(
+        uniqueNumber,
+        textName.getText(),
+        textAddress.getText(),
+        textPhoneNumber.getText(),
+        textCheckInDate.getText(),
+        textCheckOutDate.getText(),
+        textRoomNumber.getText(),
+        textGuestCount.getText(),
+        Money.getText(),
+        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
+        thisWeek.isSelected() ? "평일" : "주말",
+        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
+    );
 }
 
 
 private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-   DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+       DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+
+    // populateReservationData 호출로 ReservationData 생성
+    ReservationData reservationData = populateReservationData();
 
     // ReservationUtils의 addOrUpdateRow 호출
-    ReservationUtils.addOrUpdateRow(
-        model,
-        uniqueNumber,
-        textName.getText(),
-        textAddress.getText(),
-        textPhoneNumber.getText(),
-        textCheckInDate.getText(),
-        textCheckOutDate.getText(),
-        textRoomNumber.getText(),
-        textGuestCount.getText(),
-        Money.getText(),
-        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
-        thisWeek.isSelected() ? "평일" : "주말",
-        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
-    );
-    uniqueNumber++; // 유니크 번호 증가
-    this.setVisible(false); // 창 숨기기
+    ReservationUtils.addOrUpdateRow(model, reservationData);
+
+    // 유니크 번호 증가
+    uniqueNumber++;
+
+    // 창 숨기기
+    this.setVisible(false);
 }
 public void transferRegistrationToReservation() {
-    DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
-    // ReservationUtils의 addOrUpdateRow 호출
-    ReservationUtils.addOrUpdateRow(
-        model,
+    // ReservationData 객체 생성
+    ReservationData reservationData = new ReservationData(
         uniqueNumber,
         textName.getText(),
         textAddress.getText(),
@@ -174,6 +151,9 @@ public void transferRegistrationToReservation() {
         thisWeek.isSelected() ? "평일" : "주말",
         labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
     );
+
+    // ReservationUtils의 addOrUpdateRow 호출
+    ReservationUtils.addOrUpdateRow(model, reservationData);
 }
 
 
@@ -764,38 +744,23 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-    DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
-    // addOrUpdateRow를 호출하고 반환된 행 인덱스 사용
-    int rowIndex = ReservationUtils.addOrUpdateRow(
-            model,
-        uniqueNumber,
-        textName.getText(),
-        textAddress.getText(),
-        textPhoneNumber.getText(),
-        textCheckInDate.getText(),
-        textCheckOutDate.getText(),
-        textRoomNumber.getText(),
-        textGuestCount.getText(),
-        Money.getText(),
-        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
-        thisWeek.isSelected() ? "평일" : "주말",
-        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
-    );
+    // populateReservationData 호출로 ReservationData 생성
+    ReservationData reservationData = populateReservationData();
 
-    // 체크인 날짜 가져오기
-    String checkInDate = textCheckInDate.getText();
+    // addOrUpdateRow 호출
+    int rowIndex = ReservationUtils.addOrUpdateRow(model, reservationData);
 
-    // 상태 업데이트 예약
-    scheduleStatusUpdateForTest(checkInDate, rowIndex, model);
+    // 상태 업데이트 예약 (스케줄러 사용)
+    String checkInDate = reservationData.getCheckInDate();
+    statusScheduler.scheduleStatusUpdate(checkInDate, rowIndex, model);
 
     // 유니크 번호 증가
     uniqueNumber++;
 
     // 예약 완료 메시지 표시
     labelReservationStatus.setVisible(true);
-
-        // 저장 후 입력 필드 초기화
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
