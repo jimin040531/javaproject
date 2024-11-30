@@ -4,14 +4,21 @@
  */
 package deu.hms.reservation;
 
-import javax.swing.table.DefaultTableModel;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author adsd3
  */
 public class TableManager {
     private DefaultTableModel tableModel;
+
+
 
     public TableManager(DefaultTableModel tableModel) {
         this.tableModel = tableModel;
@@ -35,18 +42,24 @@ public class TableManager {
         });
     }
 
-    // 파일 데이터를 테이블에 로드
-    public void loadTableData(List<String[]> fileData) {
-        tableModel.setRowCount(0); // 기존 테이블 데이터 삭제
+      public List<String[]> readFile(String filePath) {
+        List<String[]> data = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // CSV 형식으로 구분된 데이터를 배열로 변환
+                String[] rowData = line.split(","); // 콤마로 구분
+                data.add(rowData);
+            }
+        } catch (IOException e) {
+            System.err.println("파일 읽기 오류: " + e.getMessage());
+        }
+        return data;
+    }
+       public void loadTableData(List<String[]> fileData) {
+        tableModel.setRowCount(0); // 기존 데이터 삭제
         for (String[] row : fileData) {
             tableModel.addRow(row);
-        }
-    }
-
-    // 특정 행 삭제
-    public void deleteRow(int rowIndex) {
-        if (rowIndex >= 0 && rowIndex < tableModel.getRowCount()) {
-            tableModel.removeRow(rowIndex);
         }
     }
 }

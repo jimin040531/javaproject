@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.List; 
 
 
 
@@ -40,13 +41,13 @@ private JLabel cardStatusLabel;  // 카드 등록 상태
     private JLabel autoPaymentTimeLabel;  // 자동 결제 시간
 
     
+    
     public static reservationFrame getInstance() {
-        if (instance == null) {
-            instance = new reservationFrame();
-        }
-        return instance;
+    if (instance == null) {
+        instance = new reservationFrame(); // Singleton 패턴을 통해 객체 생성
     }
-
+    return instance;
+}
     public JTable getMainTable() {
         return mainTable;
     }
@@ -71,19 +72,47 @@ private JLabel cardStatusLabel;  // 카드 등록 상태
 
         }
     }//
+private void initializeTableFromFile() {
+     try {
+        TableManager tableManager = new TableManager((DefaultTableModel) mainTable.getModel());
 
+        // 파일에서 데이터를 읽음
+        List<String[]> fileData = tableManager.readFile("Reservation.txt");
+
+        // 데이터를 테이블에 로드
+        tableManager.loadTableData(fileData);
+
+        System.out.println("파일에서 데이터를 성공적으로 불러왔습니다.");
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "파일을 불러오는 중 오류가 발생했습니다: " + e.getMessage());
+    }
+}
     // 기본 생성자 추가
     public reservationFrame() {
-        mainTable = new JTable();
+    // 테이블 초기화
+    mainTable = new JTable();
 
-        setTitle("Reservation Frame");
-        setSize(600, 400);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-        initComponents();
-            registrationFrame = new Registration(this);  // Registration 인스턴스를 초기화
-            initializeStatusLabels();        
-    }
+    // 테이블 모델 설정
+    mainTable.setModel(new DefaultTableModel(
+        new Object[][]{},
+        new String[]{
+            "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜",
+            "방번호", "인원수", "결제수단", "평일/주말", "금액", "상태"
+        }
+    ));
+    initComponents();
+
+    // 기타 초기화 작업
+    initializeTableFromFile();
+    setTitle("Reservation Frame");
+    setSize(600, 400);
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    setLocationRelativeTo(null);
+    registrationFrame = new Registration(this); // Registration 인스턴스 초기화
+    initializeStatusLabels();
+}
+    
     private void initializeStatusLabels() {
         cardStatusLabel = new JLabel("카드 미등록");
 
@@ -182,15 +211,14 @@ private JLabel cardStatusLabel;  // 카드 등록 상태
 
 
     private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
-        this.dispose();
+       this.dispose();
 
-        Registration registrationFrame = new Registration();
-        registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
-        registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
-        registrationFrame.setTitle("정보등록");  // 다이얼로그 제목 설정 
-
-        registrationFrame.toFront();
-        registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
+    Registration registrationFrame = new Registration(this);
+    registrationFrame.setSize(500, 450);
+    registrationFrame.setLocationRelativeTo(this);
+    registrationFrame.setTitle("정보등록");
+    registrationFrame.setVisible(true);
+        
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
@@ -303,14 +331,14 @@ private String getStringValue(Object value) {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                reservationFrame dialog = new reservationFrame(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                reservationFrame frame = new reservationFrame();
+
+            // 테이블 초기화 (파일 로드)
+            frame.initializeTableFromFile();
+
+            frame.setVisible(true); // 메인 화면 표시
+               frame.setSize(850, 250);
+
             }
         });
     }

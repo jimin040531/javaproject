@@ -14,7 +14,7 @@ import java.util.concurrent.*;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import deu.hms.reservation.ReservationUtils;
-
+import java.io.IOException; 
 /**
  *
  * @author adsd3
@@ -31,7 +31,7 @@ public class Registration extends JFrame {
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
     private CardManager cardManager = new CardManager();
     private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
-
+private reservationFrame parentFrame;
         
     public void setRoomSelection(boolean isWeekday) {
         if (isWeekday) {
@@ -64,12 +64,10 @@ public class Registration extends JFrame {
         weekend.setSelected(true);
     }
     }
-    public static Registration getInstance(JTable table) {
-        if (instance == null) {
-            instance = new Registration(table);
-        }
-        return instance;
-    }
+    public Registration(reservationFrame parentFrame) {
+    this.parentFrame = parentFrame; // 부모 프레임 저장
+    initComponents();
+}
 
     private Registration(JTable table) {
         this.mainTable = table;
@@ -158,11 +156,7 @@ public void transferRegistrationToReservation() {
     /**
      * Creates new form Registration
      */
-    public Registration(reservationFrame reservationFrame) {
-        this.reservationFrame = reservationFrame; // 전달받은 객체를 멤버 변수로 저장
-        initComponents(); // UI 초기화
-
-    }
+    
 
     public Registration() {
         initComponents();
@@ -732,33 +726,50 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+       if (parentFrame == null) {
+        JOptionPane.showMessageDialog(this, "ReservationFrame이 초기화되지 않았습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-    // populateReservationData 호출로 ReservationData 생성
+    // ReservationData 객체 생성
     ReservationData reservationData = populateReservationData();
 
-    // addOrUpdateRow 호출
-    int rowIndex = ReservationUtils.addOrUpdateRow(model, reservationData);
+    try {
+        String dataToSave = reservationData.getUniqueNumber() + "," +
+                            reservationData.getName() + "," +
+                            reservationData.getAddress() + "," +
+                            reservationData.getPhoneNumber() + "," +
+                            reservationData.getCheckInDate() + "," +
+                            reservationData.getCheckOutDate() + "," +
+                            reservationData.getRoomNumber() + "," +
+                            reservationData.getGuestCount() + "," +
+                            reservationData.getStayCost() + "," +
+                            reservationData.getPaymentMethod() + "," +
+                            reservationData.getRoomSelection() + "," +
+                            reservationData.getCardStatus();
 
-    // 상태 업데이트 예약 (스케줄러 사용)
-    String checkInDate = reservationData.getCheckInDate();
-    statusScheduler.scheduleStatusUpdate(checkInDate, rowIndex, model);
+        FileManager.saveToFile(dataToSave);
 
-    // 유니크 번호 증가
-    uniqueNumber++;
+        JOptionPane.showMessageDialog(this, "예약이 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
 
-    // 예약 완료 메시지 표시
-    labelReservationStatus.setVisible(true);
+        DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
+        ReservationUtils.addOrUpdateRow(model, reservationData);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "저장 중 오류가 발생했습니다: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         setVisible(false);
 
-        // 이전에 생성된 reservationFrame을 다시 표시
-        if (reservationFrame != null) {
-            reservationFrame.setVisible(true); // 기존 예약 화면 보이기
-        }
+    // 이전에 생성된 reservationFrame이 null인지 확인
+    if (reservationFrame == null) {
+        reservationFrame = new reservationFrame(); // 새로운 reservationFrame 생성
+        reservationFrame.setSize(850, 250);
+        reservationFrame.setLocationRelativeTo(null);
+    }
 
+    reservationFrame.setVisible(true); // 예약 화면 보이기
     }//GEN-LAST:event_backActionPerformed
 
 
