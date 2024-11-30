@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-D:\Java\javaproject\src\main\java\deu\hms\checkin\checkinFrame.java
-D:\Java\javaproject\src\main\java\deu\hms\checkin\HotelRoomInfo.java
-D:\Java\javaproject\src\main\java\deu\hms\checkout\checkoutFrame.java
-D:\Java\javaproject\src\main\java\deu\hms\login\loginFrame.java
-D:\Java\javaproject\src\main\java\deu\hms\login\MainScreenEmployees.java
-D:\Java\javaproject\src\main\java\deu\hms\login\MainScreenManager.java
-D:\Java\javaproject\src\main\java\deu\hms\login\User.java
-D:\Java\javaproject\src\main\java\deu\hms\login\UserAuthentication.java
-D:\Java\javaproject\src\main\java\deu\hms\login\Users.java
-D:\Java\javaproject\src\main\java\deu\hms\mangement\managementFrame.java
-D:\Java\javaproject\src\main\java\deu\hms\report\reportFrame.java
-D:\Java\javaproject\src\main\java\deu\hms\reservation\Change.java
-D:\Java\javaproject\src\main\java\deu\hms\reservation\EditForm.java
-D:\Java\javaproject\src\main\java\deu\hms\reservation\Registration.java
-D:\Java\javaproject\src\main\java\deu\hms\reservation\reservationFrame.java
-D:\Java\javaproject\src\main\java\deu\hms\restaurant\ReservationDialog.java
-D:\Java\javaproject\src\main\java\deu\hms\restaurant\ReservationViewDialog.java
-D:\Java\javaproject\src\main\java\deu\hms\restaurant\restaurantFrame.java
-D:\Java\javaproject\src\main\java\deu\hms\roomservice\roomserviceFrame.java
-=======
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\Reservation.java
 C:\javaProject\javaproject\src\main\java\deu\hms\accountManagement\accountFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\checkout\checkoutFrame.java
@@ -30,7 +9,6 @@ C:\javaProject\javaproject\src\main\java\deu\hms\checkin\checkinFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\report\reportFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\login\loginFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\login\MainScreenEmployees.java
-C:\javaProject\javaproject\src\main\java\deu\hms\roomservice\ReservationDialog.java
 C:\javaProject\javaproject\src\main\java\deu\hms\checkin\HotelRoomInfo.java
 C:\javaProject\javaproject\src\main\java\deu\hms\login\Users.java
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\CardManager.java
@@ -41,10 +19,8 @@ C:\javaProject\javaproject\src\main\java\deu\hms\reservation\ReservationStatusSc
 C:\javaProject\javaproject\src\main\java\deu\hms\restaurant\ReservationDialog.java
 C:\javaProject\javaproject\src\main\java\deu\hms\roomManagement\roomFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\Registration.java
-C:\javaProject\javaproject\src\main\java\deu\hms\roomservice\ReservationViewDialog.java
 C:\javaProject\javaproject\src\main\java\deu\hms\login\UserAuthentication.java
 C:\javaProject\javaproject\src\main\java\deu\hms\management\managementFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\checkin\ReservationLoad.java
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\reservationFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\restaurantManagement\restaurantFrame.java
->>>>>>> jinho

@@ -134,27 +134,15 @@ private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
     this.setVisible(false);
 }
 public void transferRegistrationToReservation() {
-     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+    DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
     // ReservationData 객체 생성
-    ReservationData reservationData = new ReservationData(
-        uniqueNumber,
-        textName.getText(),
-        textAddress.getText(),
-        textPhoneNumber.getText(),
-        textCheckInDate.getText(),
-        textCheckOutDate.getText(),
-        textRoomNumber.getText(),
-        textGuestCount.getText(),
-        Money.getText(),
-        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
-        thisWeek.isSelected() ? "평일" : "주말",
-        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
-    );
+    ReservationData reservationData = populateReservationData();
 
     // ReservationUtils의 addOrUpdateRow 호출
     ReservationUtils.addOrUpdateRow(model, reservationData);
 }
+
 
 
     private void clearFields() {

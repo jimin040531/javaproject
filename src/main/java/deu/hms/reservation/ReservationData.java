@@ -90,4 +90,5 @@ public class ReservationData {
     public String getCardStatus() {
         return cardStatus;
     }
+
 }
