@@ -30,6 +30,7 @@ deu\hms\roomManagement\roomFrame.class
 deu\hms\checkin\checkinFrame$8.class
 deu\hms\roomservice\roomserviceFrame$6.class
 deu\hms\roomservice\roomserviceFrame$3.class
+deu\hms\reservation\reservationFrame$4$1.class
 deu\hms\checkin\checkinFrame$12.class
 deu\hms\restaurant\ReservationDialog$3.class
 deu\hms\checkin\checkinFrame$16.class
@@ -68,7 +69,6 @@ deu\hms\restaurant\ReservationViewDialog.class
 deu\hms\roomservice\roomserviceFrame$1.class
 deu\hms\roomservice\roomserviceFrame$8.class
 deu\hms\restaurant\ReservationViewDialog$1$1.class
-deu\hms\reservation\reservationFrame$5$1.class
 deu\hms\report\reportFrame$1.class
 deu\hms\reservation\Registration.class
 deu\hms\restaurant\restaurantFrame$5$1.class
@@ -145,7 +145,6 @@ deu\hms\restaurantManagement\restaurantFrame$1.class
 deu\hms\roomManagement\roomFrame$4.class
 deu\hms\restaurant\restaurantFrame$5.class
 deu\hms\management\managementFrame$2.class
-deu\hms\reservation\reservationFrame$5.class
 deu\hms\login\MainScreenEmployees$5.class
 deu\hms\management\managementFrame$5$1.class
 deu\hms\restaurantManagement\restaurantFrame.class

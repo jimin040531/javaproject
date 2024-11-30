@@ -121,25 +121,15 @@ public class reservationFrame extends javax.swing.JDialog {
 
 
     private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
-    Registration registrationFrame = new Registration(this); // 부모 프레임 전달
-    registrationFrame.setSize(600, 400); // 크기 설정 (UI에 맞게)
-    registrationFrame.setLocationRelativeTo(this); // 부모 창 기준 중앙에 표시
-    registrationFrame.setTitle("정보 등록");
+   this.dispose();
 
-    // 부모 창 비활성화
-    this.setEnabled(false);
+        Registration registrationFrame = new Registration();
+        registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
+        registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+        registrationFrame.setTitle("정보등록");  // 다이얼로그 제목 설정 
 
-    // Registration 창 닫힐 때 부모 창 다시 활성화
-    registrationFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-        @Override
-        public void windowClosing(java.awt.event.WindowEvent e) {
-            setEnabled(true); // 부모 창 다시 활성화
-            toFront(); // 부모 창 앞으로 가져오기
-        }
-    });
-
-    // Registration 창 표시
-    registrationFrame.setVisible(true);
+        registrationFrame.toFront();
+        registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
