@@ -4,23 +4,8 @@
  */
 package deu.hms.reservation;
 
-import deu.hms.report.reportFrame;
-import deu.hms.roomservice.roomserviceFrame;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Duration;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
+import javax.swing.*;
 
 
 /**
@@ -29,72 +14,26 @@ import java.util.concurrent.TimeUnit;
  * @author adsd3
  */
 public class reservationFrame extends javax.swing.JDialog {
-
-    private DefaultTableModel tableModel;
-    private JTable dataTable;
-    private javax.swing.JTable reservationTable;
-    private static reservationFrame instance;
     private Registration registrationFrame;
-private JLabel cardStatusLabel;  // 카드 등록 상태
-    private JLabel reservationStatusLabel;  // 예약 상태
-    private JLabel autoPaymentTimeLabel;  // 자동 결제 시간
 
     
-    public static reservationFrame getInstance() {
-        if (instance == null) {
-            instance = new reservationFrame();
-        }
-        return instance;
-    }
-
-    public JTable getMainTable() {
-        return mainTable;
-    }
-
-    /**
-     * Creates new form reservationFrame
-     */
-    public DefaultTableModel getReservationTableModel() {
-        return tableModel;
-    }
-
-    private void openRegistrationFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        Registration registrationForm = new Registration(this);  // 현재의 reservationFrame 객체를 전달
-        registrationForm.setVisible(true);
-    }
-
-    public reservationFrame(java.awt.Frame parent, boolean modal) {
+ public reservationFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-
         initComponents();
-        {
 
+        // 등록 버튼 클릭 이벤트 추가
+        goReservation.addActionListener(evt -> openRegistrationDialog());
+    }
+ 
+     private void openRegistrationDialog() {
+        if (registrationFrame == null) {
+            registrationFrame = new Registration(this); // 현재 ReservationFrame을 부모로 설정
         }
-    }//
-
-    // 기본 생성자 추가
-    public reservationFrame() {
-        mainTable = new JTable();
-
-        setTitle("Reservation Frame");
-        setSize(600, 400);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-        initComponents();
-            registrationFrame = new Registration(this);  // Registration 인스턴스를 초기화
-            initializeStatusLabels();        
+        registrationFrame.setLocationRelativeTo(this); // 화면 중앙에 배치
+        registrationFrame.setVisible(true); // Registration 창 표시
     }
-    private void initializeStatusLabels() {
-        cardStatusLabel = new JLabel("카드 미등록");
-
-        reservationStatusLabel = new JLabel("예약 미완료");
-
-        // 패널에 추가하는 코드
-        this.add(cardStatusLabel);
-        this.add(reservationStatusLabel);
-    }
-   
-   
+    
+    
     
     // 클래스의 나머지 내용들...
     /**
@@ -182,122 +121,42 @@ private JLabel cardStatusLabel;  // 카드 등록 상태
 
 
     private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
-        this.dispose();
+    Registration registrationFrame = new Registration(this); // 부모 프레임 전달
+    registrationFrame.setSize(600, 400); // 크기 설정 (UI에 맞게)
+    registrationFrame.setLocationRelativeTo(this); // 부모 창 기준 중앙에 표시
+    registrationFrame.setTitle("정보 등록");
 
-        Registration registrationFrame = new Registration();
-        registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
-        registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
-        registrationFrame.setTitle("정보등록");  // 다이얼로그 제목 설정 
+    // 부모 창 비활성화
+    this.setEnabled(false);
 
-        registrationFrame.toFront();
-        registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
+    // Registration 창 닫힐 때 부모 창 다시 활성화
+    registrationFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            setEnabled(true); // 부모 창 다시 활성화
+            toFront(); // 부모 창 앞으로 가져오기
+        }
+    });
+
+    // Registration 창 표시
+    registrationFrame.setVisible(true);
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
-int selectedRow = mainTable.getSelectedRow();
-
-    // 선택된 행이 있는지 확인
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    // 선택된 행의 데이터를 가져옴
-    String name = getStringValue(mainTable.getValueAt(selectedRow, 1));
-    String address = getStringValue(mainTable.getValueAt(selectedRow, 2));
-      String phoneNumber = getStringValue(mainTable.getValueAt(selectedRow, 3));
-    String checkInDate = getStringValue(mainTable.getValueAt(selectedRow, 4));
-   String checkOutDate = getStringValue(mainTable.getValueAt(selectedRow, 5));
-    String roomNumber = getStringValue(mainTable.getValueAt(selectedRow, 6));
-    String guestCount = getStringValue(mainTable.getValueAt(selectedRow, 7));
-    String paymentMethod = getStringValue(mainTable.getValueAt(selectedRow, 8));
-    String status = getStringValue(mainTable.getValueAt(selectedRow, 9));
-    String stayCost = getStringValue(mainTable.getValueAt(selectedRow, 10));
-
-   // Registration 폼에 데이터 설정
-    registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate,
-                                          roomNumber, guestCount, paymentMethod, status, stayCost);
-
-    // Registration 폼 보이기
-    registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
-    registrationFrame.setVisible(true);
-    
-        // 선택된 행이 있는지 확인
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    else{
-    for (int i = 0; i < mainTable.getColumnCount(); i++) {
-                mainTable.setValueAt("", selectedRow, i);
-            }
-    }
-}
-
-// NullPointerException 방지용 유틸리티 메서드 추가
-private String getStringValue(Object value) {
-    return value == null ? "" : value.toString();
 
     
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
-        // TODO add your handling code here:
-        /*   int selectedRow = mainTable.getSelectedRow();
-    if (selectedRow != -1) {
-        // 선택된 행이 있는 경우 삭제
-        DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
-        model.removeRow(selectedRow);
-    } else {
-        // 행이 선택되지 않았을 경우 경고 메시지
-        JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.");
-    }*/    //테이블칸도 삭제   
-
-        int selectedRow = mainTable.getSelectedRow();
-
-        // 선택된 행이 있는지 확인
-        if (selectedRow != -1) {
-            // 선택된 행의 텍스트를 빈 값으로 설정하여 내용만 삭제
-            for (int i = 0; i < mainTable.getColumnCount(); i++) {
-                mainTable.setValueAt("", selectedRow, i);
-            }
-        } else {
-            // 선택된 행이 없는 경우 경고 메시지 표시
-            JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
-        }
+ 
     }//GEN-LAST:event_goDeleteActionPerformed
 
     /**
      * @param args the command line arguments
      */
      public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+     
         //</editor-fold>
-        //</editor-fold>
-          LocalDateTime now = LocalDateTime.now();
-    String testCheckInDate = now.toLocalDate().toString(); // 오늘 날짜를 체크인 날짜로 설정
-    int testRowIndex = 0; // 테스트할 테이블 행 인덱스
-
 
     // 테이블 모델 생성 및 데이터 삽입
         /* Create and display the dialog */

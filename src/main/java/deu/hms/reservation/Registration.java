@@ -6,228 +6,38 @@ package deu.hms.reservation;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.concurrent.*;
-import java.time.Duration;
-import java.time.format.DateTimeParseException;
-import deu.hms.reservation.ReservationUtils;
 
 /**
  *
  * @author adsd3
  */
 public class Registration extends JFrame {
-    
-    private reservationFrame reservationFrame;
-    private  String cardRegistEered = "카드등록";
-    private  String cardNotRegistEered  = "카드미등록";
-    private static Registration instance; // Singleton 인스턴스
-    private JTable mainTable; // Reservation 테이블과 연결
-    private DefaultTableModel tableModel;
-    private static int uniqueNumber = 1;
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
-    private CardManager cardManager = new CardManager();
-    private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
-
-        
-    public void setRoomSelection(boolean isWeekday) {
-        if (isWeekday) {
-            thisWeek.setSelected(true);
-        } else {
-            weekend.setSelected(true);
-        }
-    }
-
-      public void setRegistrationData(String name, String address, String phoneNumber, String checkInDate,
-                                String checkOutDate, String roomNumber, String guestCount,
-                                String paymentMethod, String status, String stayCost) {
-          textName.setText(name);
-         textAddress.setText(address);
-         textPhoneNumber.setText(phoneNumber);
-         textCheckInDate.setText(checkInDate);
-         textCheckOutDate.setText(checkOutDate);
-         textRoomNumber.setText(roomNumber);
-         textGuestCount.setText(guestCount);
-         Money.setText(stayCost);  // 금액 설정
-
-        if (paymentMethod.equals("현장결제")) {
-        onSitePaymentButton.setSelected(true);
-    } else if (paymentMethod.equals("카드결제")) {
-        cardRegistButton.setSelected(true);
-    }
-         if (status.equals("평일")) {
-        thisWeek.setSelected(true);
-    } else if (status.equals("주말")) {
-        weekend.setSelected(true);
-    }
-    }
-    public static Registration getInstance(JTable table) {
-        if (instance == null) {
-            instance = new Registration(table);
-        }
-        return instance;
-    }
-
-    private Registration(JTable table) {
-        this.mainTable = table;
-        initComponents();
-    }
-
-    public void setMainTable(JTable table) {
-        this.mainTable = table;
-    }
-
-    public JTable getMainTable() {
-        return mainTable;
-    }
-
-    private String generateUniqueId() {
-        return java.util.UUID.randomUUID().toString();
-    }
-
-   
-       // LocalDateTime targetTime = LocalDateTime.of(checkInDay, LocalTime.of(18, 0));
-
- 
-    
-private boolean isCardRegistered() {
-        // 카드 등록 여부를 확인하는 로직 구현 (예: cardRegistButton.isSelected() 등)
-        return cardRegistButton.isSelected();
-    }
   
+    
+      private reservationFrame parentFrame;
 
-
-private ReservationData populateReservationData() { //
-    return new ReservationData(
-        uniqueNumber,
-        textName.getText(),
-        textAddress.getText(),
-        textPhoneNumber.getText(),
-        textCheckInDate.getText(),
-        textCheckOutDate.getText(),
-        textRoomNumber.getText(),
-        textGuestCount.getText(),
-        Money.getText(),
-        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
-        thisWeek.isSelected() ? "평일" : "주말",
-        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
-    );
-}
-
-
-private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-       DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
-
-    // populateReservationData 호출로 ReservationData 생성
-    ReservationData reservationData = populateReservationData();
-
-    // ReservationUtils의 addOrUpdateRow 호출
-    ReservationUtils.addOrUpdateRow(model, reservationData);
-
-    // 유니크 번호 증가
-    uniqueNumber++;
-
-    // 창 숨기기
-    this.setVisible(false);
-}
-public void transferRegistrationToReservation() {
-    DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
-
-    // ReservationData 객체 생성
-    ReservationData reservationData = populateReservationData();
-
-    // ReservationUtils의 addOrUpdateRow 호출
-    ReservationUtils.addOrUpdateRow(model, reservationData);
-}
-
-
-
-    private void clearFields() {
-        textName.setText("");
-        textAddress.setText("");
-        textPhoneNumber.setText("");
-        textCheckInDate.setText("");
-        textCheckOutDate.setText("");
-        textRoomNumber.setText("");
-        textGuestCount.setText("");
-    }
-
-    /**
-     * Creates new form Registration
-     */
-    public Registration(reservationFrame reservationFrame) {
-        this.reservationFrame = reservationFrame; // 전달받은 객체를 멤버 변수로 저장
-        initComponents(); // UI 초기화
-
+    public Registration(reservationFrame parentFrame) {
+        this.parentFrame = parentFrame; // 부모 프레임 저장
+        initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // 닫힐 때만 창 닫기
+        setResizable(false); // 크기 조절 비활성화
     }
 
     public Registration() {
-        initComponents();
-
-        initRadioButtons();
-        this.reservationFrame = reservationFrame.getInstance(); // Singleton 인스턴스 얻기
-
-        initializePlaceholders(); // Placeholder 초기화
-        configurePaymentButtonState();
-        paymentTypeRegistButton.setEnabled(false);
-
-        //
+        initComponents(); // 기본 생성자도 유지
+        customizeComponents(); // 추가 설정
     }
 
-    private void initRadioButtons() {
-        // paymentButtonGroup은 이미 생성되어 있다고 가정
-        // JDialog에 있는 onSitePaymentButton과 cardRegistButton을 ButtonGroup에 추가
-        paymentButtonGroup.add(onSitePaymentButton);
-        paymentButtonGroup.add(cardRegistButton);
-    }
-
-    private void configurePaymentButtonState() {
-        // cardRegistButton을 선택했을 때 paymentTypeRegistButton 활성화
-        cardRegistButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(true));
-
-        // onSitePaymentButton을 선택했을 때 paymentTypeRegistButton 비활성화
-        onSitePaymentButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(false));
-    }
-
-    // 다른 컴포넌트 초기화 후에 호출되는 메서드에 작성
-    private void initializePlaceholders() {
-        setTextFieldPlaceholder(cardNumTextField1, "****");
-        setTextFieldPlaceholder(cardNumTextField2, "****");
-        setTextFieldPlaceholder(cardNumTextField3, "****");
-        setTextFieldPlaceholder(cardNumTextField4, "****");
-        setTextFieldPlaceholder(monthTextField, "MM");
-        setTextFieldPlaceholder(yearTextField, "YY");
-        setTextFieldPlaceholder(pwTextField, "비밀번호 앞 2자리");
-        setTextFieldPlaceholder(cvcTextField, "***");
+    private void customizeComponents() {
+        setLocationRelativeTo(null); // 화면 중앙에 표시
+        setAlwaysOnTop(true); // 창을 항상 최상단에 유지
+        setTitle("정보 등록"); // 창 제목 설정
+        setSize(600, 400); // 예: 600x400 크기로 조정
 
     }
+    
 
-    private void setTextFieldPlaceholder(javax.swing.JTextField textField, String placeholder) {
-        textField.setText(placeholder);
-        textField.setForeground(java.awt.Color.GRAY);
-
-        textField.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (textField.getText().equals(placeholder)) {
-                    textField.setText(""); // 기본 텍스트 제거
-                    textField.setForeground(java.awt.Color.BLACK); // 글자색 검정
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (textField.getText().trim().isEmpty()) {
-                    textField.setText(placeholder); // 기본 텍스트 복원
-                    textField.setForeground(java.awt.Color.GRAY); // 글자색 회색
-                }
-            }
-        });
-    }
-
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -659,13 +469,7 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
-        cardRegist.setSize(295, 220);  // 다이얼로그 크기 설정
-        cardRegist.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
-        cardRegist.setTitle("카드 등록");  // 다이얼로그 제목 설정 
-        cardRegist.setModal(true);
-        cardRegist.setVisible(true);  // 다이얼로그 표시
-        cardRegist.toFront();
-                         
+
 
 // 카드 등록 완료 후 라벨 업데이트
 
@@ -676,34 +480,7 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_textNameActionPerformed
 
     private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
-        // 입력 필드에서 값 가져오기
-        String cardNum1 = cardNumTextField1.getText().trim();
-    String cardNum2 = cardNumTextField2.getText().trim();
-    String cardNum3 = cardNumTextField3.getText().trim();
-    String cardNum4 = cardNumTextField4.getText().trim();
-    String month = monthTextField.getText().trim();
-    String year = yearTextField.getText().trim();
-    String pw = pwTextField.getText().trim();
-    String cvc = cvcTextField.getText().trim();
 
-    // 카드 검증
-    if (!cardManager.validateCard(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc)) {
-        JOptionPane.showMessageDialog(cardRegist, "카드 정보가 잘못되었습니다!", "오류", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    // 카드 정보 저장
-    try {
-        String fullCardNumber = cardNum1 + "-" + cardNum2 + "-" + cardNum3 + "-" + cardNum4;
-        String expirationDate = month + "/" + year;
-        cardManager.saveCardData(fullCardNumber, expirationDate, pw, cvc);
-        JOptionPane.showMessageDialog(cardRegist, "카드 정보가 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
-        cardRegist.setVisible(false);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(cardRegist, "저장 중 오류 발생!", "오류", JOptionPane.ERROR_MESSAGE);
-    }
-            labelCardStatus.setVisible(true);
-               
 
     }//GEN-LAST:event_registButtonActionPerformed
 
@@ -732,32 +509,12 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
-    // populateReservationData 호출로 ReservationData 생성
-    ReservationData reservationData = populateReservationData();
-
-    // addOrUpdateRow 호출
-    int rowIndex = ReservationUtils.addOrUpdateRow(model, reservationData);
-
-    // 상태 업데이트 예약 (스케줄러 사용)
-    String checkInDate = reservationData.getCheckInDate();
-    statusScheduler.scheduleStatusUpdate(checkInDate, rowIndex, model);
-
-    // 유니크 번호 증가
-    uniqueNumber++;
-
-    // 예약 완료 메시지 표시
-    labelReservationStatus.setVisible(true);
+   
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        setVisible(false);
 
-        // 이전에 생성된 reservationFrame을 다시 표시
-        if (reservationFrame != null) {
-            reservationFrame.setVisible(true); // 기존 예약 화면 보이기
-        }
 
     }//GEN-LAST:event_backActionPerformed
 
