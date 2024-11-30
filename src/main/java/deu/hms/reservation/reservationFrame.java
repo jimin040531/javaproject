@@ -124,12 +124,13 @@ public class reservationFrame extends javax.swing.JDialog {
    this.dispose();
 
         Registration registrationFrame = new Registration();
-        registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
         registrationFrame.setLocationRelativeTo(null);  // 부모 컴포넌트를 기준으로 중앙에 배치  
         registrationFrame.setTitle("정보등록");  // 다이얼로그 제목 설정 
 
         registrationFrame.toFront();
         registrationFrame.setVisible(true); // 프레임을 화면에 보이게 설정
+        
+        
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed

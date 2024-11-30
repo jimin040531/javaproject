@@ -31,7 +31,7 @@ public class Registration extends JFrame {
     private void customizeComponents() {
         setLocationRelativeTo(null); // 화면 중앙에 표시
         setAlwaysOnTop(true); // 창을 항상 최상단에 유지
-        setTitle("정보 등록"); // 창 제목 설정
+        setTitle("정보 3등록"); // 창 제목 설정
         setSize(600, 400); // 예: 600x400 크기로 조정
 
     }
@@ -514,8 +514,13 @@ public class Registration extends JFrame {
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+         setVisible(false); // 현재 창 닫기
 
-
+    // 부모 창 활성화
+    if (parentFrame != null) {
+        parentFrame.setVisible(true); // 부모 창 다시 활성화
+        parentFrame.toFront(); // 부모 창 앞으로 가져오기
+    }
     }//GEN-LAST:event_backActionPerformed
 
 
