@@ -153,13 +153,13 @@ private void initializeTableFromFile() {
 
         mainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜", "방번호", "인원수", "결제수단", "평일/주말", "금액", "상태"
+                "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜", "방번호", "인원수", "결제수단", "금액", "상태"
             }
         ));
         jScrollPane1.setViewportView(mainTable);
@@ -189,7 +189,7 @@ private void initializeTableFromFile() {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(goDelete)
                     .addComponent(goEitFom))
@@ -205,28 +205,27 @@ private void initializeTableFromFile() {
 
 
     private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
-
     Registration registrationFrame = new Registration(this);
     registrationFrame.setSize(500, 450);
     registrationFrame.setLocationRelativeTo(this);
     registrationFrame.setTitle("정보등록");
     registrationFrame.setVisible(true);
-        
+    registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
    
-    
-         int selectedRow = mainTable.getSelectedRow();
-
-    // 선택된 행이 있는지 확인
+    int selectedRow = mainTable.getSelectedRow();
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    // 수정 중인 행의 데이터를 가져옴
-    editingRow = selectedRow; // 수정 중인 행 인덱스 설정
+    // 수정 중인 행 인덱스 설정
+    editingRow = selectedRow;
+
+    // 수정 중인 데이터 가져오기
     String name = mainTable.getValueAt(selectedRow, 1).toString();
     String address = mainTable.getValueAt(selectedRow, 2).toString();
     String phoneNumber = mainTable.getValueAt(selectedRow, 3).toString();
@@ -234,17 +233,19 @@ private void initializeTableFromFile() {
     String checkOutDate = mainTable.getValueAt(selectedRow, 5).toString();
     String roomNumber = mainTable.getValueAt(selectedRow, 6).toString();
     String guestCount = mainTable.getValueAt(selectedRow, 7).toString();
-    String stayCost = mainTable.getValueAt(selectedRow, 10).toString();
+    String stayCost = mainTable.getValueAt(selectedRow, 8).toString();
     String paymentMethod = mainTable.getValueAt(selectedRow, 9).toString();
-    String roomSelection = mainTable.getValueAt(selectedRow, 8).toString();
+    String roomSelection = mainTable.getValueAt(selectedRow, 10).toString();
 
-    // Registration 화면에 데이터 전달
-    registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate,
+    // Registration 화면으로 데이터 전달
+    registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate, 
                                           roomNumber, guestCount, paymentMethod, roomSelection, stayCost);
+    registrationFrame.setEditingRow(editingRow); // 수정 행 인덱스 전달
+    registrationFrame.setVisible(true); // Registration 화면 표시
+    registrationFrame.setSize(500, 450); // 창 크기 설정
+    registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
 
-    // Registration 폼 표시
-   registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
-    registrationFrame.setVisible(true);
+   
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
@@ -311,13 +312,12 @@ private void initializeTableFromFile() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 reservationFrame frame = new reservationFrame();
-
+                
             // 테이블 초기화 (파일 로드)
             frame.initializeTableFromFile();
 
             frame.setVisible(true); // 메인 화면 표시
                frame.setSize(850, 250);
-
             }
         });
     }

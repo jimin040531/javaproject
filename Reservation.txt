@@ -1,2 +1,1 @@
-3,임진호,asdas,saahauw,uwdhuq,uwqhduquh,dhwhdquh,hduwhdu,dhwq,카드결제,평일,카드미등록
-4b0b4f12-ce79-4efd-abf3-014ffd90c96d,임진호,asdas,saahauw,uwdhuq,uwqhduquh,dhwhdquh,123,평일,카드결제,주말,카드미등록
+38452f8d-2a25-4cd6-9cfa-87e494ce4719,임진호,야리로30,010-4343-3812,2024-12-12,2024-11-11,101호,1명,10000,카드결제,평일,카드등록

@@ -106,13 +106,11 @@ private boolean isCardRegistered() {
 
 
 private ReservationData populateReservationData() { 
-         String uniqueNumber;
+        String uniqueNumber;
     if (editingRow != -1) {
-        // 기존 데이터의 고유번호 유지
-        uniqueNumber = parentFrame.getMainTable().getValueAt(editingRow, 0).toString();
+        uniqueNumber = parentFrame.getMainTable().getValueAt(editingRow, 0).toString(); // 기존 고유번호 유지
     } else {
-        // 새로운 데이터는 고유번호 생성
-        uniqueNumber = UUID.randomUUID().toString();
+        uniqueNumber = UUID.randomUUID().toString(); // 새로운 고유번호 생성
     }
 
     return new ReservationData(
@@ -127,52 +125,35 @@ private ReservationData populateReservationData() {
         Money.getText(),
         onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
         thisWeek.isSelected() ? "평일" : "주말",
-        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
+        "카드등록"
     );
 }
 
 //Registration에서 저장버튼 
 private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-      DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
-
-    // 수정된 데이터를 기반으로 ReservationData 생성
-    ReservationData updatedData = new ReservationData(
-        editingRow != -1 ? model.getValueAt(editingRow, 0).toString() : UUID.randomUUID().toString(),
-        textName.getText(),
-        textAddress.getText(),
-        textPhoneNumber.getText(),
-        textCheckInDate.getText(),
-        textCheckOutDate.getText(),
-        textRoomNumber.getText(),
-        textGuestCount.getText(),
-        Money.getText(),
-        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
-        thisWeek.isSelected() ? "평일" : "주말",
-        "카드등록"
-    );
+     DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
+    ReservationData updatedData = populateReservationData();
 
     try {
-        // 파일 업데이트
-        if (editingRow != -1) {
-            FileManager.deleteFromFile(updatedData.getUniqueNumber(), "Reservation.txt");
+        // 선택된 행이 있을 경우 삭제 (눈속임 방식)
+        if (editingRow != -1) { 
+            model.removeRow(editingRow); // 테이블에서 선택된 행 삭제
+            FileManager.deleteFromFile(updatedData.getUniqueNumber(), "Reservation.txt"); // 파일에서도 삭제
         }
+
+        // 새 데이터 추가
         FileManager.saveToFile(updatedData.toCSV());
+        TableManager.addRow(model, updatedData);
 
-        // 테이블 업데이트
-        if (editingRow != -1) {
-            TableManager.updateRow(model, editingRow, updatedData);
-        } else {
-            TableManager.addRow(model, updatedData);
-        }
-
-        JOptionPane.showMessageDialog(this, "수정된 데이터가 저장되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "데이터가 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "파일 처리 중 오류가 발생했습니다: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
     }
 
-    this.setVisible(false);
+    this.dispose(); // 창 닫기
     editingRow = -1; // 수정 상태 초기화
 }
+
 public void transferRegistrationToReservation() {
     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
@@ -749,59 +730,54 @@ public void transferRegistrationToReservation() {
         // TODO add your handling code here:
     }//GEN-LAST:event_yearTextFieldActionPerformed
 
-    private void thisWeekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thisWeekActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_thisWeekActionPerformed
-
     private void textAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAddressActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-       if (parentFrame == null) {
-        JOptionPane.showMessageDialog(this, "ReservationFrame이 초기화되지 않았습니다.", "오류", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    // ReservationData 객체 생성
-    ReservationData reservationData = populateReservationData();
+    
+        DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
+    ReservationData updatedData = populateReservationData();
 
     try {
-        String dataToSave = reservationData.getUniqueNumber() + "," +
-                            reservationData.getName() + "," +
-                            reservationData.getAddress() + "," +
-                            reservationData.getPhoneNumber() + "," +
-                            reservationData.getCheckInDate() + "," +
-                            reservationData.getCheckOutDate() + "," +
-                            reservationData.getRoomNumber() + "," +
-                            reservationData.getGuestCount() + "," +
-                            reservationData.getStayCost() + "," +
-                            reservationData.getPaymentMethod() + "," +
-                            reservationData.getRoomSelection() + "," +
-                            reservationData.getCardStatus();
+        if (editingRow != -1) {
+            // 기존 데이터 수정
+            TableManager.updateRow(model, editingRow, updatedData);
+            FileManager.updateInFile(updatedData, "Reservation.txt");
+        } else {
+            // 새 데이터 추가
+            TableManager.addRow(model, updatedData);
+            FileManager.saveToFile(updatedData.toCSV());
+        }
 
-        FileManager.saveToFile(dataToSave);
-
-        JOptionPane.showMessageDialog(this, "예약이 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
-
-        DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
-        ReservationUtils.addOrUpdateRow(model, reservationData);
+        JOptionPane.showMessageDialog(this, "저장 완료!", "성공", JOptionPane.INFORMATION_MESSAGE);
     } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "저장 중 오류가 발생했습니다: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "저장 실패: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
     }
+
+    editingRow = -1; // 수정 상태 초기화
+    
+    
+    
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
       editingRow = -1; // 수정 상태 초기화
-      setVisible(false);
+          this.dispose();
 
     // 이전에 생성된 reservationFrame이 null인지 확인
     if (reservationFrame == null) {
         reservationFrame = new reservationFrame(); // 새로운 reservationFrame 생성
         reservationFrame.setSize(850, 250);
         reservationFrame.setLocationRelativeTo(null);
-    }
+        reservationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
 
+    }
     }//GEN-LAST:event_backActionPerformed
+
+    private void thisWeekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thisWeekActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_thisWeekActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

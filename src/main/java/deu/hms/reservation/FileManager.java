@@ -7,6 +7,7 @@ package deu.hms.reservation;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 /**
  *
  * @author adsd3
@@ -45,33 +46,28 @@ public class FileManager {
 
    // FileManager 클래스에 추가 txt파일 행 삭제기능 
 public static void deleteFromFile(String uniqueNumber, String filePath) throws IOException {
-   File inputFile = new File(filePath); // filePath를 사용
-    File tempFile = new File("temp_" + filePath);
+  List<String> lines = new ArrayList<>();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
-
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
         String line;
         while ((line = reader.readLine()) != null) {
-            // uniqueNumber로 시작하지 않는 행만 파일에 기록
             if (!line.startsWith(uniqueNumber + ",")) {
-                writer.write(line);
-                writer.newLine();
+                lines.add(line);
             }
         }
     }
 
-    if (!inputFile.delete()) {
-        throw new IOException("원본 파일을 삭제할 수 없습니다.");
-    }
-    if (!tempFile.renameTo(inputFile)) {
-        throw new IOException("임시 파일을 원본 파일로 바꿀 수 없습니다.");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        for (String line : lines) {
+            writer.write(line);
+            writer.newLine();
+        }
     }
 }
 
 //txt파일 수정하는 기능
 public static void updateInFile(ReservationData newData, String filePath) throws IOException {
-    File inputFile = new File(filePath);
+  File inputFile = new File(filePath);
     File tempFile = new File("temp_" + filePath);
 
     try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
@@ -79,9 +75,8 @@ public static void updateInFile(ReservationData newData, String filePath) throws
 
         String line;
         while ((line = reader.readLine()) != null) {
-            // 기존 데이터를 대체
             if (line.startsWith(newData.getUniqueNumber() + ",")) {
-                writer.write(newData.toCSV()); // 새 데이터로 대체
+                writer.write(newData.toCSV()); // 수정된 데이터 쓰기
             } else {
                 writer.write(line); // 기존 데이터 유지
             }
@@ -89,13 +84,10 @@ public static void updateInFile(ReservationData newData, String filePath) throws
         }
     }
 
-    // 원본 파일 교체
-    if (!inputFile.delete()) {
-        throw new IOException("원본 파일을 삭제할 수 없습니다.");
-    }
-    if (!tempFile.renameTo(inputFile)) {
-        throw new IOException("임시 파일을 원본 파일로 바꿀 수 없습니다.");
+    if (!inputFile.delete() || !tempFile.renameTo(inputFile)) {
+        throw new IOException("파일 업데이트 실패");
     }
 }
+
 
 }
