@@ -754,7 +754,16 @@ public void transferRegistrationToReservation() {
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
       editingRow = -1; // 수정 상태 초기화
-    this.setVisible(false); // 창 닫기
+      setVisible(false);
+
+    // 이전에 생성된 reservationFrame이 null인지 확인
+    if (reservationFrame == null) {
+        reservationFrame = new reservationFrame(); // 새로운 reservationFrame 생성
+        reservationFrame.setSize(850, 250);
+        reservationFrame.setLocationRelativeTo(null);
+    }
+
+    reservationFrame.setVisible(true); // 예약 화면 보이기
     }//GEN-LAST:event_backActionPerformed
 
 
