@@ -1,11 +1,3 @@
-/**
- *
- * @author Jimin
- */
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package deu.hms.checkin;
 
 import java.io.Serializable;
@@ -20,7 +12,6 @@ import com.toedter.calendar.JDateChooser; // JCalendar 라이브러리 임포트
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.time.DayOfWeek;
 
 public class HotelRoomInfo {
     final JFrame frame;
@@ -28,9 +19,14 @@ public class HotelRoomInfo {
     private JComboBox<String> floorSelector;
     private final JPanel roomPanel;
     private final ReservationManager reservationManager;
+    private final int[] roomPrices;
+    private final String[] roomGrades;
 
     public HotelRoomInfo() {
         reservationManager = new ReservationManager(10, 10); // 10 floors, 10 rooms per floor
+        roomPrices = new int[100]; // 총 100개의 객실 가격 정보를 저장하는 배열
+        roomGrades = new String[100]; // 총 100개의 객실 등급 정보를 저장하는 배열
+        initializeRoomPricesAndGrades();
 
         frame = new JFrame("호텔 객실 정보");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -64,6 +60,20 @@ public class HotelRoomInfo {
         
     }
 
+    private void initializeRoomPricesAndGrades() {
+        for (int i = 0; i < roomPrices.length; i++) {
+            int floor = i / 10;
+            roomPrices[i] = (floor + 1) * 50000; // 각 층마다 기본 가격 설정
+            if (floor >= 0 && floor <= 2) {
+                roomGrades[i] = "Standard";
+            } else if (floor >= 3 && floor <= 6) {
+                roomGrades[i] = "Deluxe";
+            } else {
+                roomGrades[i] = "Suite";
+            }
+        }
+    }
+
     private JPanel createControlPanel() {
         JPanel panel = new JPanel(new FlowLayout());
 
@@ -72,7 +82,7 @@ public class HotelRoomInfo {
 
         floorSelector = new JComboBox<>();
         for (int i = 1; i <= 10; i++) floorSelector.addItem("Floor " + i);
-        panel.add(new JLabel("증 선택:"));
+        panel.add(new JLabel("층 선택:"));
         panel.add(floorSelector);
         
         floorSelector.addActionListener(e -> {
@@ -86,7 +96,7 @@ public class HotelRoomInfo {
         });
 
         JButton roomInfoButton = new JButton("객실 정보 저장");
-        roomInfoButton.addActionListener(e -> updateRoomAvailability());
+        roomInfoButton.addActionListener(e -> saveRoomInfoToFile());
         panel.add(roomInfoButton);
 
         return panel;
@@ -116,7 +126,7 @@ public class HotelRoomInfo {
             if (checkOutDate.isBefore(checkInDate)) {
                 JOptionPane.showMessageDialog(
                     roomPanel,
-                    "체크아웃 날짜는 체크인 날짜보다 나중이어야 합니다. 최소 1발 이상 예상 예약 가능합니다.",
+                    "체크아웃 날짜는 체크인 날짜보다 나중이어야 합니다. 최소 1박 이상 예약 가능합니다.",
                     "날짜 선택 오류",
                     JOptionPane.WARNING_MESSAGE
                 );
@@ -124,7 +134,7 @@ public class HotelRoomInfo {
             } else if (checkOutDate.isEqual(checkInDate)) {
                 JOptionPane.showMessageDialog(
                     roomPanel,
-                    "체크인 날짜와 체크아웃 날짜는 같을 수 없습니다. 최소 1발 이상 예약 가능합니다.",
+                    "체크인 날짜와 체크아웃 날짜는 같을 수 없습니다. 최소 1박 이상 예약 가능합니다.",
                     "날짜 선택 오류",
                     JOptionPane.WARNING_MESSAGE
                 );
@@ -133,30 +143,6 @@ public class HotelRoomInfo {
         }
     }
 
-    public class RoomPricing {
-        private static final int[] FLOOR_BASE_PRICE = {50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000};
-        private static final int WEEKEND_SURCHARGE = 50000;
-
-        public static int calculateRoomPrice(int floor, LocalDate date) {
-            if (floor < 1 || floor > 10) {
-                throw new IllegalArgumentException("유효하지 않은 증 번호입니다.");
-            }
-
-            int basePrice = FLOOR_BASE_PRICE[floor - 1];
-            if (isWeekend(date)) {
-                basePrice += WEEKEND_SURCHARGE;
-            }
-            
-            return basePrice;
-        }
-        
-        private static boolean isWeekend(LocalDate date) {
-            DayOfWeek dayOfWeek = date.getDayOfWeek();
-            return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
-        }
-    }
-
-    
     void updateRoomAvailability() {
         roomPanel.removeAll();
 
@@ -171,7 +157,7 @@ public class HotelRoomInfo {
         LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate());
         LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate());
 
-        // 기본값 설정: 체크인 날짜가 선택되지 않았다면 오늘 날짜, 체크아웃 날짜는 체크인 단중 남
+        // 기본값 설정: 체크인 날짜가 선택되지 않았다면 오늘 날짜, 체크아웃 날짜는 체크인 다음 날
         if (checkInDate == null) {
             checkInDate = LocalDate.now();
         }
@@ -181,23 +167,26 @@ public class HotelRoomInfo {
 
         int selectedFloor = floorSelector.getSelectedIndex();
 
-        // GridLayout으로 변경하여 위에 5개, 아래에 5개 밍칭
+        // GridLayout으로 변경하여 위에 5개, 아래에 5개 배치
         roomPanel.setLayout(new GridLayout(2, 5)); // 2행, 5열로 설정
 
         for (int room = 0; room < 10; room++) {
             // 방 번호 생성
-            String roomNumber = "Room " + (selectedFloor + 1) + String.format("%02d", (room + 1));
+            String roomNumber = (selectedFloor + 1) + String.format("%02d", (room + 1));
 
             // 전체 기간 요금 계산
             int totalPrice = 0;
             LocalDate currentDate = checkInDate;
             while (!currentDate.isAfter(checkOutDate.minusDays(1))) {
-                totalPrice += RoomPricing.calculateRoomPrice(selectedFloor + 1, currentDate);
+                totalPrice += roomPrices[selectedFloor * 10 + room];
                 currentDate = currentDate.plusDays(1);
             }
 
-            // 버튼 텍스트에 방 번호와 총 가격 표시
-            JButton roomButton = new JButton(roomNumber + " - " + totalPrice + "원");
+            // 방 등급 가져오기
+            String roomGrade = roomGrades[selectedFloor * 10 + room];
+
+            // 버튼 텍스트에 방 번호, 총 가격, 등급 표시
+            JButton roomButton = new JButton("" + roomNumber + " / " + totalPrice + " / " + roomGrade);
 
             // 해당 방이 예약 가능한지 확인
             boolean isAvailable = reservationManager.isRoomAvailable(selectedFloor, room, checkInDate, checkOutDate);
@@ -225,6 +214,18 @@ public class HotelRoomInfo {
         roomPanel.repaint();
     }
 
+    private void saveRoomInfoToFile() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("room_info.txt"))) {
+            for (int i = 0; i < roomPrices.length; i++) {
+                writer.write("Room " + (i + 1) + ": Price = " + roomPrices[i] + ", Grade = " + roomGrades[i]);
+                writer.newLine();
+            }
+            JOptionPane.showMessageDialog(frame, "객실 정보가 저장되었습니다.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(frame, "객실 정보 저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     private void attemptReservation(int floor, int room, LocalDate checkIn, LocalDate checkOut) {
         // 체크인 및 체크아웃 날짜가 선택되지 않은 경우 경고 메시지 표시
@@ -284,10 +285,18 @@ class ReservationManager {
         return true;
     }
 
+    public void updateRoomGrade(int floor, int room, String newGrade) {
+        int roomIndex = floor * 10 + room;
+        if (roomIndex >= 0 && roomIndex < floors.size() * 10) {
+            floors.get(floor).getRoom(room).setRoomGrade(newGrade);
+            saveReservations();
+        }
+    }
+
     // 파일로 예약 정보 저장
     public void saveReservations() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
-            out.writeObject(floors); // 모든 증의 예약 정보 저장
+            out.writeObject(floors); // 모든 층의 예약 정보 저장
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -333,17 +342,18 @@ class Floor implements Serializable {
 
 class Room implements Serializable {
     private final Map<LocalDate, Boolean> reservations = new HashMap<>();
+    private String roomGrade;
 
     public boolean isAvailable(LocalDate checkIn, LocalDate checkOut) {
         if (checkIn == null || checkOut == null) {
-            return false; // 날짜가 null인 경우 예약 부담 처리
+            return false; // 날짜가 null인 경우 예약 불가 처리
         }
 
         LocalDate date = checkIn;
         while (date.isBefore(checkOut)) {
-            // 예약된 날짜를 확인하고, 해당 날짜가 예약된 상태가 아닌한 계속 진행
+            // 예약된 날짜를 확인하고, 해당 날짜가 예약된 상태가 아닌 경우 계속 진행
             if (reservations.containsKey(date) && reservations.get(date)) {
-                return false; // 예약된 날짜가 있으면 해당 방은 부가
+                return false; // 예약된 날짜가 있으면 해당 방은 예약 불가
             }
             date = date.plusDays(1);
         }
@@ -367,5 +377,9 @@ class Room implements Serializable {
             reservations.put(date, false); // 체크아웃 시 예약 해제
             date = date.plusDays(1);
         }
+    }
+
+    public void setRoomGrade(String newGrade) {
+        this.roomGrade = newGrade;
     }
 }

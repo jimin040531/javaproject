@@ -4,18 +4,26 @@
  */
 package deu.hms.roomManagement;
 
+import javax.swing.*;
+
 /**
  *
  * @author Jimin
  */
 public class roomFrame extends javax.swing.JDialog {
-
+    private final RoomManager roomManager;
     /**
      * Creates new form roomFrame
      */
     public roomFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        roomManager = new RoomManager();
+        loadRoomData();
+    }   
+
+    private void loadRoomData() {
+        roomManager.loadRoomDataToTable(restTable);
     }
 
     /**
@@ -27,6 +35,7 @@ public class roomFrame extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
         restaurantManagement = new javax.swing.JLabel();
         jScrollPane = new javax.swing.JScrollPane();
         restTable = new javax.swing.JTable();
@@ -35,6 +44,17 @@ public class roomFrame extends javax.swing.JDialog {
         addButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
 
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         restaurantManagement.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
@@ -42,20 +62,20 @@ public class roomFrame extends javax.swing.JDialog {
 
         restTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "객실 층", "객실 가격"
+                "객실 층", "객실 가격", "객실 등급"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -147,14 +167,46 @@ public class roomFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_restTableMouseClicked
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-
+    // 저장 버튼 로직은 이미 RoomManager의 메소드에서 처리되고 있음
+        JOptionPane.showMessageDialog(this, "객실 정보가 저장되었습니다.");
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+    // 선택된 행 삭제 로직 추가
+        int selectedRow = restTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "삭제할 객실을 선택하세요.", "선택 오류", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
+        int floor = (int) restTable.getValueAt(selectedRow, 0);
+        int roomNumber = (int) restTable.getValueAt(selectedRow, 1);
+        roomManager.deleteRoom(floor, roomNumber);
+        loadRoomData();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+    // 객실 등록 로직 추가
+        String floorStr = JOptionPane.showInputDialog(this, "층을 입력하세요:");
+        String roomNumberStr = JOptionPane.showInputDialog(this, "방 번호를 입력하세요:");
+        String priceStr = JOptionPane.showInputDialog(this, "가격을 입력하세요:");
+        String grade = JOptionPane.showInputDialog(this, "등급을 입력하세요 (Standard/Deluxe/Suite):");
+
+        try {
+            int floor = Integer.parseInt(floorStr);
+            int roomNumber = Integer.parseInt(roomNumberStr);
+            int price = Integer.parseInt(priceStr);
+
+            if (floor <= 0 || roomNumber <= 0 || price <= 0) {
+                JOptionPane.showMessageDialog(this, "층, 방 번호, 가격은 양수이어야 합니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            roomManager.addRoom(floor, roomNumber, price, grade);
+            loadRoomData();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "올바른 숫자를 입력하세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -204,6 +256,7 @@ public class roomFrame extends javax.swing.JDialog {
     private javax.swing.JButton addButton;
     private javax.swing.JButton backButton;
     private javax.swing.JButton deleteButton;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable restTable;
     private javax.swing.JLabel restaurantManagement;
