@@ -158,6 +158,49 @@ public class roomserviceFrame extends javax.swing.JFrame {
         sourceModel.setRowCount(0);
     }
     
+    private void addMenuToOrder(JTable menuTable, JTable orderTable) {
+    DefaultTableModel menuModel = (DefaultTableModel) menuTable.getModel();
+    DefaultTableModel orderModel = (DefaultTableModel) orderTable.getModel();
+    
+    int selectedRow = menuTable.getSelectedRow();
+    
+    if (selectedRow != -1) {
+        String menuName = menuModel.getValueAt(selectedRow, 0).toString();
+        String priceStr = menuModel.getValueAt(selectedRow, 1).toString();
+        int price = Integer.parseInt(priceStr);
+              
+        boolean found = false;
+        
+        // 이미 존재하는 메뉴인지 확인
+        for (int i = 0; i < orderModel.getRowCount(); i++) {
+            if (orderModel.getValueAt(i, 0).equals(menuName)) {
+                // 기존 수량과 가격 가져오기
+                int quantity = Integer.parseInt(orderModel.getValueAt(i, 1).toString());
+                
+                // 수량 증가
+                quantity++;
+                
+                // 새로운 가격 계산
+                int newPrice = price * quantity;
+                
+                // 테이블 업데이트
+                orderModel.setValueAt(quantity, i, 1);
+                orderModel.setValueAt(newPrice, i, 2);
+                
+                found = true;
+                break;
+            }
+        }
+        
+        // 새로운 메뉴라면 추가
+        if (!found) {
+            orderModel.addRow(new Object[]{menuName, 1, price});
+        }updateTotal((DefaultTableModel) jTable5.getModel(),total);
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(null, "메뉴를 선택해주세요.");
+    }   
+}
+    
     private void loadRoomNumbersFromFile(DefaultComboBoxModel<String> model, String filePath) {
     try {
         FileReader fr = new FileReader(filePath);
@@ -1094,16 +1137,11 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // 메뉴 삭제 버튼
-        
-     
-        DefaultTableModel dt = (DefaultTableModel) jTable5.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
         int rw = jTable5.getSelectedRow();
-        
-        // 선택된 행의 금액 가져오기
-        double value = Double.valueOf(jTable5.getValueAt(rw, 2).toString());
-        
+       
         // 행 삭제
-        dt.removeRow(rw);
+        model.removeRow(rw);
             
          // 삭제 후 총액 업데이트 호출
          updateTotal((DefaultTableModel) jTable5.getModel(),total);
@@ -1219,49 +1257,9 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // 추가 버튼
-    DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
-    DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
-    
-    int selectedRow = jTable2.getSelectedRow();
-    
-    if (selectedRow != -1) {
-        String menuName = model2.getValueAt(selectedRow, 0).toString();
-        String priceStr = model2.getValueAt(selectedRow, 1).toString();
-        int price = Integer.parseInt(priceStr);
-              
-        boolean found = false;
-        
-        // 이미 존재하는 메뉴인지 확인
-        for (int i = 0; i < model5.getRowCount(); i++) {
-            if (model5.getValueAt(i, 0).equals(menuName)) {
-                // 기존 수량과 가격 가져오기
-                int quantity = Integer.parseInt(model5.getValueAt(i, 1).toString());
-                
-                // 수량 증가
-                quantity++;
-                
-                // 새로운 가격 계산
-                int newPrice = price * quantity;
-                
-                // 테이블 업데이트
-                model5.setValueAt(quantity, i, 1);
-                model5.setValueAt(newPrice, i, 2);
-                
-                found = true;
-                break;
-            }
-        }
-        
-        // 새로운 메뉴라면 추가
-        if (!found) {
-            model5.addRow(new Object[]{menuName, 1, price});
-        }
-        
-        // 총액 업데이트
-        updateTotal((DefaultTableModel) jTable5.getModel(),total);
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(null, "메뉴를 선택해주세요.");
-    }
+    addMenuToOrder(jTable2, jTable5);
+       
+     
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
