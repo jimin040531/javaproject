@@ -27,6 +27,7 @@ public class Registration extends JFrame {
     private JTable mainTable; // Reservation 테이블과 연결
     private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
+    private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 아님)
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
     private CardManager cardManager = new CardManager();
     private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
@@ -40,6 +41,10 @@ private reservationFrame parentFrame;
         }
     }
 
+    // 수정 중인 행 인덱스 설정 메서드 수정버튼을 눌렸을때 작동하는 메소드
+    public void setEditingRow(int rowIndex) {
+    this.editingRow = rowIndex;
+    }
       public void setRegistrationData(String name, String address, String phoneNumber, String checkInDate,
                                 String checkOutDate, String roomNumber, String guestCount,
                                 String paymentMethod, String status, String stayCost) {
@@ -116,7 +121,7 @@ private ReservationData populateReservationData() { //
 
 
 private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-       DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+    DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
 
     // populateReservationData 호출로 ReservationData 생성
     ReservationData reservationData = populateReservationData();
@@ -748,16 +753,8 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        setVisible(false);
-
-    // 이전에 생성된 reservationFrame이 null인지 확인
-    if (reservationFrame == null) {
-        reservationFrame = new reservationFrame(); // 새로운 reservationFrame 생성
-        reservationFrame.setSize(850, 250);
-        reservationFrame.setLocationRelativeTo(null);
-    }
-
-    reservationFrame.setVisible(true); // 예약 화면 보이기
+      editingRow = -1; // 수정 상태 초기화
+    this.setVisible(false); // 창 닫기
     }//GEN-LAST:event_backActionPerformed
 
 

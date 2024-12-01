@@ -41,6 +41,21 @@ public class ReservationData {
         this.roomSelection = roomSelection;
         this.cardStatus = cardStatus;
     }
+// txt파일 수정할 때 사용하는 코드 데이터를 csv형태로 변환
+    public String toCSV() {
+    return uniqueNumber + "," +
+           name + "," +
+           address + "," +
+           phoneNumber + "," +
+           checkInDate + "," +
+           checkOutDate + "," +
+           roomNumber + "," +
+           guestCount + "," +
+           stayCost + "," +
+           paymentMethod + "," +
+           roomSelection + "," +
+           cardStatus;
+}
 
     // Getters and setters (필수)
     public int getUniqueNumber() {

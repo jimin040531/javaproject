@@ -41,7 +41,19 @@ public class TableManager {
             data.getCardStatus()
         });
     }
-
+ //txt수정버튼 기능 용도
+    public static void updateRow(DefaultTableModel model, int rowIndex, ReservationData data) {
+    model.setValueAt(data.getName(), rowIndex, 1);
+    model.setValueAt(data.getAddress(), rowIndex, 2);
+    model.setValueAt(data.getPhoneNumber(), rowIndex, 3);
+    model.setValueAt(data.getCheckInDate(), rowIndex, 4);
+    model.setValueAt(data.getCheckOutDate(), rowIndex, 5);
+    model.setValueAt(data.getRoomNumber(), rowIndex, 6);
+    model.setValueAt(data.getGuestCount(), rowIndex, 7);
+    model.setValueAt(data.getStayCost(), rowIndex, 10);
+    model.setValueAt(data.getPaymentMethod(), rowIndex, 9);
+    model.setValueAt(data.getRoomSelection(), rowIndex, 8);
+}
       public List<String[]> readFile(String filePath) {
         List<String[]> data = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {

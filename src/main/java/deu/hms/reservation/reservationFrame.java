@@ -222,43 +222,27 @@ int selectedRow = mainTable.getSelectedRow();
         JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         return;
     }
-    
+
     // 선택된 행의 데이터를 가져옴
-    String name = getStringValue(mainTable.getValueAt(selectedRow, 1));
-    String address = getStringValue(mainTable.getValueAt(selectedRow, 2));
-      String phoneNumber = getStringValue(mainTable.getValueAt(selectedRow, 3));
-    String checkInDate = getStringValue(mainTable.getValueAt(selectedRow, 4));
-   String checkOutDate = getStringValue(mainTable.getValueAt(selectedRow, 5));
-    String roomNumber = getStringValue(mainTable.getValueAt(selectedRow, 6));
-    String guestCount = getStringValue(mainTable.getValueAt(selectedRow, 7));
-    String paymentMethod = getStringValue(mainTable.getValueAt(selectedRow, 8));
-    String status = getStringValue(mainTable.getValueAt(selectedRow, 9));
-    String stayCost = getStringValue(mainTable.getValueAt(selectedRow, 10));
+    String uniqueNumber = mainTable.getValueAt(selectedRow, 0).toString();
+    String name = mainTable.getValueAt(selectedRow, 1).toString();
+    String address = mainTable.getValueAt(selectedRow, 2).toString();
+    String phoneNumber = mainTable.getValueAt(selectedRow, 3).toString();
+    String checkInDate = mainTable.getValueAt(selectedRow, 4).toString();
+    String checkOutDate = mainTable.getValueAt(selectedRow, 5).toString();
+    String roomNumber = mainTable.getValueAt(selectedRow, 6).toString();
+    String guestCount = mainTable.getValueAt(selectedRow, 7).toString();
+    String stayCost = mainTable.getValueAt(selectedRow, 10).toString();
+    String paymentMethod = mainTable.getValueAt(selectedRow, 9).toString();
+    String roomSelection = mainTable.getValueAt(selectedRow, 8).toString();
 
-   // Registration 폼에 데이터 설정
+    // Registration 화면에 데이터 전달
     registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate,
-                                          roomNumber, guestCount, paymentMethod, status, stayCost);
+                                          roomNumber, guestCount, paymentMethod, roomSelection, stayCost);
 
-    // Registration 폼 보이기
-    registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
+    // Registration 폼 표시
     registrationFrame.setVisible(true);
-    
-        // 선택된 행이 있는지 확인
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    else{
-    for (int i = 0; i < mainTable.getColumnCount(); i++) {
-                mainTable.setValueAt("", selectedRow, i);
-            }
-    }
-}
-
-// NullPointerException 방지용 유틸리티 메서드 추가
-private String getStringValue(Object value) {
-    return value == null ? "" : value.toString();
-
+    registrationFrame.setEditingRow(selectedRow); // 수정 중인 행 인덱스 설정
     
     }//GEN-LAST:event_goEitFomActionPerformed
 
