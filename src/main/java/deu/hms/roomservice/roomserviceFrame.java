@@ -10,11 +10,19 @@ import java.util.Calendar;
 public class roomserviceFrame extends javax.swing.JFrame {
     private Calendar calendar;
   
+   // 기본 생성자와 Frame, modal을 받는 생성자 모두 구현
     public roomserviceFrame() {
         initComponents();
         addTempMenu();
         initCurrentDateTime();
-    }          
+    }
+    
+    public roomserviceFrame(java.awt.Frame parent, boolean modal) {
+        super();
+        initComponents();
+        addTempMenu();
+        initCurrentDateTime();
+    }
     
     
     private void saveReservationToFile(DefaultTableModel model) {
@@ -47,9 +55,33 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }
 }
     
-    
+    private void loadReservationFromFile(DefaultTableModel model) {
+    try {
+        java.io.FileReader fr = new java.io.FileReader("예약목록.txt");
+        java.io.BufferedReader br = new java.io.BufferedReader(fr);
+        
+       
+        model.setRowCount(0); // 기존 데이터 초기화
+        
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] data = line.split(",");
+            model.addRow(data);
+        }
+        
+        br.close();
+        fr.close();
+        
+      
+            
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null, "파일을 불러오는 중 오류가 발생했습니다: " + e.getMessage(),
+            "불러오기 오류", javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+}
+          
     //임시메뉴
-  private void addTempMenu() {
+    private void addTempMenu() {
     DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
     model.setColumnIdentifiers(new String[]{"메뉴명", "가격"});
     
@@ -59,8 +91,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
     model.addRow(new Object[]{"김치찌개", 12000});
 }
     
-    private void updateTotal() {
-    DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
+    private void updateTotal(DefaultTableModel model) {
+    
     int sum = 0;
     
     for (int i = 0; i < model.getRowCount(); i++) {
@@ -68,53 +100,36 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }
     
     total.setText(String.valueOf(sum) + "원");
-}
-
-    
-    
-    
-    
-    
+}                   
     // 현재 날짜/시간으로 초기화하는 메소드
-    public void initCurrentDateTime() {
-    calendar = Calendar.getInstance(); // 현재 날짜/시간 가져오기
-    
-    // 현재 날짜/시간으로 스피너 초기화
-    jSpinner1.setValue(calendar.get(Calendar.YEAR));
-    jSpinner2.setValue(calendar.get(Calendar.MONTH) + 1);
-    jSpinner3.setValue(calendar.get(Calendar.DATE));
-    jSpinner4.setValue(calendar.get(Calendar.HOUR_OF_DAY));
-    jSpinner5.setValue(calendar.get(Calendar.MINUTE));
-    
-    // 스피너 모델 설정 - 각 단위별 범위 지정
-    jSpinner1.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.YEAR), 2000, 2100, 1)); // 년도
-    jSpinner2.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.MONTH) + 1, 1, 12, 1)); // 월
-    jSpinner3.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.DATE), 1, 31, 1)); // 일
-    jSpinner4.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.HOUR_OF_DAY), 0, 23, 1)); // 시
-    jSpinner5.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.MINUTE), 0, 59, 1)); 
-}
+    private void initCurrentDateTime() {
+        calendar = Calendar.getInstance();
+        
+        // 현재 날짜/시간 정보 가져오기
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        
+        // 스피너 모델 설정 - 년도에 콤마 제거
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(year, 2000, 3000, 1));
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(month, 1, 12, 1));
+        jSpinner3.setModel(new javax.swing.SpinnerNumberModel(day, 1, 31, 1));
+        jSpinner4.setModel(new javax.swing.SpinnerNumberModel(hour, 0, 23, 1));
+        jSpinner5.setModel(new javax.swing.SpinnerNumberModel(minute, 0, 59, 1));
+        
+        // 스피너 에디터 설정
+        javax.swing.JSpinner.NumberEditor yearEditor = new javax.swing.JSpinner.NumberEditor(jSpinner1, "#");
+        jSpinner1.setEditor(yearEditor);
+    } 
 
-    
-    
-    
-    public void reset(){
-    
+
+    public void reset(DefaultTableModel model){
+        model.setRowCount(0); // 테이블의 모든 행 삭제
+        total.setText("0원");
     }
     
-    
-    
-    
-    public void addtable(String name,int Qty,double Price){
-        
-    }
-   
-    
-    
-   public void cal(){
-        
-   }
-   
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -159,6 +174,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -527,12 +543,16 @@ public class roomserviceFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("<");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addContainerGap()
+                .addComponent(jButton3)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -540,11 +560,10 @@ public class roomserviceFrame extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -777,23 +796,18 @@ public class roomserviceFrame extends javax.swing.JFrame {
         targetModel.addRow(rowData);
     }     
    
-   updateTotal();
+   updateTotal((DefaultTableModel) jTable5.getModel());
     jLabel6.setText(total.getText());
         
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // 초기화
-        DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
-        model.setRowCount(0); // 테이블의 모든 행 삭제
-        total.setText("0원");
-        
-        
-        reset();
+        // 초기화버튼
+        reset((DefaultTableModel) jTable5.getModel());
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // 메뉴 삭제
+        // 메뉴 삭제 버튼
         
      
         DefaultTableModel dt = (DefaultTableModel) jTable5.getModel();
@@ -806,7 +820,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
         dt.removeRow(rw);
             
          // 삭제 후 총액 업데이트 호출
-         updateTotal();
+         updateTotal((DefaultTableModel) jTable5.getModel());
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -814,16 +828,69 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        // 예약 리스트 삭제
     DefaultTableModel dt = (DefaultTableModel) jTable4.getModel();
     int rw = jTable4.getSelectedRow();
     
     if (rw >= 0) {
+        // 선택된 행의 데이터 가져오기
+        String orderNumber = dt.getValueAt(rw, 0).toString();
+        
+        // 테이블에서 행 삭제
         dt.removeRow(rw);
+        
+        try {
+            // 임시 파일 생성
+            java.io.File inputFile = new java.io.File("예약목록.txt");
+            java.io.File tempFile = new java.io.File("temp.txt");
+            
+            java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(inputFile));
+            java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.FileWriter(tempFile));
+            
+            String line;
+            int deletedNumber = Integer.parseInt(orderNumber);
+            // 파일의 각 줄을 읽어서 처리
+            while((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                int currentNumber = Integer.parseInt(data[0]);
+                
+                if(currentNumber < deletedNumber) {
+                    // 삭제된 번호보다 작은 순번은 그대로 유지
+                    writer.write(line + System.getProperty("line.separator"));
+                } else if(currentNumber > deletedNumber) {
+                    // 삭제된 번호보다 큰 순번은 1 감소
+                    data[0] = String.valueOf(currentNumber - 1);
+                    writer.write(String.join(",", data) + System.getProperty("line.separator"));
+                    
+                    // 테이블의 해당 행도 업데이트
+                    for(int i = 0; i < dt.getRowCount(); i++) {
+                        if(Integer.parseInt(dt.getValueAt(i, 0).toString()) == currentNumber) {
+                            dt.setValueAt(currentNumber - 1, i, 0);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            writer.close(); 
+            reader.close();
+            
+            // 원본 파일 삭제하고 임시 파일 이름 변경
+            inputFile.delete();
+            tempFile.renameTo(inputFile);
+            
+            // 삭제 완료 메시지 표시
+            javax.swing.JOptionPane.showMessageDialog(null, "예약이 성공적으로 삭제되었습니다.", 
+                "삭제 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (Exception ex) {
+            javax.swing.JOptionPane.showMessageDialog(null, "파일 업데이트 중 오류가 발생했습니다.", 
+                "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     } else {
         javax.swing.JOptionPane.showMessageDialog(null, "삭제할 행을 선택해주세요.", "선택 오류", javax.swing.JOptionPane.WARNING_MESSAGE);
     }
-        
+    
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -850,8 +917,28 @@ public class roomserviceFrame extends javax.swing.JFrame {
             return;
         }
         
-        // 현재 예약 테이블의 행 개수로 순번 계산
-        int orderNumber = reservationModel.getRowCount() + 1;
+        // 마지막 순번 찾기
+        int lastOrderNumber = 0;
+        try {
+            java.io.FileReader fr = new java.io.FileReader("예약목록.txt");
+            java.io.BufferedReader br = new java.io.BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                int currentNumber = Integer.parseInt(data[0]);
+                if (currentNumber > lastOrderNumber) {
+                    lastOrderNumber = currentNumber;
+                }
+            }
+            br.close();
+            fr.close();
+        } catch (Exception e) {
+            // 파일이 없거나 읽기 실패시 0으로 시작
+            lastOrderNumber = 0;
+        }
+        
+        // 다음 순번 설정
+        int orderNumber = lastOrderNumber + 1;
         
         // 날짜와 시간 정보 가져오기
         String year = jSpinner1.getValue().toString();
@@ -863,6 +950,9 @@ public class roomserviceFrame extends javax.swing.JFrame {
         // 호실 정보 가져오기
         String room = jComboBox1.getSelectedItem().toString();
         
+        // 기존 테이블 데이터 초기화
+        reservationModel.setRowCount(0);
+        
         // 주문 정보 가져오기
         for(int i = 0; i < orderModel.getRowCount(); i++) {
             String menu = orderModel.getValueAt(i, 0).toString();
@@ -871,23 +961,21 @@ public class roomserviceFrame extends javax.swing.JFrame {
             
             // 예약 테이블에 데이터 추가 (순번 포함)
             reservationModel.addRow(new Object[]{
-                orderNumber,
-                year + "-" + month + "-" + day,
-                hour + ":" + minute,
-                room,
-                menu,
-                quantity,
+                orderNumber,   
+                year + "-" + month + "-" + day,  
+                hour + ":" + minute,  
+                room,   
+                menu,  
+                quantity,   
                 total
             });
             orderNumber++; // 다음 주문을 위해 순번 증가
         }
         saveReservationToFile((DefaultTableModel) jTable4.getModel());
         
-    // 예약 완료 메시지 표시
-    javax.swing.JOptionPane.showMessageDialog(null, "예약이 완료되었습니다.", "예약 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        reset((DefaultTableModel) jTable5.getModel());
     // 예약 창 닫기
     Reservation.setVisible(false);
-        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -895,6 +983,10 @@ public class roomserviceFrame extends javax.swing.JFrame {
         Reservationlist.setVisible(true);
         Reservationlist.setSize(640, 470);
         Reservationlist.setLocationRelativeTo(null);
+        
+        loadReservationFromFile((DefaultTableModel) jTable4.getModel());
+        
+        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -937,7 +1029,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
         }
         
         // 총액 업데이트
-        updateTotal();
+        updateTotal((DefaultTableModel) jTable5.getModel());
     }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -990,6 +1082,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;

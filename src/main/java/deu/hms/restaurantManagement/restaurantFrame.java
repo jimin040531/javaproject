@@ -30,7 +30,6 @@ public class restaurantFrame extends javax.swing.JDialog {
         restaurantManagement = new javax.swing.JLabel();
         jScrollPane = new javax.swing.JScrollPane();
         restTable = new javax.swing.JTable();
-        saveButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
@@ -42,9 +41,6 @@ public class restaurantFrame extends javax.swing.JDialog {
 
         restTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
                 {null, null, null}
             },
             new String [] {
@@ -54,16 +50,9 @@ public class restaurantFrame extends javax.swing.JDialog {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
         });
         restTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -73,13 +62,6 @@ public class restaurantFrame extends javax.swing.JDialog {
         });
         jScrollPane.setViewportView(restTable);
 
-        saveButton.setText("저장");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
-            }
-        });
-
         deleteButton.setText("삭제");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,7 +69,7 @@ public class restaurantFrame extends javax.swing.JDialog {
             }
         });
 
-        addButton.setText("등록");
+        addButton.setText("추가");
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
@@ -109,13 +91,11 @@ public class restaurantFrame extends javax.swing.JDialog {
                         .addComponent(restaurantManagement))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(addButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(deleteButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(saveButton))
+                                .addComponent(deleteButton))
                             .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
@@ -133,7 +113,6 @@ public class restaurantFrame extends javax.swing.JDialog {
                         .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(saveButton)
                             .addComponent(deleteButton)
                             .addComponent(addButton))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -145,10 +124,6 @@ public class restaurantFrame extends javax.swing.JDialog {
     private void restTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restTableMouseClicked
 
     }//GEN-LAST:event_restTableMouseClicked
-
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-
-    }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
 
@@ -207,6 +182,5 @@ public class restaurantFrame extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable restTable;
     private javax.swing.JLabel restaurantManagement;
-    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 }
