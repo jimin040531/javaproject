@@ -4,26 +4,22 @@
  */
 package deu.hms.userManagement;
 
+import javax.swing.table.DefaultTableModel;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author yunhe
  */
 public class UserDeleteManager {
-    private static final String FILE_PATH = "users.txt";
-    private UserDataManager dataManager;  // 외부에서 전달된 UserDataManager 객체를 저장
+    public static void deleteUser(DefaultTableModel tableModel, int rowIndex) {
+        String userId = tableModel.getValueAt(rowIndex, 0).toString();
+        tableModel.removeRow(rowIndex);
 
-    // 생성자에서 전달된 UserDataManager 객체를 그대로 사용
-    public UserDeleteManager(UserDataManager dataManager) {
-        this.dataManager = dataManager;  // 전달받은 dataManager 사용
-    }
-
-    // 사용자 삭제
-    public void deleteUser(String userId) throws IOException {
-        List<User> users = dataManager.loadUsers();  // UserDataManager에서 사용자 로드
-        users.removeIf(user -> user.getId().equals(userId));  // 아이디로 사용자 삭제
-        dataManager.saveUsers(users);  // 파일에 변경사항 저장
+        List<String[]> users = UserTableManager.loadUsers("users.txt");
+        users.removeIf(user -> user[0].equals(userId));
+        UserTableManager.saveUsers(users, "users.txt");
     }
 }

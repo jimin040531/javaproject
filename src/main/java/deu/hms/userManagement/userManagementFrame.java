@@ -1,56 +1,25 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package deu.hms.userManagement;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.*;
-import java.io.IOException;
-import java.awt.event.ActionListener;
-import javax.swing.table.*;
-import java.awt.*;
-import java.io.*;
-import java.util.*;
+import java.awt.event.ActionEvent;
 import java.util.List;
 
 /**
  *
- * @author Jimin
+ * @author yunhe
  */
-public class userManagementFrame extends javax.swing.JDialog {
+public class userManagementFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form accountFrame
+     * Creates new form userManagementFrame1
      */
-    public userManagementFrame(java.awt.Frame parent, boolean modal) {
-        super(parent, "Add New User", true);
+    public userManagementFrame() {
         initComponents();
-    }
-        // 사용자 데이터 로드
-    private void loadUserData() {
-        try {
-            UserDataManager dataManager = new UserDataManager();
-            List<User> users = dataManager.loadUsers();
-
-            // 사용자 이름을 기준으로 정렬
-            users.sort(Comparator.comparing(User::getName));
-
-            // 테이블 모델 생성
-            DefaultTableModel model = new DefaultTableModel();
-            model.setColumnIdentifiers(new String[] { "이름", "아이디", "비밀번호", "권한" });
-
-            // 사용자 데이터를 테이블 모델에 추가
-            for (User user : users) {
-                model.addRow(new Object[] { user.getName(), user.getId(), user.getPassword(), user.getRole() });
-            }
-
-            // JTable에 모델 설정
-            UserInfoTable.setModel(model);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -62,242 +31,15 @@ public class userManagementFrame extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        UserAdd = new javax.swing.JDialog();
-        InUserNameAdd = new javax.swing.JTextField();
-        InUserIDAdd = new javax.swing.JTextField();
-        InUserPWAdd = new javax.swing.JTextField();
-        PickManagerAdd = new javax.swing.JCheckBox();
-        PickEmployeeAdd = new javax.swing.JCheckBox();
-        nameLabelAdd = new java.awt.Label();
-        IDLabelAdd = new java.awt.Label();
-        PWLabelAdd = new java.awt.Label();
-        UserManagementTitle = new java.awt.Label();
-        saveButtonAdd = new javax.swing.JButton();
-        Modify = new javax.swing.JDialog();
-        PWLabelModify = new java.awt.Label();
-        UserManagementTitle1 = new java.awt.Label();
-        InUserNameModify = new javax.swing.JTextField();
-        InUserIDModify = new javax.swing.JTextField();
-        InUserPWModify = new javax.swing.JTextField();
-        PickManagerModify = new javax.swing.JCheckBox();
-        PickEmployeeModify = new javax.swing.JCheckBox();
-        nameLabelModify = new java.awt.Label();
-        IDLabelModify = new java.awt.Label();
-        saveButtonModify = new javax.swing.JButton();
-        usertManagement = new javax.swing.JLabel();
         userModifyButton = new javax.swing.JButton();
         userDeleteButton = new javax.swing.JButton();
         userAddButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         userInfoTableScrollPane = new javax.swing.JScrollPane();
         UserInfoTable = new javax.swing.JTable();
+        usertManagement = new javax.swing.JLabel();
 
-        InUserNameAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InUserNameAddActionPerformed(evt);
-            }
-        });
-
-        InUserIDAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InUserIDAddActionPerformed(evt);
-            }
-        });
-
-        InUserPWAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InUserPWAddActionPerformed(evt);
-            }
-        });
-
-        PickManagerAdd.setText("관리자");
-        PickManagerAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PickManagerAddActionPerformed(evt);
-            }
-        });
-
-        PickEmployeeAdd.setText("일반 직원");
-        PickEmployeeAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PickEmployeeAddActionPerformed(evt);
-            }
-        });
-
-        nameLabelAdd.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        nameLabelAdd.setText("이름");
-
-        IDLabelAdd.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        IDLabelAdd.setText("아이디");
-
-        PWLabelAdd.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        PWLabelAdd.setText("비밀번호");
-
-        UserManagementTitle.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        UserManagementTitle.setText("사용자 등록");
-
-        saveButtonAdd.setText("저장");
-        saveButtonAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonAddActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout UserAddLayout = new javax.swing.GroupLayout(UserAdd.getContentPane());
-        UserAdd.getContentPane().setLayout(UserAddLayout);
-        UserAddLayout.setHorizontalGroup(
-            UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(UserAddLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(UserAddLayout.createSequentialGroup()
-                        .addGroup(UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(UserAddLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(PickManagerAdd)
-                                .addGap(18, 18, 18)
-                                .addComponent(PickEmployeeAdd))
-                            .addGroup(UserAddLayout.createSequentialGroup()
-                                .addGroup(UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(PWLabelAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(IDLabelAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nameLabelAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(InUserPWAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(InUserIDAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(InUserNameAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(25, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UserAddLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(UserManagementTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UserAddLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saveButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        UserAddLayout.setVerticalGroup(
-            UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UserAddLayout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addComponent(UserManagementTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addGroup(UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(InUserNameAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameLabelAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(InUserIDAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IDLabelAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(InUserPWAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PWLabelAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(UserAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PickManagerAdd)
-                    .addComponent(PickEmployeeAdd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(saveButtonAdd)
-                .addContainerGap())
-        );
-
-        Modify.setPreferredSize(new java.awt.Dimension(224, 246));
-
-        PWLabelModify.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        PWLabelModify.setText("비밀번호");
-
-        UserManagementTitle1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        UserManagementTitle1.setText("사용자 수정");
-
-        InUserNameModify.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InUserNameModifyActionPerformed(evt);
-            }
-        });
-
-        InUserIDModify.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InUserIDModifyActionPerformed(evt);
-            }
-        });
-
-        PickManagerModify.setText("관리자");
-
-        PickEmployeeModify.setText("일반 직원");
-
-        nameLabelModify.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        nameLabelModify.setText("이름");
-
-        IDLabelModify.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        IDLabelModify.setText("아이디");
-
-        saveButtonModify.setText("저장");
-
-        javax.swing.GroupLayout ModifyLayout = new javax.swing.GroupLayout(Modify.getContentPane());
-        Modify.getContentPane().setLayout(ModifyLayout);
-        ModifyLayout.setHorizontalGroup(
-            ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ModifyLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ModifyLayout.createSequentialGroup()
-                        .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(PWLabelModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(IDLabelModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameLabelModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InUserPWModify, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(InUserIDModify, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(InUserNameModify, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(ModifyLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(PickManagerModify)
-                        .addGap(18, 18, 18)
-                        .addComponent(PickEmployeeModify)))
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ModifyLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ModifyLayout.createSequentialGroup()
-                        .addComponent(UserManagementTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ModifyLayout.createSequentialGroup()
-                        .addComponent(saveButtonModify, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-        );
-        ModifyLayout.setVerticalGroup(
-            ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ModifyLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(UserManagementTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(InUserNameModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameLabelModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(InUserIDModify, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IDLabelModify, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(InUserPWModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PWLabelModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(ModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PickManagerModify)
-                    .addComponent(PickEmployeeModify))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(saveButtonModify)
-                .addContainerGap())
-        );
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        usertManagement.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
-        usertManagement.setText("사용자 관리");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         userModifyButton.setText("수정");
         userModifyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -330,10 +72,13 @@ public class userManagementFrame extends javax.swing.JDialog {
                 {null, null, null, null}
             },
             new String [] {
-                "이름", "아이디", "비밀번호", "권한"
+                "아이디", "비밀번호", "이름", "권한"
             }
         ));
         userInfoTableScrollPane.setViewportView(UserInfoTable);
+
+        usertManagement.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
+        usertManagement.setText("사용자 관리");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -379,95 +124,37 @@ public class userManagementFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userModifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userModifyButtonActionPerformed
-        
+        if (UserInfoTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "사용자를 선택해주세요");
+            return;
+        }
+        new UserModify(this, tableModel, UserInfoTable.getSelectedRow()).setVisible(true);
     }//GEN-LAST:event_userModifyButtonActionPerformed
 
     private void userDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDeleteButtonActionPerformed
-        int selectedRow = UserInfoTable.getSelectedRow();  // JTable에서 선택된 행
-        if (selectedRow != -1) {
-            String userId = (String) UserInfoTable.getValueAt(selectedRow, 0);  // ID
-
-            // 확인 대화상자
-            int confirm = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?", "사용자 삭제", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-               // UserDeleteManager를 통해 사용자 삭제
-                UserDataManager userDataManager = new UserDataManager();  // UserDataManager 객체 생성
-                UserDeleteManager deleteManager = new UserDeleteManager(userDataManager);  // 생성자에 전달
-                try {
-                    deleteManager.deleteUser("userId123");  // 사용자 삭제
-                    // 삭제 성공 후 추가적인 코드 실행 가능
-                } catch (IOException e) {
-                    e.printStackTrace();  // 예외 처리: 예외 메시지 출력하거나 사용자에게 알림
-                }
-                // JTable에서 해당 행 삭제
-                ((DefaultTableModel) UserInfoTable.getModel()).removeRow(selectedRow);
-                JOptionPane.showMessageDialog(this, "사용자가 삭제되었습니다.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "삭제할 사용자를 선택하세요.");
+      if (UserInfoTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "사용자를 선택해주세요");
+            return;
         }
+        UserDeleteManager.deleteUser(tableModel, UserInfoTable.getSelectedRow());
     }//GEN-LAST:event_userDeleteButtonActionPerformed
 
     private void userAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userAddButtonActionPerformed
-        UserAdd.setVisible(true);
+        new UserAdd(this).setVisible(true);
     }//GEN-LAST:event_userAddButtonActionPerformed
 
-    private void InUserIDAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InUserIDAddActionPerformed
-        InUserPWAdd.requestFocus();
-    }//GEN-LAST:event_InUserIDAddActionPerformed
-
-    private void InUserIDModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InUserIDModifyActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InUserIDModifyActionPerformed
-
-    private void InUserNameAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InUserNameAddActionPerformed
-        InUserIDAdd.requestFocus();
-    }//GEN-LAST:event_InUserNameAddActionPerformed
-
-    private void PickManagerAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PickManagerAddActionPerformed
-        if (PickManagerAdd.isSelected()) {
-        PickEmployeeAdd.setEnabled(false);  // "직원" 체크박스를 비활성화
-        } else {
-            PickEmployeeAdd.setEnabled(true);   // "직원" 체크박스를 활성화
+     private void loadUserInfo() {
+        List<String[]> users = UserTableManager.loadUsers("users.txt");
+        for (String[] user : users) {
+            tableModel.addRow(user);
         }
-    }//GEN-LAST:event_PickManagerAddActionPerformed
+    }
 
-    private void InUserPWAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InUserPWAddActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InUserPWAddActionPerformed
-
-    private void PickEmployeeAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PickEmployeeAddActionPerformed
-        if (PickEmployeeAdd.isSelected()) {
-        PickManagerAdd.setEnabled(false);  // "관리자" 체크박스를 비활성화
-        } else {
-            PickManagerAdd.setEnabled(true);   // "관리자" 체크박스를 활성화
-        }
-    }//GEN-LAST:event_PickEmployeeAddActionPerformed
-
-    private void saveButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonAddActionPerformed
-        // 사용자 정보를 JTextField에서 가져오기
-        String userId = InUserIDAdd.getText();
-        String userName = InUserNameAdd.getText();
-        String userPassword = InUserPWAdd.getText();
-        String role = PickManagerAdd.isSelected() ? "manager" : "employee";  // 권한 확인
-
-        // 새로운 사용자 객체 생성
-        User newUser = new User(userId, userPassword, userName, role);
-
-        // 사용자 추가를 UserAddManager를 통해 처리
-        UserAddManager.addUser(newUser, (DefaultTableModel) UserInfoTable.getModel());
-
-        // 사용자 추가 완료 메시지
-        JOptionPane.showMessageDialog(this, "사용자가 추가되었습니다.");
-
-        // 다이얼로그 닫기
-        this.dispose();
-    }//GEN-LAST:event_saveButtonAddActionPerformed
-
-    private void InUserNameModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InUserNameModifyActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InUserNameModifyActionPerformed
-
+    public void refreshTable() {
+        tableModel.setRowCount(0); // Clear existing rows
+        loadUserInfo();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -496,46 +183,17 @@ public class userManagementFrame extends javax.swing.JDialog {
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                userManagementFrame dialog = new userManagementFrame(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new userManagementFrame().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Label IDLabelAdd;
-    private java.awt.Label IDLabelModify;
-    private javax.swing.JTextField InUserIDAdd;
-    private javax.swing.JTextField InUserIDModify;
-    private javax.swing.JTextField InUserNameAdd;
-    private javax.swing.JTextField InUserNameModify;
-    private javax.swing.JTextField InUserPWAdd;
-    private javax.swing.JTextField InUserPWModify;
-    private javax.swing.JDialog Modify;
-    private java.awt.Label PWLabelAdd;
-    private java.awt.Label PWLabelModify;
-    private javax.swing.JCheckBox PickEmployeeAdd;
-    private javax.swing.JCheckBox PickEmployeeModify;
-    private javax.swing.JCheckBox PickManagerAdd;
-    private javax.swing.JCheckBox PickManagerModify;
-    private javax.swing.JDialog UserAdd;
     private javax.swing.JTable UserInfoTable;
-    private java.awt.Label UserManagementTitle;
-    private java.awt.Label UserManagementTitle1;
     private javax.swing.JButton backButton;
-    private java.awt.Label nameLabelAdd;
-    private java.awt.Label nameLabelModify;
-    private javax.swing.JButton saveButtonAdd;
-    private javax.swing.JButton saveButtonModify;
     private javax.swing.JButton userAddButton;
     private javax.swing.JButton userDeleteButton;
     private javax.swing.JScrollPane userInfoTableScrollPane;
