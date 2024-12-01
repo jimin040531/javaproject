@@ -1,1 +1,2 @@
-1,임진호,야리로30,123,312,3213,321,231,11111,카드결제,평일,카드미등록
+3,임진호,asdas,saahauw,uwdhuq,uwqhduquh,dhwhdquh,hduwhdu,dhwq,카드결제,평일,카드미등록
+4b0b4f12-ce79-4efd-abf3-014ffd90c96d,임진호,asdas,saahauw,uwdhuq,uwqhduquh,dhwhdquh,123,평일,카드결제,주말,카드미등록

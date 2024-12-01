@@ -39,6 +39,7 @@ public class reservationFrame extends javax.swing.JDialog {
 private JLabel cardStatusLabel;  // 카드 등록 상태
     private JLabel reservationStatusLabel;  // 예약 상태
     private JLabel autoPaymentTimeLabel;  // 자동 결제 시간
+private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 중이 아님)
 
     
     
@@ -204,7 +205,6 @@ private void initializeTableFromFile() {
 
 
     private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
-       this.dispose();
 
     Registration registrationFrame = new Registration(this);
     registrationFrame.setSize(500, 450);
@@ -215,7 +215,9 @@ private void initializeTableFromFile() {
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
-int selectedRow = mainTable.getSelectedRow();
+   
+    
+         int selectedRow = mainTable.getSelectedRow();
 
     // 선택된 행이 있는지 확인
     if (selectedRow == -1) {
@@ -223,8 +225,8 @@ int selectedRow = mainTable.getSelectedRow();
         return;
     }
 
-    // 선택된 행의 데이터를 가져옴
-    String uniqueNumber = mainTable.getValueAt(selectedRow, 0).toString();
+    // 수정 중인 행의 데이터를 가져옴
+    editingRow = selectedRow; // 수정 중인 행 인덱스 설정
     String name = mainTable.getValueAt(selectedRow, 1).toString();
     String address = mainTable.getValueAt(selectedRow, 2).toString();
     String phoneNumber = mainTable.getValueAt(selectedRow, 3).toString();
@@ -241,9 +243,8 @@ int selectedRow = mainTable.getSelectedRow();
                                           roomNumber, guestCount, paymentMethod, roomSelection, stayCost);
 
     // Registration 폼 표시
+   registrationFrame.setSize(500, 450);  // 다이얼로그 크기 설정
     registrationFrame.setVisible(true);
-    registrationFrame.setEditingRow(selectedRow); // 수정 중인 행 인덱스 설정
-    
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed

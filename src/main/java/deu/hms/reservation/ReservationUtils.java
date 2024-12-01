@@ -11,7 +11,7 @@ package deu.hms.reservation;
 import javax.swing.table.DefaultTableModel;
 public class ReservationUtils {
     public static ReservationData createReservationData(
-        int uniqueNumber,
+        String uniqueNumber,
         String name,
         String address,
         String phoneNumber,

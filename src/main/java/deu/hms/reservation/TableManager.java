@@ -25,22 +25,25 @@ public class TableManager {
     }
 
     // 테이블에 데이터 추가
-    public void addRow(ReservationData data) {
-        tableModel.addRow(new Object[]{
-            data.getUniqueNumber(),
-            data.getName(),
-            data.getAddress(),
-            data.getPhoneNumber(),
-            data.getCheckInDate(),
-            data.getCheckOutDate(),
-            data.getRoomNumber(),
-            data.getGuestCount(),
-            data.getStayCost(),
-            data.getPaymentMethod(),
-            data.getRoomSelection(),
-            data.getCardStatus()
-        });
-    }
+   public static void addRow(DefaultTableModel model, ReservationData data) {
+    model.addRow(new Object[]{
+        data.getUniqueNumber(),
+        data.getName(),
+        data.getAddress(),
+        data.getPhoneNumber(),
+        data.getCheckInDate(),
+        data.getCheckOutDate(),
+        data.getRoomNumber(),
+        data.getGuestCount(),
+        data.getStayCost(),
+        data.getPaymentMethod(),
+        data.getRoomSelection(),
+        data.getCardStatus()
+    });
+}
+
+   
+   
  //txt수정버튼 기능 용도
     public static void updateRow(DefaultTableModel model, int rowIndex, ReservationData data) {
     model.setValueAt(data.getName(), rowIndex, 1);

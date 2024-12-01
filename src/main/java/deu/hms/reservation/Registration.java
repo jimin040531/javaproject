@@ -15,6 +15,9 @@ import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import deu.hms.reservation.ReservationUtils;
 import java.io.IOException; 
+import java.util.UUID;
+
+
 /**
  *
  * @author adsd3
@@ -102,7 +105,16 @@ private boolean isCardRegistered() {
   
 
 
-private ReservationData populateReservationData() { //
+private ReservationData populateReservationData() { 
+         String uniqueNumber;
+    if (editingRow != -1) {
+        // 기존 데이터의 고유번호 유지
+        uniqueNumber = parentFrame.getMainTable().getValueAt(editingRow, 0).toString();
+    } else {
+        // 새로운 데이터는 고유번호 생성
+        uniqueNumber = UUID.randomUUID().toString();
+    }
+
     return new ReservationData(
         uniqueNumber,
         textName.getText(),
@@ -119,21 +131,47 @@ private ReservationData populateReservationData() { //
     );
 }
 
-
+//Registration에서 저장버튼 
 private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
+      DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
 
-    // populateReservationData 호출로 ReservationData 생성
-    ReservationData reservationData = populateReservationData();
+    // 수정된 데이터를 기반으로 ReservationData 생성
+    ReservationData updatedData = new ReservationData(
+        editingRow != -1 ? model.getValueAt(editingRow, 0).toString() : UUID.randomUUID().toString(),
+        textName.getText(),
+        textAddress.getText(),
+        textPhoneNumber.getText(),
+        textCheckInDate.getText(),
+        textCheckOutDate.getText(),
+        textRoomNumber.getText(),
+        textGuestCount.getText(),
+        Money.getText(),
+        onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
+        thisWeek.isSelected() ? "평일" : "주말",
+        "카드등록"
+    );
 
-    // ReservationUtils의 addOrUpdateRow 호출
-    ReservationUtils.addOrUpdateRow(model, reservationData);
+    try {
+        // 파일 업데이트
+        if (editingRow != -1) {
+            FileManager.deleteFromFile(updatedData.getUniqueNumber(), "Reservation.txt");
+        }
+        FileManager.saveToFile(updatedData.toCSV());
 
-    // 유니크 번호 증가
-    uniqueNumber++;
+        // 테이블 업데이트
+        if (editingRow != -1) {
+            TableManager.updateRow(model, editingRow, updatedData);
+        } else {
+            TableManager.addRow(model, updatedData);
+        }
 
-    // 창 숨기기
+        JOptionPane.showMessageDialog(this, "수정된 데이터가 저장되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "파일 처리 중 오류가 발생했습니다: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
+    }
+
     this.setVisible(false);
+    editingRow = -1; // 수정 상태 초기화
 }
 public void transferRegistrationToReservation() {
     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
@@ -763,7 +801,6 @@ public void transferRegistrationToReservation() {
         reservationFrame.setLocationRelativeTo(null);
     }
 
-    reservationFrame.setVisible(true); // 예약 화면 보이기
     }//GEN-LAST:event_backActionPerformed
 
 
