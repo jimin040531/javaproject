@@ -37,8 +37,7 @@ public class TableManager {
         data.getGuestCount(),
         data.getStayCost(),
         data.getPaymentMethod(),
-        data.getRoomSelection(),
-        data.getCardStatus()
+        data.getStatus()
     });
 }
 
@@ -57,8 +56,8 @@ public class TableManager {
             model.setValueAt(data.getGuestCount(), rowIndex, 7);
             model.setValueAt(data.getStayCost(), rowIndex, 8);
             model.setValueAt(data.getPaymentMethod(), rowIndex, 9);
-            model.setValueAt(data.getRoomSelection(), rowIndex, 10);
-            model.setValueAt(data.getCardStatus(), rowIndex, 11);
+            model.setValueAt(data.getStatus(), rowIndex, 10);
+
         }
     }
       public List<String[]> readFile(String filePath) {

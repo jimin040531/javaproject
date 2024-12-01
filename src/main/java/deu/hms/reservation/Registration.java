@@ -36,13 +36,7 @@ public class Registration extends JFrame {
     private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
 private reservationFrame parentFrame;
         
-    public void setRoomSelection(boolean isWeekday) {
-        if (isWeekday) {
-            thisWeek.setSelected(true);
-        } else {
-            weekend.setSelected(true);
-        }
-    }
+ 
 
     // 수정 중인 행 인덱스 설정 메서드 수정버튼을 눌렸을때 작동하는 메소드
     public void setEditingRow(int rowIndex) {
@@ -51,25 +45,21 @@ private reservationFrame parentFrame;
       public void setRegistrationData(String name, String address, String phoneNumber, String checkInDate,
                                 String checkOutDate, String roomNumber, String guestCount,
                                 String paymentMethod, String status, String stayCost) {
-          textName.setText(name);
-         textAddress.setText(address);
-         textPhoneNumber.setText(phoneNumber);
-         textCheckInDate.setText(checkInDate);
-         textCheckOutDate.setText(checkOutDate);
-         textRoomNumber.setText(roomNumber);
-         textGuestCount.setText(guestCount);
-         Money.setText(stayCost);  // 금액 설정
+         textName.setText(name);
+    textAddress.setText(address);
+    textPhoneNumber.setText(phoneNumber);
+    textCheckInDate.setText(checkInDate);
+    textCheckOutDate.setText(checkOutDate);
+    textRoomNumber.setText(roomNumber);
+    textGuestCount.setText(guestCount);
+    Money.setText(stayCost);
 
         if (paymentMethod.equals("현장결제")) {
         onSitePaymentButton.setSelected(true);
     } else if (paymentMethod.equals("카드결제")) {
         cardRegistButton.setSelected(true);
     }
-         if (status.equals("평일")) {
-        thisWeek.setSelected(true);
-    } else if (status.equals("주말")) {
-        weekend.setSelected(true);
-    }
+        
     }
     public Registration(reservationFrame parentFrame) {
     this.parentFrame = parentFrame; // 부모 프레임 저장
@@ -124,8 +114,7 @@ private ReservationData populateReservationData() {
         textGuestCount.getText(),
         Money.getText(),
         onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
-        thisWeek.isSelected() ? "평일" : "주말",
-        "카드등록"
+        "" 
     );
 }
 
@@ -270,7 +259,6 @@ public void transferRegistrationToReservation() {
         cvcLabel = new javax.swing.JLabel();
         cvcTextField = new javax.swing.JTextField();
         paymentButtonGroup = new javax.swing.ButtonGroup();
-        weekGroup = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -295,8 +283,6 @@ public void transferRegistrationToReservation() {
         Money = new javax.swing.JTextPane();
         jLabel11 = new javax.swing.JLabel();
         reservationsubmit = new javax.swing.JButton();
-        thisWeek = new javax.swing.JRadioButton();
-        weekend = new javax.swing.JRadioButton();
         back = new javax.swing.JButton();
         labelReservationStatus = new javax.swing.JLabel();
         labelCardStatus = new javax.swing.JLabel();
@@ -500,17 +486,6 @@ public void transferRegistrationToReservation() {
             }
         });
 
-        weekGroup.add(thisWeek);
-        thisWeek.setText("평일");
-        thisWeek.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                thisWeekActionPerformed(evt);
-            }
-        });
-
-        weekGroup.add(weekend);
-        weekend.setText("주말");
-
         back.setText("뒤로");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -541,11 +516,7 @@ public void transferRegistrationToReservation() {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(thisWeek)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(weekend))))
+                                .addComponent(jLabel11))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -620,10 +591,7 @@ public void transferRegistrationToReservation() {
                             .addComponent(textGuestCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel11)
-                                .addComponent(thisWeek)
-                                .addComponent(weekend))
+                            .addComponent(jLabel11)
                             .addComponent(jLabel9)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(8, 8, 8)
@@ -775,10 +743,6 @@ public void transferRegistrationToReservation() {
     }
     }//GEN-LAST:event_backActionPerformed
 
-    private void thisWeekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thisWeekActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_thisWeekActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Label1;
@@ -829,9 +793,6 @@ public void transferRegistrationToReservation() {
     private java.awt.TextField textName;
     private java.awt.TextField textPhoneNumber;
     private java.awt.TextField textRoomNumber;
-    private javax.swing.JRadioButton thisWeek;
-    private javax.swing.ButtonGroup weekGroup;
-    private javax.swing.JRadioButton weekend;
     private javax.swing.JTextField yearTextField;
     // End of variables declaration//GEN-END:variables
 }

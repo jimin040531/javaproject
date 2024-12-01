@@ -90,10 +90,10 @@ private void initializeTableFromFile() {
     // 테이블 모델 설정
     mainTable.setModel(new DefaultTableModel(
         new Object[][]{},
-        new String[]{
-            "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜",
-            "방번호", "인원수", "결제수단", "평일/주말", "금액", "상태"
-        }
+          new String[]{
+        "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜",
+        "방번호", "인원수", "결제수단", "금액", "상태"
+    }
     ));
     initComponents();
 
@@ -159,7 +159,7 @@ private void initializeTableFromFile() {
                 {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜", "방번호", "인원수", "결제수단", "금액", "상태"
+                "고유번호", "이름", "주소", "전화번호", "예상 체크인 날짜", "예상 체크아웃 날짜", "방번호", "인원수", "금액", "결제수단", "상태"
             }
         ));
         jScrollPane1.setViewportView(mainTable);
@@ -233,7 +233,8 @@ private void initializeTableFromFile() {
     String checkOutDate = mainTable.getValueAt(selectedRow, 5).toString();
     String roomNumber = mainTable.getValueAt(selectedRow, 6).toString();
     String guestCount = mainTable.getValueAt(selectedRow, 7).toString();
-    String stayCost = mainTable.getValueAt(selectedRow, 8).toString();
+    String stayCost = mainTable.getValueAt(selectedRow, 8).toString();  
+
     String paymentMethod = mainTable.getValueAt(selectedRow, 9).toString();
     String roomSelection = mainTable.getValueAt(selectedRow, 10).toString();
 

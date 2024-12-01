@@ -21,11 +21,11 @@ public class ReservationUtils {
         String guestCount,
         String stayCost,
         String paymentMethod,
-        String roomSelection,
-        String cardStatus) {
+        String status
+        ) {
     return new ReservationData(
         uniqueNumber, name, address, phoneNumber, checkInDate, checkOutDate,
-        roomNumber, guestCount, stayCost, paymentMethod, roomSelection, cardStatus
+        roomNumber, guestCount, stayCost, paymentMethod,status
     );
 }
 
@@ -42,8 +42,7 @@ public class ReservationUtils {
             data.getGuestCount(),
             data.getStayCost(),
             data.getPaymentMethod(),
-            data.getRoomSelection(),
-            data.getCardStatus()
+            data.getStatus()
         };
 
         for (int i = 0; i < model.getRowCount(); i++) {
