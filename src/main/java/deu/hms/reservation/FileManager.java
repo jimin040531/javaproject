@@ -50,15 +50,31 @@ public class FileManager {
         return data;
     }
 
-    // 파일에서 데이터를 불러오고 List<String[]> 형태로 반환
-    public static List<String[]> readFile(String fileName) throws IOException {
-        List<String[]> data = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                data.add(line.split(","));
+   // FileManager 클래스에 추가 //삭제기능 
+public static void deleteFromFile(String uniqueNumber, String filePath) throws IOException {
+    File inputFile = new File(filePath);
+    File tempFile = new File("temp_" + filePath);
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            // 고유 번호를 기준으로 삭제
+            if (!line.startsWith(uniqueNumber + ",")) {
+                writer.write(line);
+                writer.newLine();
             }
         }
-        return data;
     }
+
+    // 원본 파일을 임시 파일로 교체
+    if (!inputFile.delete()) {
+        throw new IOException("원본 파일을 삭제할 수 없습니다.");
+    }
+    if (!tempFile.renameTo(inputFile)) {
+        throw new IOException("임시 파일을 원본 파일로 바꿀 수 없습니다.");
+    }
+}
+
 }

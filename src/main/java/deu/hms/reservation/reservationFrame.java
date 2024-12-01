@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.List; 
+import java.io.IOException;
 
 
 
@@ -34,7 +35,6 @@ public class reservationFrame extends javax.swing.JDialog {
     private DefaultTableModel tableModel;
     private JTable dataTable;
     private javax.swing.JTable reservationTable;
-    private static reservationFrame instance;
     private Registration registrationFrame;
 private JLabel cardStatusLabel;  // 카드 등록 상태
     private JLabel reservationStatusLabel;  // 예약 상태
@@ -42,12 +42,6 @@ private JLabel cardStatusLabel;  // 카드 등록 상태
 
     
     
-    public static reservationFrame getInstance() {
-    if (instance == null) {
-        instance = new reservationFrame(); // Singleton 패턴을 통해 객체 생성
-    }
-    return instance;
-}
     public JTable getMainTable() {
         return mainTable;
     }
@@ -82,7 +76,6 @@ private void initializeTableFromFile() {
         // 데이터를 테이블에 로드
         tableManager.loadTableData(fileData);
 
-        System.out.println("파일에서 데이터를 성공적으로 불러왔습니다.");
     } catch (Exception e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "파일을 불러오는 중 오류가 발생했습니다: " + e.getMessage());
@@ -270,29 +263,30 @@ private String getStringValue(Object value) {
     }//GEN-LAST:event_goEitFomActionPerformed
 
     private void goDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goDeleteActionPerformed
-        // TODO add your handling code here:
-        /*   int selectedRow = mainTable.getSelectedRow();
-    if (selectedRow != -1) {
-        // 선택된 행이 있는 경우 삭제
-        DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
-        model.removeRow(selectedRow);
-    } else {
-        // 행이 선택되지 않았을 경우 경고 메시지
-        JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.");
-    }*/    //테이블칸도 삭제   
+     
+ int selectedRow = mainTable.getSelectedRow();
 
-        int selectedRow = mainTable.getSelectedRow();
+    // 선택된 행이 있는지 확인
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        // 선택된 행이 있는지 확인
-        if (selectedRow != -1) {
-            // 선택된 행의 텍스트를 빈 값으로 설정하여 내용만 삭제
-            for (int i = 0; i < mainTable.getColumnCount(); i++) {
-                mainTable.setValueAt("", selectedRow, i);
-            }
-        } else {
-            // 선택된 행이 없는 경우 경고 메시지 표시
-            JOptionPane.showMessageDialog(this, "삭제할 행을 선택해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
-        }
+    // 고유 번호를 가져옴 (첫 번째 열)
+    String uniqueNumber = mainTable.getValueAt(selectedRow, 0).toString();
+
+    // 파일에서 해당 행 삭제
+    try {
+        FileManager.deleteFromFile(uniqueNumber, "Reservation.txt");
+        JOptionPane.showMessageDialog(this, "선택한 행이 삭제되었습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "파일에서 데이터를 삭제하는 중 오류가 발생했습니다: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // 테이블에서 해당 행 삭제
+    DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
+    model.removeRow(selectedRow);
     }//GEN-LAST:event_goDeleteActionPerformed
 
     /**

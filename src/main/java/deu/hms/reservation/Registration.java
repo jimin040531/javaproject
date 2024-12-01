@@ -24,7 +24,6 @@ public class Registration extends JFrame {
     private reservationFrame reservationFrame;
     private  String cardRegistEered = "카드등록";
     private  String cardNotRegistEered  = "카드미등록";
-    private static Registration instance; // Singleton 인스턴스
     private JTable mainTable; // Reservation 테이블과 연결
     private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
@@ -162,7 +161,6 @@ public void transferRegistrationToReservation() {
         initComponents();
 
         initRadioButtons();
-        this.reservationFrame = reservationFrame.getInstance(); // Singleton 인스턴스 얻기
 
         initializePlaceholders(); // Placeholder 초기화
         configurePaymentButtonState();
