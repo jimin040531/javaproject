@@ -1,8 +1,13 @@
-
 package deu.hms.roomservice;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.table.DefaultTableModel;
 import java.util.Calendar;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 
 
@@ -13,24 +18,24 @@ public class roomserviceFrame extends javax.swing.JFrame {
    // 기본 생성자와 Frame, modal을 받는 생성자 모두 구현
     public roomserviceFrame() {
         initComponents();
-        addTempMenu();
+        loadMenuFromFile((DefaultTableModel) jTable2.getModel(),"메뉴목록.txt");
         initCurrentDateTime();
     }
     
     public roomserviceFrame(java.awt.Frame parent, boolean modal) {
         super();
         initComponents();
-        addTempMenu();
+        loadMenuFromFile((DefaultTableModel) jTable2.getModel(),"메뉴목록.txt");
         initCurrentDateTime();
     }
     
     
-    private void saveReservationToFile(DefaultTableModel model) {
+    private void saveReservationToFile(DefaultTableModel model,String filePath) {
     try {
         String userHome = System.getProperty("user.home");
         String desktopPath = userHome + "/Desktop";
         
-        java.io.FileWriter fw = new java.io.FileWriter("예약목록.txt", true);
+        java.io.FileWriter fw = new java.io.FileWriter(filePath, true);
         java.io.BufferedWriter bw = new java.io.BufferedWriter(fw);
         
         for (int i = 0; i < model.getRowCount(); i++) {
@@ -46,14 +51,49 @@ public class roomserviceFrame extends javax.swing.JFrame {
         bw.close();
         fw.close();
         
-        javax.swing.JOptionPane.showMessageDialog(null, "예약 정보가 저장되었습니다.", 
-            "저장 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        
             
     } catch (Exception e) {
         javax.swing.JOptionPane.showMessageDialog(null, "파일 저장 중 오류가 발생했습니다: " + e.getMessage(),
             "저장 오류", javax.swing.JOptionPane.ERROR_MESSAGE);
     }
 }
+    private void deleteReservation(DefaultTableModel model,JTable table) {
+       int rw = table.getSelectedRow();
+        if (rw >= 0) {
+            // 삭제할 행의 순번 가져오기
+            int deletedOrderNumber = Integer.parseInt(model.getValueAt(rw, 0).toString());
+            
+            // 선택된 행 삭제
+            model.removeRow(rw);
+            
+            // 삭제된 순번보다 큰 순번들을 1씩 감소
+            for (int i = 0; i < model.getRowCount(); i++) {
+                int currentOrderNumber = Integer.parseInt(model.getValueAt(i, 0).toString());
+                if (currentOrderNumber > deletedOrderNumber) {
+                    model.setValueAt(currentOrderNumber - 1, i, 0);
+                }
+            }
+            
+            try {
+                // 파일 초기화 후 현재 테이블 데이터로 다시 저장
+                java.io.FileWriter fw = new java.io.FileWriter("예약목록.txt", false);
+                fw.close();
+                
+                // 현재 테이블 데이터 저장
+                saveReservationToFile(model,"filePath");
+                
+                javax.swing.JOptionPane.showMessageDialog(null, "예약이 성공적으로 삭제되었습니다.", 
+                    "삭제 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "파일 업데이트 중 오류가 발생했습니다.", 
+                    "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "삭제할 행을 선택해주세요.", "선택 오류", javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+    }
     
     private void loadReservationFromFile(DefaultTableModel model) {
     try {
@@ -80,18 +120,71 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }
 }
           
-    //임시메뉴
-    private void addTempMenu() {
-    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-    model.setColumnIdentifiers(new String[]{"메뉴명", "가격"});
+    private void loadMenuFromFile(DefaultTableModel model, String filePath) {
+    try {
+        java.io.FileReader fr = new java.io.FileReader(filePath);
+        java.io.BufferedReader br = new java.io.BufferedReader(fr);
+        
+       
+        model.setRowCount(0); // 기존 데이터 초기화
+        
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] data = line.split(",");
+            model.addRow(data);
+        }
+        
+        br.close();
+        fr.close();
+            
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null, 
+            "파일을 불러오는 중 오류가 발생했습니다: " + e.getMessage(),
+            "불러오기 오류", 
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+}
+    private void copyTableData(DefaultTableModel sourceModel, DefaultTableModel targetModel) {
+        
+        // sourceModel의 데이터를 targetModel로 복사
+        for (int i = 0; i < sourceModel.getRowCount(); i++) {
+            Object[] rowData = new Object[sourceModel.getColumnCount()];
+            for (int j = 0; j < sourceModel.getColumnCount(); j++) {
+                rowData[j] = sourceModel.getValueAt(i, j);
+            }
+            targetModel.addRow(rowData);
+        }
+         // sourceModel의 기존 데이터 삭제
+        sourceModel.setRowCount(0);
+    }
     
-    // 임시 메뉴 데이터 추가 
-    model.addRow(new Object[]{"불고기", 25000});
-    model.addRow(new Object[]{"비빔밥", 15000});
-    model.addRow(new Object[]{"김치찌개", 12000});
+    private void loadRoomNumbersFromFile(DefaultComboBoxModel<String> model, String filePath) {
+    try {
+        FileReader fr = new FileReader(filePath);
+        BufferedReader br = new BufferedReader(fr);
+        
+        model.removeAllElements(); // 기존 항목 제거
+        
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (!line.trim().isEmpty()) {
+                model.addElement(line.trim());
+            }
+        }
+        
+        br.close();
+        fr.close();
+        
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, 
+            "호실 목록을 불러오는 중 오류가 발생했습니다: " + e.getMessage(),
+            "불러오기 오류", 
+            JOptionPane.ERROR_MESSAGE);
+    }
 }
     
-    private void updateTotal(DefaultTableModel model) {
+    
+    private void updateTotal(DefaultTableModel model, javax.swing.JLabel text) {
     
     int sum = 0;
     
@@ -99,8 +192,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
         sum += (int) model.getValueAt(i, 2);
     }
     
-    total.setText(String.valueOf(sum) + "원");
-}                   
+    text.setText(String.valueOf(sum) + "원");
+}
     // 현재 날짜/시간으로 초기화하는 메소드
     private void initCurrentDateTime() {
         calendar = Calendar.getInstance();
@@ -148,7 +241,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        roomNumber = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
@@ -170,6 +263,20 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        Pay = new javax.swing.JFrame();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -219,7 +326,15 @@ public class roomserviceFrame extends javax.swing.JFrame {
             new String [] {
                 "순번", "날짜", "시간", "호실", "메뉴", "수량", "총 금액"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable4);
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
@@ -248,17 +363,15 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel29Layout.createSequentialGroup()
                 .addComponent(jButton6)
-                .addContainerGap())
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel29Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
@@ -305,10 +418,9 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
         jLabel1.setText("호실:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "101호", "102호", "103호" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        roomNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                roomNumberActionPerformed(evt);
             }
         });
 
@@ -336,7 +448,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(roomNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -372,7 +484,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(roomNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -399,7 +511,15 @@ public class roomserviceFrame extends javax.swing.JFrame {
             new String [] {
                 "메뉴", "수량", "가격"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
@@ -490,8 +610,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
                     .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -525,6 +645,169 @@ public class roomserviceFrame extends javax.swing.JFrame {
             .addGroup(ReservationLayout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jLabel12.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("결제");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "메뉴", "수량", "가격"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jTable3);
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 7, Short.MAX_VALUE))
+        );
+
+        jLabel17.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("0");
+
+        jLabel15.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("총 금액:");
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+        );
+
+        jButton4.setText("결제");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setText("현금 결제");
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("카드 결제");
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addGap(0, 10, Short.MAX_VALUE)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jRadioButton2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jRadioButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButton2)))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout PayLayout = new javax.swing.GroupLayout(Pay.getContentPane());
+        Pay.getContentPane().setLayout(PayLayout);
+        PayLayout.setHorizontalGroup(
+            PayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        PayLayout.setVerticalGroup(
+            PayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PayLayout.createSequentialGroup()
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -582,7 +865,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -634,6 +917,11 @@ public class roomserviceFrame extends javax.swing.JFrame {
         });
 
         jButton25.setText("결제");
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
 
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -642,7 +930,15 @@ public class roomserviceFrame extends javax.swing.JFrame {
             new String [] {
                 "메뉴", "수량", "가격"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane6.setViewportView(jTable5);
 
         jButton8.setText("메뉴 삭제");
@@ -775,34 +1071,24 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-    // 예약 창 버튼
+    // 예약 창 실행 버튼
     Reservation.setSize(800, 600);
         Reservation.setLocationRelativeTo(null);
         Reservation.setVisible(true);
+        
+    reset((DefaultTableModel) jTable1.getModel());
      
-    // jTable5의 모델 가져오기
-    DefaultTableModel sourceModel = (DefaultTableModel) jTable5.getModel();
-    DefaultTableModel targetModel = (DefaultTableModel) jTable1.getModel();
+    copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable1.getModel());
     
-    // jTable1의 기존 데이터 삭제
-    targetModel.setRowCount(0);
-    
-    // jTable5의 데이터를 jTable1로 복사
-    for (int i = 0; i < sourceModel.getRowCount(); i++) {
-        Object[] rowData = new Object[sourceModel.getColumnCount()];
-        for (int j = 0; j < sourceModel.getColumnCount(); j++) {
-            rowData[j] = sourceModel.getValueAt(i, j);
-        }
-        targetModel.addRow(rowData);
-    }     
+    loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "객실.txt");
    
-   updateTotal((DefaultTableModel) jTable5.getModel());
-    jLabel6.setText(total.getText());
+    updateTotal((DefaultTableModel) jTable1.getModel(),jLabel6);
+    
         
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // 초기화버튼
+        // 초기화 버튼
         reset((DefaultTableModel) jTable5.getModel());
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -820,83 +1106,22 @@ public class roomserviceFrame extends javax.swing.JFrame {
         dt.removeRow(rw);
             
          // 삭제 후 총액 업데이트 호출
-         updateTotal((DefaultTableModel) jTable5.getModel());
+         updateTotal((DefaultTableModel) jTable5.getModel(),total);
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void roomNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomNumberActionPerformed
+        //        
+    }//GEN-LAST:event_roomNumberActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // 예약 리스트 삭제
-    DefaultTableModel dt = (DefaultTableModel) jTable4.getModel();
-    int rw = jTable4.getSelectedRow();
-    
-    if (rw >= 0) {
-        // 선택된 행의 데이터 가져오기
-        String orderNumber = dt.getValueAt(rw, 0).toString();
-        
-        // 테이블에서 행 삭제
-        dt.removeRow(rw);
-        
-        try {
-            // 임시 파일 생성
-            java.io.File inputFile = new java.io.File("예약목록.txt");
-            java.io.File tempFile = new java.io.File("temp.txt");
-            
-            java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(inputFile));
-            java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.FileWriter(tempFile));
-            
-            String line;
-            int deletedNumber = Integer.parseInt(orderNumber);
-            // 파일의 각 줄을 읽어서 처리
-            while((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-                int currentNumber = Integer.parseInt(data[0]);
-                
-                if(currentNumber < deletedNumber) {
-                    // 삭제된 번호보다 작은 순번은 그대로 유지
-                    writer.write(line + System.getProperty("line.separator"));
-                } else if(currentNumber > deletedNumber) {
-                    // 삭제된 번호보다 큰 순번은 1 감소
-                    data[0] = String.valueOf(currentNumber - 1);
-                    writer.write(String.join(",", data) + System.getProperty("line.separator"));
-                    
-                    // 테이블의 해당 행도 업데이트
-                    for(int i = 0; i < dt.getRowCount(); i++) {
-                        if(Integer.parseInt(dt.getValueAt(i, 0).toString()) == currentNumber) {
-                            dt.setValueAt(currentNumber - 1, i, 0);
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            writer.close(); 
-            reader.close();
-            
-            // 원본 파일 삭제하고 임시 파일 이름 변경
-            inputFile.delete();
-            tempFile.renameTo(inputFile);
-            
-            // 삭제 완료 메시지 표시
-            javax.swing.JOptionPane.showMessageDialog(null, "예약이 성공적으로 삭제되었습니다.", 
-                "삭제 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            
-        } catch (Exception ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "파일 업데이트 중 오류가 발생했습니다.", 
-                "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(null, "삭제할 행을 선택해주세요.", "선택 오류", javax.swing.JOptionPane.WARNING_MESSAGE);
-    }
-    
+      deleteReservation((DefaultTableModel) jTable4.getModel(),jTable4);
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-   
-    
-      // 예약 하기 버튼
+   // 예약 하기 버튼
+       
         DefaultTableModel reservationModel = (DefaultTableModel) jTable4.getModel();
         DefaultTableModel orderModel = (DefaultTableModel) jTable1.getModel();
         
@@ -948,7 +1173,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
         String minute = jSpinner5.getValue().toString();
         
         // 호실 정보 가져오기
-        String room = jComboBox1.getSelectedItem().toString();
+        String room = roomNumber.getSelectedItem().toString();
         
         // 기존 테이블 데이터 초기화
         reservationModel.setRowCount(0);
@@ -971,7 +1196,10 @@ public class roomserviceFrame extends javax.swing.JFrame {
             });
             orderNumber++; // 다음 주문을 위해 순번 증가
         }
-        saveReservationToFile((DefaultTableModel) jTable4.getModel());
+        saveReservationToFile((DefaultTableModel) jTable4.getModel(),"예약목록.txt");
+        
+        javax.swing.JOptionPane.showMessageDialog(null, "예약 정보가 저장되었습니다.", 
+            "저장 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
         
         reset((DefaultTableModel) jTable5.getModel());
     // 예약 창 닫기
@@ -997,8 +1225,9 @@ public class roomserviceFrame extends javax.swing.JFrame {
     int selectedRow = jTable2.getSelectedRow();
     
     if (selectedRow != -1) {
-        String menuName = (String) model2.getValueAt(selectedRow, 0);
-        int price = (int) model2.getValueAt(selectedRow, 1);
+        String menuName = model2.getValueAt(selectedRow, 0).toString();
+        String priceStr = model2.getValueAt(selectedRow, 1).toString();
+        int price = Integer.parseInt(priceStr);
               
         boolean found = false;
         
@@ -1006,7 +1235,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
         for (int i = 0; i < model5.getRowCount(); i++) {
             if (model5.getValueAt(i, 0).equals(menuName)) {
                 // 기존 수량과 가격 가져오기
-                int quantity = (int) model5.getValueAt(i, 1);
+                int quantity = Integer.parseInt(model5.getValueAt(i, 1).toString());
                 
                 // 수량 증가
                 quantity++;
@@ -1029,10 +1258,87 @@ public class roomserviceFrame extends javax.swing.JFrame {
         }
         
         // 총액 업데이트
-        updateTotal((DefaultTableModel) jTable5.getModel());
+        updateTotal((DefaultTableModel) jTable5.getModel(),total);
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(null, "메뉴를 선택해주세요.");
     }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        // TODO add your handling code here:
+        
+        Pay.setSize(640, 470);
+        Pay.setVisible(true);
+        Pay.setLocationRelativeTo(null);
+        
+        reset((DefaultTableModel) jTable3.getModel());
+        
+        copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable3.getModel());
+        
+        updateTotal((DefaultTableModel) jTable3.getModel(),jLabel17);
+        
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       // 결제 하기
+       // 결제 방식 확인
+         String paymentMethod = "";
+         if (jRadioButton1.isSelected()) {
+             paymentMethod = "카드결제";
+         } else if (jRadioButton2.isSelected()) {
+             paymentMethod = "현금결제"; 
+        } else {
+             javax.swing.JOptionPane.showMessageDialog(null, "결제방식을 선택해주세요.");
+             return;
+         }
+         // 순번 생성 - 파일에서 마지막 순번 읽어오기
+         int orderNum = 1;
+         try {
+             java.io.File file = new java.io.File("결제.txt");
+             if (file.exists()) {
+                 java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(file));
+                 String lastLine = null;
+                 String line;
+                 while ((line = reader.readLine()) != null) {
+                     lastLine = line;
+                 }
+                 if (lastLine != null) {
+                     String[] data = lastLine.split(",");
+                     orderNum = Integer.parseInt(data[0]) + 1;
+                 }
+                 reader.close();
+             }
+         } catch (Exception e) {
+             orderNum = 1;
+         }
+
+         // 현재 시간 가져오기
+         Calendar now = Calendar.getInstance();
+         String currentTime = String.format("%tF %tT", now, now);
+         
+         // 기존 테이블 모델의 데이터를 새로운 모델로 복사
+         DefaultTableModel originalModel = (DefaultTableModel) jTable3.getModel();
+         DefaultTableModel newModel = new DefaultTableModel(
+             new Object[]{"순번", "시간", "메뉴", "수량", "가격", "결제방식"}, 0
+         );
+         
+         // 데이터 복사 및 새 컬럼 추가
+         for (int i = 0; i < originalModel.getRowCount(); i++) {
+             Object[] row = new Object[6];
+             row[0] = orderNum;
+             row[1] = currentTime;
+             row[2] = originalModel.getValueAt(i, 0); // 메뉴
+             row[3] = originalModel.getValueAt(i, 1); // 수량
+             row[4] = originalModel.getValueAt(i, 2); // 가격
+             row[5] = paymentMethod;
+             newModel.addRow(row);
+         }
+         
+         saveReservationToFile(newModel, "결제.txt");
+        // 결제 창 닫기
+        Pay.setVisible(false);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1075,6 +1381,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFrame Pay;
     private javax.swing.JFrame Reservation;
     private javax.swing.JFrame Reservationlist;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1083,17 +1390,20 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1104,6 +1414,11 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel88;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel26;
@@ -1117,9 +1432,12 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
@@ -1128,8 +1446,10 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
+    private javax.swing.JComboBox<String> roomNumber;
     private javax.swing.JLabel total;
     // End of variables declaration//GEN-END:variables
 }

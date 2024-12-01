@@ -6,14 +6,18 @@ deu\hms\checkin\checkinFrame$18.class
 deu\hms\checkout\checkoutFrame$9.class
 deu\hms\checkin\checkinFrame$3.class
 deu\hms\restaurant\restaurantFrame.class
+deu\hms\roomservice\roomserviceFrame$13.class
 deu\hms\login\MainScreenEmployees$4.class
 deu\hms\reservation\Change$5.class
 deu\hms\reservation\Registration$14.class
 deu\hms\reservation\Change.class
+deu\hms\restaurantManagement\restaurantFrame$7.class
+deu\hms\roomservice\MenuManager.class
 deu\hms\roomservice\roomserviceFrame$10.class
 deu\hms\management\managementFrame$1.class
 deu\hms\accountManagement\accountFrame.class
 deu\hms\checkout\checkoutFrame$6.class
+deu\hms\roomservice\TimeManager.class
 deu\hms\login\MainScreenManager$2.class
 deu\hms\reservation\EditForm$5.class
 deu\hms\accountManagement\accountFrame$1.class
@@ -35,6 +39,7 @@ deu\hms\reservation\EditForm$2.class
 deu\hms\accountManagement\accountFrame$4.class
 deu\hms\management\managementFrame$3.class
 deu\hms\roomManagement\roomFrame.class
+deu\hms\roomservice\roomserviceFrame$16.class
 deu\hms\checkin\checkinFrame$8.class
 deu\hms\roomservice\roomserviceFrame$6.class
 deu\hms\reservation\EditForm.class
@@ -42,6 +47,7 @@ deu\hms\roomservice\roomserviceFrame$3.class
 deu\hms\reservation\reservationFrame$4$1.class
 deu\hms\checkin\checkinFrame$12.class
 deu\hms\restaurant\ReservationDialog$3.class
+deu\hms\roomservice\ReservationManager.class
 deu\hms\checkin\checkinFrame$16.class
 deu\hms\restaurantManagement\restaurantFrame$5.class
 deu\hms\login\loginFrame$6$1.class
@@ -52,6 +58,7 @@ deu\hms\reservation\reservationFrame.class
 deu\hms\login\MainScreenEmployees$3.class
 deu\hms\reservation\Registration$8.class
 deu\hms\report\reportFrame$1$1.class
+deu\hms\roomservice\roomserviceFrame$15.class
 deu\hms\restaurant\ReservationDialog$5$1.class
 deu\hms\roomservice\roomserviceFrame$2.class
 deu\hms\login\MainScreenEmployees.class
@@ -82,6 +89,7 @@ deu\hms\restaurant\ReservationViewDialog.class
 deu\hms\roomservice\roomserviceFrame$1.class
 deu\hms\roomservice\roomserviceFrame$8.class
 deu\hms\roomManagement\roomFrame$1.class
+deu\hms\roomservice\roomserviceFrame$14.class
 deu\hms\restaurant\ReservationViewDialog$1$1.class
 deu\hms\report\reportFrame$1.class
 deu\hms\reservation\Registration.class
@@ -106,8 +114,8 @@ deu\hms\login\loginFrame.class
 deu\hms\reservation\Reservation.class
 deu\hms\reservation\Registration$6.class
 deu\hms\reservation\EditForm$11.class
+deu\hms\restaurantManagement\restaurantFrame$12.class
 deu\hms\login\loginFrame$4.class
-deu\hms\restaurantManagement\restaurantFrame$5$1.class
 deu\hms\checkin\ReservationLoad.class
 deu\hms\checkin\HotelRoomInfo$RoomPricing.class
 deu\hms\login\loginFrame$1.class
@@ -116,10 +124,13 @@ deu\hms\login\MainScreenManager$4.class
 deu\hms\reservation\EditForm$1.class
 deu\hms\roomservice\roomserviceFrame$7.class
 deu\hms\login\Users.class
+deu\hms\roomservice\roomserviceFrame$12.class
 deu\hms\checkout\checkoutFrame$8.class
 deu\hms\reservation\Registration$10.class
 deu\hms\checkin\ReservationManager.class
+deu\hms\restaurantManagement\restaurantFrame$6.class
 deu\hms\report\reportFrame.class
+deu\hms\restaurantManagement\restaurantFrame$12$1.class
 deu\hms\roomManagement\roomFrame$6.class
 deu\hms\checkout\checkoutFrame$5.class
 deu\hms\restaurant\ReservationDialog.class
@@ -133,6 +144,7 @@ deu\hms\restaurant\ReservationDialog$5.class
 deu\hms\checkin\checkinFrame$5.class
 deu\hms\login\loginFrame$2.class
 deu\hms\reservation\EditForm$6.class
+deu\hms\restaurantManagement\restaurantFrame$10.class
 deu\hms\reservation\Change$4.class
 deu\hms\reservation\reservationFrame$4.class
 deu\hms\login\MainScreenManager$6.class
@@ -148,6 +160,7 @@ deu\hms\checkin\HotelRoomInfo$1.class
 deu\hms\checkin\Floor.class
 deu\hms\checkin\checkinFrame$1.class
 deu\hms\roomManagement\roomFrame$5.class
+deu\hms\restaurantManagement\restaurantFrame$9.class
 deu\hms\checkout\checkoutFrame.class
 deu\hms\accountManagement\accountFrame$3.class
 deu\hms\login\MainScreenEmployees$6.class
@@ -163,12 +176,15 @@ deu\hms\login\MainScreenManager$7.class
 deu\hms\restaurantManagement\restaurantFrame$1.class
 deu\hms\reservation\EditForm$7.class
 deu\hms\roomManagement\roomFrame$4.class
+deu\hms\restaurantManagement\restaurantFrame$11.class
 deu\hms\restaurant\restaurantFrame$5.class
 deu\hms\management\managementFrame$2.class
 deu\hms\reservation\EditForm$10.class
+deu\hms\restaurantManagement\restaurantFrame$8.class
 deu\hms\login\MainScreenEmployees$5.class
 deu\hms\management\managementFrame$5$1.class
 deu\hms\restaurantManagement\restaurantFrame.class
 deu\hms\accountManagement\accountFrame$2.class
+deu\hms\roomservice\roomserviceFrame$11.class
 deu\hms\reservation\Registration$5.class
 deu\hms\restaurant\ReservationViewDialog$1.class
