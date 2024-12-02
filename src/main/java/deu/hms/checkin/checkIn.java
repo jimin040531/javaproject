@@ -4,6 +4,7 @@
  */
 package deu.hms.checkin;
 
+import deu.hms.reservation.Reservation;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,10 +22,10 @@ public class CheckIn extends javax.swing.JFrame {
     /**
      * Creates new form CheckIn
      */
+    private ReservationLoad reservationLoad;
     
-    private ReservationLoad reservationLoader;
-
     public CheckIn() {
+        this.reservationLoad = new ReservationLoad(); // ReservationLoad 객체 초기화
         initComponents();                // 컴포넌트 초기화
         searchTextField = new javax.swing.JTextField(); // searchTextField 초기화
         setLocationRelativeTo(null);     // 화면 중앙 배치
@@ -34,9 +35,10 @@ public class CheckIn extends javax.swing.JFrame {
         paymentTypeRegistButton.setEnabled(false);
         paymentType.setEnabled(false);
 
+        loadReservationsToTable();       // 테이블에 예약 데이터를 로드하는 메서드 호출
     }
     
-    public void serchReservationData() {//예약자 검색
+    public void searchReservationData() {
         String searchText = searchTextField.getText().trim();
         DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
         DefaultTableModel searchModel = new DefaultTableModel(new String[]{
@@ -60,35 +62,34 @@ public class CheckIn extends javax.swing.JFrame {
         }
 
         reservationListTable.setModel(searchModel);
-
     }
     
-
+    // 라디오 버튼 초기화 메서드
     private void initRadioButtons() {
-        // paymentGroup은 이미 생성되어 있다고 가정
+        paymentGroup = new javax.swing.ButtonGroup(); // ButtonGroup 초기화
         paymentGroup.add(onSitePaymentButton);
         paymentGroup.add(cardRegistButton);
     }
 
+    // 라디오 버튼 상태 변경 이벤트 설정 메서드
     private void configurePaymentButtonState() {
-        // cardRegistButton을 선택했을 때 paymentTypeRegistButton 활성화
         cardRegistButton.addActionListener(e -> {
             paymentTypeRegistButton.setEnabled(true);
             paymentType.setEnabled(false);
         });
 
-        // onSitePaymentButton을 선택했을 때 paymentTypeRegistButton 비활성화
         onSitePaymentButton.addActionListener(e -> {
             paymentTypeRegistButton.setEnabled(false);
             paymentType.setEnabled(true);
         });
     }
 
-
+    // 플레이스홀더 초기화 메서드
     private void initializePlaceholders() {
         setTextFieldPlaceholder(reqestTextField, "요청 사항 없을 시  '없음'  입력");
     }
     
+    // 텍스트 필드에 플레이스홀더 설정 메서드
     private void setTextFieldPlaceholder(javax.swing.JTextField textField, String placeholder) {
         textField.setText(placeholder);
         textField.setForeground(java.awt.Color.GRAY);
@@ -111,8 +112,93 @@ public class CheckIn extends javax.swing.JFrame {
             }
         });
     }
-    
-    
+
+    // 예약 파일을 읽어오는 메서드
+    public void readReservationFile(String filePath) {
+        reservationLoad.loadReservationsFromFile(filePath); // ReservationLoad 클래스를 사용해 파일 읽기
+        loadReservationsToTable(); // 파일 읽기 후 테이블에 데이터 로드
+    }
+
+    // 예약 데이터를 JTable에 로드하는 메서드
+    public void loadReservationsToTable() {
+        DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
+        model.setRowCount(0); // 기존 테이블 내용 초기화
+
+        List<Reservation> reservations = reservationLoad.getReservations();
+        for (Reservation reservation : reservations) {
+            model.addRow(new Object[]{
+                reservation.getUnique(),
+                reservation.getName(),
+                reservation.getPhoneNum(),
+                reservation.getRoomNum(),
+                reservation.getFee(),
+                reservation.getPaymentType(),
+                reservation.getPaymentMethod()
+            });
+        }
+    }
+
+    // 콤보 박스 선택에 따라 검색 기준 변경 메서드
+    private void comboBoxSelectionChanged() {
+        String selectedItem = (String) searchComboBox.getSelectedItem();
+        if ("이름".equals(selectedItem)) {
+            searchReservationDataByName();
+        } else if ("고유 번호".equals(selectedItem)) {
+            searchReservationDataById();
+        }
+    }
+
+    // 이름으로 예약 데이터를 검색하는 메서드
+    private void searchReservationDataByName() {
+        String searchText = searchTextField.getText().trim();
+        DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
+        DefaultTableModel searchModel = new DefaultTableModel(new String[]{
+            "고유 번호", "이름", "전화 번호", "방 번호", "객실 금액", "결제 수단", "상태"
+        }, 0);
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String name = model.getValueAt(i, 1).toString();
+            if (name.contains(searchText)) {
+                searchModel.addRow(new Object[]{
+                    model.getValueAt(i, 0),
+                    model.getValueAt(i, 1),
+                    model.getValueAt(i, 2),
+                    model.getValueAt(i, 3),
+                    model.getValueAt(i, 4),
+                    model.getValueAt(i, 5),
+                    model.getValueAt(i, 6)
+                });
+            }
+        }
+
+        reservationListTable.setModel(searchModel);
+    }
+
+    // 고유 번호로 예약 데이터를 검색하는 메서드
+    private void searchReservationDataById() {
+        String searchText = searchTextField.getText().trim();
+        DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
+        DefaultTableModel searchModel = new DefaultTableModel(new String[]{
+            "고유 번호", "이름", "전화 번호", "방 번호", "객실 금액", "결제 수단", "상태"
+        }, 0);
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String uniqueId = model.getValueAt(i, 0).toString();
+            if (uniqueId.contains(searchText)) {
+                searchModel.addRow(new Object[]{
+                    model.getValueAt(i, 0),
+                    model.getValueAt(i, 1),
+                    model.getValueAt(i, 2),
+                    model.getValueAt(i, 3),
+                    model.getValueAt(i, 4),
+                    model.getValueAt(i, 5),
+                    model.getValueAt(i, 6)
+                });
+            }
+        }
+
+        reservationListTable.setModel(searchModel);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -383,7 +469,7 @@ public class CheckIn extends javax.swing.JFrame {
     }//GEN-LAST:event_guestRegistButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-
+        comboBoxSelectionChanged();
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
