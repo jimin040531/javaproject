@@ -152,9 +152,9 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     }//GEN-LAST:event_GoCheckoutEmployeesActionPerformed
 
     private void GoRoomserviceEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoRoomserviceEmployeesActionPerformed
-        deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
-        roomserviceFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
-        roomserviceFrame.setVisible(true);
+   //     deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
+   //     roomserviceFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+    //    roomserviceFrame.setVisible(true);
         this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_GoRoomserviceEmployeesActionPerformed
 
