@@ -5,18 +5,22 @@
 package deu.hms.checkin;
 
 import javax.swing.JOptionPane;
+import deu.hms.reservation.Registration;
 
 /**
  *
  * @author Jimin
  */
 public class cardRegist extends javax.swing.JFrame {
+private Registration registration; // Registration 객체 참조
 
     
     
     /**
      * Creates new form cardRegist
      */
+    
+ 
     public cardRegist() {
         initComponents();
         initializePlaceholders();
@@ -55,7 +59,11 @@ public class cardRegist extends javax.swing.JFrame {
             }
         });
     }
-    
+    public cardRegist(Registration registration) {
+    this.registration = registration; // Registration 객체 저장
+    initComponents(); // NetBeans GUI에서 자동 생성된 초기화 코드
+    initializePlaceholders(); // 기존 초기화 코드
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -224,6 +232,7 @@ public class cardRegist extends javax.swing.JFrame {
 
     private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
     // 입력 필드에서 값 가져오기
+   
         String cardNum1 = cardNumTextField1.getText().trim();
         String cardNum2 = cardNumTextField2.getText().trim();
         String cardNum3 = cardNumTextField3.getText().trim();
@@ -239,8 +248,11 @@ public class cardRegist extends javax.swing.JFrame {
 
             // 카드 정보 저장
             cardInfoObj.saveCardInformation();
-
+             if (registration != null) {
+            registration.showCardRegistrationStatus();
+        }
             JOptionPane.showMessageDialog(this, "카드 정보가 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
+            //    labelCardStatus.setVisible(true);
 
             // 입력 필드 초기화 및 프레임 닫기
             cardNumTextField1.setText("");
@@ -255,6 +267,7 @@ public class cardRegist extends javax.swing.JFrame {
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
         }
+       
     }//GEN-LAST:event_registButtonActionPerformed
 
     private void cardNumTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardNumTextField1ActionPerformed
