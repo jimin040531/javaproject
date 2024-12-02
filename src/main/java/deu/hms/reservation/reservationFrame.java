@@ -55,8 +55,10 @@ private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 중
     }
 
     private void openRegistrationFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        Registration registrationForm = new Registration(this);  // 현재의 reservationFrame 객체를 전달
-        registrationForm.setVisible(true);
+       if (registrationFrame == null) {
+        registrationFrame = new Registration(this); // `this` 전달
+    }
+    registrationFrame.setVisible(true);
     }
 
     public reservationFrame(java.awt.Frame parent, boolean modal) {
@@ -211,11 +213,11 @@ private void initializeTableFromFile() {
 
 
     private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
+
         // 현재 reservationFrame 숨기기
-    this.setVisible(false);
-        Registration registrationFrame = new Registration(this);
+    this.setVisible(false); 
+    Registration registrationFrame = new Registration(this);
     registrationFrame.setSize(500, 450);
-    registrationFrame.setLocationRelativeTo(this);
     registrationFrame.setTitle("정보등록");
     registrationFrame.setVisible(true);
     registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  

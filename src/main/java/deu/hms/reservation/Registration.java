@@ -19,6 +19,7 @@ import java.util.UUID;
 import deu.hms.checkin.cardRegist; //카드등록 불러옴
 import java.awt.Frame;
 import javax.swing.ButtonGroup;
+import deu.hms.checkin.HotelRoomInfo; // HotelRoomInfo 클래스 import
 
 
 /**
@@ -42,7 +43,6 @@ private reservationFrame parentFrame;
     private ButtonGroup paymentGroup = new ButtonGroup(); // 클래스 필드로 선언
 private javax.swing.JLabel reservationStatusLabel;
 
- 
 
 
 
@@ -70,7 +70,10 @@ private javax.swing.JLabel reservationStatusLabel;
         
     }
     public Registration(reservationFrame parentFrame) {
-    this.parentFrame = parentFrame; // 부모 프레임 저장
+     this.parentFrame = parentFrame;
+    if (parentFrame == null) {
+        System.err.println("parentFrame이 null입니다. reservationFrame 객체가 제대로 전달되지 않았습니다.");
+    }
     initComponents();
 }
 
@@ -136,7 +139,7 @@ private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
      
 
     try {
-        // 선택된 행이 있을 경우 삭제 (눈속임 방식)
+        // 선택된 행이 있을 경우 삭제 
         if (editingRow != -1) { 
             model.removeRow(editingRow); // 테이블에서 선택된 행 삭제
             FileManager.deleteFromFile(updatedData.getUniqueNumber(), "Reservation.txt"); // 파일에서도 삭제
@@ -187,6 +190,10 @@ public void transferRegistrationToReservation() {
     public Registration() {
         initComponents();
         
+
+    if (textCheckInDate == null || textCheckOutDate == null) {
+        System.err.println("textCheckInDate 또는 textCheckOutDate가 초기화되지 않았습니다.");
+    }
       
         initRadioButtons();              // 라디오 버튼 초기화
         configurePaymentButtonState();   // 라디오 버튼의 상태 변경 이벤트 연결
@@ -194,7 +201,9 @@ public void transferRegistrationToReservation() {
         paymentTypeRegistButton.setEnabled(false);
         paymentType.setEnabled(false);
   // initRadioButtons 메소드
-
+        if (textCheckInDate == null || textCheckOutDate == null) {
+        System.err.println("textCheckInDate 또는 textCheckOutDate가 초기화되지 않았습니다.");
+    }
     }
    public Registration(Frame frame, boolean b) { //버튼할떄 추가했는데 이것도 포함인지 모르겠다 ㄱ
         throw new UnsupportedOperationException("Not supported yet."); // d
@@ -221,13 +230,24 @@ public void transferRegistrationToReservation() {
     }
     // 다른 컴포넌트 초기화 후에 호출되는 메서드에 작성
       
- 
+ //카드상태를 보여주는거
 public void showCardRegistrationStatus() {
     labelCardStatus.setText("등록완료");
     labelCardStatus.setVisible(true);
 }
-    
-
+ //체크인날짜.아웃날짜 불러오기
+    public void updateDates(String checkInDate, String checkOutDate) {
+    if (textCheckInDate != null && textCheckOutDate != null) {
+        textCheckInDate.setText(checkInDate);
+        textCheckOutDate.setText(checkOutDate);
+        System.out.println("Registration 클래스에 날짜 전달됨: " + checkInDate + ", " + checkOutDate);
+    } else {
+        System.err.println("UI 컴포넌트가 초기화되지 않았습니다.");
+    }
+}
+    public reservationFrame getParentFrame() { //저장버튼에 null뜨는현상
+        return parentFrame;
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -263,6 +283,7 @@ public void showCardRegistrationStatus() {
         labelReservationStatus = new javax.swing.JLabel();
         labelCardStatus = new javax.swing.JLabel();
         paymentType = new javax.swing.JComboBox<>();
+        calendar = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jTextPane1);
 
@@ -350,6 +371,13 @@ public void showCardRegistrationStatus() {
             }
         });
 
+        calendar.setText("☎");
+        calendar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calendarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -396,11 +424,15 @@ public void showCardRegistrationStatus() {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel11))
                             .addComponent(textRoomNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textCheckOutDate, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textCheckInDate, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textCheckOutDate, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textCheckInDate, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(calendar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(196, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -424,11 +456,14 @@ public void showCardRegistrationStatus() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(textCheckOutDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(16, 16, 16)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(textCheckOutDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(calendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -485,7 +520,7 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_onSitePaymentButtonActionPerformed
 
     private void cardRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardRegistButtonActionPerformed
-        // TODO add your handling code here:
+   
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
@@ -517,8 +552,7 @@ private String readCardInfoFromFile() {
     } catch (java.io.IOException ex) {
         return null; // 읽기 실패 시 null 반환
     }
-
-    
+   
     
 // 카드 등록 완료 후 라벨 업데이트
 
@@ -533,46 +567,57 @@ private String readCardInfoFromFile() {
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-    
-        DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
-    ReservationData updatedData = populateReservationData();
-
     try {
+        if (parentFrame == null) {
+            throw new NullPointerException("parentFrame이 null입니다. ReservationFrame 객체가 전달되지 않았습니다.");
+        }
+
+        DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
+        ReservationData updatedData = populateReservationData();
+
         if (editingRow != -1) {
-            // 기존 데이터 수정
             TableManager.updateRow(model, editingRow, updatedData);
             FileManager.updateInFile(updatedData, "Reservation.txt");
         } else {
-            // 새 데이터 추가
             TableManager.addRow(model, updatedData);
             FileManager.saveToFile(updatedData.toCSV());
         }
 
         JOptionPane.showMessageDialog(this, "저장 완료!", "성공", JOptionPane.INFORMATION_MESSAGE);
-         // 상태 업데이트 예약
+
         ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
         statusScheduler.scheduleStatusUpdate(updatedData.getCheckInDate(), model.getRowCount() - 1, model);
-        
+
+        labelReservationStatus.setText("예약완료! 체크인은 당일 6시입니다!!");
+        labelReservationStatus.setVisible(true);
+
+    } catch (NullPointerException e) {
+        JOptionPane.showMessageDialog(this, "오류 발생: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "저장 실패: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
     }
 
-    editingRow = -1; // 수정 상태 초기화
-      // labelReservationStatus의 텍스트 설정
-    labelReservationStatus.setText("예약완료! 체크인은 당일 6시입니다!!");
-
-    // labelReservationStatus를 보이도록 설정
-    labelReservationStatus.setVisible(true);
-    
+    editingRow = -1; 
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-       editingRow = -1; // 수정 상태 초기화
-    this.dispose();  // 현재 창(Registration)을 닫기
+      editingRow = -1; // 수정 상태 초기화
+    this.setVisible(false); // 현재 창(Registration)을 닫기
 
     // 숨겨진 reservationFrame 다시 보이기
     if (parentFrame != null) { // 부모 프레임이 null인지 확인
         parentFrame.setVisible(true); // reservationFrame 다시 표시
+        parentFrame.toFront(); // 최상단으로 가져오기
+        parentFrame.repaint(); // 새로고침
+    } else {
+        // reservationFrame이 없으면 새로 생성해서 표시
+            reservationFrame newReservationFrame = new reservationFrame();
+
+        newReservationFrame.setVisible(true); 
+        newReservationFrame.setSize(850, 250);
+        newReservationFrame.setLocationRelativeTo(null); // 화면 중앙에 표시
     }
     }//GEN-LAST:event_backActionPerformed
 
@@ -580,10 +625,19 @@ private String readCardInfoFromFile() {
         // TODO add your handling code here:
     }//GEN-LAST:event_paymentTypeActionPerformed
 
+    private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
+        
+        this.setVisible(false); 
+        SwingUtilities.invokeLater(() -> {  
+        new HotelRoomInfo(); // HotelRoomInfo 생성자 호출 캘린더
+    });
+    }//GEN-LAST:event_calendarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane Money;
     private javax.swing.JButton back;
+    private javax.swing.JButton calendar;
     private javax.swing.JRadioButton cardRegistButton;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

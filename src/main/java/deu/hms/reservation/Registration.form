@@ -106,11 +106,17 @@
                                   <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="textRoomNumber" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="textCheckOutDate" min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="textCheckInDate" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
                               <Component id="textPhoneNumber" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
                               <Component id="textAddress" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
                               <Component id="textName" min="-2" pref="67" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="textCheckOutDate" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
+                                      <Component id="textCheckInDate" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="calendar" min="-2" pref="52" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -142,12 +148,17 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="textCheckOutDate" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="textCheckOutDate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Component id="calendar" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
@@ -178,7 +189,7 @@
                               <Component id="paymentType" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="textCheckInDate" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="textCheckInDate" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -351,6 +362,14 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="calendar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#x260e;"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calendarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
