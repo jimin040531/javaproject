@@ -138,7 +138,7 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     }//GEN-LAST:event_GoReservationEmployeesActionPerformed
 
     private void GoCheckinEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoCheckinEmployeesActionPerformed
-        deu.hms.checkin.checkinFrame checkinFrame = new deu.hms.checkin.checkinFrame(new java.awt.Frame(), true);
+        deu.hms.checkin.checkIn checkinFrame = new deu.hms.checkin.checkIn(new java.awt.Frame(), true);
         checkinFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         checkinFrame.setVisible(true);
         this.dispose();  // 현재 창 닫기
