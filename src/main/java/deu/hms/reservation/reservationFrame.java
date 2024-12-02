@@ -205,7 +205,9 @@ private void initializeTableFromFile() {
 
 
     private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
-    Registration registrationFrame = new Registration(this);
+        // 현재 reservationFrame 숨기기
+    this.setVisible(false);
+        Registration registrationFrame = new Registration(this);
     registrationFrame.setSize(500, 450);
     registrationFrame.setLocationRelativeTo(this);
     registrationFrame.setTitle("정보등록");
@@ -215,7 +217,8 @@ private void initializeTableFromFile() {
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
-   
+        // 현재 reservationFrame 숨기기
+    this.setVisible(false);
     int selectedRow = mainTable.getSelectedRow();
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);

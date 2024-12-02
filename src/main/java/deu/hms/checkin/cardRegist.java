@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
  */
 public class cardRegist extends javax.swing.JFrame {
 
+    
+    
     /**
      * Creates new form cardRegist
      */

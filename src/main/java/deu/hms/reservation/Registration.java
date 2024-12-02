@@ -16,6 +16,7 @@ import java.time.format.DateTimeParseException;
 import deu.hms.reservation.ReservationUtils;
 import java.io.IOException; 
 import java.util.UUID;
+import deu.hms.checkin.cardRegist; //카드등록 불러옴
 
 
 /**
@@ -173,65 +174,33 @@ public void transferRegistrationToReservation() {
     public Registration() {
         initComponents();
 
-        initRadioButtons();
+        //initRadioButtons();
 
-        initializePlaceholders(); // Placeholder 초기화
-        configurePaymentButtonState();
+       // configurePaymentButtonState();
         paymentTypeRegistButton.setEnabled(false);
 
         //
     }
 
-    private void initRadioButtons() {
+   /* private void initRadioButtons() {
         // paymentButtonGroup은 이미 생성되어 있다고 가정
         // JDialog에 있는 onSitePaymentButton과 cardRegistButton을 ButtonGroup에 추가
         paymentButtonGroup.add(onSitePaymentButton);
         paymentButtonGroup.add(cardRegistButton);
-    }
+    }*/
 
-    private void configurePaymentButtonState() {
+   /* private void configurePaymentButtonState() {
         // cardRegistButton을 선택했을 때 paymentTypeRegistButton 활성화
         cardRegistButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(true));
 
         // onSitePaymentButton을 선택했을 때 paymentTypeRegistButton 비활성화
         onSitePaymentButton.addActionListener(e -> paymentTypeRegistButton.setEnabled(false));
-    }
+    }*/
 
     // 다른 컴포넌트 초기화 후에 호출되는 메서드에 작성
-    private void initializePlaceholders() {
-        setTextFieldPlaceholder(cardNumTextField1, "****");
-        setTextFieldPlaceholder(cardNumTextField2, "****");
-        setTextFieldPlaceholder(cardNumTextField3, "****");
-        setTextFieldPlaceholder(cardNumTextField4, "****");
-        setTextFieldPlaceholder(monthTextField, "MM");
-        setTextFieldPlaceholder(yearTextField, "YY");
-        setTextFieldPlaceholder(pwTextField, "비밀번호 앞 2자리");
-        setTextFieldPlaceholder(cvcTextField, "***");
+    
 
-    }
-
-    private void setTextFieldPlaceholder(javax.swing.JTextField textField, String placeholder) {
-        textField.setText(placeholder);
-        textField.setForeground(java.awt.Color.GRAY);
-
-        textField.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (textField.getText().equals(placeholder)) {
-                    textField.setText(""); // 기본 텍스트 제거
-                    textField.setForeground(java.awt.Color.BLACK); // 글자색 검정
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (textField.getText().trim().isEmpty()) {
-                    textField.setText(placeholder); // 기본 텍스트 복원
-                    textField.setForeground(java.awt.Color.GRAY); // 글자색 회색
-                }
-            }
-        });
-    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -239,25 +208,6 @@ public void transferRegistrationToReservation() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
-        cardRegist = new javax.swing.JDialog();
-        pwLabel = new javax.swing.JLabel();
-        pwTextField = new javax.swing.JTextField();
-        cardNumLabel = new javax.swing.JLabel();
-        registButton = new javax.swing.JButton();
-        cardNumTextField1 = new javax.swing.JTextField();
-        Label1 = new javax.swing.JLabel();
-        cardNumTextField2 = new javax.swing.JTextField();
-        Label2 = new javax.swing.JLabel();
-        cardNumTextField3 = new javax.swing.JTextField();
-        Label3 = new javax.swing.JLabel();
-        cardNumTextField4 = new javax.swing.JTextField();
-        cancleButton = new javax.swing.JButton();
-        expirationDateLabel = new javax.swing.JLabel();
-        slashLabel = new javax.swing.JLabel();
-        monthTextField = new javax.swing.JTextField();
-        yearTextField = new javax.swing.JTextField();
-        cvcLabel = new javax.swing.JLabel();
-        cvcTextField = new javax.swing.JTextField();
         paymentButtonGroup = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
@@ -288,139 +238,6 @@ public void transferRegistrationToReservation() {
         labelCardStatus = new javax.swing.JLabel();
 
         jScrollPane1.setViewportView(jTextPane1);
-
-        pwLabel.setText("비밀번호");
-
-        cardNumLabel.setText("카드번호");
-
-        registButton.setText("등록");
-        registButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registButtonActionPerformed(evt);
-            }
-        });
-
-        cardNumTextField1.setToolTipText("");
-        cardNumTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cardNumTextField1ActionPerformed(evt);
-            }
-        });
-
-        Label1.setText("-");
-
-        cardNumTextField2.setToolTipText("");
-
-        Label2.setText("-");
-
-        Label3.setText("-");
-
-        cancleButton.setText("취소");
-        cancleButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancleButtonActionPerformed(evt);
-            }
-        });
-
-        expirationDateLabel.setText("유효기간");
-
-        slashLabel.setText("/");
-
-        monthTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                monthTextFieldActionPerformed(evt);
-            }
-        });
-
-        yearTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                yearTextFieldActionPerformed(evt);
-            }
-        });
-
-        cvcLabel.setText("CVC");
-
-        javax.swing.GroupLayout cardRegistLayout = new javax.swing.GroupLayout(cardRegist.getContentPane());
-        cardRegist.getContentPane().setLayout(cardRegistLayout);
-        cardRegistLayout.setHorizontalGroup(
-            cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cardRegistLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(cardRegistLayout.createSequentialGroup()
-                            .addComponent(cancleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(registButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(cardRegistLayout.createSequentialGroup()
-                            .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(cardNumLabel)
-                                .addComponent(expirationDateLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(monthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                .addComponent(cardNumTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(cardRegistLayout.createSequentialGroup()
-                                    .addComponent(Label1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cardNumTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(cardRegistLayout.createSequentialGroup()
-                                    .addComponent(slashLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(yearTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardRegistLayout.createSequentialGroup()
-                                    .addComponent(cvcLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cvcTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(cardRegistLayout.createSequentialGroup()
-                                    .addComponent(Label2)
-                                    .addGap(7, 7, 7)
-                                    .addComponent(cardNumTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(Label3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cardNumTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(cardRegistLayout.createSequentialGroup()
-                        .addComponent(pwLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pwTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        cardRegistLayout.setVerticalGroup(
-            cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cardRegistLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cardNumTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cardNumTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cardNumTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cardNumTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Label1)
-                    .addComponent(Label2)
-                    .addComponent(Label3)
-                    .addComponent(cardNumLabel))
-                .addGap(18, 18, 18)
-                .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(expirationDateLabel)
-                    .addComponent(monthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(slashLabel)
-                    .addComponent(yearTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cvcLabel)
-                    .addComponent(cvcTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pwLabel)
-                    .addComponent(pwTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(cardRegistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancleButton)
-                    .addComponent(registButton))
-                .addContainerGap())
-        );
 
         name.setText("이름");
 
@@ -637,13 +454,33 @@ public void transferRegistrationToReservation() {
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
-        cardRegist.setSize(295, 220);  // 다이얼로그 크기 설정
-        cardRegist.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
-        cardRegist.setTitle("카드 등록");  // 다이얼로그 제목 설정 
-        cardRegist.setModal(true);
-        cardRegist.setVisible(true);  // 다이얼로그 표시
-        cardRegist.toFront();
-                         
+   cardRegist cardRegistWindow = new cardRegist();
+    cardRegistWindow.setVisible(true);
+        cardRegistWindow.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+
+    // 창이 닫힌 후 카드 정보가 등록되었는지 확인
+    cardRegistWindow.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent e) {
+            // 파일에서 카드 정보 읽기
+            String cardInfo = readCardInfoFromFile();
+            if (cardInfo != null) {
+                labelCardStatus.setVisible(true);
+                labelCardStatus.setText("등록완료");
+            } else {
+                labelCardStatus.setVisible(false);
+            }
+        }
+    });
+}
+
+// 파일에서 카드 정보를 읽는 메서드
+private String readCardInfoFromFile() {
+    try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("card_data.txt"))) {
+        return reader.readLine(); // 첫 번째 줄 읽기
+    } catch (java.io.IOException ex) {
+        return null; // 읽기 실패 시 null 반환
+    }
 
 // 카드 등록 완료 후 라벨 업데이트
 
@@ -652,51 +489,6 @@ public void transferRegistrationToReservation() {
     private void textNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textNameActionPerformed
-
-    private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
-        // 입력 필드에서 값 가져오기
-        String cardNum1 = cardNumTextField1.getText().trim();
-    String cardNum2 = cardNumTextField2.getText().trim();
-    String cardNum3 = cardNumTextField3.getText().trim();
-    String cardNum4 = cardNumTextField4.getText().trim();
-    String month = monthTextField.getText().trim();
-    String year = yearTextField.getText().trim();
-    String pw = pwTextField.getText().trim();
-    String cvc = cvcTextField.getText().trim();
-
-    // 카드 검증
-    if (!cardManager.validateCard(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc)) {
-        JOptionPane.showMessageDialog(cardRegist, "카드 정보가 잘못되었습니다!", "오류", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    // 카드 정보 저장
-    try {
-        String fullCardNumber = cardNum1 + "-" + cardNum2 + "-" + cardNum3 + "-" + cardNum4;
-        String expirationDate = month + "/" + year;
-        cardManager.saveCardData(fullCardNumber, expirationDate, pw, cvc);
-        JOptionPane.showMessageDialog(cardRegist, "카드 정보가 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
-        cardRegist.setVisible(false);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(cardRegist, "저장 중 오류 발생!", "오류", JOptionPane.ERROR_MESSAGE);
-    }
-            labelCardStatus.setVisible(true);
-    }//GEN-LAST:event_registButtonActionPerformed
-
-    private void cardNumTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardNumTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cardNumTextField1ActionPerformed
-
-    private void cancleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleButtonActionPerformed
-        cardRegist.setVisible(false);
-    }//GEN-LAST:event_cancleButtonActionPerformed
-
-    private void monthTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_monthTextFieldActionPerformed
-
-    private void yearTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_yearTextFieldActionPerformed
 
     private void textAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAddressActionPerformed
         // TODO add your handling code here:
@@ -731,7 +523,7 @@ public void transferRegistrationToReservation() {
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
       editingRow = -1; // 수정 상태 초기화
-          this.dispose();
+       this.setVisible(false);
 
     // 이전에 생성된 reservationFrame이 null인지 확인
     if (reservationFrame == null) {
@@ -745,22 +537,9 @@ public void transferRegistrationToReservation() {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Label1;
-    private javax.swing.JLabel Label2;
-    private javax.swing.JLabel Label3;
     private javax.swing.JTextPane Money;
     private javax.swing.JButton back;
-    private javax.swing.JButton cancleButton;
-    private javax.swing.JLabel cardNumLabel;
-    private javax.swing.JTextField cardNumTextField1;
-    private javax.swing.JTextField cardNumTextField2;
-    private javax.swing.JTextField cardNumTextField3;
-    private javax.swing.JTextField cardNumTextField4;
-    private javax.swing.JDialog cardRegist;
     private javax.swing.JRadioButton cardRegistButton;
-    private javax.swing.JLabel cvcLabel;
-    private javax.swing.JTextField cvcTextField;
-    private javax.swing.JLabel expirationDateLabel;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -776,16 +555,11 @@ public void transferRegistrationToReservation() {
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel labelCardStatus;
     private javax.swing.JLabel labelReservationStatus;
-    private javax.swing.JTextField monthTextField;
     private javax.swing.JLabel name;
     private javax.swing.JRadioButton onSitePaymentButton;
     private javax.swing.ButtonGroup paymentButtonGroup;
     private javax.swing.JButton paymentTypeRegistButton;
-    private javax.swing.JLabel pwLabel;
-    private javax.swing.JTextField pwTextField;
-    private javax.swing.JButton registButton;
     private javax.swing.JButton reservationsubmit;
-    private javax.swing.JLabel slashLabel;
     private java.awt.TextField textAddress;
     private java.awt.TextField textCheckInDate;
     private java.awt.TextField textCheckOutDate;
@@ -793,6 +567,5 @@ public void transferRegistrationToReservation() {
     private java.awt.TextField textName;
     private java.awt.TextField textPhoneNumber;
     private java.awt.TextField textRoomNumber;
-    private javax.swing.JTextField yearTextField;
     // End of variables declaration//GEN-END:variables
 }
