@@ -4,13 +4,11 @@
  */
 package deu.hms.userManagement;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import java.io.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.table.DefaultTableModel;
 
 
 
@@ -19,27 +17,21 @@ import javax.swing.table.DefaultTableModel;
  * @author yunhe
  */
 public class UserTableManager {
-   public static List<String[]> loadUsers(String filePath) {
-        List<String[]> users = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                users.add(line.split(", "));
-            }
-        } catch (IOException e) {
-            System.err.println("Error loading users: " + e.getMessage());
-        }
-        return users;
-    }
+   // 텍스트 파일에서 사용자 정보를 읽어와 JTable에 데이터를 설정
+    public static void loadUsersToTable(JTable userTable, String filePath) {
+        DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+        model.setRowCount(0); // 기존 데이터 초기화
 
-    public static void saveUsers(List<String[]> users, String filePath) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            for (String[] user : users) {
-                bw.write(String.join(", ", user));
-                bw.newLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userFields = line.split(", ");
+                if (userFields.length == 4) {
+                    model.addRow(new Object[]{userFields[0], userFields[1], userFields[2], userFields[3]});
+                }
             }
         } catch (IOException e) {
-            System.err.println("Error saving users: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

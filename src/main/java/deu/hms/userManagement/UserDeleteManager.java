@@ -4,22 +4,40 @@
  */
 package deu.hms.userManagement;
 
-import javax.swing.table.DefaultTableModel;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 /**
  *
  * @author yunhe
  */
 public class UserDeleteManager {
-    public static void deleteUser(DefaultTableModel tableModel, int rowIndex) {
-        String userId = tableModel.getValueAt(rowIndex, 0).toString();
-        tableModel.removeRow(rowIndex);
+    public static void deleteUser(String userId, String filePath) {
+        List<String> lines = new ArrayList<>();
+        boolean userDeleted = false;
 
-        List<String[]> users = UserTableManager.loadUsers("users.txt");
-        users.removeIf(user -> user[0].equals(userId));
-        UserTableManager.saveUsers(users, "users.txt");
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userFields = line.split(", ");
+                if (!userFields[0].equals(userId)) {
+                    lines.add(line);
+                } else {
+                    userDeleted = true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (userDeleted) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                for (String line : lines) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

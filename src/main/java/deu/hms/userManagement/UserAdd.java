@@ -171,10 +171,8 @@ public class UserAdd extends javax.swing.JFrame {
         String password = InUserPWAdd.getText();
         String role = PickEmployeeAdd.isSelected() ? "Employee" : "Manager";
 
-        User newUser = new User(id, password, name, role);
-        UserAddManager.addUser(newUser, "users.txt");
-        parent.refreshTable();
-        dispose();
+        UserAddManager.addUser(new User(id, password, name, role));
+    
     }//GEN-LAST:event_saveButtonAddActionPerformed
 
     private void PickEmployeeAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PickEmployeeAddActionPerformed

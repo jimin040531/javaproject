@@ -4,28 +4,50 @@
  */
 package deu.hms.userManagement;
 
-import javax.swing.table.DefaultTableModel;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  *
  * @author yunhe
  */
 public class UserModifyManager {
-    public static void modifyUser(DefaultTableModel tableModel, int rowIndex, User modifiedUser) {
-        tableModel.setValueAt(modifiedUser.getId(), rowIndex, 0);
-        tableModel.setValueAt(modifiedUser.getPassword(), rowIndex, 1);
-        tableModel.setValueAt(modifiedUser.getName(), rowIndex, 2);
-        tableModel.setValueAt(modifiedUser.getRole(), rowIndex, 3);
-
-        List<String[]> users = UserTableManager.loadUsers("users.txt");
-        for (String[] user : users) {
-            if (user[0].equals(modifiedUser.getId())) {
-                user[1] = modifiedUser.getPassword();
-                user[2] = modifiedUser.getName();
-                user[3] = modifiedUser.getRole();
+    public static void modifyUser(String id, User updatedUser) {
+        List<User> users = loadUsersFromFile("users.txt");
+        for (User user : users) {
+            if (user.getId().equals(id)) {
+                user.setName(updatedUser.getName());
+                user.setPassword(updatedUser.getPassword());
+                user.setRole(updatedUser.getRole());
             }
         }
-        UserTableManager.saveUsers(users, "users.txt");
+        saveUsersToFile(users);
+    }
+
+    private static List<User> loadUsersFromFile(String filePath) {
+        List<User> users = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userFields = line.split(", ");
+                if (userFields.length == 4) {
+                    users.add(new User(userFields[0], userFields[1], userFields[2], userFields[3]));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    private static void saveUsersToFile(List<User> users) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt"))) {
+            for (User user : users) {
+                writer.write(user.getId() + ", " + user.getPassword() + ", " + user.getName() + ", " + user.getRole());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

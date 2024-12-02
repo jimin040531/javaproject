@@ -4,21 +4,20 @@
  */
 package deu.hms.userManagement;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.List;
 
 /**
  *
  * @author yunhe
  */
 public class UserAddManager {
-     public static void addUser(User user, String filePath) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
-            bw.write(String.join(",", user.getId(), user.getPassword(), user.getName(), user.getRole()));
-            bw.newLine();
+    public static void addUser(User user) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt", true))) {
+            writer.write(user.getId() + ", " + user.getPassword() + ", " + user.getName() + ", " + user.getRole());
+            writer.newLine();
         } catch (IOException e) {
-            System.err.println("Error adding user: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
