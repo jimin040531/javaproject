@@ -17,12 +17,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jimin
  */
-public class ReservationLoad {
+public class reservationLoad {
     
     ArrayList<Reservation> reservation = new ArrayList<>();
 
     // 생성자 - JTable을 인수로 받아서 예약 파일을 읽어옵니다.
-    public ReservationLoad(JTable table) {
+    public reservationLoad(JTable table) {
         readReservationFile();
         
         DefaultTableModel model = (DefaultTableModel) table.getModel();
