@@ -27,21 +27,268 @@ public class checkoutFrame extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        serchTextField = new javax.swing.JTextField();
+        nameComboBox = new javax.swing.JComboBox<>();
+        checkoutLabel = new javax.swing.JLabel();
+        reqestTextField = new javax.swing.JTextField();
+        reservationlistLabel = new javax.swing.JLabel();
+        onSitePaymentButton = new javax.swing.JRadioButton();
+        editButton = new javax.swing.JButton();
+        cardRegistButton = new javax.swing.JRadioButton();
+        feedbackLabel = new javax.swing.JLabel();
+        paymentTypeRegistButton = new javax.swing.JButton();
+        checkoutTextField = new javax.swing.JTextField();
+        requestRegistButton = new javax.swing.JButton();
+        checkoutButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        reservationListTable = new javax.swing.JTable();
+        paymentTypeLabel = new javax.swing.JLabel();
+        roomAmountLabel = new javax.swing.JLabel();
+        serchButton = new javax.swing.JButton();
+        serviceCheckButton = new javax.swing.JButton();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "시간", "호실", "서비스"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        nameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "성이름", "고유 번호" }));
+        nameComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameComboBoxActionPerformed(evt);
+            }
+        });
+
+        checkoutLabel.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
+        checkoutLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        checkoutLabel.setText("체크아웃");
+
+        reqestTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reqestTextFieldActionPerformed(evt);
+            }
+        });
+
+        reservationlistLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        reservationlistLabel.setText("예약자 명단");
+
+        onSitePaymentButton.setText("현장 결제");
+
+        editButton.setText("수정");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
+
+        cardRegistButton.setText("카드 등록");
+
+        feedbackLabel.setText("피드백");
+
+        paymentTypeRegistButton.setText("등록");
+        paymentTypeRegistButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentTypeRegistButtonActionPerformed(evt);
+            }
+        });
+
+        requestRegistButton.setText("등록");
+        requestRegistButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                requestRegistButtonActionPerformed(evt);
+            }
+        });
+
+        checkoutButton.setText("체크아웃");
+
+        reservationListTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "고유 번호", "이름", "전화 번호", "방 번호", "객실 금액", "결제 수단", "상태"
+            }
+        ));
+        jScrollPane1.setViewportView(reservationListTable);
+
+        paymentTypeLabel.setText("결제 유형");
+
+        roomAmountLabel.setText("객실 금액");
+
+        serchButton.setLabel("검색");
+        serchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serchButtonActionPerformed(evt);
+            }
+        });
+
+        serviceCheckButton.setText("서비스 확인");
+        serviceCheckButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serviceCheckButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(checkoutLabel)
+                .addGap(234, 234, 234))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(feedbackLabel)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(reqestTextField)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(reservationlistLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(serviceCheckButton)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(paymentTypeLabel)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(onSitePaymentButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cardRegistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(paymentTypeRegistButton)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(checkoutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(checkoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(roomAmountLabel)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(requestRegistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(12, 12, 12))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addComponent(checkoutLabel)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(serchButton))
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reservationlistLabel)
+                    .addComponent(serviceCheckButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editButton)
+                .addGap(12, 12, 12)
+                .addComponent(feedbackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(reqestTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(requestRegistButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(paymentTypeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(roomAmountLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cardRegistButton)
+                    .addComponent(paymentTypeRegistButton)
+                    .addComponent(onSitePaymentButton)
+                    .addComponent(checkoutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void nameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameComboBoxActionPerformed
+
+    private void reqestTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reqestTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reqestTextFieldActionPerformed
+
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editButtonActionPerformed
+
+    private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paymentTypeRegistButtonActionPerformed
+
+    private void requestRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestRegistButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_requestRegistButtonActionPerformed
+
+    private void serchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serchButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serchButtonActionPerformed
+
+    private void serviceCheckButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceCheckButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serviceCheckButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -86,5 +333,27 @@ public class checkoutFrame extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton cardRegistButton;
+    private javax.swing.JButton checkoutButton;
+    private javax.swing.JLabel checkoutLabel;
+    private javax.swing.JTextField checkoutTextField;
+    private javax.swing.JButton editButton;
+    private javax.swing.JLabel feedbackLabel;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox<String> nameComboBox;
+    private javax.swing.JRadioButton onSitePaymentButton;
+    private javax.swing.JLabel paymentTypeLabel;
+    private javax.swing.JButton paymentTypeRegistButton;
+    private javax.swing.JTextField reqestTextField;
+    private javax.swing.JButton requestRegistButton;
+    private javax.swing.JTable reservationListTable;
+    private javax.swing.JLabel reservationlistLabel;
+    private javax.swing.JLabel roomAmountLabel;
+    private javax.swing.JButton serchButton;
+    private javax.swing.JTextField serchTextField;
+    private javax.swing.JButton serviceCheckButton;
     // End of variables declaration//GEN-END:variables
 }
