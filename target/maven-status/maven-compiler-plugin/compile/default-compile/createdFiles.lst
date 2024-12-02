@@ -162,6 +162,7 @@ deu\hms\checkin\HotelRoomInfo$1.class
 deu\hms\checkin\Floor.class
 deu\hms\checkin\checkinFrame$1.class
 deu\hms\roomManagement\roomFrame$5.class
+deu\hms\userManagement\UserTable.class
 deu\hms\checkout\checkoutFrame.class
 deu\hms\userManagement\UserManagementFrame.class
 deu\hms\login\MainScreenEmployees$6.class
