@@ -4,7 +4,6 @@
  */
 package deu.hms.checkin;
 
-import java.awt.Frame;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,6 +26,7 @@ public class CheckIn extends javax.swing.JFrame {
 
     public CheckIn() {
         initComponents();                // 컴포넌트 초기화
+        searchTextField = new javax.swing.JTextField(); // searchTextField 초기화
         setLocationRelativeTo(null);     // 화면 중앙 배치
         initializePlaceholders();
         initRadioButtons();              // 라디오 버튼 초기화
@@ -34,33 +34,35 @@ public class CheckIn extends javax.swing.JFrame {
         paymentTypeRegistButton.setEnabled(false);
         paymentType.setEnabled(false);
 
-        // ReservationLoad 객체 생성 및 데이터 로드
-        reservationLoader = new ReservationLoad("Reservation.txt");
-        loadReservationData();           // 예약 데이터를 테이블에 로드
     }
-
-    private void loadReservationData() {
-        // 테이블 모델을 설정합니다.
-        DefaultTableModel model = new DefaultTableModel(new String[]{
+    
+    public void serchReservationData() {//예약자 검색
+        String searchText = searchTextField.getText().trim();
+        DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
+        DefaultTableModel searchModel = new DefaultTableModel(new String[]{
             "고유 번호", "이름", "전화 번호", "방 번호", "객실 금액", "결제 수단", "상태"
         }, 0);
-        reservationListTable.setModel(model);
 
-        List<String[]> reservations = reservationLoader.loadReservations();
-
-        // 예약 정보 테이블의 기존 데이터 초기화
-        model.setRowCount(0);
-
-        // 예약 데이터를 테이블에 추가
-        for (String[] reservation : reservations) {
-            model.addRow(reservation);
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String uniqueId = model.getValueAt(i, 0).toString();
+            String name = model.getValueAt(i, 1).toString();
+            if (uniqueId.contains(searchText) || name.contains(searchText)) {
+                searchModel.addRow(new Object[]{
+                    model.getValueAt(i, 0),
+                    model.getValueAt(i, 1),
+                    model.getValueAt(i, 2),
+                    model.getValueAt(i, 3),
+                    model.getValueAt(i, 4),
+                    model.getValueAt(i, 5),
+                    model.getValueAt(i, 6)
+                });
+            }
         }
-    }
 
+        reservationListTable.setModel(searchModel);
 
-    public CheckIn(Frame frame, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
 
     private void initRadioButtons() {
         // paymentGroup은 이미 생성되어 있다고 가정
@@ -126,8 +128,8 @@ public class CheckIn extends javax.swing.JFrame {
         reqestLabel = new javax.swing.JLabel();
         paymentTypeRegistButton = new javax.swing.JButton();
         checkInTextField = new javax.swing.JTextField();
-        serchTextField = new javax.swing.JTextField();
-        nameComboBox = new javax.swing.JComboBox<>();
+        searchTextField = new javax.swing.JTextField();
+        searchComboBox = new javax.swing.JComboBox<>();
         checkinButton = new javax.swing.JButton();
         checkInLabel = new javax.swing.JLabel();
         ScrollPane = new javax.swing.JScrollPane();
@@ -138,7 +140,7 @@ public class CheckIn extends javax.swing.JFrame {
         onSitePaymentButton = new javax.swing.JRadioButton();
         roomAmountLabel = new javax.swing.JLabel();
         guestRegistButton = new javax.swing.JButton();
-        serchButton = new javax.swing.JButton();
+        searchButton = new javax.swing.JButton();
         roomInfoButton = new javax.swing.JButton();
         paymentType = new javax.swing.JComboBox<>();
 
@@ -161,16 +163,16 @@ public class CheckIn extends javax.swing.JFrame {
             }
         });
 
-        serchTextField.addActionListener(new java.awt.event.ActionListener() {
+        searchTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                serchTextFieldActionPerformed(evt);
+                searchTextFieldActionPerformed(evt);
             }
         });
 
-        nameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "성이름", "고유 번호" }));
-        nameComboBox.addActionListener(new java.awt.event.ActionListener() {
+        searchComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "이름", "고유 번호" }));
+        searchComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameComboBoxActionPerformed(evt);
+                searchComboBoxActionPerformed(evt);
             }
         });
 
@@ -226,13 +228,13 @@ public class CheckIn extends javax.swing.JFrame {
             }
         });
 
-        serchButton.setLabel("검색");
-        serchButton.setMaximumSize(new java.awt.Dimension(82, 23));
-        serchButton.setMinimumSize(new java.awt.Dimension(82, 23));
-        serchButton.setPreferredSize(new java.awt.Dimension(82, 23));
-        serchButton.addActionListener(new java.awt.event.ActionListener() {
+        searchButton.setLabel("검색");
+        searchButton.setMaximumSize(new java.awt.Dimension(82, 23));
+        searchButton.setMinimumSize(new java.awt.Dimension(82, 23));
+        searchButton.setPreferredSize(new java.awt.Dimension(82, 23));
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                serchButtonActionPerformed(evt);
+                searchButtonActionPerformed(evt);
             }
         });
 
@@ -264,11 +266,11 @@ public class CheckIn extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(reqestLabel)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(searchComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(reqestTextField)
                             .addComponent(reservationlistLabel)
                             .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -301,9 +303,9 @@ public class CheckIn extends javax.swing.JFrame {
                 .addComponent(checkInLabel)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(reservationlistLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -345,13 +347,13 @@ public class CheckIn extends javax.swing.JFrame {
     cardRegistFrame.toFront();                      // 프레임을 최상위로 이동
     }//GEN-LAST:event_paymentTypeRegistButtonActionPerformed
 
-    private void serchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serchTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_serchTextFieldActionPerformed
+    private void searchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextFieldActionPerformed
 
-    private void nameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameComboBoxActionPerformed
+    }//GEN-LAST:event_searchTextFieldActionPerformed
+
+    private void searchComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchComboBoxActionPerformed
+
+    }//GEN-LAST:event_searchComboBoxActionPerformed
 
     private void checkinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkinButtonActionPerformed
         // 요청 사항을 파일에 저장 (BufferedWriter 사용)
@@ -380,9 +382,9 @@ public class CheckIn extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_guestRegistButtonActionPerformed
 
-    private void serchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serchButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_serchButtonActionPerformed
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+
+    }//GEN-LAST:event_searchButtonActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
         // HotelRoomInfo 인스턴스를 생성하여 새로운 창을 엽니다.
@@ -438,7 +440,6 @@ public class CheckIn extends javax.swing.JFrame {
     private javax.swing.JTextField checkInTextField;
     private javax.swing.JButton checkinButton;
     private javax.swing.JButton guestRegistButton;
-    private javax.swing.JComboBox<String> nameComboBox;
     private javax.swing.JRadioButton onSitePaymentButton;
     private javax.swing.ButtonGroup paymentGroup;
     private javax.swing.JComboBox<String> paymentType;
@@ -450,8 +451,10 @@ public class CheckIn extends javax.swing.JFrame {
     private javax.swing.JLabel reservationlistLabel;
     private javax.swing.JLabel roomAmountLabel;
     private javax.swing.JButton roomInfoButton;
-    private javax.swing.JButton serchButton;
-    private javax.swing.JTextField serchTextField;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JComboBox<String> searchComboBox;
+    private javax.swing.JTextField searchTextField;
     // End of variables declaration//GEN-END:variables
+
 
 }

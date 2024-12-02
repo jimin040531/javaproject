@@ -38,11 +38,11 @@
                       <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                           <Component id="reqestLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="nameComboBox" min="-2" max="-2" attributes="0"/>
+                              <Component id="searchComboBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="serchTextField" min="-2" pref="358" max="-2" attributes="0"/>
+                              <Component id="searchTextField" min="-2" pref="358" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="serchButton" min="-2" pref="82" max="-2" attributes="0"/>
+                              <Component id="searchButton" min="-2" pref="82" max="-2" attributes="0"/>
                           </Group>
                           <Component id="reqestTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="reservationlistLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -86,9 +86,9 @@
               <Component id="checkInLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="nameComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="serchTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="serchButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="searchComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="searchTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="searchButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="reservationlistLabel" min="-2" max="-2" attributes="0"/>
@@ -147,22 +147,22 @@
     </Component>
     <Component class="javax.swing.JTextField" name="checkInTextField">
     </Component>
-    <Component class="javax.swing.JTextField" name="serchTextField">
+    <Component class="javax.swing.JTextField" name="searchTextField">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serchTextFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchTextFieldActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="nameComboBox">
+    <Component class="javax.swing.JComboBox" name="searchComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="2">
-            <StringItem index="0" value="&#xc131;&#xc774;&#xb984;"/>
+            <StringItem index="0" value="&#xc774;&#xb984;"/>
             <StringItem index="1" value="&#xace0;&#xc720; &#xbc88;&#xd638;"/>
           </StringArray>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameComboBoxActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchComboBoxActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -298,7 +298,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guestRegistButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="serchButton">
+    <Component class="javax.swing.JButton" name="searchButton">
       <Properties>
         <Property name="label" type="java.lang.String" value="&#xac80;&#xc0c9;"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -312,7 +312,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serchButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="roomInfoButton">
