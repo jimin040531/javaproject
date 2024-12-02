@@ -8,31 +8,57 @@ import java.awt.Frame;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Jimin
  */
-public class checkIn extends javax.swing.JFrame {
+public class CheckIn extends javax.swing.JFrame {
 
     /**
-     * Creates new form checkIn
+     * Creates new form CheckIn
      */
     
-    public checkIn() {
+    private ReservationLoad reservationLoader;
+
+    public CheckIn() {
         initComponents();                // 컴포넌트 초기화
         setLocationRelativeTo(null);     // 화면 중앙 배치
         initializePlaceholders();
         initRadioButtons();              // 라디오 버튼 초기화
         configurePaymentButtonState();   // 라디오 버튼의 상태 변경 이벤트 연결
-        // 초기 화면에서 paymentTypeRegistButton 비활성화
         paymentTypeRegistButton.setEnabled(false);
         paymentType.setEnabled(false);
+
+        // ReservationLoad 객체 생성 및 데이터 로드
+        reservationLoader = new ReservationLoad("Reservation.txt");
+        loadReservationData();           // 예약 데이터를 테이블에 로드
     }
 
-    public checkIn(Frame frame, boolean b) {
+    private void loadReservationData() {
+        // 테이블 모델을 설정합니다.
+        DefaultTableModel model = new DefaultTableModel(new String[]{
+            "고유 번호", "이름", "전화 번호", "방 번호", "객실 금액", "결제 수단", "상태"
+        }, 0);
+        reservationListTable.setModel(model);
+
+        List<String[]> reservations = reservationLoader.loadReservations();
+
+        // 예약 정보 테이블의 기존 데이터 초기화
+        model.setRowCount(0);
+
+        // 예약 데이터를 테이블에 추가
+        for (String[] reservation : reservations) {
+            model.addRow(reservation);
+        }
+    }
+
+
+    public CheckIn(Frame frame, boolean b) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -83,6 +109,8 @@ public class checkIn extends javax.swing.JFrame {
             }
         });
     }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -233,7 +261,7 @@ public class checkIn extends javax.swing.JFrame {
                         .addGap(248, 248, 248)
                         .addComponent(checkInLabel))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(reqestLabel)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(nameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -241,11 +269,10 @@ public class checkIn extends javax.swing.JFrame {
                                 .addComponent(serchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(reqestTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(reservationlistLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(ScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(guestRegistButton)))
+                            .addComponent(reqestTextField)
+                            .addComponent(reservationlistLabel)
+                            .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(guestRegistButton, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(paymentTypeLabel)
@@ -312,7 +339,7 @@ public class checkIn extends javax.swing.JFrame {
 
     private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
     // CardRegist 프레임 생성 및 표시
-    cardRegist cardRegistFrame = new cardRegist();  // CardRegist 클래스의 객체 생성
+    CardRegist cardRegistFrame = new CardRegist();  // CardRegist 클래스의 객체 생성
     cardRegistFrame.setLocationRelativeTo(this);    // 현재 프레임을 기준으로 중앙에 배치
     cardRegistFrame.setVisible(true);               // 프레임 표시
     cardRegistFrame.toFront();                      // 프레임을 최상위로 이동
@@ -358,9 +385,9 @@ public class checkIn extends javax.swing.JFrame {
     }//GEN-LAST:event_serchButtonActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
-        // hotelRoomInfo 인스턴스를 생성하여 새로운 창을 엽니다.
+        // HotelRoomInfo 인스턴스를 생성하여 새로운 창을 엽니다.
         SwingUtilities.invokeLater(() -> {
-            hotelRoomInfo hotelRoomInfo = new hotelRoomInfo(); // hotelRoomInfo 창을 띄웁니다.
+            HotelRoomInfo hotelRoomInfo = new HotelRoomInfo(); // HotelRoomInfo 창을 띄웁니다.
         });
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 
@@ -385,20 +412,21 @@ public class checkIn extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(checkIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(checkIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(checkIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(checkIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new checkIn().setVisible(true);
+                new CheckIn().setVisible(true);
             }
         });
     }

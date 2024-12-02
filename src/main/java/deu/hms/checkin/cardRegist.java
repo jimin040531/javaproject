@@ -10,12 +10,12 @@ import javax.swing.JOptionPane;
  *
  * @author Jimin
  */
-public class cardRegist extends javax.swing.JFrame {
+public class CardRegist extends javax.swing.JFrame {
 
     /**
      * Creates new form cardRegist
      */
-    public cardRegist() {
+    public CardRegist() {
         initComponents();
         initializePlaceholders();
     }
@@ -232,8 +232,8 @@ public class cardRegist extends javax.swing.JFrame {
         String cvc = cvcTextField.getText().trim();
 
         try {
-            // cardRegistLoad 객체 생성
-            cardRegistLoad cardInfoObj = new cardRegistLoad(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc);
+            // CardRegistLoad 객체 생성
+            CardRegistLoad cardInfoObj = new CardRegistLoad(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc);
 
             // 카드 정보 저장
             cardInfoObj.saveCardInformation();
@@ -288,20 +288,21 @@ public class cardRegist extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new cardRegist().setVisible(true);
+                new CardRegist().setVisible(true);
             }
         });
     }

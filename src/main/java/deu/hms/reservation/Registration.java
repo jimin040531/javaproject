@@ -4,6 +4,7 @@
  */
 package deu.hms.reservation;
 
+import deu.hms.checkin.CheckIn;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.time.LocalDate;
@@ -35,6 +36,10 @@ public class Registration extends JFrame {
     private CardManager cardManager = new CardManager();
     private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
 private reservationFrame parentFrame;
+
+    public Registration(CheckIn aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
         
  
 

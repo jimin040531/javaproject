@@ -16,15 +16,15 @@ import java.util.List;
  *
  * @author Jimin
  */
-class hotelReservationManager {
-    private final List<hotelFloor> floors; // 각 층의 리스트를 저장하는 변수
+class HotelReservationManager {
+    private final List<HotelFloor> floors; // 각 층의 리스트를 저장하는 변수
     private static final String FILE_NAME = "roomReservations.txt"; // 예약 정보를 저장하는 파일 이름
 
     // 생성자: 층과 층당 객실 수를 받아 초기화
-    public hotelReservationManager(int numFloors, int roomsPerFloor) {
+    public HotelReservationManager(int numFloors, int roomsPerFloor) {
         floors = new ArrayList<>();
         for (int i = 0; i < numFloors; i++) {
-            floors.add(new hotelFloor(roomsPerFloor)); // 각 층에 방 추가
+            floors.add(new HotelFloor(roomsPerFloor)); // 각 층에 방 추가
         }
         loadReservations(); // 프로그램 시작 시 예약 정보 로드
     }
@@ -61,7 +61,7 @@ class hotelReservationManager {
     @SuppressWarnings("unchecked")
     public final void loadReservations() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILE_NAME))) {
-            List<hotelFloor> loadedFloors = (List<hotelFloor>) in.readObject(); // 파일에서 읽어온 예약 정보 로드
+            List<HotelFloor> loadedFloors = (List<HotelFloor>) in.readObject(); // 파일에서 읽어온 예약 정보 로드
             for (int i = 0; i < floors.size(); i++) {
                 floors.set(i, loadedFloors.get(i)); // 기존 층 정보 업데이트
             }

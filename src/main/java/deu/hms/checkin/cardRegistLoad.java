@@ -13,14 +13,14 @@ import javax.swing.JOptionPane;
  *
  * @author Jimin
  */
-public class cardRegistLoad {
+public class CardRegistLoad {
     private String cardNumber = null;
     private String expirationDate = null;
     private String password = null;
     private String cvc = null;
 
     // 생성자
-    public cardRegistLoad(String cardNum1, String cardNum2, String cardNum3, String cardNum4,
+    public CardRegistLoad(String cardNum1, String cardNum2, String cardNum3, String cardNum4,
                            String month, String year, String pw, String cvc) {
         if (!validateCardNumber(cardNum1, cardNum2, cardNum3, cardNum4)) {
             throw new IllegalArgumentException("카드 번호는 각 4자리 숫자로 입력해야 합니다.");

@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Jimin
  */
 
-class hotelRoom implements Serializable {
+class HotelRoom implements Serializable {
     private final Map<LocalDate, Boolean> reservations = new HashMap<>(); // 날짜별 예약 상태를 저장하는 해시맵
 
     // 방이 주어진 날짜 범위에서 예약 가능한지 확인하는 메서드

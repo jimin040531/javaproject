@@ -35,7 +35,7 @@
                       <Component id="checkInLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                           <Component id="reqestLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="nameComboBox" min="-2" max="-2" attributes="0"/>
@@ -44,12 +44,10 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="serchButton" min="-2" pref="82" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="reqestTextField" alignment="0" max="32767" attributes="0"/>
-                              <Component id="reservationlistLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="ScrollPane" alignment="0" min="-2" pref="539" max="-2" attributes="0"/>
-                              <Component id="guestRegistButton" alignment="1" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="reqestTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="reservationlistLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="ScrollPane" alignment="0" min="-2" pref="539" max="-2" attributes="0"/>
+                          <Component id="guestRegistButton" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -212,6 +210,45 @@
                 <Column editable="true" title="&#xacb0;&#xc81c; &#xc218;&#xb2e8;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xc0c1;&#xd0dc;" type="java.lang.Object"/>
               </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>

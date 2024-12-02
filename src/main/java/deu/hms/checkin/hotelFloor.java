@@ -13,19 +13,19 @@ import java.util.List;
  *
  * @author Jimin
  */
-class hotelFloor implements Serializable {
-    private final List<hotelRoom> rooms; // 층에 있는 방들의 리스트를 저장하는 변수
+class HotelFloor implements Serializable {
+    private final List<HotelRoom> rooms; // 층에 있는 방들의 리스트를 저장하는 변수
 
     // 생성자: 층당 방의 수를 받아 초기화
-    public hotelFloor(int roomsPerFloor) {
+    public HotelFloor(int roomsPerFloor) {
         rooms = new ArrayList<>();
         for (int i = 0; i < roomsPerFloor; i++) {
-            rooms.add(new hotelRoom()); // 방을 리스트에 추가
+            rooms.add(new HotelRoom()); // 방을 리스트에 추가
         }
     }
 
     // 특정 방의 인덱스를 통해 방 객체를 반환하는 메서드
-    public hotelRoom getRoom(int roomIndex) {
+    public HotelRoom getRoom(int roomIndex) {
         return rooms.get(roomIndex);
     }
 
