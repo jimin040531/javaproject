@@ -4,6 +4,7 @@
  */
 package deu.hms.checkin;
 
+import java.awt.Frame;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,6 +30,10 @@ public class checkIn extends javax.swing.JFrame {
         // 초기 화면에서 paymentTypeRegistButton 비활성화
         paymentTypeRegistButton.setEnabled(false);
         paymentType.setEnabled(false);
+    }
+
+    public checkIn(Frame frame, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     private void initRadioButtons() {
