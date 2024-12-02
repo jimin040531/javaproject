@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class hotelRoomInfo {
+public class HotelRoomInfo  {
     final JFrame frame; // 메인 프레임
     private JDateChooser checkInDateChooser, checkOutDateChooser; // 체크인 및 체크아웃 날짜 선택기
     private JComboBox<String> floorSelector; // 층 선택 콤보박스
@@ -21,7 +21,7 @@ public class hotelRoomInfo {
     private final String[] roomGrades = new String[100]; // 객실 등급 배열
     
     // 생성자: GUI 초기화 및 예약 관리 객체 생성
-    public hotelRoomInfo() {
+    public HotelRoomInfo () {
         reservationManager = new hotelReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
         initializeRoomPricesAndGrades(); // 객실 가격 및 등급 초기화
 
@@ -280,6 +280,6 @@ public class hotelRoomInfo {
 
     // 메인 메서드: 프로그램 실행 진입점
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(hotelRoomInfo::new);
+        SwingUtilities.invokeLater(HotelRoomInfo ::new);
     }
 }

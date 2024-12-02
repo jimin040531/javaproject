@@ -522,16 +522,12 @@ private String readCardInfoFromFile() {
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-      editingRow = -1; // 수정 상태 초기화
-       this.setVisible(false);
+       editingRow = -1; // 수정 상태 초기화
+    this.dispose();  // 현재 창(Registration)을 닫기
 
-    // 이전에 생성된 reservationFrame이 null인지 확인
-    if (reservationFrame == null) {
-        reservationFrame = new reservationFrame(); // 새로운 reservationFrame 생성
-        reservationFrame.setSize(850, 250);
-        reservationFrame.setLocationRelativeTo(null);
-        reservationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
-
+    // 숨겨진 reservationFrame 다시 보이기
+    if (parentFrame != null) { // 부모 프레임이 null인지 확인
+        parentFrame.setVisible(true); // reservationFrame 다시 표시
     }
     }//GEN-LAST:event_backActionPerformed
 

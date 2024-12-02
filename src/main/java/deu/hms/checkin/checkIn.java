@@ -360,7 +360,7 @@ public class checkIn extends javax.swing.JFrame {
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
         // hotelRoomInfo 인스턴스를 생성하여 새로운 창을 엽니다.
         SwingUtilities.invokeLater(() -> {
-            hotelRoomInfo hotelRoomInfo = new hotelRoomInfo(); // hotelRoomInfo 창을 띄웁니다.
+            HotelRoomInfo  hotelRoomInfo = new HotelRoomInfo (); // hotelRoomInfo 창을 띄웁니다.
         });
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 
