@@ -5,8 +5,14 @@
 package deu.hms.userManagement;
 
 import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
+
 
 /**
  *
@@ -18,7 +24,7 @@ public class UserTableManager {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-                users.add(line.split(","));
+                users.add(line.split(", "));
             }
         } catch (IOException e) {
             System.err.println("Error loading users: " + e.getMessage());
@@ -29,7 +35,7 @@ public class UserTableManager {
     public static void saveUsers(List<String[]> users, String filePath) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             for (String[] user : users) {
-                bw.write(String.join(",", user));
+                bw.write(String.join(", ", user));
                 bw.newLine();
             }
         } catch (IOException e) {

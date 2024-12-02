@@ -1,16 +1,17 @@
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\login\UserAuthentication.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\Registration.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\Change.java
+C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserAdd.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkout\checkoutFrame.java
+C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserTableManager.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\report\reportFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\roomManagement\roomFrame.java
-C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserDataManager.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkin\HotelRoomInfo.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\reservationFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkin\checkinFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\login\MainScreenEmployees.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\login\loginFrame.java
-C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\userManagementFrame.java
+C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserManagementFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\Reservation.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\restaurant\ReservationDialog.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\restaurant\ReservationViewDialog.java
@@ -18,6 +19,7 @@ C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkin
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\roomservice\ReservationDialog.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\EditForm.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\User.java
+C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserModifyManager.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\restaurant\restaurantFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\restaurantManagement\restaurantFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\management\managementFrame.java
@@ -28,4 +30,3 @@ C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\roomser
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserAddManager.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\login\Users.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\roomservice\ReservationViewDialog.java
-C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserManager.java

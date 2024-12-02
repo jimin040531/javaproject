@@ -13,10 +13,18 @@ import java.awt.event.ActionEvent;
  */
 public class UserAdd extends javax.swing.JFrame {
 
+    private UserManagementFrame parent;
+    
+    // 기본 생성자 추가
+    public UserAdd() {
+        this(null); // 기본 생성자는 null을 전달
+    }
+    
     /**
      * Creates new form UserAdd
      */
-    public UserAdd() {
+    public UserAdd(UserManagementFrame parent) {
+        this.parent = parent;
         initComponents();
     }
 
@@ -222,6 +230,9 @@ public class UserAdd extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(UserAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
