@@ -12,18 +12,24 @@ import deu.hms.reservation.Registration;
  * @author Jimin
  */
 public class cardRegist extends javax.swing.JFrame {
-private Registration registration; // Registration 객체 참조
-
+    private Registration registration; // Registration 객체 참조
+    private checkIn parent;
     
     
     /**
      * Creates new form cardRegist
      */
-    
  
+    // 생성자 추가
+    public cardRegist(checkIn parent) {
+        this.parent = parent;  // 부모 창 참조 저장
+        initComponents();      // GUI 초기화
+        setLocationRelativeTo(parent);  // 부모 창을 기준으로 중앙에 배치
+    }
+
+    // 기존 기본 생성자도 필요하다면 유지할 수 있습니다.
     public cardRegist() {
-        initComponents();
-        initializePlaceholders();
+        initComponents();      // GUI 초기화
     }
     
     private void initializePlaceholders() {

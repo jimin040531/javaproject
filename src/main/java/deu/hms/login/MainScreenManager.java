@@ -11,6 +11,7 @@ package deu.hms.login;
 public class MainScreenManager extends javax.swing.JFrame {
     
     private UserAuthentication auth;
+    private Object deu;
     
     /**
      * Creates new form MainScreenManager
