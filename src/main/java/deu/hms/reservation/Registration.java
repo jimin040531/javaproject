@@ -14,6 +14,9 @@ import java.util.concurrent.*;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import deu.hms.reservation.ReservationUtils;
+import java.io.IOException; 
+import java.util.UUID;
+
 
 /**
  *
@@ -24,52 +27,44 @@ public class Registration extends JFrame {
     private reservationFrame reservationFrame;
     private  String cardRegistEered = "카드등록";
     private  String cardNotRegistEered  = "카드미등록";
-    private static Registration instance; // Singleton 인스턴스
     private JTable mainTable; // Reservation 테이블과 연결
     private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
+    private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 아님)
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
     private CardManager cardManager = new CardManager();
     private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
-
+private reservationFrame parentFrame;
         
-    public void setRoomSelection(boolean isWeekday) {
-        if (isWeekday) {
-            thisWeek.setSelected(true);
-        } else {
-            weekend.setSelected(true);
-        }
-    }
+ 
 
+    // 수정 중인 행 인덱스 설정 메서드 수정버튼을 눌렸을때 작동하는 메소드
+    public void setEditingRow(int rowIndex) {
+    this.editingRow = rowIndex;
+    }
       public void setRegistrationData(String name, String address, String phoneNumber, String checkInDate,
                                 String checkOutDate, String roomNumber, String guestCount,
                                 String paymentMethod, String status, String stayCost) {
-          textName.setText(name);
-         textAddress.setText(address);
-         textPhoneNumber.setText(phoneNumber);
-         textCheckInDate.setText(checkInDate);
-         textCheckOutDate.setText(checkOutDate);
-         textRoomNumber.setText(roomNumber);
-         textGuestCount.setText(guestCount);
-         Money.setText(stayCost);  // 금액 설정
+         textName.setText(name);
+    textAddress.setText(address);
+    textPhoneNumber.setText(phoneNumber);
+    textCheckInDate.setText(checkInDate);
+    textCheckOutDate.setText(checkOutDate);
+    textRoomNumber.setText(roomNumber);
+    textGuestCount.setText(guestCount);
+    Money.setText(stayCost);
 
         if (paymentMethod.equals("현장결제")) {
         onSitePaymentButton.setSelected(true);
     } else if (paymentMethod.equals("카드결제")) {
         cardRegistButton.setSelected(true);
     }
-         if (status.equals("평일")) {
-        thisWeek.setSelected(true);
-    } else if (status.equals("주말")) {
-        weekend.setSelected(true);
+        
     }
-    }
-    public static Registration getInstance(JTable table) {
-        if (instance == null) {
-            instance = new Registration(table);
-        }
-        return instance;
-    }
+    public Registration(reservationFrame parentFrame) {
+    this.parentFrame = parentFrame; // 부모 프레임 저장
+    initComponents();
+}
 
     private Registration(JTable table) {
         this.mainTable = table;
@@ -100,7 +95,14 @@ private boolean isCardRegistered() {
   
 
 
-private ReservationData populateReservationData() { //
+private ReservationData populateReservationData() { 
+        String uniqueNumber;
+    if (editingRow != -1) {
+        uniqueNumber = parentFrame.getMainTable().getValueAt(editingRow, 0).toString(); // 기존 고유번호 유지
+    } else {
+        uniqueNumber = UUID.randomUUID().toString(); // 새로운 고유번호 생성
+    }
+
     return new ReservationData(
         uniqueNumber,
         textName.getText(),
@@ -112,27 +114,35 @@ private ReservationData populateReservationData() { //
         textGuestCount.getText(),
         Money.getText(),
         onSitePaymentButton.isSelected() ? "현장결제" : "카드결제",
-        thisWeek.isSelected() ? "평일" : "주말",
-        labelCardStatus.isVisible() ? "카드등록" : "카드미등록"
+        "" 
     );
 }
 
-
+//Registration에서 저장버튼 
 private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-       DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+     DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
+    ReservationData updatedData = populateReservationData();
 
-    // populateReservationData 호출로 ReservationData 생성
-    ReservationData reservationData = populateReservationData();
+    try {
+        // 선택된 행이 있을 경우 삭제 (눈속임 방식)
+        if (editingRow != -1) { 
+            model.removeRow(editingRow); // 테이블에서 선택된 행 삭제
+            FileManager.deleteFromFile(updatedData.getUniqueNumber(), "Reservation.txt"); // 파일에서도 삭제
+        }
 
-    // ReservationUtils의 addOrUpdateRow 호출
-    ReservationUtils.addOrUpdateRow(model, reservationData);
+        // 새 데이터 추가
+        FileManager.saveToFile(updatedData.toCSV());
+        TableManager.addRow(model, updatedData);
 
-    // 유니크 번호 증가
-    uniqueNumber++;
+        JOptionPane.showMessageDialog(this, "데이터가 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "파일 처리 중 오류가 발생했습니다: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
+    }
 
-    // 창 숨기기
-    this.setVisible(false);
+    this.dispose(); // 창 닫기
+    editingRow = -1; // 수정 상태 초기화
 }
+
 public void transferRegistrationToReservation() {
     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
 
@@ -158,17 +168,12 @@ public void transferRegistrationToReservation() {
     /**
      * Creates new form Registration
      */
-    public Registration(reservationFrame reservationFrame) {
-        this.reservationFrame = reservationFrame; // 전달받은 객체를 멤버 변수로 저장
-        initComponents(); // UI 초기화
-
-    }
+    
 
     public Registration() {
         initComponents();
 
         initRadioButtons();
-        this.reservationFrame = reservationFrame.getInstance(); // Singleton 인스턴스 얻기
 
         initializePlaceholders(); // Placeholder 초기화
         configurePaymentButtonState();
@@ -228,12 +233,6 @@ public void transferRegistrationToReservation() {
         });
     }
 
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -260,7 +259,6 @@ public void transferRegistrationToReservation() {
         cvcLabel = new javax.swing.JLabel();
         cvcTextField = new javax.swing.JTextField();
         paymentButtonGroup = new javax.swing.ButtonGroup();
-        weekGroup = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -285,8 +283,6 @@ public void transferRegistrationToReservation() {
         Money = new javax.swing.JTextPane();
         jLabel11 = new javax.swing.JLabel();
         reservationsubmit = new javax.swing.JButton();
-        thisWeek = new javax.swing.JRadioButton();
-        weekend = new javax.swing.JRadioButton();
         back = new javax.swing.JButton();
         labelReservationStatus = new javax.swing.JLabel();
         labelCardStatus = new javax.swing.JLabel();
@@ -490,17 +486,6 @@ public void transferRegistrationToReservation() {
             }
         });
 
-        weekGroup.add(thisWeek);
-        thisWeek.setText("평일");
-        thisWeek.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                thisWeekActionPerformed(evt);
-            }
-        });
-
-        weekGroup.add(weekend);
-        weekend.setText("주말");
-
         back.setText("뒤로");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -531,11 +516,7 @@ public void transferRegistrationToReservation() {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(thisWeek)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(weekend))))
+                                .addComponent(jLabel11))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -610,10 +591,7 @@ public void transferRegistrationToReservation() {
                             .addComponent(textGuestCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel11)
-                                .addComponent(thisWeek)
-                                .addComponent(weekend))
+                            .addComponent(jLabel11)
                             .addComponent(jLabel9)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(8, 8, 8)
@@ -691,7 +669,6 @@ public void transferRegistrationToReservation() {
         JOptionPane.showMessageDialog(cardRegist, "카드 정보가 잘못되었습니다!", "오류", JOptionPane.ERROR_MESSAGE);
         return;
     }
-
     // 카드 정보 저장
     try {
         String fullCardNumber = cardNum1 + "-" + cardNum2 + "-" + cardNum3 + "-" + cardNum4;
@@ -703,8 +680,6 @@ public void transferRegistrationToReservation() {
         JOptionPane.showMessageDialog(cardRegist, "저장 중 오류 발생!", "오류", JOptionPane.ERROR_MESSAGE);
     }
             labelCardStatus.setVisible(true);
-               
-
     }//GEN-LAST:event_registButtonActionPerformed
 
     private void cardNumTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardNumTextField1ActionPerformed
@@ -723,42 +698,49 @@ public void transferRegistrationToReservation() {
         // TODO add your handling code here:
     }//GEN-LAST:event_yearTextFieldActionPerformed
 
-    private void thisWeekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thisWeekActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_thisWeekActionPerformed
-
     private void textAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAddressActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-     DefaultTableModel model = (DefaultTableModel) reservationFrame.getMainTable().getModel();
+    
+        DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
+    ReservationData updatedData = populateReservationData();
 
-    // populateReservationData 호출로 ReservationData 생성
-    ReservationData reservationData = populateReservationData();
+    try {
+        if (editingRow != -1) {
+            // 기존 데이터 수정
+            TableManager.updateRow(model, editingRow, updatedData);
+            FileManager.updateInFile(updatedData, "Reservation.txt");
+        } else {
+            // 새 데이터 추가
+            TableManager.addRow(model, updatedData);
+            FileManager.saveToFile(updatedData.toCSV());
+        }
 
-    // addOrUpdateRow 호출
-    int rowIndex = ReservationUtils.addOrUpdateRow(model, reservationData);
+        JOptionPane.showMessageDialog(this, "저장 완료!", "성공", JOptionPane.INFORMATION_MESSAGE);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "저장 실패: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
+    }
 
-    // 상태 업데이트 예약 (스케줄러 사용)
-    String checkInDate = reservationData.getCheckInDate();
-    statusScheduler.scheduleStatusUpdate(checkInDate, rowIndex, model);
-
-    // 유니크 번호 증가
-    uniqueNumber++;
-
-    // 예약 완료 메시지 표시
-    labelReservationStatus.setVisible(true);
+    editingRow = -1; // 수정 상태 초기화
+    
+    
+    
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        setVisible(false);
+      editingRow = -1; // 수정 상태 초기화
+          this.dispose();
 
-        // 이전에 생성된 reservationFrame을 다시 표시
-        if (reservationFrame != null) {
-            reservationFrame.setVisible(true); // 기존 예약 화면 보이기
-        }
+    // 이전에 생성된 reservationFrame이 null인지 확인
+    if (reservationFrame == null) {
+        reservationFrame = new reservationFrame(); // 새로운 reservationFrame 생성
+        reservationFrame.setSize(850, 250);
+        reservationFrame.setLocationRelativeTo(null);
+        reservationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
 
+    }
     }//GEN-LAST:event_backActionPerformed
 
 
@@ -811,9 +793,6 @@ public void transferRegistrationToReservation() {
     private java.awt.TextField textName;
     private java.awt.TextField textPhoneNumber;
     private java.awt.TextField textRoomNumber;
-    private javax.swing.JRadioButton thisWeek;
-    private javax.swing.ButtonGroup weekGroup;
-    private javax.swing.JRadioButton weekend;
     private javax.swing.JTextField yearTextField;
     // End of variables declaration//GEN-END:variables
 }
