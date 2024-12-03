@@ -4,39 +4,41 @@
  */
 package deu.hms.userManagement;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import deu.hms.login.MainScreenManager;  // MainScreenManager를 import 합니다.
+import deu.hms.login.UserAuthentication;
+
 
 /**
  *
  * @author yunhe
  */
-public class UserManagementFrame extends javax.swing.JFrame {
-
-    private JTable userInfoTable; // JTable 선언
-    private DefaultTableModel tableModel; // DefaultTableModel 선언
-
+public class userManagementFrame extends javax.swing.JFrame {
+    
     
     /**
      * Creates new form userManagementFrame1
      */
-    public UserManagementFrame() {
+    public userManagementFrame() {
+        
+        setTitle("사용자 관리");
+        
         initComponents();
+        loadUserTableData(); // 프로그램 시작 시 테이블 데이터 로드
+        setLocationRelativeTo(null); // 창을 화면 중앙에 배치
+    }
+    
+    // JTable을 외부에서 접근할 수 있도록 메서드 추가
+    public JTable getUserInfoTable() {
+        return userInfoTable;
+    }
+    
+     // users.txt의 데이터를 UserInfoTable에 로드
+    private void loadUserTableData() {
+        UserTableManager.loadUsersToTable(userInfoTable, "users.txt");
     }
 
-     private void loadUserInfo() {
-        List<String[]> users = UserTableManager.loadUsers("users.txt");
-        for (String[] user : users) {
-            tableModel.addRow(user);
-        }
-    }
-
-    public void refreshTable() {
-        tableModel.setRowCount(0); // Clear existing rows
-        loadUserInfo();
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,7 +54,7 @@ public class UserManagementFrame extends javax.swing.JFrame {
         userAddButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         userInfoTableScrollPane = new javax.swing.JScrollPane();
-        UserInfoTable = new javax.swing.JTable();
+        userInfoTable = new javax.swing.JTable();
         usertManagement = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,8 +81,13 @@ public class UserManagementFrame extends javax.swing.JFrame {
         });
 
         backButton.setText("<");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
-        UserInfoTable.setModel(new javax.swing.table.DefaultTableModel(
+        userInfoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -91,7 +98,7 @@ public class UserManagementFrame extends javax.swing.JFrame {
                 "아이디", "비밀번호", "이름", "권한"
             }
         ));
-        userInfoTableScrollPane.setViewportView(UserInfoTable);
+        userInfoTableScrollPane.setViewportView(userInfoTable);
 
         usertManagement.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
         usertManagement.setText("사용자 관리");
@@ -140,20 +147,50 @@ public class UserManagementFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userModifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userModifyButtonActionPerformed
-    
+        // UserManagementFrame에서 UserModify 호출 예시
+        int selectedRow = userInfoTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "수정할 사용자를 선택해주세요!", "오류", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 선택된 사용자 데이터를 전달하며 UserModify 호출
+        UserModify modifyFrame = new UserModify(this, userInfoTable.getModel(), selectedRow);
+        modifyFrame.setVisible(true);
     }//GEN-LAST:event_userModifyButtonActionPerformed
 
     private void userDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDeleteButtonActionPerformed
-      if (UserInfoTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(this, "사용자를 선택해주세요");
+      int selectedRow = userInfoTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "삭제할 사용자를 선택해주세요!", "오류", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        UserDeleteManager.deleteUser(tableModel, UserInfoTable.getSelectedRow());
+
+        String id = (String) userInfoTable.getValueAt(selectedRow, 0);
+
+        // 삭제 처리
+        UserDeleteManager.deleteUser(id, "users.txt");
+        loadUserTableData(); // 테이블 갱신
+        JOptionPane.showMessageDialog(this, "사용자가 삭제되었습니다.");
     }//GEN-LAST:event_userDeleteButtonActionPerformed
 
     private void userAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userAddButtonActionPerformed
-        new UserAdd(this).setVisible(true);
+       UserAdd userAdd = new UserAdd(this); // 현재 UserManagementFrame을 전달
+       userAdd.setVisible(true);
     }//GEN-LAST:event_userAddButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+       // 현재 창을 닫고 MainScreenManager로 이동
+    this.dispose();  // userManagementFrame 닫기
+    
+    // UserAuthentication 객체 생성 (예시: 로그인 정보를 사용)
+    UserAuthentication userAuth = new UserAuthentication();
+    
+    // MainScreenManager로 이동, UserAuthentication 객체 전달
+    MainScreenManager mainScreenManager = new MainScreenManager(userAuth);
+    mainScreenManager.setLocationRelativeTo(null);  // 화면 가운데 배치
+    mainScreenManager.setVisible(true);  // MainScreenManager 창을 표시
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -172,14 +209,42 @@ public class UserManagementFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(userManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(userManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(userManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(userManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -188,16 +253,16 @@ public class UserManagementFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserManagementFrame().setVisible(true);
+                new userManagementFrame().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable UserInfoTable;
     private javax.swing.JButton backButton;
     private javax.swing.JButton userAddButton;
     private javax.swing.JButton userDeleteButton;
+    private javax.swing.JTable userInfoTable;
     private javax.swing.JScrollPane userInfoTableScrollPane;
     private javax.swing.JButton userModifyButton;
     private javax.swing.JLabel usertManagement;

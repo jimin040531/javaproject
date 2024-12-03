@@ -2,8 +2,12 @@ C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\login\U
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\Registration.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkin\checkIn.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserAdd.java
+<<<<<<< HEAD
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\CardManager.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkin\cardRegistLoad.java
+=======
+C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserModify.java
+>>>>>>> yunhee
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkout\checkoutFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\ReservationData.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserTableManager.java
@@ -13,9 +17,14 @@ C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkin
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkin\HotelRoomInfo.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\reservationFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\login\MainScreenEmployees.java
+<<<<<<< HEAD
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\login\loginFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\UserManagementFrame.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\FileManager.java
+=======
+C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\login\LoginFrame.java
+C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\userManagement\userManagementFrame.java
+>>>>>>> yunhee
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\reservation\Reservation.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\restaurant\ReservationDialog.java
 C:\Users\yunhe\Desktop\javaproject\HMS\javaproject\src\main\java\deu\hms\checkin\hotelReservationManager.java
