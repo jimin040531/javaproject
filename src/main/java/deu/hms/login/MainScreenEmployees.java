@@ -133,11 +133,12 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     private void goReservationEmployeesActionPerformed(java.awt.event.ActionEvent evt) {                                                       
         deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
         
-        reservationFrame.repaint();     // 업데이트된 상태를 반영하여 다시 그리기
 
         reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         reservationFrame.setVisible(true);
         this.dispose();
+                reservationFrame.repaint();     // 업데이트된 상태를 반영하여 다시 그리기
+
     }   
     
     private void goCheckinEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckinEmployeesActionPerformed
