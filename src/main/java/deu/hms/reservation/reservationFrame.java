@@ -32,8 +32,9 @@ import java.io.IOException;
  */
 public class reservationFrame extends javax.swing.JDialog {
 
-   private Registration registrationFrame;
+    private Registration registrationFrame;
     private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 중이 아님)
+    private DefaultTableModel tableModel;
 
 
     
@@ -56,12 +57,13 @@ public class reservationFrame extends javax.swing.JDialog {
 
     public reservationFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-
         initComponents();
-        {
-
-        }
-    }//
+        initializeTableFromFile(); // 테이블 초기화
+        setTitle("Reservation Frame");
+        setSize(850, 300);
+        setLocationRelativeTo(null); // 화면 가운데 배치
+        
+    }
 private void initializeTableFromFile() {
      try {
         TableManager tableManager = new TableManager((DefaultTableModel) mainTable.getModel());
@@ -199,12 +201,12 @@ private void initializeTableFromFile() {
     private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
 
         // 현재 reservationFrame 숨기기
-    this.setVisible(false); 
-    Registration registrationFrame = new Registration(this);
-    registrationFrame.setSize(500, 450);
-    registrationFrame.setTitle("정보등록");
-    registrationFrame.setVisible(true);
-    registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+        this.setVisible(false); 
+        Registration registrationFrame = new Registration(this);
+        registrationFrame.setSize(500, 450);
+        registrationFrame.setTitle("정보등록");
+        registrationFrame.setVisible(true);
+        registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
 
     }//GEN-LAST:event_goReservationActionPerformed
 

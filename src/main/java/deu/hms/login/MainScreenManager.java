@@ -165,7 +165,7 @@ public class MainScreenManager extends javax.swing.JFrame {
         deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
         reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         reservationFrame.setVisible(true);
-        this.dispose();
+        this.dispose(); //현재 창 닫기
     }//GEN-LAST:event_goReservationManagerActionPerformed
 
     private void goCheckinManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckinManagerActionPerformed
