@@ -169,7 +169,7 @@ public class MainScreenManager extends javax.swing.JFrame {
     }//GEN-LAST:event_goReservationManagerActionPerformed
 
     private void goCheckinManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckinManagerActionPerformed
-        deu.hms.checkin.checkinFrame checkinFrame = new deu.hms.checkin.checkinFrame(new java.awt.Frame(), true);
+        deu.hms.checkin.checkIn checkinFrame = new deu.hms.checkin.checkIn(new java.awt.Frame(), true);
         checkinFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         checkinFrame.setVisible(true);
         this.dispose();  // 현재 창 닫기
@@ -183,10 +183,10 @@ public class MainScreenManager extends javax.swing.JFrame {
     }//GEN-LAST:event_goCheckoutManagerActionPerformed
 
     private void goRoomserviceManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goRoomserviceManagerActionPerformed
-         deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
+        /*deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
         roomserviceFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         roomserviceFrame.setVisible(true);
-        this.dispose();  // 현재 창 닫기
+        this.dispose();  // 현재 창 닫기*/
     }//GEN-LAST:event_goRoomserviceManagerActionPerformed
 
     private void goManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goManagementActionPerformed

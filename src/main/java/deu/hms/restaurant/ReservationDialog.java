@@ -88,6 +88,11 @@ public class ReservationDialog extends javax.swing.JDialog {
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("카드 결제");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
 
         jRadioButton3.setText("현금 결제");
         jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +111,7 @@ public class ReservationDialog extends javax.swing.JDialog {
         });
 
         jLabel6.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
-        jLabel6.setText("식당");
+        jLabel6.setText("레스토랑");
 
         jLabel7.setText("시");
 
@@ -175,7 +180,7 @@ public class ReservationDialog extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(183, 183, 183))
+                .addGap(200, 200, 200))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,6 +242,10 @@ public class ReservationDialog extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     /**
      * @param args the command line arguments

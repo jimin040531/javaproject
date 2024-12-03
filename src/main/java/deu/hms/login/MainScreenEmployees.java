@@ -130,15 +130,18 @@ public class MainScreenEmployees extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void goReservationEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationEmployeesActionPerformed
+    private void goReservationEmployeesActionPerformed(java.awt.event.ActionEvent evt) {                                                       
         deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
+        
+        reservationFrame.repaint();     // 업데이트된 상태를 반영하여 다시 그리기
+
         reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         reservationFrame.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_goReservationEmployeesActionPerformed
-
+    }   
+    
     private void goCheckinEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckinEmployeesActionPerformed
-        deu.hms.checkin.checkinFrame checkinFrame = new deu.hms.checkin.checkinFrame(new java.awt.Frame(), true);
+        deu.hms.checkin.checkIn checkinFrame = new deu.hms.checkin.checkIn(new java.awt.Frame(), true);
         checkinFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         checkinFrame.setVisible(true);
         this.dispose();  // 현재 창 닫기
@@ -152,10 +155,10 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     }//GEN-LAST:event_goCheckoutEmployeesActionPerformed
 
     private void goRoomserviceEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goRoomserviceEmployeesActionPerformed
-        deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
+        /*deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
         roomserviceFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         roomserviceFrame.setVisible(true);
-        this.dispose();  // 현재 창 닫기
+        this.dispose();  // 현재 창 닫기*/
     }//GEN-LAST:event_goRoomserviceEmployeesActionPerformed
 
     private void goRestaurantEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goRestaurantEmployeesActionPerformed
