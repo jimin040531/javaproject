@@ -247,7 +247,7 @@ panel.add(backButton); // 패널에 뒤로가기 버튼 추가
         }
     }
 
-    // 객실 예약 가능 상태 업데이트 메서드
+   // 객실 예약 가능 상태 업데이트 메서드
     void updateRoomAvailability() {
         roomPanel.removeAll(); // 기존의 모든 객실 버튼 제거
 
@@ -256,22 +256,7 @@ panel.add(backButton); // 패널에 뒤로가기 버튼 추가
             roomPanel.revalidate();
             roomPanel.repaint();
             return;
-        saveButton.addActionListener(e -> {
-    // 텍스트 필드에서 날짜 가져오기
-    String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
-    String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
-
-
-
-    // HotelRoomInfo 창 숨기기
-    frame.setVisible(false);
-});
-        
-        
-        
         }
-       
-        
 
         LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate()); // 체크인 날짜 가져오기
         LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate()); // 체크아웃 날짜 가져오기
