@@ -21,10 +21,7 @@ public class HotelRoomInfo  {
          private final reservationFrame parentFrame;
     private final Registration registration;
 
-public HotelRoomInfo(Registration registration) {
-    this.registration = registration;
-    initializeUI();
-}
+
     // 객실 가격과 등급 정보
     private final int[] roomPrices = new int[100]; // 객실 가격 배열
     private final String[] roomGrades = new String[100]; // 객실 등급 배열
@@ -264,14 +261,7 @@ panel.add(backButton); // 패널에 뒤로가기 버튼 추가
     String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
     String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
 
-    System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
 
-    // Registration에 날짜 업데이트 요청
-    if (registration != null) {
-        registration.updateDates(checkInDate, checkOutDate);
-    } else {
-        System.err.println("Registration 객체가 null 상태입니다.");
-    }
 
     // HotelRoomInfo 창 숨기기
     frame.setVisible(false);
