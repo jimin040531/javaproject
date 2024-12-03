@@ -19,7 +19,7 @@ public class UserModify extends javax.swing.JFrame {
     /**
      * Creates new form UserModify
      */
-    public UserModify(UserManagementFrame parent, TableModel tableModel, int selectedRow) {
+    public UserModify(userManagementFrame parent, TableModel tableModel, int selectedRow) {
         this.tableModel = tableModel;
         this.selectedRow = selectedRow;
 

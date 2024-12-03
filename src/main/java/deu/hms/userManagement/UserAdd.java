@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
  */
 public class UserAdd extends javax.swing.JFrame {
 
-    private UserManagementFrame parent;
+    private userManagementFrame parent;
     
     // 기본 생성자 추가
     public UserAdd() {
@@ -23,7 +23,7 @@ public class UserAdd extends javax.swing.JFrame {
     /**
      * Creates new form UserAdd
      */
-    public UserAdd(UserManagementFrame parent) {
+    public UserAdd(userManagementFrame parent) {
         
         setTitle("사용자 등록");
         

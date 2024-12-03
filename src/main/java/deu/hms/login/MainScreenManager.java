@@ -213,7 +213,7 @@ public class MainScreenManager extends javax.swing.JFrame {
         this.dispose();  // 현재 창 (MainScreenManager) 닫기
         
         // 로그인 창으로 돌아가기
-        LoginFrame loginScreen = new LoginFrame(auth); // 로그인 화면 생성
+        loginFrame loginScreen = new loginFrame(auth); // 로그인 화면 생성
         loginScreen.setLocationRelativeTo(null);  // 화면 중앙에 배치
         loginScreen.setVisible(true);  // 로그인 화면 표시
         

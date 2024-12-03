@@ -31,15 +31,11 @@ public class Registration extends JFrame {
     private reservationFrame reservationFrame;
     private JTable mainTable; // Reservation 테이블과 연결
     private DefaultTableModel tableModel;
-    private static int uniqueNumber = 1;
     private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 아님)
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
-    private CardManager cardManager = new CardManager();
     private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
 private reservationFrame parentFrame;
 //버튼
     private ButtonGroup paymentGroup = new ButtonGroup(); // 클래스 필드로 선언
-private javax.swing.JLabel reservationStatusLabel;
 
 
 
