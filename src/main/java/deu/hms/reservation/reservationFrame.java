@@ -32,14 +32,9 @@ import java.io.IOException;
  */
 public class reservationFrame extends javax.swing.JDialog {
 
-    private DefaultTableModel tableModel;
-    private JTable dataTable;
-    private javax.swing.JTable reservationTable;
-    private Registration registrationFrame;
-private JLabel cardStatusLabel;  // 카드 등록 상태
-    private JLabel reservationStatusLabel;  // 예약 상태
-    private JLabel autoPaymentTimeLabel;  // 자동 결제 시간
-private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 중이 아님)
+   private Registration registrationFrame;
+    private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 중이 아님)
+
 
     
     
@@ -50,9 +45,7 @@ private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 중
     /**
      * Creates new form reservationFrame
      */
-    public DefaultTableModel getReservationTableModel() {
-        return tableModel;
-    }
+
 
     private void openRegistrationFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
        if (registrationFrame == null) {
@@ -106,18 +99,9 @@ private void initializeTableFromFile() {
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     setLocationRelativeTo(null);
     registrationFrame = new Registration(this); // Registration 인스턴스 초기화
-    initializeStatusLabels();
 }
     
-    private void initializeStatusLabels() {
-        cardStatusLabel = new JLabel("카드 미등록");
-
-        reservationStatusLabel = new JLabel("예약 미완료");
-
-        // 패널에 추가하는 코드
-        this.add(cardStatusLabel);
-        this.add(reservationStatusLabel);
-    }
+   
    private void scheduleStatusForRow(int rowIndex) {
     DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
     String checkInDate = (String) model.getValueAt(rowIndex, 4); // 체크인 날짜 가져오기

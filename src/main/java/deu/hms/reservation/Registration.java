@@ -29,8 +29,6 @@ import deu.hms.checkin.HotelRoomInfo; // HotelRoomInfo 클래스 import
 public class Registration extends JFrame {
     
     private reservationFrame reservationFrame;
-    private  String cardRegistEered = "카드등록";
-    private  String cardNotRegistEered  = "카드미등록";
     private JTable mainTable; // Reservation 테이블과 연결
     private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
