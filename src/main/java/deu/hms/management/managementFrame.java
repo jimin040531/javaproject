@@ -106,15 +106,24 @@ public class managementFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userInfoButtonActionPerformed
-
+        deu.hms.userManagement.userManagementFrame usermanagementframe = new deu.hms.userManagement.userManagementFrame();
+        usermanagementframe.setLocationRelativeTo(null);
+        usermanagementframe.setVisible(true);
+        this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_userInfoButtonActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
-       
+       deu.hms.roomManagement.roomManagement roommanagementFrame = new deu.hms.roomManagement.roomManagement();
+       roommanagementFrame.setLocationRelativeTo(null);
+       roommanagementFrame.setVisible(true);
+       this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 
     private void restButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restButtonActionPerformed
-   
+        /*deu.hms.restaurantManagement.restaurantFrame restaurnatmanagementFrame = new deu.hms.restaurantManagement.restaurantFrame();
+        restaurnatmanagementFrame.setLocationRelativeTo(null);
+        restaurnatmanagementFrame.setVIsible(true);
+        this.dispose();  // 현재 창 닫기*/
     }//GEN-LAST:event_restButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed

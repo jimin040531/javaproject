@@ -181,15 +181,15 @@ public class userManagementFrame extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
        // 현재 창을 닫고 MainScreenManager로 이동
-    this.dispose();  // userManagementFrame 닫기
-    
-    // UserAuthentication 객체 생성 (예시: 로그인 정보를 사용)
-    UserAuthentication userAuth = new UserAuthentication();
-    
-    // MainScreenManager로 이동, UserAuthentication 객체 전달
-    MainScreenManager mainScreenManager = new MainScreenManager(userAuth);
-    mainScreenManager.setLocationRelativeTo(null);  // 화면 가운데 배치
-    mainScreenManager.setVisible(true);  // MainScreenManager 창을 표시
+        this.dispose();  // userManagementFrame 닫기
+
+        // UserAuthentication 객체 생성 (예시: 로그인 정보를 사용)
+        UserAuthentication userAuth = new UserAuthentication();
+
+        // MainScreenManager로 이동, UserAuthentication 객체 전달
+        MainScreenManager mainScreenManager = new MainScreenManager(userAuth);
+        mainScreenManager.setLocationRelativeTo(null);  // 화면 가운데 배치
+        mainScreenManager.setVisible(true);  // MainScreenManager 창을 표시
     }//GEN-LAST:event_backButtonActionPerformed
 
     /**
