@@ -175,7 +175,7 @@ public class UserAdd extends javax.swing.JFrame {
             String userName = inUserNameAdd.getText();
             String userId = inUserIDAdd.getText();
             String userPassword = inUserPWAdd.getText();
-            String userRole = pickEmployeeAdd.isSelected() ? "Employee" : "Manager";
+            String userRole = pickEmployeeAdd.isSelected() ? "employee" : "manager";
 
             // 유효성 검사
             if (userName.isEmpty() || userId.isEmpty() || userPassword.isEmpty() || (!pickEmployeeAdd.isSelected() && !pickManagerAdd.isSelected())) {

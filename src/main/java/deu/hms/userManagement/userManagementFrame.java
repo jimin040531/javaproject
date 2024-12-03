@@ -6,6 +6,8 @@ package deu.hms.userManagement;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import deu.hms.login.MainScreenManager;  // MainScreenManager를 import 합니다.
+import deu.hms.login.UserAuthentication;
 
 
 /**
@@ -79,6 +81,11 @@ public class UserManagementFrame extends javax.swing.JFrame {
         });
 
         backButton.setText("<");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         userInfoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -171,6 +178,19 @@ public class UserManagementFrame extends javax.swing.JFrame {
        UserAdd userAdd = new UserAdd(this); // 현재 UserManagementFrame을 전달
        userAdd.setVisible(true);
     }//GEN-LAST:event_userAddButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+       // 현재 창을 닫고 MainScreenManager로 이동
+    this.dispose();  // UserManagementFrame 닫기
+    
+    // UserAuthentication 객체 생성 (예시: 로그인 정보를 사용)
+    UserAuthentication userAuth = new UserAuthentication();
+    
+    // MainScreenManager로 이동, UserAuthentication 객체 전달
+    MainScreenManager mainScreenManager = new MainScreenManager(userAuth);
+    mainScreenManager.setLocationRelativeTo(null);  // 화면 가운데 배치
+    mainScreenManager.setVisible(true);  // MainScreenManager 창을 표시
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments

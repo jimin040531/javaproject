@@ -1,18 +1,3 @@
 gildongH, asdfg1, 홍길동, manager
 cskim, lkjh0987, 김철수, employee
-kimyh, mnbv1234, 김영희, employee,,,Manager
-,,,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-lkjhgf,asfs12,홍길동,Manager
-,,,Manager
-imnameim, ick0126, 임창균, Employee
-jeonsang51, jsh0418, 전상현, Employee
+kimyh, mnbv1234, 김영희, employee
