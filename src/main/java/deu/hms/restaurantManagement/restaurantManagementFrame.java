@@ -3,8 +3,9 @@ package deu.hms.restaurantManagement;
 
 import javax.swing.table.DefaultTableModel;
 
-public class restaurantFrame extends javax.swing.JDialog {
-    public restaurantFrame(java.awt.Frame parent, boolean modal) {
+
+public class restaurantManagementFrame extends javax.swing.JDialog {
+    public restaurantManagementFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         loadMenuFromFile((DefaultTableModel) ListTable.getModel());
@@ -13,12 +14,14 @@ public class restaurantFrame extends javax.swing.JDialog {
     
     private void addMenuToTable(DefaultTableModel model) {
     try {
+        String type = (String) Type.getSelectedItem(); // JComboBox에서 선택된 항목 가져오기
         String menuName = MenuName.getText();
         int price = Integer.parseInt(Price.getText());
         
-        model.addRow(new Object[]{menuName, price});
+        model.addRow(new Object[]{type, menuName, price}); // 선택된 항목 사용
         
-        // 입력 필드 초기화
+        // 입력 필드 초기화 
+        Type.setSelectedIndex(0); // JComboBox 초기화
         MenuName.setText("");
         Price.setText("");
         
@@ -54,22 +57,43 @@ public class restaurantFrame extends javax.swing.JDialog {
         java.io.FileWriter fw = new java.io.FileWriter("메뉴목록.txt", false);
         java.io.BufferedWriter bw = new java.io.BufferedWriter(fw);
         
+        java.io.FileWriter roomServiceFw = new java.io.FileWriter("룸서비스메뉴.txt", false);
+        java.io.BufferedWriter roomServiceBw = new java.io.BufferedWriter(roomServiceFw);
         
+        java.io.FileWriter restaurantFw = new java.io.FileWriter("레스토랑메뉴.txt", false);
+        java.io.BufferedWriter restaurantBw = new java.io.BufferedWriter(restaurantFw);
         
         for (int i = 0; i < model.getRowCount(); i++) {
+            StringBuilder line = new StringBuilder();
             for (int j = 0; j < model.getColumnCount(); j++) {
-                bw.write(model.getValueAt(i, j).toString());
+                line.append(model.getValueAt(i, j).toString());
                 if (j < model.getColumnCount() - 1) {
-                    bw.write(",");
+                    line.append(",");
                 }
             }
+            bw.write(line.toString());
             bw.newLine();
+            
+            // "룸서비스"인 경우 별도로 저장
+            if ("룸서비스".equals(model.getValueAt(i, 0).toString())) {
+                roomServiceBw.write(line.toString());
+                roomServiceBw.newLine();
+            }
+            
+            // "레스토랑"인 경우 별도로 저장
+            if ("레스토랑".equals(model.getValueAt(i, 0).toString())) {
+                restaurantBw.write(line.toString());
+                restaurantBw.newLine();
+            }
         }
         
         bw.close();
         fw.close();
-     
-            
+        roomServiceBw.close();
+        roomServiceFw.close();
+        restaurantBw.close();
+        restaurantFw.close();
+        
     } catch (Exception e) {
         javax.swing.JOptionPane.showMessageDialog(null, "파일 저장 중 오류가 발생했습니다: " + e.getMessage(),
             "저장 오류", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -103,11 +127,14 @@ public class restaurantFrame extends javax.swing.JDialog {
     try {
         int selectedRow = ListTable.getSelectedRow();
         int newPrice = Integer.parseInt(Price1.getText());
+        String newType = (String) Type1.getSelectedItem(); // JComboBox에서 선택된 항목 가져오기
         
-        model.setValueAt(newPrice, selectedRow, 1);
+        model.setValueAt(newType, selectedRow, 0); // 서비스 유형 수정
+        model.setValueAt(newPrice, selectedRow, 2); // 가격 수정
         
         // 입력 필드 초기화
         Price1.setText("");
+        Type1.setSelectedIndex(0); // JComboBox 초기화
         
         // Changemenu 창 닫기
         Changemenu.dispose();
@@ -136,6 +163,8 @@ public class restaurantFrame extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         Price = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        label = new javax.swing.JLabel();
+        Type = new javax.swing.JComboBox<>();
         Changemenu = new javax.swing.JFrame();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -146,6 +175,8 @@ public class restaurantFrame extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         Price1 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        Type1 = new javax.swing.JComboBox<>();
         restaurantManagement = new javax.swing.JLabel();
         jScrollPane = new javax.swing.JScrollPane();
         ListTable = new javax.swing.JTable();
@@ -195,6 +226,11 @@ public class restaurantFrame extends javax.swing.JDialog {
             }
         });
 
+        label.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
+        label.setText("서비스 유형:");
+
+        Type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "룸서비스", "레스토랑" }));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -202,23 +238,29 @@ public class restaurantFrame extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MenuName, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(59, 59, 59)
-                        .addComponent(jButton1)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                        .addComponent(jButton1))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(MenuName)
+                            .addComponent(Price)
+                            .addComponent(Type, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label)
+                    .addComponent(Type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(MenuName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -228,7 +270,7 @@ public class restaurantFrame extends javax.swing.JDialog {
                     .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -298,6 +340,12 @@ public class restaurantFrame extends javax.swing.JDialog {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
+        jLabel7.setText("서비스 유형:");
+        jLabel7.setToolTipText("");
+
+        Type1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "룸서비스", "레스토랑" }));
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -305,23 +353,29 @@ public class restaurantFrame extends javax.swing.JDialog {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5))
+                        .addContainerGap()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Price1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MenuName1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(MenuName1)
+                            .addComponent(Price1)
+                            .addComponent(Type1, 0, 91, Short.MAX_VALUE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addComponent(jButton2)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(4, 4, 4)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(Type1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(MenuName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -329,9 +383,9 @@ public class restaurantFrame extends javax.swing.JDialog {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(Price1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -371,14 +425,14 @@ public class restaurantFrame extends javax.swing.JDialog {
 
             },
             new String [] {
-                "음식 이름", "음식 가격"
+                "서비스 유형", "음식 이름", "음식 가격"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -478,7 +532,7 @@ public class restaurantFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-    addmenu.setSize(200, 270);
+    addmenu.setSize(230, 300);
         addmenu.setLocationRelativeTo(null);
         addmenu.setVisible(true);
         
@@ -519,13 +573,13 @@ public class restaurantFrame extends javax.swing.JDialog {
         int selectedRow = ListTable.getSelectedRow();
     
     if (selectedRow != -1) {
-        String menuName = (String) ListTable.getValueAt(selectedRow, 0);
-        String price = String.valueOf(ListTable.getValueAt(selectedRow, 1));
+        String menuName = (String) ListTable.getValueAt(selectedRow, 1);
+        String price = String.valueOf(ListTable.getValueAt(selectedRow, 2));
         
         MenuName1.setText(menuName);
         Price1.setText(price);
         
-        Changemenu.setSize(200, 270);
+        Changemenu.setSize(230, 300);
         Changemenu.setLocationRelativeTo(null); 
         Changemenu.setVisible(true);
     } else {
@@ -553,20 +607,21 @@ public class restaurantFrame extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(restaurantManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(restaurantManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(restaurantManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(restaurantManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                restaurantFrame dialog = new restaurantFrame(new javax.swing.JFrame(), true);
+                restaurantManagementFrame dialog = new restaurantManagementFrame(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -586,6 +641,8 @@ public class restaurantFrame extends javax.swing.JDialog {
     private javax.swing.JTextField MenuName1;
     private javax.swing.JTextField Price;
     private javax.swing.JTextField Price1;
+    private javax.swing.JComboBox<String> Type;
+    private javax.swing.JComboBox<String> Type1;
     private javax.swing.JButton addButton;
     private javax.swing.JFrame addmenu;
     private javax.swing.JButton backButton;
@@ -598,6 +655,7 @@ public class restaurantFrame extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -605,6 +663,7 @@ public class restaurantFrame extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane;
+    private javax.swing.JLabel label;
     private javax.swing.JLabel restaurantManagement;
     // End of variables declaration//GEN-END:variables
 }
