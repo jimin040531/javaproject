@@ -1,55 +1,213 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package deu.hms.roomservice;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.io.FileWriter;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
 
 public class ReservationManager {
-    private FileHandler fileHandler; // FileHandler 인스턴스 추가
-
-    // 생성자에서 FileHandler 초기화
+    // 멤버 변수 선언
+    private FileHandler fileHandler;
+    private DefaultTableModel reservationModel;
+    private int selectedRow;
+    private String filePath;
+    private Calendar calendar;
+    
+    // 생성자
     public ReservationManager() {
         this.fileHandler = new FileHandler();
+        this.filePath = "예약목록.txt";
+        this.calendar = Calendar.getInstance();
     }
     
-    //예약 삭제 
-    public void deleteReservation(DefaultTableModel model, JTable table) {
-        int rw = table.getSelectedRow();
-        if (rw >= 0) {
-           // 삭제할 행의 순번 가져오기
-            int deletedOrderNumber = Integer.parseInt(model.getValueAt(rw, 0).toString());
-            
-            // 선택된 행 삭제
-            model.removeRow(rw);
-            
-            // 삭제된 순번보다 큰 순번들을 1씩 감소
-            for (int i = 0; i < model.getRowCount(); i++) {
-                int currentOrderNumber = Integer.parseInt(model.getValueAt(i, 0).toString());
-                if (currentOrderNumber > deletedOrderNumber) {
-                    model.setValueAt(currentOrderNumber - 1, i, 0);
-                }
-            }
-            
-            try {
-                // 파일 초기화 후 현재 테이블 데이터로 다시 저장
-                java.io.FileWriter fw = new java.io.FileWriter("예약목록.txt", false);
-                fw.close();
-                
-                // FileHandler의 메서드 호출
-                fileHandler.saveReservationToFile(model, "예약목록.txt");
-                
-                javax.swing.JOptionPane.showMessageDialog(null, "예약이 성공적으로 삭제되었습니다.", 
-                    "삭제 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                
-            } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "파일 업데이트 중 오류가 발생했습니다.", 
-                    "오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "삭제할 행을 선택해주세요.", "선택 오류", javax.swing.JOptionPane.WARNING_MESSAGE);
+    // Getter/Setter 메소드
+    public DefaultTableModel getReservationModel() {
+        return reservationModel;
+    }
+    
+    public void setReservationModel(DefaultTableModel model) {
+        this.reservationModel = model;
+    }
+    
+    public int getSelectedRow() {
+        return selectedRow;
+    }
+    
+    public void setSelectedRow(int row) {
+        this.selectedRow = row;
+    }
+    
+    public String getFilePath() {
+        return filePath;
+    }
+    
+    public void setFilePath(String path) {
+        this.filePath = path;
+    }
+    
+    // 예약 생성 메소드
+    public void makeReservation(ReservationData reservationData) {
+        if (!validateReservationTime(reservationData)) {
+            return;
+        }
+        
+        try {
+            int orderNumber = getNextOrderNumber();
+            processReservation(reservationData, orderNumber);
+            saveReservationToFile(reservationData.getReservationModel());
+            showSuccessMessage("예약이 성공적으로 생성되었습니다.");
+        } catch (Exception e) {
+            showErrorMessage("예약 생성 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
+    
+    // 예약 삭제 메소드
+    public void deleteReservation(DefaultTableModel model, JTable table) {
+        selectedRow = table.getSelectedRow();
+        
+        if (isValidRowSelection(selectedRow)) {
+            try {
+                processDeleteReservation(model);
+                updateFileAfterDeletion(model);
+                showSuccessMessage("예약이 성공적으로 삭제되었습니다.");
+            } catch (Exception ex) {
+                showErrorMessage("파일 업데이트 중 오류가 발생했습니다.");
+            }
+        } else {
+            showErrorMessage("삭제할 행을 선택해주세요.");
+        }
+    }
+    
+    // 내부 검증 메소드들
+    private boolean validateReservationTime(ReservationData data) {
+        Calendar reservationTime = createReservationCalendar(data);
+        if (reservationTime.before(calendar)) {
+            showErrorMessage("예약 시간을 확인해주세요.");
+            return false;
+        }
+        return true;
+    }
+    
+    private Calendar createReservationCalendar(ReservationData data) {
+        Calendar reservationTime = Calendar.getInstance();
+        reservationTime.set(Calendar.YEAR, Integer.parseInt(data.getYear()));
+        reservationTime.set(Calendar.MONTH, Integer.parseInt(data.getMonth()) - 1);
+        reservationTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(data.getDay()));
+        reservationTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(data.getHour()));
+        reservationTime.set(Calendar.MINUTE, Integer.parseInt(data.getMinute()));
+        return reservationTime;
+    }
+    
+    private boolean isValidRowSelection(int row) {
+        return row >= 0;
+    }
+    
+    private void processDeleteReservation(DefaultTableModel model) {
+        int deletedOrderNumber = getOrderNumber(model);
+        model.removeRow(selectedRow);
+        updateOrderNumbers(model, deletedOrderNumber);
+    }
+    
+    private int getOrderNumber(DefaultTableModel model) {
+        return Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+    }
+    
+    private void updateOrderNumbers(DefaultTableModel model, int deletedOrderNumber) {
+        for (int i = 0; i < model.getRowCount(); i++) {
+            int currentOrderNumber = Integer.parseInt(model.getValueAt(i, 0).toString());
+            if (currentOrderNumber > deletedOrderNumber) {
+                model.setValueAt(currentOrderNumber - 1, i, 0);
+            }
+        }
+    }
+    
+    private void processReservation(ReservationData data, int orderNumber) {
+        data.getReservationModel().setRowCount(0);
+        DefaultTableModel orderModel = data.getOrderModel();
+        
+        for(int i = 0; i < orderModel.getRowCount(); i++) {
+            addReservationRow(data, orderNumber + i);
+        }
+    }
+    
+    private void addReservationRow(ReservationData data, int orderNumber) {
+        DefaultTableModel orderModel = data.getOrderModel();
+        DefaultTableModel reservationModel = data.getReservationModel();
+        
+        String[] rowData = {
+            String.valueOf(orderNumber),
+            "룸서비스",
+            formatDate(data),
+            formatTime(data),
+            data.getRoom(),
+            orderModel.getValueAt(orderModel.getRowCount()-1, 0).toString(),
+            orderModel.getValueAt(orderModel.getRowCount()-1, 1).toString(),
+            orderModel.getValueAt(orderModel.getRowCount()-1, 2).toString()
+        };
+        
+        reservationModel.addRow(rowData);
+    }
+    
+    private void updateFileAfterDeletion(DefaultTableModel model) throws Exception {
+        FileWriter fw = new FileWriter(filePath, false);
+        fw.close();
+        fileHandler.saveReservationToFile(model, filePath);
+    }
+    
+    private void saveReservationToFile(DefaultTableModel model) {
+        fileHandler.saveReservationToFile(model, filePath);
+    }
+    
+    // 유틸리티 메소드들
+    private String formatDate(ReservationData data) {
+        return String.format("%s-%s-%s", data.getYear(), data.getMonth(), data.getDay());
+    }
+    
+    private String formatTime(ReservationData data) {
+        return String.format("%s:%s", data.getHour(), data.getMinute());
+    }
+    
+    private int getNextOrderNumber() {
+        return getLastOrderNumber() + 1;
+    }
+    
+    private int getLastOrderNumber() {
+        int lastNumber = 0;
+        try {
+            java.io.File file = new java.io.File(filePath);
+            if (file.exists()) {
+                java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.FileReader(file));
+                String lastLine = null;
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lastLine = line;
+                }
+                if (lastLine != null) {
+                    String[] data = lastLine.split(",");
+                    lastNumber = Integer.parseInt(data[0]);
+                }
+                reader.close();
+            }
+        } catch (Exception e) {
+            showErrorMessage("주문번호 생성 중 오류가 발생했습니다: " + e.getMessage());
+        }
+        return lastNumber;
+    }
+    
+    private void showSuccessMessage(String message) {
+        JOptionPane.showMessageDialog(null, 
+            message, 
+            "완료", 
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(null, 
+            message, 
+            "오류", 
+            JOptionPane.WARNING_MESSAGE);
+    }
 }
+

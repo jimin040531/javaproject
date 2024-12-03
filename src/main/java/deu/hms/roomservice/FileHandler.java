@@ -1,127 +1,206 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package deu.hms.roomservice;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author wjddn
- */
 public class FileHandler {
-    //객실 목록 파일 불러오기
-    public void loadRoomNumbersFromFile(DefaultComboBoxModel<String> model, String filePath) {
-    try {
-        FileReader fr = new FileReader(filePath);
-        BufferedReader br = new BufferedReader(fr);
-        
-        model.removeAllElements(); // 기존 항목 제거
-        
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] data = line.split(",");
-            if (data.length >= 7 && !data[6].trim().isEmpty()) { // 7번째 열 확인
-                model.addElement(data[6].trim()); // 7번째 열의 정보 추가
-            }
-        }
-        
-        br.close();
-        fr.close();
-        
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(null, 
-            "호실 목록을 불러오는 중 오류가 발생했습니다: " + e.getMessage(),
-            "불러오기 오류", 
-            JOptionPane.ERROR_MESSAGE);
+    // 멤버 변수 선언
+    private String filePath;
+    private FileReader fileReader;
+    private FileWriter fileWriter;
+    private BufferedReader bufferedReader;
+    private BufferedWriter bufferedWriter;
+    private DefaultTableModel tableModel;
+    private DefaultComboBoxModel<String> comboBoxModel;
+    
+    // 생성자
+    public FileHandler() {
+        // 기본 생성자
     }
-}
+    
+    public FileHandler(String filePath) {
+        this.filePath = filePath;
+    }
+    
+    // Getter/Setter 메소드
+    public String getFilePath() {
+        return filePath;
+    }
+    
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+    
+    public DefaultTableModel getTableModel() {
+        return tableModel;
+    }
+    
+    public void setTableModel(DefaultTableModel model) {
+        this.tableModel = model;
+    }
+    
+    // 객실 목록 파일 불러오기
+    public void loadRoomNumbersFromFile(DefaultComboBoxModel<String> model, String filePath) {
+        this.comboBoxModel = model;
+        this.filePath = filePath;
+        
+        try {
+            initializeReader();
+            clearComboBoxModel();
+            loadRoomData();
+            closeReader();
+        } catch (IOException e) {
+            showError("호실 목록을 불러오는 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+    
     // 메뉴 목록 파일 불러오기
     public void loadMenuFromFile(DefaultTableModel model, String filePath) {
-    try {
-        java.io.FileReader fr = new java.io.FileReader(filePath);
-        java.io.BufferedReader br = new java.io.BufferedReader(fr);
+        this.tableModel = model;
+        this.filePath = filePath;
         
-        model.setRowCount(0); // 기존 데이터 초기화
+        try {
+            initializeReader();
+            clearTableModel();
+            loadMenuData();
+            closeReader();
+        } catch (Exception e) {
+            showError("메뉴를 불러오는 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+    
+    // 예약 목록 파일 불러오기
+    public void loadReservationFromFile(DefaultTableModel model) {
+        this.tableModel = model;
+        this.filePath = "예약목록.txt";
         
+        try {
+            initializeReader();
+            clearTableModel();
+            loadReservationData();
+            closeReader();
+        } catch (Exception e) {
+            showError("예약 목록을 불러오는 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+    
+    // 예약 목록 파일 저장
+    public void saveReservationToFile(DefaultTableModel model, String filePath) {
+        this.tableModel = model;
+        this.filePath = filePath;
+        
+        try {
+            initializeWriter();
+            saveReservationData();
+            closeWriter();
+        } catch (Exception e) {
+            showError("예약 목록 저장 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+    
+    // 내부 헬퍼 메소드들
+    private void initializeReader() throws IOException {
+        fileReader = new FileReader(filePath);
+        bufferedReader = new BufferedReader(fileReader);
+    }
+    
+    private void initializeWriter() throws IOException {
+        fileWriter = new FileWriter(filePath, true);
+        bufferedWriter = new BufferedWriter(fileWriter);
+    }
+    
+    private void clearComboBoxModel() {
+        comboBoxModel.removeAllElements();
+    }
+    
+    private void clearTableModel() {
+        tableModel.setRowCount(0);
+    }
+    
+    private void loadRoomData() throws IOException {
         String line;
-        while ((line = br.readLine()) != null) {
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] data = line.split(",");
+            if (isValidRoomData(data)) {
+                comboBoxModel.addElement(data[6].trim());
+            }
+        }
+    }
+    
+    private void loadMenuData() throws IOException {
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
             String[] data = line.split(",");
             if (data.length > 2) {
-                // 2열의 정보부터 불러오기
-                model.addRow(new Object[]{data[1], data[2]});
+                tableModel.addRow(new Object[]{data[1], data[2]});
             }
         }
-        
-        br.close();
-        fr.close();
-            
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(null, 
-            "파일을 불러오는 중 오류가 발생했습니다: " + e.getMessage(),
-            "불러오기 오류", 
-            javax.swing.JOptionPane.ERROR_MESSAGE);
     }
-}
-     
-     //예약 목록 파일 불러오기
-    public void loadReservationFromFile(DefaultTableModel model) {
-    try {
-        java.io.FileReader fr = new java.io.FileReader("예약목록.txt");
-        java.io.BufferedReader br = new java.io.BufferedReader(fr);
-        
-       
-        model.setRowCount(0); // 기존 데이터 초기화
-        
+    
+    private void loadReservationData() throws IOException {
         String line;
-        while ((line = br.readLine()) != null) {
+        while ((line = bufferedReader.readLine()) != null) {
             String[] data = line.split(",");
-            model.addRow(data);
+            tableModel.addRow(data);
         }
-        
-        br.close();
-        fr.close();
-        
-      
-            
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(null, "파일을 불러오는 중 오류가 발생했습니다: " + e.getMessage(),
-            "불러오기 오류", javax.swing.JOptionPane.ERROR_MESSAGE);
     }
-}
-     //예약 목록 파일 저장
-    public void saveReservationToFile(DefaultTableModel model,String filePath) {
-    try {
-        String userHome = System.getProperty("user.home");
-        String desktopPath = userHome + "/Desktop";
-        
-        java.io.FileWriter fw = new java.io.FileWriter(filePath, true);
-        java.io.BufferedWriter bw = new java.io.BufferedWriter(fw);
-        
-        for (int i = 0; i < model.getRowCount(); i++) {
-            for (int j = 0; j < model.getColumnCount(); j++) {
-                bw.write(model.getValueAt(i, j).toString());
-                if (j < model.getColumnCount() - 1) {
-                    bw.write(",");
+    
+    private void saveReservationData() throws IOException {
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                bufferedWriter.write(tableModel.getValueAt(i, j).toString());
+                if (j < tableModel.getColumnCount() - 1) {
+                    bufferedWriter.write(",");
                 }
             }
-            bw.newLine();
+            bufferedWriter.newLine();
         }
-        
-        bw.close();
-        fw.close();
-        
-        
-            
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(null, "파일 저장 중 오류가 발생했습니다: " + e.getMessage(),
-            "저장 오류", javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+    
+    private boolean isValidRoomData(String[] data) {
+        return data.length >= 7 && !data[6].trim().isEmpty();
+    }
+    
+    private void closeReader() throws IOException {
+        if (bufferedReader != null) bufferedReader.close();
+        if (fileReader != null) fileReader.close();
+    }
+    
+    private void closeWriter() throws IOException {
+        if (bufferedWriter != null) bufferedWriter.close();
+        if (fileWriter != null) fileWriter.close();
+    }
+    
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(null, 
+            message,
+            "오류", 
+            JOptionPane.ERROR_MESSAGE);
+    }
+    
+    // 파일 존재 여부 확인 메소드
+    public boolean fileExists() {
+        try {
+            FileReader testReader = new FileReader(filePath);
+            testReader.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+    
+    // 파일 초기화 메소드
+    public void clearFile() {
+        try {
+            new FileWriter(filePath, false).close();
+        } catch (IOException e) {
+            showError("파일 초기화 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
 }

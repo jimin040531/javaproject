@@ -5,16 +5,12 @@ import deu.hms.roomservice.FileHandler;
 import deu.hms.roomservice.MenuManager;
 import deu.hms.roomservice.ReservationManager;
 import deu.hms.roomservice.TimeManager;
+import deu.hms.roomservice.PaymentManager;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-
-
-
-
-
     
 public class restaurantFrame extends javax.swing.JFrame {
     private Calendar calendar;
@@ -23,33 +19,36 @@ public class restaurantFrame extends javax.swing.JFrame {
     private MenuManager menuManager;
     private ReservationManager reservationManager;
     private TimeManager timeManager;
-  
-   // 기본 생성자와 Frame, modal을 받는 생성자 모두 구현
+    private PaymentManager paymentManager;
+    
+    // 기본 생성자
     public restaurantFrame() {
         initComponents();
-        tableManager = new TableManager();
-        fileHandler = new FileHandler();
-        menuManager = new MenuManager();
-        reservationManager = new ReservationManager();
-        timeManager = new TimeManager();
-        
-        // 메서드 호출 수정
-        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "레스토랑메뉴.txt");
-        timeManager.initCurrentDateTime(jSpinner1, jSpinner2, jSpinner3, jSpinner4, jSpinner5);
+        initializeManagers();
+        initializeData();
     }
-   
     
+    // Frame, modal을 받는 생성자
     public restaurantFrame(java.awt.Frame parent, boolean modal) {
         super();
         initComponents();
+        initializeManagers();
+        initializeData();
+    }
+    
+    // 매니저 초기화를 위한 별도 메소드
+    private void initializeManagers() {
         tableManager = new TableManager();
         fileHandler = new FileHandler();
         menuManager = new MenuManager();
         reservationManager = new ReservationManager();
         timeManager = new TimeManager();
-        
-        // 메서드 호출 수정
-        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "레스토랑메뉴.txt");
+        paymentManager = new PaymentManager();  // PaymentManager 추가
+    }
+    
+    // 데이터 초기화를 위한 별도 메소드
+    private void initializeData() {
+        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "룸서비스메뉴.txt");
         timeManager.initCurrentDateTime(jSpinner1, jSpinner2, jSpinner3, jSpinner4, jSpinner5);
     }
     @SuppressWarnings("unchecked")
@@ -921,6 +920,7 @@ public class restaurantFrame extends javax.swing.JFrame {
            "예약 오류", 
            JOptionPane.WARNING_MESSAGE);
         }
+    tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
         
     }//GEN-LAST:event_jButton24ActionPerformed
 
@@ -980,161 +980,39 @@ public class restaurantFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_roomNumberActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // 예약 하기 버튼
+         // 예약 하기 버튼
+    
+        DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
 
-        DefaultTableModel reservationModel = (DefaultTableModel) jTable4.getModel();
-        DefaultTableModel orderModel = (DefaultTableModel) jTable1.getModel();
+    if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
+       Pay.setSize(530, 470);
+       Pay.setLocationRelativeTo(null);
+       Pay.setVisible(true);
 
-        // 현재 시간 가져오기
-        Calendar now = Calendar.getInstance();
+       tableManager.reset((DefaultTableModel) jTable3.getModel(), total3);
+       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable3.getModel());
+       menuManager.updateTotal((DefaultTableModel) jTable3.getModel(), total3);
+    } else {
+        JOptionPane.showMessageDialog(null, 
+           "결제할 정보가 없습니다. 결제 창을 열 수 없습니다.",
+           "결제 오류", 
+           JOptionPane.WARNING_MESSAGE);
+      }
 
-        // 예약 시간 생성
-        Calendar reservationTime = Calendar.getInstance();
-        reservationTime.set(Calendar.YEAR, Integer.parseInt(jSpinner1.getValue().toString()));
-        reservationTime.set(Calendar.MONTH, Integer.parseInt(jSpinner2.getValue().toString()) - 1);
-        reservationTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(jSpinner3.getValue().toString()));
-        reservationTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(jSpinner4.getValue().toString()));
-        reservationTime.set(Calendar.MINUTE, Integer.parseInt(jSpinner5.getValue().toString()));
-
-        // 예약 시간이 현재 시간보다 이전인지 확인
-        if (reservationTime.before(now)) {
-            javax.swing.JOptionPane.showMessageDialog(null, "예약 시간을 확인해주세요.", "시간 오류", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // 마지막 순번 찾기
-        int lastOrderNumber = 0;
-        try {
-            java.io.FileReader fr = new java.io.FileReader("예약목록.txt");
-            java.io.BufferedReader br = new java.io.BufferedReader(fr);
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                int currentNumber = Integer.parseInt(data[0]);
-                if (currentNumber > lastOrderNumber) {
-                    lastOrderNumber = currentNumber;
-                }
-            }
-            br.close();
-            fr.close();
-        } catch (Exception e) {
-            // 파일이 없거나 읽기 실패시 0으로 시작
-            lastOrderNumber = 0;
-        }
-
-        // 다음 순번 설정
-        int orderNumber = lastOrderNumber + 1;
-        
-        //서비스 유형
-        String type = "레스토랑";
-
-        // 날짜와 시간 정보 가져오기
-        String year = jSpinner1.getValue().toString();
-        String month = jSpinner2.getValue().toString();
-        String day = jSpinner3.getValue().toString();
-        String hour = jSpinner4.getValue().toString();
-        String minute = jSpinner5.getValue().toString();
-
-        // 호실 정보 가져오기
-        String room = roomNumber.getSelectedItem().toString();
-
-        // 기존 테이블 데이터 초기화
-        reservationModel.setRowCount(0);
-
-        // 주문 정보 가져오기
-        for(int i = 0; i < orderModel.getRowCount(); i++) {
-            String menu = orderModel.getValueAt(i, 0).toString();
-            String quantity = orderModel.getValueAt(i, 1).toString();
-            String total = orderModel.getValueAt(i, 2).toString();
-
-            // 예약 테이블에 데이터 추가
-            reservationModel.addRow(new Object[]{
-                orderNumber,type,
-                year + "-" + month + "-" + day,
-                hour + ":" + minute,
-                room,
-                menu,
-                quantity,
-                total
-            });
-            orderNumber++; // 다음 주문을 위해 순번 증가
-        }
-        fileHandler.saveReservationToFile((DefaultTableModel) jTable4.getModel(),"예약목록.txt");
-
-        javax.swing.JOptionPane.showMessageDialog(null, "예약 정보가 저장되었습니다.",
-            "저장 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-        tableManager.reset((DefaultTableModel) jTable5.getModel(),total);
-        // 예약 창 닫기
-        Reservation.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // 결제 하기
-        // 결제 방식 확인
-        String paymentMethod = "";
-        if (jRadioButton1.isSelected()) {
-            paymentMethod = "카드결제";
-        } else if (jRadioButton2.isSelected()) {
-            paymentMethod = "현금결제";
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "결제방식을 선택해주세요.");
-            return;
-        }
-        // 순번 생성 - 파일에서 마지막 순번 읽어오기
-        int orderNum = 1;
-        try {
-            java.io.File file = new java.io.File("결제.txt");
-            if (file.exists()) {
-                java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(file));
-                String lastLine = null;
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    lastLine = line;
-                }
-                if (lastLine != null) {
-                    String[] data = lastLine.split(",");
-                    orderNum = Integer.parseInt(data[0]) + 1;
-                }
-                reader.close();
-            }
-        } catch (Exception e) {
-            orderNum = 1;
-        }
+         // 결제 하기
+      paymentManager.processPayment(
+        jRadioButton1,  // 현금결제 버튼
+        jRadioButton2,  // 카드결제 버튼
+        (DefaultTableModel) jTable3.getModel(),"레스토랑"
+    );
+    
+    // 결제 창 닫기
+    Pay.setVisible(false);
+    tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
 
-        // 현재 시간 가져오기
-        Calendar now = Calendar.getInstance();
-        String currentTime = String.format("%tF %tT", now, now);
-
-        String type = "레스토랑";
-         
-         // 기존 테이블 모델의 데이터를 새로운 모델로 복사
-         DefaultTableModel originalModel = (DefaultTableModel) jTable3.getModel();
-         DefaultTableModel newModel = new DefaultTableModel(
-             new Object[]{"순번", "시간", "메뉴", "수량", "가격", "결제방식"}, 0
-         );
-         
-         // 데이터 복사 및 새 컬럼 추가
-         for (int i = 0; i < originalModel.getRowCount(); i++) {
-            Object[] row = new Object[7];
-            row[0] = orderNum;
-            row[1] = type;
-            row[2] = currentTime;
-            row[3] = originalModel.getValueAt(i, 0); // 메뉴
-            row[4] = originalModel.getValueAt(i, 1); // 수량
-            row[5] = originalModel.getValueAt(i, 2); // 가격
-            row[6] = paymentMethod;
-            newModel.addRow(row);
-        }
-        
-        JOptionPane.showMessageDialog(null, 
-         "결제가 완료되었습니다.",
-         "결제 완료", 
-         JOptionPane.INFORMATION_MESSAGE);
-
-        fileHandler.saveReservationToFile(newModel, "결제.txt");
-        // 결제 창 닫기
-        Pay.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
