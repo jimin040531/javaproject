@@ -19,14 +19,14 @@ public class HotelRoomInfo {
     private JDateChooser checkInDateChooser, checkOutDateChooser;
     private JComboBox<String> floorSelector;
     private final JPanel roomPanel;
-    private final hotelReservationManager reservationManager;
+    private final RoomReservationManager reservationManager;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
     private int inDay = 0;
     private int outDay = 0;
 
     // 생성자: GUI 초기화 및 예약 관리 객체 생성
     public HotelRoomInfo() {
-        reservationManager = new hotelReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
+        reservationManager = new RoomReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
         initializeRoomPricesAndGrades(); // 객실 가격 및 등급 초기화
 
         frame = new JFrame("호텔 객실 정보");
@@ -205,7 +205,7 @@ public class HotelRoomInfo {
         hotelFloor currentFloor = reservationManager.getFloor(selectedFloor);
 
         for (int room = 0; room < currentFloor.getRooms().size(); room++) {
-            hotelRoom roomObj = currentFloor.getRoom(room);
+            HotelRoom roomObj = currentFloor.getRoom(room);
             String roomNumber = (selectedFloor + 1) + String.format("%02d", (room + 1));
             boolean isAvailable = roomObj.isAvailable(checkInDate, checkOutDate);
             

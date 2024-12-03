@@ -16,12 +16,12 @@ import java.util.List;
  *
  * @author Jimin
  */
-class hotelReservationManager {
+class RoomReservationManager {
     private final List<hotelFloor> floors; // 각 층의 리스트를 저장하는 변수
     private static final String FILE_NAME = "roomReservations.txt"; // 예약 정보를 저장하는 파일 이름
 
     // 생성자: 층과 층당 객실 수를 받아 초기화
-    public hotelReservationManager(int numFloors, int roomsPerFloor) {
+    public RoomReservationManager(int numFloors, int roomsPerFloor) {
         floors = new ArrayList<>();
         for (int i = 0; i < numFloors; i++) {
             floors.add(new hotelFloor(roomsPerFloor)); // 각 층에 방 추가
@@ -93,7 +93,6 @@ class hotelReservationManager {
             hotelFloor currentFloor = floors.get(floor);
             if (room >= 0 && room < currentFloor.getRooms().size()) {
                 currentFloor.setRoomInfo(room, price, grade, capacity);
-                System.out.println("Set room info for floor " + (floor + 1) + ", room " + (room + 1) + ": Price=" + price + ", Grade=" + grade + ", Capacity=" + capacity);
             } else {
                 System.out.println("Invalid room index: " + room);
             }
