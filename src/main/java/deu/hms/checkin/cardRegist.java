@@ -11,9 +11,9 @@ import deu.hms.reservation.Registration;
  *
  * @author Jimin
  */
-public class cardRegist extends javax.swing.JFrame {
+public class CardRegist extends javax.swing.JFrame {
     private Registration registration; // Registration 객체 참조
-    private checkIn parent;
+    private CheckIn parent;
     
     
     /**
@@ -21,14 +21,14 @@ public class cardRegist extends javax.swing.JFrame {
      */
  
     // 생성자 추가
-    public cardRegist(checkIn parent) {
+    public CardRegist(CheckIn parent) {
         this.parent = parent;  // 부모 창 참조 저장
         initComponents();      // GUI 초기화
         setLocationRelativeTo(parent);  // 부모 창을 기준으로 중앙에 배치
     }
 
     // 기존 기본 생성자도 필요하다면 유지할 수 있습니다.
-    public cardRegist() {
+    public CardRegist() {
         initComponents();      // GUI 초기화
     }
     
@@ -65,7 +65,7 @@ public class cardRegist extends javax.swing.JFrame {
             }
         });
     }
-    public cardRegist(Registration registration) {
+    public CardRegist(Registration registration) {
     this.registration = registration; // Registration 객체 저장
     initComponents(); // NetBeans GUI에서 자동 생성된 초기화 코드
     initializePlaceholders(); // 기존 초기화 코드
@@ -309,20 +309,21 @@ public class cardRegist extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new cardRegist().setVisible(true);
+                new CardRegist().setVisible(true);
             }
         });
     }

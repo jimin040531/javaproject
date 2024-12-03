@@ -13,12 +13,14 @@ public class roomInfo {
         private final int roomNumber;
         private int price;
         private String grade;
+        private int capacity;
 
-        public roomInfo(int floor, int roomNumber, int price, String grade) {
+        public roomInfo(int floor, int roomNumber, int price, String grade, int capacity) {
             this.floor = floor;
             this.roomNumber = roomNumber;
             this.price = price;
             this.grade = grade;
+            this.capacity = capacity;
         }
 
         public int getFloor() {
@@ -33,15 +35,23 @@ public class roomInfo {
             return price;
         }
 
-        public void setPrice(int price) {
-            this.price = price;
-        }
-
         public String getGrade() {
             return grade;
         }
-
+        
+        public int getCapacity() {
+            return capacity;
+        }
+        
+        public void setPrice(int price) {
+            this.price = price;
+        }
+        
         public void setGrade(String grade) {
             this.grade = grade;
+        }
+        
+        public void setCapacity(int capacity) {
+            this.capacity = capacity;
         }
 }

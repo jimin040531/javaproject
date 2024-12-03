@@ -35,32 +35,31 @@
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="searchTextField" min="-2" pref="352" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="serchButton" pref="0" max="32767" attributes="0"/>
+                      <Component id="serchButton" pref="77" max="32767" attributes="0"/>
                   </Group>
                   <Component id="ScrollPane" alignment="0" max="32767" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="reservationlistLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="guestRegistButton" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="reqestTextField" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
-                              <Component id="reqestLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="roomInfoButton" min="-2" pref="140" max="-2" attributes="0"/>
-                              <Component id="checkInTextField" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                              <Component id="roomAmountLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Component id="checkinButton" min="-2" pref="82" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="reqestLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="roomAmountLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="reservationlistLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="guestRegistButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="reqestTextField" min="-2" pref="400" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="checkInTextField" max="32767" attributes="0"/>
+                          <Component id="checkinButton" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="20" max="32767" attributes="0"/>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
@@ -75,10 +74,12 @@
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Component id="checkInLabel" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="searchTextField" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
-                  <Component id="searchComboBox" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                  <Component id="serchButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="searchComboBox" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="serchButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -93,14 +94,13 @@
                   <Component id="reqestLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="reqestTextField" alignment="1" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="checkInTextField" min="-2" pref="35" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="checkInTextField" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="roomInfoButton" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="checkinButton" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="checkinButton" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
+                  <Component id="reqestTextField" pref="73" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
           </Group>
@@ -129,9 +129,10 @@
     <Component class="javax.swing.JComboBox" name="searchComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="&#xc131;&#xc774;&#xb984;"/>
-            <StringItem index="1" value="&#xace0;&#xc720; &#xbc88;&#xd638;"/>
+          <StringArray count="3">
+            <StringItem index="0" value="&#xace0;&#xc720; &#xbc88;&#xd638;"/>
+            <StringItem index="1" value="&#xc131;&#xc774;&#xb984;"/>
+            <StringItem index="2" value="&#xbc29; &#xbc88;&#xd638;"/>
           </StringArray>
         </Property>
       </Properties>
@@ -175,15 +176,60 @@
         <Component class="javax.swing.JTable" name="reservationListTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="0">
+              <Table columnCount="8" rowCount="0">
                 <Column editable="true" title="&#xace0;&#xc720; &#xbc88;&#xd638;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xc774;&#xb984;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xc804;&#xd654; &#xbc88;&#xd638;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xbc29; &#xbc88;&#xd638;" type="java.lang.Object"/>
+                <Column editable="true" title="&#xc778;&#xc6d0;&#xc218;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xac1d;&#xc2e4; &#xae08;&#xc561;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xacb0;&#xc81c; &#xc218;&#xb2e8;" type="java.lang.Object"/>
                 <Column editable="true" title="&#xc0c1;&#xd0dc;" type="java.lang.Object"/>
               </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -238,14 +284,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serchButtonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="roomInfoButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&#xac1d;&#xc2e4; &#xc815;&#xbcf4;"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="roomInfoButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

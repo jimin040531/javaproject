@@ -8,45 +8,42 @@ import com.toedter.calendar.JDateChooser; // JCalendar 라이브러리 임포트
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
-public class HotelRoomInfo  {
-    final JFrame frame; // 메인 프레임
-    private JDateChooser checkInDateChooser, checkOutDateChooser; // 체크인 및 체크아웃 날짜 선택기
-    private JComboBox<String> floorSelector; // 층 선택 콤보박스
-    private final JPanel roomPanel; // 객실 상태를 표시할 패널
-    private final hotelReservationManager reservationManager; // 예약 관리 객체
+public class HotelRoomInfo {
 
-    // 객실 가격과 등급 정보
-    private final int[] roomPrices = new int[100]; // 객실 가격 배열
-    private final String[] roomGrades = new String[100]; // 객실 등급 배열
-    
+    final JFrame frame;
+    private JDateChooser checkInDateChooser, checkOutDateChooser;
+    private JComboBox<String> floorSelector;
+    private final JPanel roomPanel;
+    private final hotelReservationManager reservationManager;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
+    private int inDay = 0;
+    private int outDay = 0;
+
     // 생성자: GUI 초기화 및 예약 관리 객체 생성
-    public HotelRoomInfo () {
+    public HotelRoomInfo() {
         reservationManager = new hotelReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
         initializeRoomPricesAndGrades(); // 객실 가격 및 등급 초기화
 
         frame = new JFrame("호텔 객실 정보");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(900, 150);
+        frame.setSize(1100, 150);
         frame.setLayout(new BorderLayout());
-
-        // 화면을 중앙에 배치
         frame.setLocationRelativeTo(null);
 
-        // 상단 패널 추가 (층 선택 및 날짜 선택 기능)
         frame.add(createControlPanel(), BorderLayout.NORTH);
-
-        // 객실 상태를 표시하는 패널 추가
         roomPanel = new JPanel(new GridLayout(10, 10));
         frame.add(roomPanel, BorderLayout.CENTER);
 
-        // JFrame 설정
-        frame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE); // 모달 다이얼로그에 의해 차단되지 않도록 설정
-        frame.setVisible(true);  // JFrame 표시
-        frame.toFront();  // 창을 최상단으로 올리기
-        frame.requestFocus();  // 창에 포커스를 줌
+        frame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+        frame.setVisible(true);
+        frame.toFront();
+        frame.requestFocus();
 
-        // 창이 포커스를 잃었다가 다시 얻으면 최상단으로 올리기
         frame.addWindowFocusListener(new WindowAdapter() {
             @Override
             public void windowGainedFocus(WindowEvent e) {
@@ -56,27 +53,28 @@ public class HotelRoomInfo  {
         });
     }
 
-    // 객실 가격과 등급 초기화 메서드
+    // 객실 가격과 등급, 수용 인원 초기화 메서드
     private void initializeRoomPricesAndGrades() {
         try (BufferedReader reader = new BufferedReader(new FileReader("roomInfo.txt"))) {
             String line;
-            int index = 0;
-            while ((line = reader.readLine()) != null && index < 100) {
+            while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 4) { // 층, 객실 번호, 가격, 등급
-                    int floor = Integer.parseInt(parts[0].trim());
-                    int roomNumber = Integer.parseInt(parts[1].trim());
+                if (parts.length == 5) { // 층, 객실 번호, 가격, 등급, 수용 인원
+                    int floor = Integer.parseInt(parts[0].trim()) - 1;
+                    int roomNumber = Integer.parseInt(parts[1].trim()) % 100 - 1;
                     int price = Integer.parseInt(parts[2].trim());
                     String grade = parts[3].trim();
+                    int capacity = Integer.parseInt(parts[4].trim());
 
-                    // 배열 인덱스를 계산하여 저장
-                    int roomIndex = (floor - 1) * 10 + (roomNumber % 100 - 1);
-                    if (roomIndex >= 0 && roomIndex < 100) {
-                        roomPrices[roomIndex] = price;
-                        roomGrades[roomIndex] = grade;
-                        index++;
+                    if (floor >= 0 && floor < reservationManager.getFloors().size()) {
+                        hotelFloor currentFloor = reservationManager.getFloor(floor);
+                        if (roomNumber >= 0 && roomNumber < currentFloor.getRooms().size()) {
+                            currentFloor.setRoomInfo(roomNumber, price, grade, capacity);
+                        } else {
+                            System.out.println("Invalid room number: " + roomNumber);
+                        }
                     } else {
-                        System.out.println("Invalid room index: " + roomIndex);
+                        System.out.println("Invalid floor number: " + floor);
                     }
                 } else {
                     System.out.println("Invalid line format: " + line);
@@ -90,32 +88,32 @@ public class HotelRoomInfo  {
 
     // 특정 층의 특정 방을 예약하는 메서드
     public void reserveRoom(int floor, int roomNumber) {
-        LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate()); // 체크인 날짜 가져오기
-        LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate()); // 체크아웃 날짜 가져오기
+        LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate());
+        LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate());
 
-        if (checkInDate == null || checkOutDate == null) { // 체크인 또는 체크아웃 날짜가 선택되지 않았을 경우
+        if (checkInDate == null || checkOutDate == null) {
             JOptionPane.showMessageDialog(frame, "체크인 및 체크아웃 날짜를 선택해 주세요.", "날짜 미선택 오류", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // 현재 날짜보다 이전 날짜로 체크인하려고 할 경우 예약 불가 처리
         LocalDate currentDate = LocalDate.now();
         if (checkInDate.isBefore(currentDate)) {
             JOptionPane.showMessageDialog(frame, "지난 날짜로는 예약할 수 없습니다.", "예약 불가", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        int roomIndex = (floor - 1) * 10 + (roomNumber % 100 - 1); // 객실 인덱스 계산
-        if (roomIndex < 0 || roomIndex >= roomPrices.length) { // 유효하지 않은 객실 번호일 경우
-            JOptionPane.showMessageDialog(frame, "잘못된 객실 번호입니다.", "예약 불가", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // 예약 가능 여부 확인 후 예약 처리
         if (reservationManager.isRoomAvailable(floor - 1, roomNumber - 1, checkInDate, checkOutDate)) {
             if (reservationManager.reserveRoom(floor - 1, roomNumber - 1, checkInDate, checkOutDate)) {
-                JOptionPane.showMessageDialog(frame, "객실 예약이 완료되었습니다.", "예약 성공", JOptionPane.INFORMATION_MESSAGE);
-                updateRoomAvailability(); // 예약 후 객실 상태 업데이트
+                long days = ChronoUnit.DAYS.between(checkInDate, checkOutDate);
+                int roomPrice = reservationManager.getFloor(floor - 1).getRoom(roomNumber - 1).getPrice();
+                int totalCost = roomPrice;
+                if (days > 1) {
+                    totalCost += (outDay - inDay) * (roomPrice / 2); // 1박 추가 시 기본 요금의 반값 추가
+                }
+
+                JOptionPane.showMessageDialog(frame, "객실 예약이 완료되었습니다. 총 요금: " + totalCost + "원", "예약 성공", JOptionPane.INFORMATION_MESSAGE);
+                saveReservationToFile(floor, roomNumber, checkInDate, checkOutDate, totalCost);
+                updateRoomAvailability();
             } else {
                 JOptionPane.showMessageDialog(frame, "이미 예약된 방입니다.", "예약 불가", JOptionPane.WARNING_MESSAGE);
             }
@@ -124,127 +122,116 @@ public class HotelRoomInfo  {
         }
     }
 
-    // 상단 패널 생성 (층 선택, 체크인/체크아웃 날짜 선택 등)
-    private JPanel createControlPanel() {
-        JPanel panel = new JPanel(new FlowLayout()); // 플로우 레이아웃을 사용한 패널 생성
+    // 예약 정보를 파일에 저장하는 메서드
+    private void saveReservationToFile(int floor, int roomNumber, LocalDate checkInDate, LocalDate checkOutDate, int totalCost) {
+        String uniqueNumber = UUID.randomUUID().toString(); // 고유 번호 생성
+        String status = "예약 완료"; // 상태 설정
+        String checkInDateStr = checkInDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String checkOutDateStr = checkOutDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        // 체크인 및 체크아웃 날짜 선택기를 패널에 추가
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservation.txt", true))) {
+            writer.write(uniqueNumber + "," + (floor + 1) + "," + (roomNumber + 1) + "," + checkInDateStr + "," + checkOutDateStr + "," + totalCost + "," + status);
+            writer.newLine();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(frame, "예약 정보를 저장하는 중 오류가 발생했습니다.", "저장 오류", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    // 상단 패널 생성
+    private JPanel createControlPanel() {
+        JPanel panel = new JPanel(new FlowLayout());
         checkInDateChooser = createDateChooser("예상 체크인 날짜:", panel);
         checkOutDateChooser = createDateChooser("예상 체크아웃 날짜:", panel);
 
-        // 층 선택 콤보박스를 생성하고 패널에 추가
         floorSelector = new JComboBox<>();
-        for (int i = 1; i <= 10; i++) floorSelector.addItem("Floor " + i);
+        for (int i = 1; i <= 10; i++) {
+            floorSelector.addItem("Floor " + i);
+        }
         panel.add(new JLabel("층 선택:"));
         panel.add(floorSelector);
-        
-        // 층 선택 시 객실 상태 업데이트
-        floorSelector.addActionListener(e -> {
-            LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate());
-            LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate());
-            if (checkInDate == null || checkOutDate == null) {
-                JOptionPane.showMessageDialog(frame, "체크인 및 체크아웃 날짜를 선택해 주세요.", "날짜 미선택 오류", JOptionPane.WARNING_MESSAGE);
-            } else {
-                updateRoomAvailability(); // 선택된 날짜에 따른 객실 상태 업데이트
-            }
-        });
+
+        floorSelector.addActionListener(e -> updateRoomAvailability());
 
         return panel;
     }
 
-    // 날짜 선택기 생성 메서드 수정 (오류 수정)
+    // 날짜 선택기 생성 메서드
     private JDateChooser createDateChooser(String label, JPanel parent) {
-        parent.add(new JLabel(label)); // 레이블 추가
-        JDateChooser dateChooser = new JDateChooser(); // 날짜 선택기 생성
-        dateChooser.setDateFormatString("yyyy-MM-dd"); // 날짜 형식 설정
-        parent.add(dateChooser); // 날짜 선택기 패널에 추가
-
-        // 체크아웃 날짜가 변경될 때 유효성 검사
+        parent.add(new JLabel(label));
+        JDateChooser dateChooser = new JDateChooser();
+        dateChooser.setDateFormatString("yyyy-MM-dd");
+        parent.add(dateChooser);
         dateChooser.addPropertyChangeListener("date", evt -> {
             if (label.equals("예상 체크아웃 날짜:")) {
-                validateCheckOutDate(); // 체크아웃 날짜 유효성 검사 호출
+                validateCheckOutDate();
             }
         });
-
         return dateChooser;
     }
 
-    // 체크아웃 날짜 유효성 검사 메서드 수정 (오류 수정)
+    // 체크아웃 날짜 유효성 검사 메서드
     private void validateCheckOutDate() {
-        LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate()); // 체크인 날짜 가져오기
-        LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate()); // 체크아웃 날짜 가져오기
+        LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate());
+        LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate());
 
-        // 체크아웃 날짜가 체크인 날짜보다 빠르거나 같으면 경고 메시지 출력 및 날짜 조정
-        if (checkInDate != null && checkOutDate != null) {
-            if (checkOutDate.isBefore(checkInDate)) {
-                JOptionPane.showMessageDialog(
-                    frame,
-                    "체크아웃 날짜는 체크인 날짜보다 나중이어야 합니다. 최소 1박 이상 예약 가능합니다.",
-                    "날짜 선택 오류",
-                    JOptionPane.WARNING_MESSAGE
-                );
-                checkOutDateChooser.setDate(java.sql.Date.valueOf(checkInDate.plusDays(1))); // 기본값으로 변경
-            } else if (checkOutDate.isEqual(checkInDate)) {
-                JOptionPane.showMessageDialog(
-                    frame,
-                    "체크인 날짜와 체크아웃 날짜는 같을 수 없습니다. 최소 1박 이상 예약 가능합니다.",
-                    "날짜 선택 오류",
-                    JOptionPane.WARNING_MESSAGE
-                );
-                checkOutDateChooser.setDate(java.sql.Date.valueOf(checkInDate.plusDays(1))); // 기본값으로 변경
-            }
+        if (checkInDate != null && checkOutDate != null && (checkOutDate.isBefore(checkInDate) || checkOutDate.isEqual(checkInDate))) {
+            JOptionPane.showMessageDialog(frame, "체크아웃 날짜는 체크인 날짜보다 나중이어야 합니다.", "날짜 선택 오류", JOptionPane.WARNING_MESSAGE);
+            checkOutDateChooser.setDate(java.sql.Date.valueOf(checkInDate.plusDays(1)));
         }
     }
 
     // 객실 예약 가능 상태 업데이트 메서드
     void updateRoomAvailability() {
-        roomPanel.removeAll(); // 기존의 모든 객실 버튼 제거
+        roomPanel.removeAll();
 
-        // 체크인 및 체크아웃 날짜가 선택되지 않았을 경우 업데이트 중지
         if (checkInDateChooser.getDate() == null || checkOutDateChooser.getDate() == null) {
             roomPanel.revalidate();
             roomPanel.repaint();
             return;
         }
 
-        LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate()); // 체크인 날짜 가져오기
-        LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate()); // 체크아웃 날짜 가져오기
+        LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate());
+        LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate());
 
-        // 체크아웃 날짜가 체크인 날짜보다 빠르다면 체크아웃 날짜를 조정
-        if (checkInDate == null) {
-            checkInDate = LocalDate.now();
-        }
         if (checkOutDate == null || checkOutDate.isBefore(checkInDate)) {
             checkOutDate = checkInDate.plusDays(1);
         }
 
-        int selectedFloor = floorSelector.getSelectedIndex(); // 선택된 층 가져오기
+        int selectedFloor = floorSelector.getSelectedIndex();
 
-        roomPanel.setLayout(new GridLayout(2, 5)); // 객실 버튼을 2행 5열로 배치
+        roomPanel.setLayout(new GridLayout(2, 5));
 
-        final int selectedFloorFinal = selectedFloor;
-        final LocalDate checkInDateFinal = checkInDate;
-        final LocalDate checkOutDateFinal = checkOutDate;
+        hotelFloor currentFloor = reservationManager.getFloor(selectedFloor);
 
-        // 각 객실의 예약 가능 여부를 확인하고 버튼 생성
-        for (int room = 0; room < 10; room++) {
-            String roomNumber = (selectedFloorFinal + 1) + String.format("%02d", (room + 1)); // 객실 번호 생성
-            int roomIndex = selectedFloorFinal * 10 + room; // 객실 인덱스 계산
-            boolean isAvailable = reservationManager.isRoomAvailable(selectedFloorFinal, room, checkInDateFinal, checkOutDateFinal); // 예약 가능 여부 확인
+        for (int room = 0; room < currentFloor.getRooms().size(); room++) {
+            hotelRoom roomObj = currentFloor.getRoom(room);
+            String roomNumber = (selectedFloor + 1) + String.format("%02d", (room + 1));
+            boolean isAvailable = roomObj.isAvailable(checkInDate, checkOutDate);
+            
+            inDay = Integer.valueOf(dateFormat.format(checkInDateChooser.getDate()));
+            outDay = Integer.valueOf(dateFormat.format(checkOutDateChooser.getDate()));
 
-            String roomGrade = roomGrades[roomIndex]; // 객실 등급 가져오기
-            int roomPrice = roomPrices[roomIndex]; // 객실 가격 가져오기
-            JButton roomButton = new JButton(roomNumber + " / " + roomPrice + "원 / " + roomGrade); // 객실 정보 표시 버튼 생성
-            roomButton.setBackground(isAvailable ? Color.GREEN : Color.LIGHT_GRAY); // 예약 가능 여부에 따라 버튼 색상 설정
+            int roomPrice = roomObj.getPrice();
+            String roomGrade = roomObj.getGrade();
+            if((outDay - inDay) > 1){
+                roomPrice += ((outDay - inDay) - 1) * (roomObj.getPrice() / 2);
+            }
+            int roomCapacity = roomObj.getCapacity();
 
-            final int currentRoom = room;
+            String buttonText = roomNumber + " / " + roomPrice + "원 / " + roomGrade + " / " + roomCapacity + "명";
+            JButton roomButton = new JButton(buttonText);
+            roomButton.setBackground(isAvailable ? Color.GREEN : Color.LIGHT_GRAY);
+
+            final int currentFloorIndex = selectedFloor;
+            final int currentRoomIndex = room;
+
             roomButton.addActionListener((ActionEvent e) -> {
-                if (checkInDateChooser.getDate() == null || checkOutDateChooser.getDate() == null) {
-                    JOptionPane.showMessageDialog(frame, "체크인 및 체크아웃 날짜를 선택해 주세요.",
-                                                  "날짜 미선택 오류", JOptionPane.WARNING_MESSAGE);
-                    return;
+                if (isAvailable) {
+                    reserveRoom(currentFloorIndex + 1, currentRoomIndex + 1);
+                } else {
+                    JOptionPane.showMessageDialog(frame, "이미 예약된 방입니다.", "예약 불가", JOptionPane.WARNING_MESSAGE);
                 }
-                attemptReservation(selectedFloorFinal + 1, currentRoom + 1, checkInDateFinal, checkOutDateFinal);
             });
 
             roomPanel.add(roomButton);
@@ -252,22 +239,6 @@ public class HotelRoomInfo  {
 
         roomPanel.revalidate();
         roomPanel.repaint();
-    }
-
-    // 예약 시도 메서드 수정 (객체지향적 구조 반영)
-    private void attemptReservation(int floor, int room, LocalDate checkIn, LocalDate checkOut) {
-        if (checkIn == null || checkOut == null) {
-            JOptionPane.showMessageDialog(frame, "체크인 및 체크아웃 날짜를 선택해 주세요.", 
-                                          "날짜 미선택 오류", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        if (reservationManager.reserveRoom(floor - 1, room - 1, checkIn, checkOut)) {
-            JOptionPane.showMessageDialog(frame, "예약 성공 하셨습니다.");
-            updateRoomAvailability();
-        } else {
-            JOptionPane.showMessageDialog(frame, "이미 예약된 방입니다.");
-        }
     }
 
     // java.util.Date 객체를 LocalDate로 변환하는 메서드
@@ -280,6 +251,6 @@ public class HotelRoomInfo  {
 
     // 메인 메서드: 프로그램 실행 진입점
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(HotelRoomInfo ::new);
+        SwingUtilities.invokeLater(HotelRoomInfo::new);
     }
 }

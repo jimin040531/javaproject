@@ -48,10 +48,26 @@ class hotelReservationManager {
         return true;
     }
 
+    // 층 정보를 반환하는 메서드 추가
+    public hotelFloor getFloor(int floorIndex) {
+        if (floorIndex >= 0 && floorIndex < floors.size()) {
+            return floors.get(floorIndex);
+        } else {
+            System.out.println("Invalid floor index: " + floorIndex);
+            return null;
+        }
+    }
+
+    // 층 리스트를 반환하는 메서드 추가
+    public List<hotelFloor> getFloors() {
+        return floors;
+    }
+
     // 파일로 예약 정보 저장
     public void saveReservations() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
             out.writeObject(floors); // 모든 층의 예약 정보 저장
+            System.out.println("Reservation information saved to file.");
         } catch (Exception e) {
             e.printStackTrace(); // 오류 발생 시 오류 출력
         }
@@ -65,8 +81,24 @@ class hotelReservationManager {
             for (int i = 0; i < floors.size(); i++) {
                 floors.set(i, loadedFloors.get(i)); // 기존 층 정보 업데이트
             }
+            System.out.println("Reservation information loaded from file.");
         } catch (Exception e) {
             System.out.println("No previous reservations found. Starting fresh."); // 이전 예약 정보가 없을 경우 출력
+        }
+    }
+
+    // 층과 방 정보를 설정하는 메서드 추가
+    public void setRoomInfo(int floor, int room, int price, String grade, int capacity) {
+        if (floor >= 0 && floor < floors.size()) {
+            hotelFloor currentFloor = floors.get(floor);
+            if (room >= 0 && room < currentFloor.getRooms().size()) {
+                currentFloor.setRoomInfo(room, price, grade, capacity);
+                System.out.println("Set room info for floor " + (floor + 1) + ", room " + (room + 1) + ": Price=" + price + ", Grade=" + grade + ", Capacity=" + capacity);
+            } else {
+                System.out.println("Invalid room index: " + room);
+            }
+        } else {
+            System.out.println("Invalid floor index: " + floor);
         }
     }
 }

@@ -32,13 +32,15 @@ public class roomManagement extends javax.swing.JFrame {
     private void loadTableData() {
         DefaultTableModel model = (DefaultTableModel) roomTable.getModel();
         model.setRowCount(0);
-        
+
         try (BufferedReader br = new BufferedReader(new FileReader("roomInfo.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] rowData = line.split(",");
-                if (rowData.length == 4) {
+                if (rowData.length == 5) { // 층, 호수, 가격, 등급, 인원 순서로 맞는지 확인
                     model.addRow(rowData);
+                } else {
+                    System.out.println("잘못된 데이터 형식: " + line);
                 }
             }
         } catch (IOException e) {
@@ -46,27 +48,28 @@ public class roomManagement extends javax.swing.JFrame {
             System.out.println("파일을 읽는 중 문제가 발생했습니다.");
         }
     }
+
     
     private void addRoom() {
-    // 층 번호와 방 번호 선택을 위한 ComboBox 생성
         String[] floorOptions = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
         String[] gradeOptions = {"Standard", "Deluxe", "Suite"};
 
         JComboBox<String> floorComboBox = new JComboBox<>(floorOptions);
         JTextField roomField = new JTextField();
         JComboBox<String> gradeComboBox = new JComboBox<>(gradeOptions);
+        JTextField capacityField = new JTextField();
 
         // 층 번호 선택
         int floorResult = JOptionPane.showConfirmDialog(this, floorComboBox, "층 번호를 선택하세요", JOptionPane.OK_CANCEL_OPTION);
         if (floorResult != JOptionPane.OK_OPTION) {
-            return; // 사용자가 취소를 선택한 경우 메소드 종료
+            return;
         }
         String floor = (String) floorComboBox.getSelectedItem();
 
         // 방 번호 입력
         int roomResult = JOptionPane.showConfirmDialog(this, roomField, "방 번호를 입력하세요", JOptionPane.OK_CANCEL_OPTION);
         if (roomResult != JOptionPane.OK_OPTION) {
-            return; // 사용자가 취소를 선택한 경우 메소드 종료
+            return;
         }
         String roomNumber = roomField.getText().trim();
 
@@ -76,13 +79,19 @@ public class roomManagement extends javax.swing.JFrame {
         // 방 등급 선택
         int gradeResult = JOptionPane.showConfirmDialog(this, gradeComboBox, "방 등급을 선택하세요", JOptionPane.OK_CANCEL_OPTION);
         if (gradeResult != JOptionPane.OK_OPTION) {
-            return; // 사용자가 취소를 선택한 경우 메소드 종료
+            return;
         }
         String grade = (String) gradeComboBox.getSelectedItem();
 
-        if (price != null && !roomNumber.isEmpty()) {
+        // 인원 수 입력
+        int capacityResult = JOptionPane.showConfirmDialog(this, capacityField, "수용 인원을 입력하세요", JOptionPane.OK_CANCEL_OPTION);
+        if (capacityResult != JOptionPane.OK_OPTION) {
+            return;
+        }
+        String capacity = capacityField.getText().trim();
+
+        if (price != null && !roomNumber.isEmpty() && !capacity.isEmpty()) {
             DefaultTableModel model = (DefaultTableModel) roomTable.getModel();
-            // 중복 확인
             boolean isDuplicate = false;
             for (int i = 0; i < model.getRowCount(); i++) {
                 String existingFloor = model.getValueAt(i, 0).toString().trim();
@@ -96,10 +105,11 @@ public class roomManagement extends javax.swing.JFrame {
             if (isDuplicate) {
                 JOptionPane.showMessageDialog(this, "이미 존재하는 객실입니다.", "등록 오류", JOptionPane.WARNING_MESSAGE);
             } else {
-                model.addRow(new Object[]{floor.trim(), roomNumber, price.trim(), grade.trim()});
+                model.addRow(new Object[]{floor.trim(), roomNumber, price.trim(), grade.trim(), capacity.trim()});
             }
         }
     }
+
 
 
 
@@ -121,7 +131,8 @@ public class roomManagement extends javax.swing.JFrame {
                 String roomNumber = model.getValueAt(i, 1).toString();
                 String price = model.getValueAt(i, 2).toString();
                 String grade = model.getValueAt(i, 3).toString();
-                bw.write(floor + "," + roomNumber + "," + price + "," + grade);
+                String capacity = model.getValueAt(i, 4).toString(); // 인원 추가
+                bw.write(floor + "," + roomNumber + "," + price + "," + grade + "," + capacity); // 인원 정보도 포함하여 저장
                 bw.newLine();
             }
             JOptionPane.showMessageDialog(this, "객실 정보가 저장되었습니다.", "저장 성공", JOptionPane.INFORMATION_MESSAGE);
@@ -130,6 +141,8 @@ public class roomManagement extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "객실 정보를 저장하는 중 문제가 발생했습니다.", "저장 오류", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -155,17 +168,17 @@ public class roomManagement extends javax.swing.JFrame {
 
         roomTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "층", "호수", "가격", "등급"
+                "층", "호수", "가격", "등급", "인원"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {

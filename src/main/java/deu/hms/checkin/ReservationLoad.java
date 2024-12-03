@@ -25,13 +25,14 @@ public class ReservationLoad {
         // Reservation.txt 파일에서 예약자 정보를 불러오기
         List<ReservationData> reservationList = loadFromFile("Reservation.txt");
 
-        // 필요한 정보만 테이블에 추가 (고유 번호, 이름, 전화 번호, 방 번호, 객실 금액, 결제 수단, 상태)
+        // 필요한 정보만 테이블에 추가 (고유 번호, 이름, 전화 번호, 방 번호, 인원수, 객실 금액, 결제 수단, 상태)
         for (ReservationData reservation : reservationList) {
             Object[] rowData = {
                 reservation.getUniqueNumber(), // 고유 번호
                 reservation.getName(),         // 이름
                 reservation.getPhoneNumber(),  // 전화 번호
                 reservation.getRoomNumber(),   // 방 번호
+                reservation.getGuestCount(),   // 인원수
                 reservation.getStayCost(),     // 객실 금액
                 reservation.getPaymentMethod(),// 결제 수단
                 reservation.getStatus()        // 상태
@@ -48,12 +49,18 @@ public class ReservationLoad {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length == 11) {
-                    ReservationData reservation = new ReservationData(
-                        data[0], data[1], data[2], data[3],
-                        data[4], data[5], data[6], data[7],
-                        data[8], data[9], data[10]
-                    );
-                    reservationList.add(reservation);
+                    try {
+                        ReservationData reservation = new ReservationData(
+                            data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(),
+                            data[4].trim(), data[5].trim(), data[6].trim(), data[7].trim(),
+                            data[8].trim(), data[9].trim(), data[10].trim()
+                        );
+                        reservationList.add(reservation);
+                    } catch (Exception e) {
+                        System.err.println("데이터 매핑 중 오류 발생: " + e.getMessage());
+                    }
+                } else {
+                    System.err.println("잘못된 데이터 형식: " + line);
                 }
             }
         } catch (IOException e) {

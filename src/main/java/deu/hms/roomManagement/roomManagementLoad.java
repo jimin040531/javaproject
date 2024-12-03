@@ -23,8 +23,8 @@ public class roomManagementLoad {
         loadRoomInfoFromFile();
     }
 
-    public void addRoom(int floor, int roomNumber, int price, String grade) {
-        roomInfo newRoom = new roomInfo(floor, roomNumber, price, grade);
+    public void addRoom(int floor, int roomNumber, int price, String grade, int capacity) {
+        roomInfo newRoom = new roomInfo(floor, roomNumber, price, grade, capacity);
         roomList.add(newRoom);
         saveRoomInfoToFile();
     }
@@ -50,14 +50,14 @@ public class roomManagementLoad {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // 기존 데이터 삭제
         for (roomInfo room : roomList) {
-            model.addRow(new Object[]{room.getFloor(), room.getRoomNumber(), room.getPrice(), room.getGrade()});
+            model.addRow(new Object[]{room.getFloor(), room.getRoomNumber(), room.getPrice(), room.getGrade(), room.getCapacity()});
         }
     }
 
     private void saveRoomInfoToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (roomInfo room : roomList) {
-                writer.write(room.getFloor() + "," + room.getRoomNumber() + "," + room.getPrice() + "," + room.getGrade());
+                writer.write(room.getFloor() + "," + room.getRoomNumber() + "," + room.getPrice() + "," + room.getGrade() + "," + room.getCapacity());
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -85,12 +85,13 @@ public class roomManagementLoad {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
-                if (data.length == 4) {
+                if (data.length == 5) {
                     int floor = Integer.parseInt(data[0].trim());
                     int roomNumber = Integer.parseInt(data[1].trim());
                     int price = Integer.parseInt(data[2].trim());
                     String grade = data[3].trim();
-                    roomList.add(new roomInfo(floor, roomNumber, price, grade));
+                    int capacity = Integer.parseInt(data[4].trim());
+                    roomList.add(new roomInfo(floor, roomNumber, price, grade, capacity));
                 } else {
                     System.out.println("잘못된 데이터 형식: " + line);
                 }

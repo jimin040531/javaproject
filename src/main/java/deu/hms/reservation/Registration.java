@@ -16,7 +16,7 @@ import java.time.format.DateTimeParseException;
 import deu.hms.reservation.ReservationUtils;
 import java.io.IOException; 
 import java.util.UUID;
-import deu.hms.checkin.cardRegist; //카드등록 불러옴
+import deu.hms.checkin.CardRegist; //카드등록 불러옴
 import java.awt.Frame;
 import javax.swing.ButtonGroup;
 
@@ -489,7 +489,7 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
-   cardRegist cardRegistWindow = new cardRegist(this);
+   CardRegist cardRegistWindow = new CardRegist(this);
     cardRegistWindow.setVisible(true);
         cardRegistWindow.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
 
