@@ -14,14 +14,14 @@ import java.util.*;
  *
  * @author Jimin
  */
-public class loginFrame extends javax.swing.JDialog {
+public class LoginFrame extends javax.swing.JDialog {
 
     /**
-     * Creates new form loginFrame
+     * Creates new form LoginFrame
      */
      private UserAuthentication auth;
      
-    public loginFrame(UserAuthentication auth) {
+    public LoginFrame(UserAuthentication auth) {
         super(new JFrame(), true);
         this.auth = auth;
         initComponents();
@@ -42,34 +42,34 @@ public class loginFrame extends javax.swing.JDialog {
     private void initComponents() {
 
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
-        PasswordField = new javax.swing.JPasswordField();
-        LoginButton = new javax.swing.JButton();
-        IDField = new java.awt.TextField();
-        label1 = new java.awt.Label();
+        passwordField = new javax.swing.JPasswordField();
+        loginButton = new javax.swing.JButton();
+        idField = new java.awt.TextField();
+        mainTitleLabel = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        PasswordField.addActionListener(new java.awt.event.ActionListener() {
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasswordFieldActionPerformed(evt);
+                passwordFieldActionPerformed(evt);
             }
         });
 
-        LoginButton.setText("Login");
-        LoginButton.addActionListener(new java.awt.event.ActionListener() {
+        loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoginButtonActionPerformed(evt);
+                loginButtonActionPerformed(evt);
             }
         });
 
-        IDField.addActionListener(new java.awt.event.ActionListener() {
+        idField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IDFieldActionPerformed(evt);
+                idFieldActionPerformed(evt);
             }
         });
 
-        label1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        label1.setText("호텔 관리자 시스템");
+        mainTitleLabel.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        mainTitleLabel.setText("호텔 관리자 시스템");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,14 +82,14 @@ public class loginFrame extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(PasswordField)
-                                    .addComponent(IDField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(passwordField)
+                                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(LoginButton))
+                                .addComponent(loginButton))
                             .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(91, 91, 91)
-                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(mainTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -98,25 +98,25 @@ public class loginFrame extends javax.swing.JDialog {
                 .addContainerGap(49, Short.MAX_VALUE)
                 .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mainTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(IDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(115, 115, 115))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // ID와 비밀번호 가져오기
-        String userId = IDField.getText();
-        String password = new String(PasswordField.getPassword());
+        String userId = idField.getText();
+        String password = new String(passwordField.getPassword());
 
         // 로그인 인증 시도
         boolean authenticated = auth.authenticate(userId, password);
@@ -169,15 +169,15 @@ public class loginFrame extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-    }//GEN-LAST:event_LoginButtonActionPerformed
+    }//GEN-LAST:event_loginButtonActionPerformed
 
-    private void IDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDFieldActionPerformed
-        PasswordField.requestFocus();
-    }//GEN-LAST:event_IDFieldActionPerformed
+    private void idFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idFieldActionPerformed
+        passwordField.requestFocus();
+    }//GEN-LAST:event_idFieldActionPerformed
    
-    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
-        LoginButton.doClick();
-    }//GEN-LAST:event_PasswordFieldActionPerformed
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+        loginButton.doClick();
+    }//GEN-LAST:event_passwordFieldActionPerformed
    
     
     /**
@@ -196,23 +196,23 @@ public class loginFrame extends javax.swing.JDialog {
         Color placeholderColor = Color.GRAY;
         Color inputColor = Color.BLACK;
 
-        IDField.setText(placeholderText);
-        IDField.setForeground(placeholderColor);
+        idField.setText(placeholderText);
+        idField.setForeground(placeholderColor);
 
-        IDField.addFocusListener(new FocusAdapter() {
+        idField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent evt) {
-                if (IDField.getText().equals(placeholderText)) {
-                    IDField.setText("");
-                    IDField.setForeground(inputColor);
+                if (idField.getText().equals(placeholderText)) {
+                    idField.setText("");
+                    idField.setForeground(inputColor);
                 }
             }
 
             @Override
             public void focusLost(FocusEvent evt) {
-                if (IDField.getText().isEmpty()) {
-                    IDField.setText(placeholderText);
-                    IDField.setForeground(placeholderColor);
+                if (idField.getText().isEmpty()) {
+                    idField.setText(placeholderText);
+                    idField.setForeground(placeholderColor);
                 }
             }
         });
@@ -226,26 +226,26 @@ public class loginFrame extends javax.swing.JDialog {
         Color placeholderColor = Color.GRAY;
         Color inputColor = Color.BLACK;
 
-        PasswordField.setText(placeholderText);
-        PasswordField.setForeground(placeholderColor);
-        PasswordField.setEchoChar((char) 0);  // 기본 메시지를 보여주기 위해 echo char 비활성화
+        passwordField.setText(placeholderText);
+        passwordField.setForeground(placeholderColor);
+        passwordField.setEchoChar((char) 0);  // 기본 메시지를 보여주기 위해 echo char 비활성화
 
-        PasswordField.addFocusListener(new FocusAdapter() {
+        passwordField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent evt) {
-                if (new String(PasswordField.getPassword()).equals(placeholderText)) {
-                    PasswordField.setText("");
-                    PasswordField.setForeground(inputColor);
-                    PasswordField.setEchoChar('*');  // 비밀번호 입력 시 echo char 활성화
+                if (new String(passwordField.getPassword()).equals(placeholderText)) {
+                    passwordField.setText("");
+                    passwordField.setForeground(inputColor);
+                    passwordField.setEchoChar('*');  // 비밀번호 입력 시 echo char 활성화
                 }
             }
 
             @Override
             public void focusLost(FocusEvent evt) {
-                if (PasswordField.getPassword().length == 0) {
-                    PasswordField.setText(placeholderText);
-                    PasswordField.setForeground(placeholderColor);
-                    PasswordField.setEchoChar((char) 0);  // 기본 메시지를 보여주기 위해 echo char 비활성화
+                if (passwordField.getPassword().length == 0) {
+                    passwordField.setText(placeholderText);
+                    passwordField.setForeground(placeholderColor);
+                    passwordField.setEchoChar((char) 0);  // 기본 메시지를 보여주기 위해 echo char 비활성화
                 }
             }
         });
@@ -267,13 +267,13 @@ public class loginFrame extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         try {
@@ -284,13 +284,13 @@ public class loginFrame extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(loginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         UserAuthentication auth = new UserAuthentication(); 
@@ -298,8 +298,8 @@ public class loginFrame extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                // UserAuthentication 객체를 인자로 전달하여 loginFrame 생성
-                loginFrame dialog = new loginFrame(auth);  // UserAuthentication 전달
+                // UserAuthentication 객체를 인자로 전달하여 LoginFrame 생성
+                LoginFrame dialog = new LoginFrame(auth);  // UserAuthentication 전달
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -317,10 +317,10 @@ public class loginFrame extends javax.swing.JDialog {
     
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.TextField IDField;
-    private javax.swing.JButton LoginButton;
-    private javax.swing.JPasswordField PasswordField;
     private javax.swing.Box.Filler filler1;
-    private java.awt.Label label1;
+    private java.awt.TextField idField;
+    private javax.swing.JButton loginButton;
+    private java.awt.Label mainTitleLabel;
+    private javax.swing.JPasswordField passwordField;
     // End of variables declaration//GEN-END:variables
 }
