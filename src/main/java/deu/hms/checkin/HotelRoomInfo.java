@@ -10,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import deu.hms.reservation.Registration;
 import deu.hms.reservation.ReservationData;
+import deu.hms.reservation.reservationFrame;
 
 public class HotelRoomInfo  {
     final JFrame frame; // 메인 프레임
@@ -17,20 +18,26 @@ public class HotelRoomInfo  {
     private JComboBox<String> floorSelector; // 층 선택 콤보박스
     private final JPanel roomPanel; // 객실 상태를 표시할 패널
     private final hotelReservationManager reservationManager; // 예약 관리 객체
-    private Registration registration;
-       
+         private final reservationFrame parentFrame;
+    private final Registration registration;
 
-
+public HotelRoomInfo(Registration registration) {
+    this.registration = registration;
+    initializeUI();
+}
     // 객실 가격과 등급 정보
     private final int[] roomPrices = new int[100]; // 객실 가격 배열
     private final String[] roomGrades = new String[100]; // 객실 등급 배열
     
     // 생성자: GUI 초기화 및 예약 관리 객체 생성
     public HotelRoomInfo () {
+                this.parentFrame = new reservationFrame(); // 객체 생성
+
         reservationManager = new hotelReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
         initializeRoomPricesAndGrades(); // 객실 가격 및 등급 초기화
-         registration = new Registration();
-         
+        
+                registration = new Registration(parentFrame); // 생성한 객체 전달
+
         frame = new JFrame("호텔 객실 정보");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(900, 150);
@@ -159,7 +166,6 @@ public class HotelRoomInfo  {
     // Registration 폼을 다시 보이도록 설정
     registration.setVisible(true);    // 폼 보이기
     registration.toFront();           // 최상단으로 가져오기
-    registration.repaint();  
     registration.setSize(500, 450);
      frame.setVisible(false);
 // 폼 강제 업데이트
@@ -175,7 +181,6 @@ backButton.addActionListener(e -> {
     
     registration.setVisible(true);    // 폼 보이기
     registration.toFront();           // 최상단으로 가져오기
-    registration.repaint();  
     registration.setSize(500, 450);
      frame.setVisible(false); 
 
@@ -254,7 +259,29 @@ panel.add(backButton); // 패널에 뒤로가기 버튼 추가
             roomPanel.revalidate();
             roomPanel.repaint();
             return;
+        saveButton.addActionListener(e -> {
+    // 텍스트 필드에서 날짜 가져오기
+    String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
+    String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
+
+    System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
+
+    // Registration에 날짜 업데이트 요청
+    if (registration != null) {
+        registration.updateDates(checkInDate, checkOutDate);
+    } else {
+        System.err.println("Registration 객체가 null 상태입니다.");
+    }
+
+    // HotelRoomInfo 창 숨기기
+    frame.setVisible(false);
+});
+        
+        
+        
         }
+       
+        
 
         LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate()); // 체크인 날짜 가져오기
         LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate()); // 체크아웃 날짜 가져오기
