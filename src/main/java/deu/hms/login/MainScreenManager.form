@@ -27,25 +27,25 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
-                      <Component id="GoReservationManager" min="-2" pref="132" max="-2" attributes="0"/>
+                      <Component id="goReservationManager" min="-2" pref="132" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="GoRoomserviceManager" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Component id="goRoomserviceManager" min="-2" pref="132" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="GoRestaurantManager" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Component id="goRestaurantManager" min="-2" pref="132" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="GoCheckinManager" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Component id="goCheckinManager" min="-2" pref="132" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="GocheckoutManager" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Component id="goCheckoutManager" min="-2" pref="132" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="GoReport" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Component id="goReport" min="-2" pref="132" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="GoManagement" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Component id="goManagement" min="-2" pref="132" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -61,23 +61,23 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="GoReservationManager" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goReservationManager" min="-2" pref="65" max="-2" attributes="0"/>
                   <Component id="logoutButton" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="GoCheckinManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
-                  <Component id="GocheckoutManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goCheckinManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goCheckoutManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="GoRoomserviceManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
-                  <Component id="GoRestaurantManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goRoomserviceManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goRestaurantManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="GoManagement" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
-                  <Component id="GoReport" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goManagement" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goReport" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
@@ -85,60 +85,60 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="GoRestaurantManager">
+    <Component class="javax.swing.JButton" name="goRestaurantManager">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xb808;&#xc2a4;&#xd1a0;&#xb791;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GoRestaurantManagerActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goRestaurantManagerActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="GoReservationManager">
+    <Component class="javax.swing.JButton" name="goReservationManager">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xc608;&#xc57d; &#xad00;&#xb9ac;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GoReservationManagerActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goReservationManagerActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="GoCheckinManager">
+    <Component class="javax.swing.JButton" name="goCheckinManager">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xccb4;&#xd06c;&#xc778;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GoCheckinManagerActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goCheckinManagerActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="GocheckoutManager">
+    <Component class="javax.swing.JButton" name="goCheckoutManager">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xccb4;&#xd06c;&#xc544;&#xc6c3;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GocheckoutManagerActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goCheckoutManagerActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="GoRoomserviceManager">
+    <Component class="javax.swing.JButton" name="goRoomserviceManager">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xb8f8;&#xc11c;&#xbe44;&#xc2a4;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GoRoomserviceManagerActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goRoomserviceManagerActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="GoManagement">
+    <Component class="javax.swing.JButton" name="goManagement">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xd638;&#xd154; &#xad00;&#xb9ac;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GoManagementActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goManagementActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="GoReport">
+    <Component class="javax.swing.JButton" name="goReport">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xbcf4;&#xace0;&#xc11c;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GoReportActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goReportActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="logoutButton">
