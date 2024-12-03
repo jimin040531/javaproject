@@ -39,8 +39,8 @@ public class MainScreenManager extends javax.swing.JFrame {
         goCheckinManager = new javax.swing.JButton();
         goCheckoutManager = new javax.swing.JButton();
         goRoomserviceManager = new javax.swing.JButton();
-        GoManagement = new javax.swing.JButton();
-        GoReport = new javax.swing.JButton();
+        goManagement = new javax.swing.JButton();
+        goReport = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -80,17 +80,17 @@ public class MainScreenManager extends javax.swing.JFrame {
             }
         });
 
-        GoManagement.setText("호텔 관리");
-        GoManagement.addActionListener(new java.awt.event.ActionListener() {
+        goManagement.setText("호텔 관리");
+        goManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GoManagementActionPerformed(evt);
+                goManagementActionPerformed(evt);
             }
         });
 
-        GoReport.setText("보고서");
-        GoReport.addActionListener(new java.awt.event.ActionListener() {
+        goReport.setText("보고서");
+        goReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GoReportActionPerformed(evt);
+                goReportActionPerformed(evt);
             }
         });
 
@@ -122,9 +122,9 @@ public class MainScreenManager extends javax.swing.JFrame {
                                 .addGap(40, 40, 40)
                                 .addComponent(goCheckoutManager, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(GoReport, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(goReport, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(40, 40, 40)
-                                .addComponent(GoManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(goManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -146,8 +146,8 @@ public class MainScreenManager extends javax.swing.JFrame {
                     .addComponent(goRestaurantManager, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(GoManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GoReport, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(goManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(goReport, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -189,21 +189,21 @@ public class MainScreenManager extends javax.swing.JFrame {
         this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_goRoomserviceManagerActionPerformed
 
-    private void GoManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoManagementActionPerformed
+    private void goManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goManagementActionPerformed
         // management 패키지 내 managementFrame을 생성하여 화면에 띄움
          deu.hms.management.managementFrame managementScreen = new deu.hms.management.managementFrame(this, true);
         managementScreen.setLocationRelativeTo(null); // 중앙에 띄우기
         managementScreen.setVisible(true); // 화면에 표시
         this.dispose(); // 현재 화면을 닫음 (이동 후 현재 화면을 숨기고 싶다면)
-    }//GEN-LAST:event_GoManagementActionPerformed
+    }//GEN-LAST:event_goManagementActionPerformed
 
-    private void GoReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoReportActionPerformed
+    private void goReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReportActionPerformed
         // report 패키지 내 reportFrame을 생성하여 화면에 띄움
          deu.hms.report.reportFrame reportScreen = new deu.hms.report.reportFrame(this, true);
         reportScreen.setLocationRelativeTo(null); // 중앙에 띄우기
         reportScreen.setVisible(true); // 화면에 표시
         this.dispose(); // 현재 화면을 닫음 (이동 후 현재 화면을 숨기고 싶다면)
-    }//GEN-LAST:event_GoReportActionPerformed
+    }//GEN-LAST:event_goReportActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // 로그아웃 처리
@@ -252,10 +252,10 @@ public class MainScreenManager extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton GoManagement;
-    private javax.swing.JButton GoReport;
     private javax.swing.JButton goCheckinManager;
     private javax.swing.JButton goCheckoutManager;
+    private javax.swing.JButton goManagement;
+    private javax.swing.JButton goReport;
     private javax.swing.JButton goReservationManager;
     private javax.swing.JButton goRestaurantManager;
     private javax.swing.JButton goRoomserviceManager;

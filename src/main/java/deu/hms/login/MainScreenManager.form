@@ -43,9 +43,9 @@
                               <Component id="goCheckoutManager" min="-2" pref="132" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="GoReport" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Component id="goReport" min="-2" pref="132" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="GoManagement" min="-2" pref="132" max="-2" attributes="0"/>
+                              <Component id="goManagement" min="-2" pref="132" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -76,8 +76,8 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="GoManagement" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
-                  <Component id="GoReport" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goManagement" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goReport" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
@@ -125,20 +125,20 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goRoomserviceManagerActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="GoManagement">
+    <Component class="javax.swing.JButton" name="goManagement">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xd638;&#xd154; &#xad00;&#xb9ac;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GoManagementActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goManagementActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="GoReport">
+    <Component class="javax.swing.JButton" name="goReport">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xbcf4;&#xace0;&#xc11c;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GoReportActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goReportActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="logoutButton">
