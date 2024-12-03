@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 deu\hms\login\MainScreenManager$8.class
 deu\hms\reservation\ReservationUtils.class
 deu\hms\roomManagement\roomManagementLoad.class
@@ -151,3 +152,5 @@ deu\hms\accountManagement\accountFrame$2.class
 deu\hms\reservation\TableManager.class
 deu\hms\reservation\Registration$5.class
 deu\hms\restaurant\ReservationViewDialog$1.class
+=======
+>>>>>>> caa88c5c5bf97001f93170cb49f109df6aabbbdc
