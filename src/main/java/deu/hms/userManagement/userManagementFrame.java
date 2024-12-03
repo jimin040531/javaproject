@@ -19,8 +19,17 @@ public class UserManagementFrame extends javax.swing.JFrame {
      * Creates new form userManagementFrame1
      */
     public UserManagementFrame() {
+        
+        setTitle("사용자 관리");
+        
         initComponents();
         loadUserTableData(); // 프로그램 시작 시 테이블 데이터 로드
+        setLocationRelativeTo(null); // 창을 화면 중앙에 배치
+    }
+    
+    // JTable을 외부에서 접근할 수 있도록 메서드 추가
+    public JTable getUserInfoTable() {
+        return userInfoTable;
     }
     
      // users.txt의 데이터를 UserInfoTable에 로드
@@ -159,9 +168,8 @@ public class UserManagementFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_userDeleteButtonActionPerformed
 
     private void userAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userAddButtonActionPerformed
-        // UserAdd 창 열기
-        UserAdd addFrame = new UserAdd();
-        addFrame.setVisible(true);
+       UserAdd userAdd = new UserAdd(this); // 현재 UserManagementFrame을 전달
+       userAdd.setVisible(true);
     }//GEN-LAST:event_userAddButtonActionPerformed
 
     /**

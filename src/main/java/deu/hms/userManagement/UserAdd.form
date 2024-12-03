@@ -36,9 +36,9 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="PickManagerAdd" min="-2" max="-2" attributes="0"/>
+                                      <Component id="pickManagerAdd" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="PickEmployeeAdd" min="-2" max="-2" attributes="0"/>
+                                      <Component id="pickEmployeeAdd" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
@@ -48,9 +48,9 @@
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="InUserPWAdd" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
-                                          <Component id="InUserIDAdd" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
-                                          <Component id="InUserNameAdd" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
+                                          <Component id="inUserPWAdd" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
+                                          <Component id="inUserIDAdd" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
+                                          <Component id="inUserNameAdd" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -74,23 +74,23 @@
               <Component id="UserManagementTitle" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="InUserNameAdd" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="inUserNameAdd" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="nameLabelAdd" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="InUserIDAdd" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="inUserIDAdd" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="IDLabelAdd" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="InUserPWAdd" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="inUserPWAdd" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="PWLabelAdd" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="PickManagerAdd" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="PickEmployeeAdd" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="pickManagerAdd" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="pickEmployeeAdd" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="saveButtonAdd" min="-2" max="-2" attributes="0"/>
@@ -108,20 +108,20 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonAddActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="PickEmployeeAdd">
+    <Component class="javax.swing.JCheckBox" name="pickEmployeeAdd">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xc77c;&#xbc18; &#xc9c1;&#xc6d0;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PickEmployeeAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pickEmployeeAddActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="PickManagerAdd">
+    <Component class="javax.swing.JCheckBox" name="pickManagerAdd">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xad00;&#xb9ac;&#xc790;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PickManagerAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pickManagerAddActionPerformed"/>
       </Events>
     </Component>
     <Component class="java.awt.Label" name="PWLabelAdd">
@@ -132,19 +132,19 @@
         <Property name="text" type="java.lang.String" value="&#xbe44;&#xbc00;&#xbc88;&#xd638;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="InUserPWAdd">
+    <Component class="javax.swing.JTextField" name="inUserPWAdd">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="InUserPWAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inUserPWAddActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="InUserIDAdd">
+    <Component class="javax.swing.JTextField" name="inUserIDAdd">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="InUserIDAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inUserIDAddActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="InUserNameAdd">
+    <Component class="javax.swing.JTextField" name="inUserNameAdd">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="InUserNameAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inUserNameAddActionPerformed"/>
       </Events>
     </Component>
     <Component class="java.awt.Label" name="nameLabelAdd">

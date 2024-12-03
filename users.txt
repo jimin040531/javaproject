@@ -14,3 +14,5 @@ lkjhgf,asfs12,홍길동,Manager
 lkjhgf,asfs12,홍길동,Manager
 lkjhgf,asfs12,홍길동,Manager
 ,,,Manager
+imnameim, ick0126, 임창균, Employee
+jeonsang51, jsh0418, 전상현, Employee

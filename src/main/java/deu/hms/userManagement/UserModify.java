@@ -26,6 +26,8 @@ public class UserModify extends javax.swing.JFrame {
         setTitle("사용자 수정");
         initComponents();
         loadUserDataToFields();
+        setLocationRelativeTo(null); // 창을 화면 중앙에 배치
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); // 창 닫기 동작 설정
     }
     
     private void loadUserDataToFields() {
@@ -39,10 +41,17 @@ public class UserModify extends javax.swing.JFrame {
         inUserIDModify.setText(userId);
         inUserPWModify.setText(userPassword);
 
-        if ("Employee".equals(userRole)) {
+        // 권한(role)에 따라 체크박스를 설정
+        if ("Employee".equalsIgnoreCase(userRole)) {
             pickEmployeeModify.setSelected(true);
-        } else if ("Manager".equals(userRole)) {
+            pickManagerModify.setSelected(false); // 반대 체크박스는 비활성화
+        } else if ("Manager".equalsIgnoreCase(userRole)) {
             pickManagerModify.setSelected(true);
+            pickEmployeeModify.setSelected(false); // 반대 체크박스는 비활성화
+        } else {
+            // 역할이 명확하지 않은 경우 체크박스 초기화
+            pickEmployeeModify.setSelected(false);
+            pickManagerModify.setSelected(false);
         }
     }
 
