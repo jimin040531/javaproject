@@ -165,7 +165,7 @@ public class MainScreenManager extends javax.swing.JFrame {
         deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
         reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         reservationFrame.setVisible(true);
-        this.dispose();
+        this.dispose(); //현재 창 닫기
     }//GEN-LAST:event_goReservationManagerActionPerformed
 
     private void goCheckinManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckinManagerActionPerformed
@@ -191,7 +191,7 @@ public class MainScreenManager extends javax.swing.JFrame {
 
     private void goManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goManagementActionPerformed
         // management 패키지 내 managementFrame을 생성하여 화면에 띄움
-         deu.hms.management.managementFrame managementScreen = new deu.hms.management.managementFrame(this, true);
+        deu.hms.management.managementFrame managementScreen = new deu.hms.management.managementFrame(this, true);
         managementScreen.setLocationRelativeTo(null); // 중앙에 띄우기
         managementScreen.setVisible(true); // 화면에 표시
         this.dispose(); // 현재 화면을 닫음 (이동 후 현재 화면을 숨기고 싶다면)

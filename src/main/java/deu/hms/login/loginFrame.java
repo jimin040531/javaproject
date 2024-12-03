@@ -17,7 +17,7 @@ import java.util.*;
 public class loginFrame extends javax.swing.JDialog {
 
     /**
-     * Creates new form LoginFrame
+     * Creates new form loginFrame
      */
      private UserAuthentication auth;
      
@@ -298,7 +298,11 @@ public class loginFrame extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+<<<<<<< HEAD
                 // UserAuthentication 객체를 인자로 전달하여 LoginFrame 생성
+=======
+                // UserAuthentication 객체를 인자로 전달하여 loginFrame 생성
+>>>>>>> test-jinho
                 loginFrame dialog = new loginFrame(auth);  // UserAuthentication 전달
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
