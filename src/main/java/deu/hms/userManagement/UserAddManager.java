@@ -23,7 +23,7 @@ public class UserAddManager {
      */
     
     // 사용자 추가 메서드
-    public static void addUser(User user, UserManagementFrame parent) {
+    public static void addUser(User user, userManagementFrame parent) {
         BufferedWriter writer = null;
         try {
             // 1. 텍스트 파일에 사용자 추가
