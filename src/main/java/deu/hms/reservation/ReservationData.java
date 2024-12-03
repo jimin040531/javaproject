@@ -5,6 +5,8 @@
 package deu.hms.reservation;
 
 import java.util.UUID; // UUID를 사용하기 위해 추가
+import java.io.IOException; 
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -77,6 +79,54 @@ public ReservationData(String uniqueNumber, String name, String address, String 
            status;
          
 }
+private void updateFileStatus(DefaultTableModel model, int rowIndex, String newStatus) {
+    try {
+        String uniqueNumber = (String) model.getValueAt(rowIndex, 0); // 고유번호 가져오기
+
+        // rowData를 ReservationData 객체로 변환
+        ReservationData data = new ReservationData(
+            uniqueNumber,
+            (String) model.getValueAt(rowIndex, 1),
+            (String) model.getValueAt(rowIndex, 2),
+            (String) model.getValueAt(rowIndex, 3),
+            (String) model.getValueAt(rowIndex, 4),
+            (String) model.getValueAt(rowIndex, 5),
+            (String) model.getValueAt(rowIndex, 6),
+            (String) model.getValueAt(rowIndex, 7),
+            (String) model.getValueAt(rowIndex, 8),
+            (String) model.getValueAt(rowIndex, 9),
+            newStatus // 상태 업데이트
+        );
+        
+        // 수정된 데이터를 파일에 반영
+        FileManager.updateInFile(data, "Reservation.txt");
+    } catch (IOException e) {
+        System.err.println("파일 업데이트 중 오류 발생: " + e.getMessage());
+    }
+}
+
+public ReservationData() { //초기화과정
+    // 필요한 경우 기본값 설정
+    this.uniqueNumber = "";
+    this.name = "";
+    this.address = "";
+    this.phoneNumber = "";
+    this.checkInDate = "";
+    this.checkOutDate = "";
+    this.roomNumber = "";
+    this.guestCount = "";
+    this.stayCost = "";
+    this.paymentMethod = "";
+    this.status = "";
+}
+public void updateDates(String checkInDate, String checkOutDate) {
+    this.checkInDate = checkInDate;
+    this.checkOutDate = checkOutDate;
+}
+
+
+
+
 
     // Getters and setters (필수)
     public String getUniqueNumber() {

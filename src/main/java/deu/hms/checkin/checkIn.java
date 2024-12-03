@@ -4,6 +4,7 @@
  */
 package deu.hms.checkin;
 
+import java.awt.Frame;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,6 +30,10 @@ public class checkIn extends javax.swing.JFrame {
         // 초기 화면에서 paymentTypeRegistButton 비활성화
         paymentTypeRegistButton.setEnabled(false);
         paymentType.setEnabled(false);
+    }
+
+    public checkIn(Frame frame, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     private void initRadioButtons() {
@@ -355,7 +360,7 @@ public class checkIn extends javax.swing.JFrame {
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
         // hotelRoomInfo 인스턴스를 생성하여 새로운 창을 엽니다.
         SwingUtilities.invokeLater(() -> {
-            hotelRoomInfo hotelRoomInfo = new hotelRoomInfo(); // hotelRoomInfo 창을 띄웁니다.
+            HotelRoomInfo  hotelRoomInfo = new HotelRoomInfo (); // hotelRoomInfo 창을 띄웁니다.
         });
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 

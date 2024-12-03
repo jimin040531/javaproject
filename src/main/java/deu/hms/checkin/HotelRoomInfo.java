@@ -8,22 +8,32 @@ import com.toedter.calendar.JDateChooser; // JCalendar 라이브러리 임포트
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import deu.hms.reservation.Registration;
+import deu.hms.reservation.ReservationData;
+import deu.hms.reservation.reservationFrame;
 
-public class hotelRoomInfo {
+public class HotelRoomInfo  {
     final JFrame frame; // 메인 프레임
     private JDateChooser checkInDateChooser, checkOutDateChooser; // 체크인 및 체크아웃 날짜 선택기
     private JComboBox<String> floorSelector; // 층 선택 콤보박스
     private final JPanel roomPanel; // 객실 상태를 표시할 패널
     private final hotelReservationManager reservationManager; // 예약 관리 객체
+         private final reservationFrame parentFrame;
+    private final Registration registration;
+
 
     // 객실 가격과 등급 정보
     private final int[] roomPrices = new int[100]; // 객실 가격 배열
     private final String[] roomGrades = new String[100]; // 객실 등급 배열
     
     // 생성자: GUI 초기화 및 예약 관리 객체 생성
-    public hotelRoomInfo() {
+    public HotelRoomInfo () {
+                this.parentFrame = new reservationFrame(); // 객체 생성
+
         reservationManager = new hotelReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
         initializeRoomPricesAndGrades(); // 객실 가격 및 등급 초기화
+        
+                registration = new Registration(parentFrame); // 생성한 객체 전달
 
         frame = new JFrame("호텔 객실 정보");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -137,7 +147,48 @@ public class hotelRoomInfo {
         for (int i = 1; i <= 10; i++) floorSelector.addItem("Floor " + i);
         panel.add(new JLabel("층 선택:"));
         panel.add(floorSelector);
+            
+        //저장버튼
+        JButton saveButton = new JButton("저장"); // 버튼 이름 지정
+        saveButton.addActionListener(e -> {
+         // 체크인 날짜와 체크아웃 날짜 가져오기
+    String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
+    String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
+
+    System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
+
+    // Registration에 날짜 전달
+    registration.updateDates(checkInDate, checkOutDate);
+
+    // Registration 폼을 다시 보이도록 설정
+    registration.setVisible(true);    // 폼 보이기
+    registration.toFront();           // 최상단으로 가져오기
+    registration.setSize(500, 450);
+     frame.setVisible(false);
+// 폼 강제 업데이트
+});
+
+// 버튼을 패널에 추가
+panel.add(saveButton);
+        //여기까지가 저장버튼 
         
+        // 뒤로가기 버튼
+JButton backButton = new JButton("이전");
+backButton.addActionListener(e -> {
+    
+    registration.setVisible(true);    // 폼 보이기
+    registration.toFront();           // 최상단으로 가져오기
+    registration.setSize(500, 450);
+     frame.setVisible(false); 
+
+});
+panel.add(backButton); // 패널에 뒤로가기 버튼 추가
+         //여기까지가 뒤로가기
+
+
+
+
+        panel.add(saveButton); // 패널에 버튼 추가
         // 층 선택 시 객실 상태 업데이트
         floorSelector.addActionListener(e -> {
             LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate());
@@ -196,7 +247,7 @@ public class hotelRoomInfo {
         }
     }
 
-    // 객실 예약 가능 상태 업데이트 메서드
+   // 객실 예약 가능 상태 업데이트 메서드
     void updateRoomAvailability() {
         roomPanel.removeAll(); // 기존의 모든 객실 버튼 제거
 
@@ -280,6 +331,6 @@ public class hotelRoomInfo {
 
     // 메인 메서드: 프로그램 실행 진입점
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(hotelRoomInfo::new);
+        SwingUtilities.invokeLater(HotelRoomInfo ::new);
     }
 }

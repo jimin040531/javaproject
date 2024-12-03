@@ -7,7 +7,6 @@ package deu.hms.reservation;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 /**
  *
  * @author adsd3
@@ -25,7 +24,7 @@ public class FileManager {
     }
 
     // 파일에서 데이터를 불러오고 ReservationData 객체 리스트로 변환
-       public static List<ReservationData> loadFromFile() throws IOException {
+    public static List<ReservationData> loadFromFile() throws IOException {
         List<ReservationData> dataList = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
@@ -44,30 +43,54 @@ public class FileManager {
         return dataList;
     }
 
-   // FileManager 클래스에 추가 txt파일 행 삭제기능 
-public static void deleteFromFile(String uniqueNumber, String filePath) throws IOException {
-  List<String> lines = new ArrayList<>();
+    // txt 파일 행 삭제 기능
+    public static void deleteFromFile(String uniqueNumber, String filePath) throws IOException {
+        List<String> lines = new ArrayList<>();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (!line.startsWith(uniqueNumber + ",")) {
-                lines.add(line);
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.startsWith(uniqueNumber + ",")) {
+                    lines.add(line);
+                }
+            }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine();
             }
         }
     }
 
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-        for (String line : lines) {
-            writer.write(line);
-            writer.newLine();
+    // txt 파일 수정 기능
+    public static void updateInFile(ReservationData newData, String filePath) throws IOException {
+        File inputFile = new File(filePath);
+        File tempFile = new File("temp_" + filePath);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith(newData.getUniqueNumber() + ",")) {
+                    writer.write(newData.toCSV()); // 수정된 데이터 쓰기
+                } else {
+                    writer.write(line); // 기존 데이터 유지
+                }
+                writer.newLine();
+            }
+        }
+
+        if (!inputFile.delete() || !tempFile.renameTo(inputFile)) {
+            throw new IOException("파일 업데이트 실패");
         }
     }
-}
 
-//txt파일 수정하는 기능
-public static void updateInFile(ReservationData newData, String filePath) throws IOException {
-  File inputFile = new File(filePath);
+    // 고유번호를 기준으로 상태 업데이트
+    public static void updateStatus(String uniqueNumber, String newStatus, String filePath) throws IOException {
+      File inputFile = new File(filePath);
     File tempFile = new File("temp_" + filePath);
 
     try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
@@ -75,8 +98,12 @@ public static void updateInFile(ReservationData newData, String filePath) throws
 
         String line;
         while ((line = reader.readLine()) != null) {
-            if (line.startsWith(newData.getUniqueNumber() + ",")) {
-                writer.write(newData.toCSV()); // 수정된 데이터 쓰기
+            if (line.startsWith(uniqueNumber + ",")) {
+                // 기존 데이터에서 상태만 변경
+                String[] fields = line.split(",");
+                fields[10] = newStatus; // 상태 열 수정
+                writer.write(String.join(",", fields)); // 수정된 데이터 쓰기
+                System.out.println("상태 업데이트 성공: " + String.join(",", fields));
             } else {
                 writer.write(line); // 기존 데이터 유지
             }
@@ -87,7 +114,5 @@ public static void updateInFile(ReservationData newData, String filePath) throws
     if (!inputFile.delete() || !tempFile.renameTo(inputFile)) {
         throw new IOException("파일 업데이트 실패");
     }
-}
-
-
+    }
 }

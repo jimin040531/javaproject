@@ -55,8 +55,10 @@ private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 중
     }
 
     private void openRegistrationFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        Registration registrationForm = new Registration(this);  // 현재의 reservationFrame 객체를 전달
-        registrationForm.setVisible(true);
+       if (registrationFrame == null) {
+        registrationFrame = new Registration(this); // `this` 전달
+    }
+    registrationFrame.setVisible(true);
     }
 
     public reservationFrame(java.awt.Frame parent, boolean modal) {
@@ -116,7 +118,13 @@ private void initializeTableFromFile() {
         this.add(cardStatusLabel);
         this.add(reservationStatusLabel);
     }
-   
+   private void scheduleStatusForRow(int rowIndex) {
+    DefaultTableModel model = (DefaultTableModel) mainTable.getModel();
+    String checkInDate = (String) model.getValueAt(rowIndex, 4); // 체크인 날짜 가져오기
+
+    ReservationStatusScheduler scheduler = new ReservationStatusScheduler();
+    scheduler.scheduleStatusUpdate(checkInDate, rowIndex, model);
+}
    
     
     // 클래스의 나머지 내용들...
@@ -205,9 +213,11 @@ private void initializeTableFromFile() {
 
 
     private void goReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationActionPerformed
+
+        // 현재 reservationFrame 숨기기
+    this.setVisible(false); 
     Registration registrationFrame = new Registration(this);
     registrationFrame.setSize(500, 450);
-    registrationFrame.setLocationRelativeTo(this);
     registrationFrame.setTitle("정보등록");
     registrationFrame.setVisible(true);
     registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
@@ -215,8 +225,8 @@ private void initializeTableFromFile() {
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
-   
-    int selectedRow = mainTable.getSelectedRow();
+     
+    int selectedRow = mainTable.getSelectedRow(); // 선택된 행 가져오기
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         return;
@@ -225,18 +235,17 @@ private void initializeTableFromFile() {
     // 수정 중인 행 인덱스 설정
     editingRow = selectedRow;
 
-    // 수정 중인 데이터 가져오기
-    String name = mainTable.getValueAt(selectedRow, 1).toString();
-    String address = mainTable.getValueAt(selectedRow, 2).toString();
-    String phoneNumber = mainTable.getValueAt(selectedRow, 3).toString();
-    String checkInDate = mainTable.getValueAt(selectedRow, 4).toString();
-    String checkOutDate = mainTable.getValueAt(selectedRow, 5).toString();
-    String roomNumber = mainTable.getValueAt(selectedRow, 6).toString();
-    String guestCount = mainTable.getValueAt(selectedRow, 7).toString();
-    String stayCost = mainTable.getValueAt(selectedRow, 8).toString();  
-
-    String paymentMethod = mainTable.getValueAt(selectedRow, 9).toString();
-    String roomSelection = mainTable.getValueAt(selectedRow, 10).toString();
+    // 수정 중인 데이터 가져오기 (null 체크 추가)
+    String name = getCellValue(mainTable, selectedRow, 1, "이름 없음");
+    String address = getCellValue(mainTable, selectedRow, 2, "주소 없음");
+    String phoneNumber = getCellValue(mainTable, selectedRow, 3, "전화번호 없음");
+    String checkInDate = getCellValue(mainTable, selectedRow, 4, "0000-00-00");
+    String checkOutDate = getCellValue(mainTable, selectedRow, 5, "0000-00-00");
+    String roomNumber = getCellValue(mainTable, selectedRow, 6, "0");
+    String guestCount = getCellValue(mainTable, selectedRow, 7, "0");
+    String stayCost = getCellValue(mainTable, selectedRow, 8, "0");
+    String paymentMethod = getCellValue(mainTable, selectedRow, 9, "현장결제");
+    String roomSelection = getCellValue(mainTable, selectedRow, 10, "선택 없음");
 
     // Registration 화면으로 데이터 전달
     registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate, 
@@ -245,6 +254,12 @@ private void initializeTableFromFile() {
     registrationFrame.setVisible(true); // Registration 화면 표시
     registrationFrame.setSize(500, 450); // 창 크기 설정
     registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+}
+
+// 셀 값 가져오기 메서드
+private String getCellValue(javax.swing.JTable table, int row, int column, String defaultValue) {
+    Object value = table.getValueAt(row, column);
+    return value != null ? value.toString() : defaultValue;
 
    
     }//GEN-LAST:event_goEitFomActionPerformed
@@ -279,7 +294,7 @@ private void initializeTableFromFile() {
     /**
      * @param args the command line arguments
      */
-     public static void main(String args[]) {
+   public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
