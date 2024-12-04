@@ -16,10 +16,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class CheckInUI extends JFrame {
 
-    private final ReservationManager reservationManager;
+    private final CheckInManager reservationManager;
 
     public CheckInUI() {
-        reservationManager = new ReservationManager();
+        reservationManager = new CheckInManager();
         initComponents();
         this.setLocationRelativeTo(null);
     }

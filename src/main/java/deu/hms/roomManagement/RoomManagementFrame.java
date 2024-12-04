@@ -14,10 +14,6 @@ import javax.swing.UIManager;
 public class RoomManagementFrame extends javax.swing.JFrame {
     private RoomService roomService;
     
-    public RoomManagementFrame() {
-        initComponents();
-    }
-
     public RoomManagementFrame(RoomService roomService) {
         this.roomService = roomService;
         initComponents();
@@ -201,17 +197,6 @@ public class RoomManagementFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        RoomRepository roomRepository = new RoomRepository();
-        RoomService roomService = new RoomService(roomRepository);
-        RoomManagementFrame frame = new RoomManagementFrame(roomService);
-        frame.setVisible(true);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;

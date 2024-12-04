@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservationManager {
+public class CheckInManager {
 
     private String reservationFilePath = "Reservation.txt"; // 예약 파일 경로
     private String checkInFilePath = "CheckInData.txt"; // 체크인 데이터 파일 경로
@@ -42,7 +42,7 @@ public class ReservationManager {
 
             // 요청 사항은 null로 초기화 (필요에 따라 수정 가능)
             String requestDetails = "";
-
+            
             return new CheckInData(uniqueNumber, name, phoneNumber, roomNumber, guestCount, stayCost, paymentMethod, status, requestDetails);
         }
         return null; // 잘못된 형식의 데이터는 null 반환

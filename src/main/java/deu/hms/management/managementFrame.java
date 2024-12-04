@@ -4,6 +4,8 @@
  */
 package deu.hms.management;
 
+import deu.hms.roomManagement.RoomService;  // RoomService 임포트
+import deu.hms.roomManagement.RoomManagementFrame;  // RoomManagementFrame 임포트
 /**
  *
  * @author Jimin
@@ -20,6 +22,7 @@ public class managementFrame extends javax.swing.JDialog {
     public managementFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     
@@ -116,17 +119,16 @@ public class managementFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_userInfoButtonActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
-        // RoomManagementFrame 인스턴스를 생성합니다.
-        deu.hms.roomManagement.RoomManagementFrame roomManagementFrame = new deu.hms.roomManagement.RoomManagementFrame();
+        // RoomService 객체를 생성
+        RoomService roomService = new RoomService();  // RoomService 객체 생성
 
-        // 화면 가운데 배치
-        roomManagementFrame.setLocationRelativeTo(null);
+        // RoomManagementFrame을 생성하고 화면 중앙에 띄운다
+        RoomManagementFrame roomManagementFrame = new RoomManagementFrame(roomService);
 
-        // RoomManagementFrame을 화면에 표시
-        roomManagementFrame.setVisible(true);
+        // RoomManagementFrame을 managementFrame 위에 띄운다
+        roomManagementFrame.setLocationRelativeTo(this);  // this는 managementFrame을 의미
 
-        // 현재 창 닫기
-        this.dispose();
+        roomManagementFrame.setVisible(true); // RoomManagementFrame을 화면에 표시
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 
     private void restButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restButtonActionPerformed

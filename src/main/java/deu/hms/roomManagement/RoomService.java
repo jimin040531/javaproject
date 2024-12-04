@@ -10,16 +10,17 @@ import javax.swing.JOptionPane;
  *
  * @author Jimin
  */
-class RoomService {
-    private final RoomRepository roomRepository;
+public class RoomService {
+    private RoomRepository roomRepository;
 
-    public RoomService(RoomRepository roomRepository) {
-        this.roomRepository = roomRepository;
+    public RoomService() {
+        // RoomRepository 초기화
+        this.roomRepository = new RoomRepository();
     }
 
     public RoomRepository getRoomRepository() {
         return roomRepository;
-    }
+    }   
 
     public void addRoom(Room room) {
         if (roomRepository.findRoom(room.getFloor(), room.getRoomNumber()) != null) {

@@ -4,7 +4,7 @@
  */
 package deu.hms.utility;
 
-import deu.hms.checkin.CheckInUI;
+import deu.hms.checkin.GuestRegist;
 import javax.swing.JOptionPane;
 import deu.hms.reservation.Registration;
 import javax.swing.JFrame;
@@ -15,7 +15,7 @@ import javax.swing.JFrame;
  */
 public class CardRegistFrame extends javax.swing.JFrame {
     private Registration registration; // Registration 객체 참조
-    private CheckInUI parent;
+    private GuestRegist parent;
 
     public CardRegistFrame() {
         initComponents();
@@ -25,7 +25,7 @@ public class CardRegistFrame extends javax.swing.JFrame {
 
     // 부모 프레임을 설정하는 생성자: GuestRegist에서 호출될 때 사용
     public CardRegistFrame(JFrame parent) {
-        this.parent = (CheckInUI) parent;
+        this.parent = (GuestRegist) parent;
         initComponents();
         setSize(600, 400); // 창 크기 설정
         setLocationRelativeTo(parent); // 부모 창 기준으로 중앙에 위치
