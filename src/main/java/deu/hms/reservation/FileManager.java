@@ -82,6 +82,37 @@ public class FileManager {
                 writer.newLine();
             }
         }
-    
 
-   
+        if (!inputFile.delete() || !tempFile.renameTo(inputFile)) {
+            throw new IOException("파일 업데이트 실패");
+        }
+    }
+
+    // 고유번호를 기준으로 상태 업데이트
+    public static void updateStatus(String uniqueNumber, String newStatus, String filePath) throws IOException {
+      File inputFile = new File(filePath);
+    File tempFile = new File("temp_" + filePath);
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.startsWith(uniqueNumber + ",")) {
+                // 기존 데이터에서 상태만 변경
+                String[] fields = line.split(",");
+                fields[10] = newStatus; // 상태 열 수정
+                writer.write(String.join(",", fields)); // 수정된 데이터 쓰기
+                System.out.println("상태 업데이트 성공: " + String.join(",", fields));
+            } else {
+                writer.write(line); // 기존 데이터 유지
+            }
+            writer.newLine();
+        }
+    }
+
+    if (!inputFile.delete() || !tempFile.renameTo(inputFile)) {
+        throw new IOException("파일 업데이트 실패");
+    }
+    }
+}
