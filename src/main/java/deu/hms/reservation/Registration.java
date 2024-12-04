@@ -28,7 +28,7 @@ import deu.hms.checkin.HotelRoomInfo; // HotelRoomInfo 클래스 import
  */
 public class Registration extends JFrame {
     
-    private ReservationFrame reservationFrame;
+    private reservationFrame reservationFrame;
     private JTable mainTable; // Reservation 테이블과 연결
     private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
@@ -36,7 +36,7 @@ public class Registration extends JFrame {
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
     private CardManager cardManager = new CardManager();
     private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
-private ReservationFrame parentFrame;
+private reservationFrame parentFrame;
 //버튼
     private ButtonGroup paymentGroup = new ButtonGroup(); // 클래스 필드로 선언
 private javax.swing.JLabel reservationStatusLabel;
@@ -67,7 +67,7 @@ private javax.swing.JLabel reservationStatusLabel;
     }
         
     }
-    public Registration(ReservationFrame parentFrame) {
+    public Registration(reservationFrame parentFrame) {
      this.parentFrame = parentFrame;
     if (parentFrame == null) {
         System.err.println("parentFrame이 null입니다. reservationFrame 객체가 제대로 전달되지 않았습니다.");
@@ -201,7 +201,7 @@ public void showCardRegistrationStatus() {
         textCheckOutDate.setText(checkOutDate); // 텍스트 필드에 값 설정
     } 
 }
-    public ReservationFrame getParentFrame() { //저장버튼에 null뜨는현상
+    public reservationFrame getParentFrame() { //저장버튼에 null뜨는현상
         return parentFrame;
     }
     @SuppressWarnings("unchecked")
@@ -579,7 +579,7 @@ private String readCardInfoFromFile() {
 
     } else {
         // reservationFrame이 없으면 새로 생성해서 표시
-            ReservationFrame newReservationFrame = new ReservationFrame();
+            reservationFrame newReservationFrame = new reservationFrame();
 
         newReservationFrame.setVisible(true); 
         newReservationFrame.setSize(850, 250);
