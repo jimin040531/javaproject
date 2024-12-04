@@ -75,36 +75,26 @@ private javax.swing.JLabel reservationStatusLabel;
     initComponents();
 }
 
-    private Registration(JTable table) {
+    public Registration(JTable table) {
         this.mainTable = table;
         initComponents();
     }
 
-    public void setMainTable(JTable table) {
-        this.mainTable = table;
-    }
-
-    public JTable getMainTable() {
-        return mainTable;
-    }
-
-    private String generateUniqueId() {
-        return java.util.UUID.randomUUID().toString();
-    }
+ 
 
    
        // LocalDateTime targetTime = LocalDateTime.of(checkInDay, LocalTime.of(18, 0));
 
  
     
-private boolean isCardRegistered() {
+public boolean isCardRegistered() {
         // 카드 등록 여부를 확인하는 로직 구현 (예: cardRegistButton.isSelected() 등)
         return cardRegistButton.isSelected();
     }
   
 
 
-private ReservationData populateReservationData() { 
+public ReservationData populateReservationData() { 
         String uniqueNumber;
     if (editingRow != -1) {
         uniqueNumber = parentFrame.getMainTable().getValueAt(editingRow, 0).toString(); // 기존 고유번호 유지
@@ -130,7 +120,7 @@ return new ReservationData(
 }
 
 //Registration에서 저장버튼 
-private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
+public void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
      DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
     ReservationData updatedData = populateReservationData();
     

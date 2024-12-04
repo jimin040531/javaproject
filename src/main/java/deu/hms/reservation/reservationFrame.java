@@ -22,9 +22,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.List; 
 import java.io.IOException;
-
-
-
+import deu.hms.login.UserAuthentication;
+import deu.hms.login.MainScreenEmployees;
+import deu.hms.login.MainScreenManager;
 /**
  * d
  *
@@ -128,6 +128,7 @@ private void initializeTableFromFile() {
         jScrollPane1 = new javax.swing.JScrollPane();
         mainTable = new javax.swing.JTable();
         goEitFom = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -165,6 +166,13 @@ private void initializeTableFromFile() {
             }
         });
 
+        backButton.setText("<");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -173,6 +181,9 @@ private void initializeTableFromFile() {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)
                         .addComponent(goEitFom, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(goDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -183,10 +194,14 @@ private void initializeTableFromFile() {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(goDelete)
-                    .addComponent(goEitFom))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 13, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(goDelete)
+                            .addComponent(goEitFom)))
+                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -277,6 +292,29 @@ private String getCellValue(javax.swing.JTable table, int row, int column, Strin
     model.removeRow(selectedRow);
     }//GEN-LAST:event_goDeleteActionPerformed
 
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+      UserAuthentication userAuth = new UserAuthentication();
+    String userId = userAuth.getCurrentUserId(); // 현재 로그인한 사용자 ID
+    String userRole = userAuth.getUserRole(userId); // 사용자 역할 가져오기
+
+    if (userRole != null) {
+        // 역할에 따라 화면 전환
+        if (userRole.equalsIgnoreCase("employee")) {
+            // 직원용 메인 화면으로 이동
+            MainScreenEmployees mainScreen = new MainScreenEmployees();
+            mainScreen.setVisible(true);
+        } else if  (userRole.equalsIgnoreCase("manager")) {
+            // 관리자용 메인 화면으로 이동
+            MainScreenManager mainScreen = new MainScreenManager();
+            mainScreen.setVisible(true);
+        } 
+    } 
+
+    // 현재 화면 닫기
+    this.dispose();
+
+    }//GEN-LAST:event_backButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -327,6 +365,7 @@ private String getCellValue(javax.swing.JTable table, int row, int column, Strin
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
     private javax.swing.JButton goDelete;
     private javax.swing.JButton goEitFom;
     private javax.swing.JButton goReservation;

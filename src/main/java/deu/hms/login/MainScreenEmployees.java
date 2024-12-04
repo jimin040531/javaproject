@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package deu.hms.login;
+import javax.swing.JFrame;
 
 /**
  *
@@ -12,7 +13,12 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     
     
     private UserAuthentication auth;
-    
+        public MainScreenEmployees() {
+        setTitle("Employee Main Screen");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    }
     /**
      * Creates new form MainScreenEmployees
      */
@@ -137,8 +143,7 @@ public class MainScreenEmployees extends javax.swing.JFrame {
 
         reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         reservationFrame.setVisible(true);
-        this.dispose();
-    }   
+        }   
     
     private void goCheckinEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckinEmployeesActionPerformed
         deu.hms.checkin.checkIn checkinFrame = new deu.hms.checkin.checkIn(new java.awt.Frame(), true);
