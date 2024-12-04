@@ -18,6 +18,7 @@ public class MainScreenManager extends javax.swing.JFrame {
     public MainScreenManager(UserAuthentication auth) {
         this.auth = auth;  // 로그인 인증 객체를 생성자로 전달받음
         initComponents();
+        setTitle("메인화면");
     }
     
      @Override

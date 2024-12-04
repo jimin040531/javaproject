@@ -19,6 +19,7 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     public MainScreenEmployees(UserAuthentication auth) {
         this.auth = auth;  // 로그인 인증 객체를 생성자로 전달받음
         initComponents();
+        setTitle("메인화면");
     }
 
     /**
