@@ -1,4 +1,4 @@
-package deu.hms.roomAndCardRegist;
+package deu.hms.utility;
 
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;

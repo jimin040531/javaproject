@@ -5,8 +5,8 @@
 package deu.hms.checkin;
 
 import deu.hms.reservation.ReservationData;
-import deu.hms.roomAndCardRegist.CardRegistFrame;
-import deu.hms.roomAndCardRegist.HotelRoomReservationUI;
+import deu.hms.utility.CardRegistFrame;
+import deu.hms.utility.HotelRoomReservationUI;
 import javax.swing.*;
 import java.util.UUID;
 import javax.swing.table.DefaultTableModel;

@@ -16,10 +16,10 @@ import java.time.format.DateTimeParseException;
 import deu.hms.reservation.ReservationUtils;
 import java.io.IOException; 
 import java.util.UUID;
-import deu.hms.roomAndCardRegist.CardRegistFrame; //카드등록 불러옴
+import deu.hms.utility.CardRegistFrame; //카드등록 불러옴
 import java.awt.Frame;
 import javax.swing.ButtonGroup;
-import deu.hms.roomAndCardRegist.HotelRoomReservationUI;
+import deu.hms.utility.HotelRoomReservationUI;
 
 
 /**
