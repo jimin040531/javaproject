@@ -7,50 +7,70 @@ package deu.hms.checkin;
 import deu.hms.reservation.ReservationData;
 import deu.hms.utility.CardRegistFrame;
 import deu.hms.utility.HotelRoomReservationUI;
+
 import javax.swing.*;
 import java.util.UUID;
 import javax.swing.table.DefaultTableModel;
-/**
- *
- * @author Jimin
- */
+
 public class GuestRegist extends JFrame {
 
-    private ReservationManager reservationManager;
-    public javax.swing.JTable reservationListTable;
-    private CheckInUI checkInUI; // CheckInUI 클래스의 인스턴스를 참조하기 위한 필드 추가
+    private final CheckInUI parentUI;
+    private final ReservationManager reservationManager;
 
-    // 생성자에서 CheckInUI 인스턴스를 받아서 초기화하는 방식
-    public GuestRegist(CheckInUI checkInUI) {
-        this.checkInUI = checkInUI; // 전달된 CheckInUI 인스턴스를 초기화
+    public GuestRegist(CheckInUI parentUI, ReservationManager reservationManager) {
+        this.parentUI = parentUI;
+        this.reservationManager = reservationManager;
         initComponents();
-        setLocationRelativeTo(null);
     }
 
-    private void handleRegister() {
+    /**
+     * 손님 등록 버튼 클릭 시 호출되는 메서드
+     */
+    private void handleSave() {
         String name = nameTextField.getText().trim();
         String phone = phoneTextField1.getText().trim() + "-" + phoneTextField2.getText().trim() + "-" + phoneTextField3.getText().trim();
-        String roomNumber = roomNumberTextField.getText().trim();
-        String stayCost = stayCostTextField.getText().trim();
+        String room = roomNumberTextField.getText().trim();
+        String cost = stayCostTextField.getText().trim();
 
+        // 입력값 검증
+        if (!validateInput(name, phone, room, cost)) {
+            return;
+        }
+
+        // 새로운 손님 정보 생성
+        ReservationData newGuest = new ReservationData(
+                UUID.randomUUID().toString(), name, "", phone, "", "", room, "1", cost, "현금", "예약 완료"
+        );
+
+        // 파일에 손님 정보 저장
+        reservationManager.addReservation(newGuest);
+
+        // 부모 UI 테이블 갱신
+        parentUI.loadReservations();
+
+        JOptionPane.showMessageDialog(this, "손님 등록이 완료되었습니다.", "등록 완료", JOptionPane.INFORMATION_MESSAGE);
+        dispose(); // 창 닫기
+    }
+
+    /**
+     * 입력값 유효성 검증
+     */
+    private boolean validateInput(String name, String phone, String roomNumber, String stayCost) {
         if (name.isEmpty() || phone.isEmpty() || roomNumber.isEmpty() || stayCost.isEmpty()) {
             JOptionPane.showMessageDialog(this, "모든 필드를 올바르게 입력해 주세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
 
         try {
-            Double.parseDouble(stayCost);
+            Double.parseDouble(stayCost); // 객실 금액 숫자 확인
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "객실 금액은 숫자로 입력해야 합니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
 
-        String reservationId = UUID.randomUUID().toString();
-        ReservationData reservation = new ReservationData(reservationId, name, phone, "", "", "", roomNumber, "1", stayCost, "현금", "예약 완료");
-        reservationManager.addReservation(reservation);
-        JOptionPane.showMessageDialog(this, "손님 등록이 완료되었습니다.", "등록 완료", JOptionPane.INFORMATION_MESSAGE);
+        return true;
     }
-     
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -388,79 +408,118 @@ public class GuestRegist extends JFrame {
     }//GEN-LAST:event_onSitePaymentButtonActionPerformed
 
     private void cardRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardRegistButtonActionPerformed
-        // TODO add your handling code here:
+        labelCardStatus.setVisible(true); // 카드 상태 표시
+        JOptionPane.showMessageDialog(this, "카드 등록이 필요합니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
         // CardRegistFrame 인스턴스를 생성하여 카드 등록 창을 표시
         CardRegistFrame cardRegistFrame = new CardRegistFrame();
-        cardRegistFrame.setLocationRelativeTo(this);  // 현재 GuestRegist 창을 기준으로 중앙에 배치
         cardRegistFrame.setVisible(true);
+        cardRegistFrame.setLocationRelativeTo(this);  // 현재 창을 기준으로 중앙에 배치
+
+    // 창이 닫힌 후 카드 정보가 등록되었는지 확인
+    cardRegistFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+       public void windowClosed(java.awt.event.WindowEvent e) {
+            // 파일에서 카드 정보 읽기
+            String cardInfo = readCardInfoFromFile();
+            if (cardInfo != null) {
+                labelCardStatus.setText("등록완료"); // 등록완료로 변경
+                labelCardStatus.setVisible(true);
+            } else {
+                labelCardStatus.setText("미등록"); // 미등록 상태로 설정
+                labelCardStatus.setVisible(false);
+            }
+        }
+    });
+}
+    // 파일에서 카드 정보를 읽는 메서드
+    private String readCardInfoFromFile() {
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("card_data.txt"))) {
+            return reader.readLine(); // 첫 번째 줄 읽기
+        } catch (java.io.IOException ex) {
+            return null; // 읽기 실패 시 null 반환
+    } 
+    // 카드 등록 완료 후 라벨 업데이트
     }//GEN-LAST:event_registButtonActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-        // 텍스트 필드에 있는 정보들을 모두 가져오기
+        // 입력 필드에서 값 가져오기
         String name = nameTextField.getText().trim();
         String phone = phoneTextField1.getText().trim() + "-" + phoneTextField2.getText().trim() + "-" + phoneTextField3.getText().trim();
-        String address = ""; // 예시로 address 필드가 추가된 경우, 입력된 텍스트가 필요하다면 addressTextField.getText().trim() 등으로 가져옵니다.
         String roomNumber = roomNumberTextField.getText().trim();
+        String stayCost = stayCostTextField.getText().trim();
         String checkInDate = checkInDateTextField.getText().trim();
         String checkOutDate = checkOutDateTextField.getText().trim();
         String guestCount = guestCountTextField.getText().trim();
-        String stayCost = stayCostTextField.getText().trim();
-        String paymentMethod = paymentType.getSelectedItem().toString();
-        String status = "예약 완료"; // 초기 예약 상태는 "예약 완료"로 설정
+        String paymentMethod = (String) paymentType.getSelectedItem();
 
-        // 필드에 하나라도 비어 있는 항목이 있는 경우 오류 메시지 표시
-        if (name.isEmpty() || phone.isEmpty() || roomNumber.isEmpty() || checkInDate.isEmpty() || checkOutDate.isEmpty() || guestCount.isEmpty() || stayCost.isEmpty()) {
+        // 필수 입력값 검증
+        if (name.isEmpty() || phone.isEmpty() || roomNumber.isEmpty() || stayCost.isEmpty() || 
+            checkInDate.isEmpty() || checkOutDate.isEmpty() || guestCount.isEmpty()) {
             JOptionPane.showMessageDialog(this, "모든 필드를 올바르게 입력해 주세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // 새 예약 정보 생성
-        ReservationData newReservation = new ReservationData(
-                UUID.randomUUID().toString(), // 고유 번호 생성
-                name,
-                address,
-                phone,
-                checkInDate,
-                checkOutDate,
-                roomNumber,
-                guestCount,
-                stayCost,
-                paymentMethod,
-                status
-        );
-
-        // 파일에 예약 정보 저장
-        ReservationManager reservationManager = new ReservationManager();
-        reservationManager.addReservation(newReservation);
-
-        // 테이블에 새 예약 정보 추가
-        if (checkInUI != null) {
-            checkInUI.addReservationToTable(newReservation);
+        // 숫자 입력값 검증
+        try {
+            Double.parseDouble(stayCost); // 객실 금액 숫자 확인
+            Integer.parseInt(guestCount); // 인원수 숫자 확인
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "객실 금액과 인원수는 숫자로 입력해야 합니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        JOptionPane.showMessageDialog(this, "예약이 완료되었습니다.", "예약 완료", JOptionPane.INFORMATION_MESSAGE);
+        // ReservationData 객체 생성
+        ReservationData newReservation = new ReservationData(
+            UUID.randomUUID().toString(), name, "", phone, checkInDate, checkOutDate, 
+            roomNumber, guestCount, stayCost, paymentMethod, "예약 완료"
+        );
 
-        // 텍스트 필드 초기화
+        // 예약 정보 추가 및 파일 저장
+        reservationManager.addReservation(newReservation);
+
+        // CheckInUI의 테이블에 추가
+        DefaultTableModel model = (DefaultTableModel) parentUI.getReservationListTable().getModel();
+        model.addRow(new Object[]{
+            newReservation.getUniqueNumber(), newReservation.getName(), 
+            newReservation.getPhoneNumber(), newReservation.getRoomNumber(),
+            newReservation.getGuestCount(), newReservation.getStayCost(),
+            newReservation.getPaymentMethod(), newReservation.getStatus()
+        });
+
+        // 메시지 출력
+        JOptionPane.showMessageDialog(this, "예약이 성공적으로 저장되었습니다.", "저장 완료", JOptionPane.INFORMATION_MESSAGE);
+
+        // 입력 필드 초기화
+        clearFields();
+    }//GEN-LAST:event_reservationsubmitActionPerformed
+
+    // 입력 필드 초기화 메서드
+    private void clearFields() {
         nameTextField.setText("");
         phoneTextField1.setText("010");
         phoneTextField2.setText("");
         phoneTextField3.setText("");
         roomNumberTextField.setText("");
+        stayCostTextField.setText("");
         checkInDateTextField.setText("");
         checkOutDateTextField.setText("");
         guestCountTextField.setText("");
-        stayCostTextField.setText("");
-    }//GEN-LAST:event_reservationsubmitActionPerformed
-
+    }
+    
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         this.dispose(); // 창을 닫음
     }//GEN-LAST:event_backActionPerformed
 
     private void paymentTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeActionPerformed
-        // TODO add your handling code here:
+        // 결제 방식에 따라 UI 변경
+        if ("카드".equals(paymentType.getSelectedItem().toString())) {
+            labelCardStatus.setVisible(true);
+        } else {
+            labelCardStatus.setVisible(false);
+        }
     }//GEN-LAST:event_paymentTypeActionPerformed
 
     private void nameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextFieldFocusGained
@@ -514,16 +573,17 @@ public class GuestRegist extends JFrame {
     private void guestPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guestPlusButtonActionPerformed
         try {
             int currentCost = Integer.parseInt(stayCostTextField.getText().trim());
-            currentCost += 20000;
+            currentCost += 20000; // 인원 추가당 비용 증가
             stayCostTextField.setText(String.valueOf(currentCost));
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "객실 금액이 올바르지 않습니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "현재 객실 금액이 올바르지 않습니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_guestPlusButtonActionPerformed
 
     private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
-        HotelRoomReservationUI hotelRoomReservationUI = new HotelRoomReservationUI();
-        hotelRoomReservationUI.showUI();
+        SwingUtilities.invokeLater(() -> {  
+            new HotelRoomReservationUI(); // HotelRoomInfo 생성자 호출 캘린더
+        });
     }//GEN-LAST:event_calendarActionPerformed
 
     /**

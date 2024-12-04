@@ -541,7 +541,7 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
-   // CardRegistFrame 인스턴스를 생성하여 카드 등록 창을 표시
+    // CardRegistFrame 인스턴스를 생성하여 카드 등록 창을 표시
         CardRegistFrame cardRegistFrame = new CardRegistFrame();
         cardRegistFrame.setVisible(true);
         cardRegistFrame.setLocationRelativeTo(this);  // 현재 창을 기준으로 중앙에 배치
@@ -563,16 +563,16 @@ public void showCardRegistrationStatus() {
     });
 }
 
-// 파일에서 카드 정보를 읽는 메서드
-private String readCardInfoFromFile() {
-    try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("card_data.txt"))) {
-        return reader.readLine(); // 첫 번째 줄 읽기
-    } catch (java.io.IOException ex) {
-        return null; // 읽기 실패 시 null 반환
+    // 파일에서 카드 정보를 읽는 메서드
+    private String readCardInfoFromFile() {
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("card_data.txt"))) {
+            return reader.readLine(); // 첫 번째 줄 읽기
+        } catch (java.io.IOException ex) {
+            return null; // 읽기 실패 시 null 반환
     }
    
     
-// 카드 등록 완료 후 라벨 업데이트
+    // 카드 등록 완료 후 라벨 업데이트
 
     }//GEN-LAST:event_paymentTypeRegistButtonActionPerformed
 

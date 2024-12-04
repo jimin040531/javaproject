@@ -8,115 +8,131 @@ import deu.hms.login.MainScreenEmployees;
 import deu.hms.login.MainScreenManager;
 import deu.hms.login.UserAuthentication;
 import deu.hms.reservation.ReservationData;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
-/**
- *
- * @author Jimin
- */
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 public class CheckInUI extends JFrame {
 
-    private ReservationManager reservationManager;
+    private final ReservationManager reservationManager;
 
     public CheckInUI() {
         reservationManager = new ReservationManager();
         initComponents();
-        setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
     }
 
-    private void loadReservationTableData(List<ReservationData> reservationList) {
+    // 예약 정보를 테이블에 로드
+    public void loadReservations() {
+        List<ReservationData> reservations = reservationManager.getAllReservations();
+        updateTable(reservations);
+    }
+    
+    // 예약 테이블 반환 메서드
+    public JTable getReservationListTable() {
+        return reservationListTable;
+    }
+
+    // 테이블 업데이트
+    private void updateTable(List<ReservationData> data) {
         DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-        model.setRowCount(0);
-        for (ReservationData reservation : reservationList) {
-            // 필요한 필드만 테이블에 추가
+        model.setRowCount(0); // 기존 데이터 초기화
+        for (ReservationData reservation : data) {
             model.addRow(new Object[]{
-                reservation.getUniqueNumber(),
-                reservation.getName(),
-                reservation.getPhoneNumber(),
-                reservation.getRoomNumber(),
-                reservation.getGuestCount(),
-                reservation.getStayCost(),
-                reservation.getPaymentMethod(),
-                reservation.getStatus()
+                reservation.getUniqueNumber(), reservation.getName(), reservation.getPhoneNumber(),
+                reservation.getRoomNumber(), reservation.getGuestCount(), reservation.getStayCost(),
+                reservation.getPaymentMethod(), reservation.getStatus()
             });
         }
     }
 
-    // 요청 사항과 함께 예약 정보를 업데이트하여 파일에 저장하는 메서드
-    private void saveUpdatedReservationWithRequest(String reservationId, String requestDetails) {
-        List<ReservationData> reservations = reservationManager.getReservationsFromFile();
+    // 검색 기능
+    private void searchReservations() {
+        String searchTerm = searchTextField.getText().trim();
+        String searchType = (String) searchComboBox.getSelectedItem();
+        List<ReservationData> reservations = reservationManager.getAllReservations();
+        List<ReservationData> filteredData = new ArrayList<>();
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservation.txt"))) {
-            for (ReservationData reservation : reservations) {
-                if (reservation.getUniqueNumber().equals(reservationId)) {
-                    // 요청 사항 포함하여 업데이트된 데이터 작성
-                    writer.write(reservation.getUniqueNumber() + "," +
-                                 reservation.getName() + "," +
-                                 reservation.getAddress() + "," +
-                                 reservation.getPhoneNumber() + "," +
-                                 reservation.getCheckInDate() + "," +
-                                 reservation.getCheckOutDate() + "," +
-                                 reservation.getRoomNumber() + "," +
-                                 reservation.getGuestCount() + "," +
-                                 reservation.getStayCost() + "," +
-                                 reservation.getPaymentMethod() + "," +
-                                 reservation.getStatus() + "," +
-                                 requestDetails);
-                } else {
-                    // 기존 예약 정보 작성
-                    writer.write(reservation.toCSV());
-                }
-                writer.newLine();
+        for (ReservationData reservation : reservations) {
+            switch (searchType) {
+                case "고유 번호":
+                    if (reservation.getUniqueNumber().contains(searchTerm)) {
+                        filteredData.add(reservation);
+                    }
+                    break;
+                case "성이름":
+                    if (reservation.getName().contains(searchTerm)) {
+                        filteredData.add(reservation);
+                    }
+                    break;
+                case "방 번호":
+                    if (reservation.getRoomNumber().contains(searchTerm)) {
+                        filteredData.add(reservation);
+                    }
+                    break;
             }
-        } catch (IOException e) {
-            System.err.println("예약 정보를 업데이트하는 중 오류 발생: " + e.getMessage());
+        }
+
+        // 검색 결과를 테이블에 업데이트
+        updateTable(filteredData);
+
+        // 검색 결과가 없으면 사용자에게 알림
+        if (filteredData.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "검색 결과가 없습니다.", "검색 결과", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
-    private void processCheckIn() {
+
+    // 체크인 처리
+    private void handleCheckIn() {
         int selectedRow = reservationListTable.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "체크인할 행을 선택해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "체크인할 예약을 선택하세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         String reservationId = (String) reservationListTable.getValueAt(selectedRow, 0);
-        String requestDetails = reqestTextField.getText().trim(); // 요청 사항 입력 값
+        String requestDetails = reqestTextField.getText().trim();
+        ReservationData selectedReservation = null;
 
-        // 예약 상태 업데이트
-        List<ReservationData> reservations = reservationManager.getReservationsFromFile();
+        // 선택된 예약 정보를 가져오기
+        List<ReservationData> reservations = reservationManager.getAllReservations();
         for (ReservationData reservation : reservations) {
             if (reservation.getUniqueNumber().equals(reservationId)) {
-                reservation.setStatus("체크인 완료");
+                selectedReservation = reservation;
+                break;
             }
         }
 
-        // 파일에 업데이트된 정보 저장
-        reservationManager.writeReservationsToFile(reservations);
+        if (selectedReservation != null) {
+            selectedReservation.setStatus("체크인 완료");
+            reservationManager.updateReservationStatus(reservationId, "체크인 완료");
+            reservationManager.saveCheckInData(selectedReservation, requestDetails);
+            JOptionPane.showMessageDialog(this, "체크인이 완료되었습니다.\n요청 사항: " + requestDetails, "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "선택된 예약 정보를 찾을 수 없습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+        }
 
-        // 요청 사항 출력 (또는 다른 필요한 처리)
-        JOptionPane.showMessageDialog(this, "체크인 처리가 완료되었습니다.\n요청 사항: " + requestDetails, "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
+        // 테이블 갱신
+        loadReservations();
+
+        // 요청 사항 필드 초기화
+        reqestTextField.setText("");
     }
-    
-    public void addReservationToTable(ReservationData reservation) {
-        DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-        model.addRow(new Object[]{
-            reservation.getUniqueNumber(),
-            reservation.getName(),
-            reservation.getPhoneNumber(),
-            reservation.getRoomNumber(),
-            reservation.getGuestCount(),
-            reservation.getStayCost(),
-            reservation.getPaymentMethod(),
-            reservation.getStatus()
+
+    // 손님 등록 처리
+    private void registerGuest() {
+        GuestRegist guestRegistFrame = new GuestRegist(this, reservationManager);
+        guestRegistFrame.setVisible(true);
+
+        // 손님 등록 후 테이블 갱신
+        guestRegistFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                loadReservations();
+            }
         });
     }
-
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -189,6 +205,10 @@ public class CheckInUI extends JFrame {
             }
         ));
         ScrollPane.setViewportView(reservationListTable);
+        if (reservationListTable.getColumnModel().getColumnCount() > 0) {
+            reservationListTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+            reservationListTable.getColumnModel().getColumn(7).setPreferredWidth(100);
+        }
 
         reqestTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -305,7 +325,7 @@ public class CheckInUI extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextFieldActionPerformed
-        // TODO add your handling code here:
+        searchButtonActionPerformed(evt); // 검색 버튼과 동일한 동작
     }//GEN-LAST:event_searchTextFieldActionPerformed
 
     private void searchComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchComboBoxActionPerformed
@@ -313,31 +333,38 @@ public class CheckInUI extends JFrame {
     }//GEN-LAST:event_searchComboBoxActionPerformed
 
     private void checkinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkinButtonActionPerformed
-        int selectedRow = reservationListTable.getSelectedRow(); // 테이블에서 선택된 행 가져오기
-
+        int selectedRow = reservationListTable.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "체크인할 예약 정보를 먼저 선택해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "체크인할 예약을 선택하세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // 테이블에서 선택된 예약자의 고유 번호 가져오기
         String reservationId = (String) reservationListTable.getValueAt(selectedRow, 0);
-        String requestDetails = reqestTextField.getText().trim(); // 요청 사항 가져오기
+        String requestDetails = reqestTextField.getText().trim();
 
-        // 예약 상태 업데이트 (체크인 완료로 변경)
+        // 예약 ID로 예약 검색
+        ReservationData selectedReservation = reservationManager.findReservationById(reservationId);
+        if (selectedReservation == null) {
+            JOptionPane.showMessageDialog(this, "선택된 예약을 찾을 수 없습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 체크인 처리
+        selectedReservation.setStatus("체크인 완료");
         reservationManager.updateReservationStatus(reservationId, "체크인 완료");
 
-        // 요청 사항과 함께 파일에 저장
-        saveUpdatedReservationWithRequest(reservationId, requestDetails);
+        CheckInData checkInData = new CheckInData(selectedReservation, requestDetails);
+        reservationManager.saveCheckInData(checkInData);
 
-        // 테이블에서 선택된 행 삭제
+        JOptionPane.showMessageDialog(this, "체크인이 완료되었습니다.\n요청 사항: " + requestDetails, "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
+
+        // 테이블에서 해당 행 제거
         DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-        model.removeRow(selectedRow);
+        model.removeRow(selectedRow); // 선택된 행 제거
 
-        // 요청 사항 텍스트 필드 초기화
+        // 요청 사항 입력 필드 초기화
         reqestTextField.setText("");
-       roomCountTextField.setText("");
-        JOptionPane.showMessageDialog(this, "체크인이 완료되었습니다.", "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
+        roomCountTextField.setText("");
     }//GEN-LAST:event_checkinButtonActionPerformed
 
     private void reqestTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reqestTextFieldActionPerformed
@@ -345,46 +372,13 @@ public class CheckInUI extends JFrame {
     }//GEN-LAST:event_reqestTextFieldActionPerformed
 
     private void guestRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guestRegistButtonActionPerformed
-        // GuestRegist 인스턴스를 생성하여 손님 등록 창을 표시
-        GuestRegist guestRegistFrame = new GuestRegist(this);
-        guestRegistFrame.setLocationRelativeTo(this);  // 현재 창을 기준으로 중앙에 배치
+        GuestRegist guestRegistFrame = new GuestRegist(this, reservationManager);
+        guestRegistFrame.setLocationRelativeTo(this);
         guestRegistFrame.setVisible(true);
     }//GEN-LAST:event_guestRegistButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        String searchTerm = searchTextField.getText().trim();
-        String searchType = (String) searchComboBox.getSelectedItem();
-
-        if (searchTerm.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "검색어를 입력하세요.", "오류", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        List<ReservationData> reservationList = FileHandler.loadFromFile("Reservation.txt");
-        System.out.println("파일에서 로드된 예약자 수: " + reservationList.size()); // 로그 추가
-
-        List<ReservationData> filteredData = new ArrayList<>();
-
-        for (ReservationData reservation : reservationList) {
-            System.out.println("검색 중인 예약자: " + reservation.getName()); // 로그 추가
-            if ("성이름".equals(searchType) && reservation.getName().contains(searchTerm)) {
-                filteredData.add(reservation);
-            } else if ("고유 번호".equals(searchType) && reservation.getUniqueNumber().equals(searchTerm)) {
-                filteredData.add(reservation);
-            } else if ("방 번호".equals(searchType) && reservation.getRoomNumber().equals(searchTerm)) {
-                filteredData.add(reservation);
-            }
-        }
-
-        DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-        model.setRowCount(0);
-
-        if (!filteredData.isEmpty()) {
-            System.out.println("검색된 데이터 수: " + filteredData.size()); // 로그 추가
-            loadReservationTableData(filteredData);
-        } else {
-            JOptionPane.showMessageDialog(null, "검색 결과가 없습니다.", "정보", JOptionPane.INFORMATION_MESSAGE);
-        }
+        searchReservations();
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void roomCountTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomCountTextFieldActionPerformed
@@ -392,25 +386,19 @@ public class CheckInUI extends JFrame {
     }//GEN-LAST:event_roomCountTextFieldActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        UserAuthentication userAuth = new UserAuthentication();
-        String userId = userAuth.getCurrentUserId(); // 현재 로그인한 사용자 ID
-        String userRole = userAuth.getUserRole(userId); // 사용자 역할 가져오기
+    UserAuthentication userAuth = new UserAuthentication();
+        String userId = userAuth.getCurrentUserId();
+        String userRole = userAuth.getUserRole(userId);
 
-        if (userRole != null) {
-            // 역할에 따라 화면 전환
-            if (userRole.equalsIgnoreCase("employee")) {
-                // 직원용 메인 화면으로 이동
-                MainScreenEmployees mainScreen = new MainScreenEmployees();
-                mainScreen.setVisible(true);
-            } else if  (userRole.equalsIgnoreCase("manager")) {
-                // 관리자용 메인 화면으로 이동
-                MainScreenManager mainScreen = new MainScreenManager();
-                mainScreen.setVisible(true);
-            } 
-        } 
+        if ("employee".equalsIgnoreCase(userRole)) {
+            MainScreenEmployees mainScreen = new MainScreenEmployees();
+            mainScreen.setVisible(true);
+        } else if ("manager".equalsIgnoreCase(userRole)) {
+            MainScreenManager mainScreen = new MainScreenManager();
+            mainScreen.setVisible(true);
+        }
 
-        // 현재 화면 닫기
-        this.dispose();
+        this.dispose(); // 현재 창 닫기
     }//GEN-LAST:event_backButtonActionPerformed
 
     /**
