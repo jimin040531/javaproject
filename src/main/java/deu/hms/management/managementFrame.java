@@ -18,6 +18,7 @@ public class managementFrame extends javax.swing.JDialog {
     public managementFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setTitle("호텔 관리");
     }
 
     /**
