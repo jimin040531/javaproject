@@ -5,140 +5,115 @@
 package deu.hms.checkin;
 
 import deu.hms.reservation.ReservationData;
-import java.awt.Frame;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author Jimin
  */
-public class CheckIn extends javax.swing.JFrame {
+public class CheckInUI extends JFrame {
 
-    /**
-     * Creates new form CheckIn
-     */
-    
-    private javax.swing.JTextField stayCostTextField; // 추가된 변수 선언
+    private ReservationManager reservationManager;
 
-    public CheckIn() {
-        // 기본 생성자
+    public CheckInUI() {
+        reservationManager = new ReservationManager();
         initComponents();
-        setLocationRelativeTo(null);     // 화면 중앙 배치
+        setLocationRelativeTo(null);
     }
 
-    public CheckIn(JTable reservationListTable) {
-        this.reservationListTable = reservationListTable;
-        initComponents();       
-    }
-
-    public CheckIn(Frame frame, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    public void loadTableData() {
-    // 테이블 모델 가져오기
+    private void loadReservationTableData(List<ReservationData> reservationList) {
         DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-        model.setRowCount(0); // 기존 테이블 데이터 초기화
-
-        // 파일에서 예약자 정보를 읽어오기
-        List<ReservationData> reservationList = ReservationLoad.loadFromFile("Reservation.txt");
-
-        // 필요한 데이터만 테이블에 추가
+        model.setRowCount(0);
         for (ReservationData reservation : reservationList) {
-            Object[] rowData = {
-                reservation.getUniqueNumber(), // 고유 번호
-                reservation.getName(),         // 이름
-                reservation.getPhoneNumber(),  // 전화 번호
-                reservation.getRoomNumber(),   // 방 번호
-                reservation.getGuestCount(),   // 인원수
-                reservation.getStayCost(),     // 객실 금액
-                reservation.getPaymentMethod(),// 결제 수단
-                reservation.getStatus()        // 상태
-            };
-            model.addRow(rowData);
+            // 필요한 필드만 테이블에 추가
+            model.addRow(new Object[]{
+                reservation.getUniqueNumber(),
+                reservation.getName(),
+                reservation.getPhoneNumber(),
+                reservation.getRoomNumber(),
+                reservation.getGuestCount(),
+                reservation.getStayCost(),
+                reservation.getPaymentMethod(),
+                reservation.getStatus()
+            });
         }
     }
 
-    // 파일에서 예약 데이터를 불러오는 메서드
-    public static List<ReservationData> loadFromFile(String fileName) {
-        List<ReservationData> reservationList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
+    // 요청 사항과 함께 예약 정보를 업데이트하여 파일에 저장하는 메서드
+    private void saveUpdatedReservationWithRequest(String reservationId, String requestDetails) {
+        List<ReservationData> reservations = reservationManager.getReservationsFromFile();
 
-                // 파일의 데이터가 정확한지 확인
-                if (data.length >= 11) {
-                    try {
-                        // 올바른 순서로 데이터를 매핑하여 ReservationData 객체 생성
-                        String uniqueNumber = data[0].trim();
-                        String name = data[1].trim();
-                        String phoneNumber = data[2].trim();
-                        String address = data[3].trim();
-                        String checkInDate = data[4].trim();
-                        String checkOutDate = data[5].trim();
-                        String roomNumber = data[6].trim();
-                        String guestCount = data[7].trim();
-                        String stayCost = data[8].trim();
-                        String paymentMethod = data[9].trim();
-                        String status = data[10].trim();
-
-                        ReservationData reservation = new ReservationData(
-                            uniqueNumber, name, phoneNumber, address, 
-                            checkInDate, checkOutDate, roomNumber,
-                            guestCount, stayCost, paymentMethod, status
-                        );
-
-                        reservationList.add(reservation);
-                    } catch (Exception e) {
-                        System.err.println("데이터 매핑 중 오류 발생: " + e.getMessage());
-                    }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservation.txt"))) {
+            for (ReservationData reservation : reservations) {
+                if (reservation.getUniqueNumber().equals(reservationId)) {
+                    // 요청 사항 포함하여 업데이트된 데이터 작성
+                    writer.write(reservation.getUniqueNumber() + "," +
+                                 reservation.getName() + "," +
+                                 reservation.getAddress() + "," +
+                                 reservation.getPhoneNumber() + "," +
+                                 reservation.getCheckInDate() + "," +
+                                 reservation.getCheckOutDate() + "," +
+                                 reservation.getRoomNumber() + "," +
+                                 reservation.getGuestCount() + "," +
+                                 reservation.getStayCost() + "," +
+                                 reservation.getPaymentMethod() + "," +
+                                 reservation.getStatus() + "," +
+                                 requestDetails);
                 } else {
-                    System.err.println("필드 개수가 충분하지 않음: " + data.length);
+                    // 기존 예약 정보 작성
+                    writer.write(reservation.toCSV());
                 }
+                writer.newLine();
             }
         } catch (IOException e) {
-            System.err.println("파일을 불러오는 중 오류 발생: " + e.getMessage());
+            System.err.println("예약 정보를 업데이트하는 중 오류 발생: " + e.getMessage());
         }
-        return reservationList;
-    }
-
-    private void initializePlaceholders() {
-        setTextFieldPlaceholder(reqestTextField, "요청 사항 없을 시  '없음'  입력");
     }
     
-    private void setTextFieldPlaceholder(javax.swing.JTextField textField, String placeholder) {
-        textField.setText(placeholder);
-        textField.setForeground(java.awt.Color.GRAY);
+    private void processCheckIn() {
+        int selectedRow = reservationListTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "체크인할 행을 선택해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        textField.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (textField.getText().equals(placeholder)) {
-                    textField.setText(""); // 기본 텍스트 제거
-                    textField.setForeground(java.awt.Color.BLACK); // 글자색 검정
-                }
-            }
+        String reservationId = (String) reservationListTable.getValueAt(selectedRow, 0);
+        String requestDetails = reqestTextField.getText().trim(); // 요청 사항 입력 값
 
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (textField.getText().trim().isEmpty()) {
-                    textField.setText(placeholder); // 기본 텍스트 복원
-                    textField.setForeground(java.awt.Color.GRAY); // 글자색 회색
-                }
+        // 예약 상태 업데이트
+        List<ReservationData> reservations = reservationManager.getReservationsFromFile();
+        for (ReservationData reservation : reservations) {
+            if (reservation.getUniqueNumber().equals(reservationId)) {
+                reservation.setStatus("체크인 완료");
             }
+        }
+
+        // 파일에 업데이트된 정보 저장
+        reservationManager.writeReservationsToFile(reservations);
+
+        // 요청 사항 출력 (또는 다른 필요한 처리)
+        JOptionPane.showMessageDialog(this, "체크인 처리가 완료되었습니다.\n요청 사항: " + requestDetails, "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void addReservationToTable(ReservationData reservation) {
+        DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
+        model.addRow(new Object[]{
+            reservation.getUniqueNumber(),
+            reservation.getName(),
+            reservation.getPhoneNumber(),
+            reservation.getRoomNumber(),
+            reservation.getGuestCount(),
+            reservation.getStayCost(),
+            reservation.getPaymentMethod(),
+            reservation.getStatus()
         });
     }
-    
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -151,7 +126,7 @@ public class CheckIn extends javax.swing.JFrame {
 
         paymentGroup = new javax.swing.ButtonGroup();
         reqestLabel = new javax.swing.JLabel();
-        checkInTextField = new javax.swing.JTextField();
+        roomCountTextField = new javax.swing.JTextField();
         searchTextField = new javax.swing.JTextField();
         searchComboBox = new javax.swing.JComboBox<>();
         checkinButton = new javax.swing.JButton();
@@ -162,16 +137,16 @@ public class CheckIn extends javax.swing.JFrame {
         reservationlistLabel = new javax.swing.JLabel();
         roomAmountLabel = new javax.swing.JLabel();
         guestRegistButton = new javax.swing.JButton();
-        serchButton = new javax.swing.JButton();
+        searchButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         reqestLabel.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         reqestLabel.setText("요청 사항");
 
-        checkInTextField.addActionListener(new java.awt.event.ActionListener() {
+        roomCountTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkInTextFieldActionPerformed(evt);
+                roomCountTextFieldActionPerformed(evt);
             }
         });
 
@@ -232,13 +207,13 @@ public class CheckIn extends javax.swing.JFrame {
             }
         });
 
-        serchButton.setLabel("검색");
-        serchButton.setMaximumSize(new java.awt.Dimension(82, 23));
-        serchButton.setMinimumSize(new java.awt.Dimension(82, 23));
-        serchButton.setPreferredSize(new java.awt.Dimension(82, 23));
-        serchButton.addActionListener(new java.awt.event.ActionListener() {
+        searchButton.setLabel("검색");
+        searchButton.setMaximumSize(new java.awt.Dimension(82, 23));
+        searchButton.setMinimumSize(new java.awt.Dimension(82, 23));
+        searchButton.setPreferredSize(new java.awt.Dimension(82, 23));
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                serchButtonActionPerformed(evt);
+                searchButtonActionPerformed(evt);
             }
         });
 
@@ -254,7 +229,7 @@ public class CheckIn extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, Short.MAX_VALUE))
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, Short.MAX_VALUE))
                     .addComponent(ScrollPane)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(reqestLabel)
@@ -270,7 +245,7 @@ public class CheckIn extends javax.swing.JFrame {
                         .addComponent(reqestTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkInTextField)
+                            .addComponent(roomCountTextField)
                             .addComponent(checkinButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(23, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -288,7 +263,7 @@ public class CheckIn extends javax.swing.JFrame {
                     .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(searchComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(serchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(reservationlistLabel)
@@ -302,7 +277,7 @@ public class CheckIn extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(checkInTextField)
+                        .addComponent(roomCountTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(checkinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(reqestTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
@@ -321,54 +296,31 @@ public class CheckIn extends javax.swing.JFrame {
     }//GEN-LAST:event_searchComboBoxActionPerformed
 
     private void checkinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkinButtonActionPerformed
-        // 예약자 명단 테이블에서 선택된 행의 정보를 가져옴
-        int selectedRow = reservationListTable.getSelectedRow();
+        int selectedRow = reservationListTable.getSelectedRow(); // 테이블에서 선택된 행 가져오기
+
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "체크인할 행을 선택해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "체크인할 예약 정보를 먼저 선택해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // 테이블에서 선택된 예약자 정보를 가져옴
-        String uniqueNumber = reservationListTable.getValueAt(selectedRow, 0).toString();
-        String name = reservationListTable.getValueAt(selectedRow, 1).toString();
-        String phoneNumber = reservationListTable.getValueAt(selectedRow, 2).toString();
-        String roomNumber = reservationListTable.getValueAt(selectedRow, 3).toString();
-        String guestCount = reservationListTable.getValueAt(selectedRow, 4).toString();
-        String stayCost = reservationListTable.getValueAt(selectedRow, 5).toString();
-        String paymentMethod = reservationListTable.getValueAt(selectedRow, 6).toString();
-        String status = "체크인 완료";  // 체크인 상태로 변경
+        // 테이블에서 선택된 예약자의 고유 번호 가져오기
+        String reservationId = (String) reservationListTable.getValueAt(selectedRow, 0);
+        String requestDetails = reqestTextField.getText().trim(); // 요청 사항 가져오기
 
-        // 요청 사항 가져오기
-        String requestDetails = reqestTextField.getText().trim();
-        if (requestDetails.isEmpty() || requestDetails.equals("요청 사항 없을 시  '없음'  입력")) {
-            requestDetails = "없음"; // 요청 사항이 없을 경우 기본값 설정
-        }
+        // 예약 상태 업데이트 (체크인 완료로 변경)
+        reservationManager.updateReservationStatus(reservationId, "체크인 완료");
 
-        // 체크인 정보를 파일에 저장
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("CheckedInRequests.txt", true))) {
-            writer.write("고유 번호: " + uniqueNumber);
-            writer.write(", 이름: " + name);
-            writer.write(", 전화번호: " + phoneNumber);
-            writer.write(", 방 번호: " + roomNumber);
-            writer.write(", 인원수: " + guestCount);
-            writer.write(", 객실 금액: " + stayCost);
-            writer.write(", 결제 수단: " + paymentMethod);
-            writer.write(", 상태: " + status);
-            writer.write(", 요청 사항: " + requestDetails);
-            writer.newLine();
-            JOptionPane.showMessageDialog(this, "체크인 되었습니다.", "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
+        // 요청 사항과 함께 파일에 저장
+        saveUpdatedReservationWithRequest(reservationId, requestDetails);
 
-            // 요청 사항 입력 필드 초기화
-            reqestTextField.setText("요청 사항 없을 시  '없음'  입력");
-
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "저장 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        }
-
-        // 테이블에서 상태 업데이트
+        // 테이블에서 선택된 행 삭제
         DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-        model.setValueAt("체크인 완료", selectedRow, 7);
+        model.removeRow(selectedRow);
+
+        // 요청 사항 텍스트 필드 초기화
+        reqestTextField.setText("");
+       roomCountTextField.setText("");
+        JOptionPane.showMessageDialog(this, "체크인이 완료되었습니다.", "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_checkinButtonActionPerformed
 
     private void reqestTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reqestTextFieldActionPerformed
@@ -376,12 +328,13 @@ public class CheckIn extends javax.swing.JFrame {
     }//GEN-LAST:event_reqestTextFieldActionPerformed
 
     private void guestRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guestRegistButtonActionPerformed
-    // GuestRegist 클래스의 객체를 생성하면서 현재 클래스의 테이블을 전달
-    GuestRegist guestRegistFrame = new GuestRegist(reservationListTable);
-    guestRegistFrame.setVisible(true);
+        // GuestRegist 인스턴스를 생성하여 손님 등록 창을 표시
+        GuestRegist guestRegistFrame = new GuestRegist(this);
+        guestRegistFrame.setLocationRelativeTo(this);  // 현재 창을 기준으로 중앙에 배치
+        guestRegistFrame.setVisible(true);
     }//GEN-LAST:event_guestRegistButtonActionPerformed
 
-    private void serchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serchButtonActionPerformed
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         String searchTerm = searchTextField.getText().trim();
         String searchType = (String) searchComboBox.getSelectedItem();
 
@@ -390,11 +343,13 @@ public class CheckIn extends javax.swing.JFrame {
             return;
         }
 
-        // Reservation.txt 파일에서 데이터를 읽어와 필터링
-        List<ReservationData> reservationList = ReservationLoad.loadFromFile("Reservation.txt");
+        List<ReservationData> reservationList = FileHandler.loadFromFile("Reservation.txt");
+        System.out.println("파일에서 로드된 예약자 수: " + reservationList.size()); // 로그 추가
+
         List<ReservationData> filteredData = new ArrayList<>();
 
         for (ReservationData reservation : reservationList) {
+            System.out.println("검색 중인 예약자: " + reservation.getName()); // 로그 추가
             if ("성이름".equals(searchType) && reservation.getName().contains(searchTerm)) {
                 filteredData.add(reservation);
             } else if ("고유 번호".equals(searchType) && reservation.getUniqueNumber().equals(searchTerm)) {
@@ -404,32 +359,20 @@ public class CheckIn extends javax.swing.JFrame {
             }
         }
 
-        // 검색된 결과를 테이블에 로드
         DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-        model.setRowCount(0); // 기존 테이블 데이터 초기화
+        model.setRowCount(0);
 
         if (!filteredData.isEmpty()) {
-            for (ReservationData reservation : filteredData) {
-                Object[] rowData = {
-                    reservation.getUniqueNumber(), // 고유 번호
-                    reservation.getName(),         // 이름
-                    reservation.getPhoneNumber(),  // 전화 번호
-                    reservation.getRoomNumber(),   // 방 번호
-                    reservation.getGuestCount(),   // 인원수
-                    reservation.getStayCost(),     // 객실 금액
-                    reservation.getPaymentMethod(),// 결제 수단
-                    reservation.getStatus()        // 상태
-                };
-                model.addRow(rowData);
-            }
+            System.out.println("검색된 데이터 수: " + filteredData.size()); // 로그 추가
+            loadReservationTableData(filteredData);
         } else {
             JOptionPane.showMessageDialog(null, "검색 결과가 없습니다.", "정보", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_serchButtonActionPerformed
+    }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void checkInTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkInTextFieldActionPerformed
+    private void roomCountTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomCountTextFieldActionPerformed
+
+    }//GEN-LAST:event_roomCountTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -448,14 +391,22 @@ public class CheckIn extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CheckIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckInUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CheckIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckInUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CheckIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckInUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CheckIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckInUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -468,7 +419,7 @@ public class CheckIn extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CheckIn().setVisible(true);
+                new CheckInUI().setVisible(true);
             }
         });
     }
@@ -476,7 +427,6 @@ public class CheckIn extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScrollPane;
     private javax.swing.JLabel checkInLabel;
-    private javax.swing.JTextField checkInTextField;
     private javax.swing.JButton checkinButton;
     private javax.swing.JButton guestRegistButton;
     private javax.swing.ButtonGroup paymentGroup;
@@ -485,9 +435,10 @@ public class CheckIn extends javax.swing.JFrame {
     private javax.swing.JTable reservationListTable;
     private javax.swing.JLabel reservationlistLabel;
     private javax.swing.JLabel roomAmountLabel;
+    private javax.swing.JTextField roomCountTextField;
+    private javax.swing.JButton searchButton;
     private javax.swing.JComboBox<String> searchComboBox;
     private javax.swing.JTextField searchTextField;
-    private javax.swing.JButton serchButton;
     // End of variables declaration//GEN-END:variables
 
 }

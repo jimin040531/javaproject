@@ -35,7 +35,7 @@
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="searchTextField" min="-2" pref="352" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="serchButton" pref="77" max="32767" attributes="0"/>
+                      <Component id="searchButton" pref="77" max="32767" attributes="0"/>
                   </Group>
                   <Component id="ScrollPane" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
@@ -54,7 +54,7 @@
                       <Component id="reqestTextField" min="-2" pref="400" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="checkInTextField" max="32767" attributes="0"/>
+                          <Component id="roomCountTextField" max="32767" attributes="0"/>
                           <Component id="checkinButton" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -78,7 +78,7 @@
                   <Component id="searchTextField" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="searchComboBox" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="serchButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="searchButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -96,7 +96,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="checkInTextField" max="32767" attributes="0"/>
+                      <Component id="roomCountTextField" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="checkinButton" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
@@ -116,9 +116,9 @@
         <Property name="text" type="java.lang.String" value="&#xc694;&#xccad; &#xc0ac;&#xd56d;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="checkInTextField">
+    <Component class="javax.swing.JTextField" name="roomCountTextField">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkInTextFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="roomCountTextFieldActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="searchTextField">
@@ -269,7 +269,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guestRegistButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="serchButton">
+    <Component class="javax.swing.JButton" name="searchButton">
       <Properties>
         <Property name="label" type="java.lang.String" value="&#xac80;&#xc0c9;"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -283,7 +283,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serchButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

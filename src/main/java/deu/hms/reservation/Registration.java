@@ -16,7 +16,7 @@ import java.time.format.DateTimeParseException;
 import deu.hms.reservation.ReservationUtils;
 import java.io.IOException; 
 import java.util.UUID;
-import deu.hms.checkin.CardRegist; //카드등록 불러옴
+import deu.hms.roomReservation.CardRegistFrame; //카드등록 불러옴
 import java.awt.Frame;
 import javax.swing.ButtonGroup;
 
@@ -489,12 +489,13 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
-   CardRegist cardRegistWindow = new CardRegist(this);
-    cardRegistWindow.setVisible(true);
-        cardRegistWindow.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+   // CardRegistFrame 인스턴스를 생성하여 카드 등록 창을 표시
+        CardRegistFrame cardRegistFrame = new CardRegistFrame();
+        cardRegistFrame.setVisible(true);
+        cardRegistFrame.setLocationRelativeTo(this);  // 현재 창을 기준으로 중앙에 배치
 
     // 창이 닫힌 후 카드 정보가 등록되었는지 확인
-    cardRegistWindow.addWindowListener(new java.awt.event.WindowAdapter() {
+    cardRegistFrame.addWindowListener(new java.awt.event.WindowAdapter() {
         @Override
        public void windowClosed(java.awt.event.WindowEvent e) {
             // 파일에서 카드 정보 읽기

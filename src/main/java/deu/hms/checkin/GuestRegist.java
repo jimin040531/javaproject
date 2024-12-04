@@ -4,36 +4,53 @@
  */
 package deu.hms.checkin;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import deu.hms.reservation.ReservationData;
+import deu.hms.roomReservation.CardRegistFrame;
+import deu.hms.roomReservation.HotelRoomReservationUI;
+import javax.swing.*;
 import java.util.UUID;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author Jimin
  */
-public class GuestRegist extends javax.swing.JFrame {
+public class GuestRegist extends JFrame {
 
-    private JTable reservationListTable;
+    private ReservationManager reservationManager;
+    public javax.swing.JTable reservationListTable;
+    private CheckInUI checkInUI; // CheckInUI 클래스의 인스턴스를 참조하기 위한 필드 추가
 
-    // 기본 생성자 추가
-    public GuestRegist() {
+    // 생성자에서 CheckInUI 인스턴스를 받아서 초기화하는 방식
+    public GuestRegist(CheckInUI checkInUI) {
+        this.checkInUI = checkInUI; // 전달된 CheckInUI 인스턴스를 초기화
         initComponents();
-        setLocationRelativeTo(null); // 화면 중앙 배치
+        setLocationRelativeTo(null);
     }
 
-    // JTable을 받는 생성자
-    public GuestRegist(JTable reservationListTable) {
-        this.reservationListTable = reservationListTable;
-        initComponents();
-        setLocationRelativeTo(null); // 화면 중앙 배치
+    private void handleRegister() {
+        String name = nameTextField.getText().trim();
+        String phone = phoneTextField1.getText().trim() + "-" + phoneTextField2.getText().trim() + "-" + phoneTextField3.getText().trim();
+        String roomNumber = roomNumberTextField.getText().trim();
+        String stayCost = stayCostTextField.getText().trim();
+
+        if (name.isEmpty() || phone.isEmpty() || roomNumber.isEmpty() || stayCost.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "모든 필드를 올바르게 입력해 주세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            Double.parseDouble(stayCost);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "객실 금액은 숫자로 입력해야 합니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String reservationId = UUID.randomUUID().toString();
+        ReservationData reservation = new ReservationData(reservationId, name, phone, "", "", "", roomNumber, "1", stayCost, "현금", "예약 완료");
+        reservationManager.addReservation(reservation);
+        JOptionPane.showMessageDialog(this, "손님 등록이 완료되었습니다.", "등록 완료", JOptionPane.INFORMATION_MESSAGE);
     }
-    
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -90,7 +107,6 @@ public class GuestRegist extends javax.swing.JFrame {
         cardRegistButton.setSelected(true);
         cardRegistButton.setText("카드등록");
         cardRegistButton.setToolTipText("");
-        cardRegistButton.setActionCommand("카드등록");
         cardRegistButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cardRegistButtonActionPerformed(evt);
@@ -268,28 +284,30 @@ public class GuestRegist extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(roomInfoButton)))
+                                        .addComponent(roomInfoButton))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(stayCostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(wonLabel))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(guestCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(meongLabel)))
                                 .addGap(132, 132, 132)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(stayCostLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(guestCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(guestCountLabel)
                                     .addComponent(paymentMethodLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(onSitePaymentButton)
-                                    .addComponent(stayCostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(onSitePaymentButton)
+                                .addGap(7, 7, 7)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(meongLabel)
-                                .addGap(214, 214, 214))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(paymentType, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -298,8 +316,7 @@ public class GuestRegist extends javax.swing.JFrame {
                                 .addComponent(registButton)
                                 .addContainerGap())
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(wonLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(24, 24, 24)
                                 .addComponent(guestPlusButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(labelCardStatus)
@@ -309,44 +326,44 @@ public class GuestRegist extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameLabel)
-                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(phoneNumberLabel)
-                    .addComponent(phoneTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkInDateLabel)
-                    .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roomInfoButton))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkOutDateLabel)
-                    .addComponent(checkOutDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(roomNumberLabel)
-                    .addComponent(roomNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hoLabel))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(guestCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(meongLabel)
-                    .addComponent(stayCostLabel))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nameLabel)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(phoneNumberLabel)
+                            .addComponent(phoneTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(checkInDateLabel)
+                            .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roomInfoButton))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(checkOutDateLabel)
+                            .addComponent(checkOutDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(roomNumberLabel)
+                            .addComponent(roomNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hoLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(stayCostLabel)
                             .addComponent(stayCostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wonLabel)
+                            .addComponent(wonLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(guestPlusButton)
-                            .addComponent(guestCountLabel))
+                            .addComponent(guestCountLabel)
+                            .addComponent(guestCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(meongLabel))
                         .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(labelCardStatus)
                         .addGap(6, 6, 6)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -374,90 +391,67 @@ public class GuestRegist extends javax.swing.JFrame {
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
-        CardRegist cardRegistWindow = new CardRegist();  // 기본 생성자 사용
-        cardRegistWindow.setVisible(true);
-        cardRegistWindow.setLocationRelativeTo(this);  // 현재 창을 기준으로 중앙에 배치
-
-        // 창이 닫힐 때 카드 정보가 등록되었는지 확인
-        cardRegistWindow.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                // 파일에서 카드 정보 읽기
-                String cardInfo = readCardInfoFromFile();
-                if (cardInfo != null && !cardInfo.trim().isEmpty()) {
-                    labelCardStatus.setText("등록완료"); // 등록완료로 변경
-                    labelCardStatus.setVisible(true);
-                } else {
-                    labelCardStatus.setText("미등록"); // 미등록 상태로 설정
-                    labelCardStatus.setVisible(true);
-                }
-            }
-        });
-    }
-
-    // 파일에서 카드 정보를 읽는 메서드
-    private String readCardInfoFromFile() {
-        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("card_data.txt"))) {
-            return reader.readLine(); // 첫 번째 줄 읽기
-        } catch (java.io.IOException ex) {
-            System.err.println("카드 정보 읽기 실패: " + ex.getMessage());
-            return null; // 읽기 실패 시 null 반환
-        }
+        // CardRegistFrame 인스턴스를 생성하여 카드 등록 창을 표시
+        CardRegistFrame cardRegistFrame = new CardRegistFrame();
+        cardRegistFrame.setLocationRelativeTo(this);  // 현재 GuestRegist 창을 기준으로 중앙에 배치
+        cardRegistFrame.setVisible(true);
     }//GEN-LAST:event_registButtonActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-        // 입력된 데이터 가져오기
-        String lastName = nameTextField.getText().trim();
-        String phone = phoneTextField1.getText().trim() + "-" + 
-                       phoneTextField2.getText().trim() + "-" +
-                       phoneTextField3.getText().trim();
+        // 텍스트 필드에 있는 정보들을 모두 가져오기
+        String name = nameTextField.getText().trim();
+        String phone = phoneTextField1.getText().trim() + "-" + phoneTextField2.getText().trim() + "-" + phoneTextField3.getText().trim();
+        String address = ""; // 예시로 address 필드가 추가된 경우, 입력된 텍스트가 필요하다면 addressTextField.getText().trim() 등으로 가져옵니다.
         String roomNumber = roomNumberTextField.getText().trim();
+        String checkInDate = checkInDateTextField.getText().trim();
+        String checkOutDate = checkOutDateTextField.getText().trim();
+        String guestCount = guestCountTextField.getText().trim();
         String stayCost = stayCostTextField.getText().trim();
         String paymentMethod = paymentType.getSelectedItem().toString();
+        String status = "예약 완료"; // 초기 예약 상태는 "예약 완료"로 설정
 
-        // 유효성 검사
-        if (lastName.isEmpty() || roomNumber.isEmpty() || stayCost.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "모든 필드를 올바르게 입력해 주세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+        // 필드에 하나라도 비어 있는 항목이 있는 경우 오류 메시지 표시
+        if (name.isEmpty() || phone.isEmpty() || roomNumber.isEmpty() || checkInDate.isEmpty() || checkOutDate.isEmpty() || guestCount.isEmpty() || stayCost.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "모든 필드를 올바르게 입력해 주세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        String fullName = lastName;
-        String uniqueNumber = UUID.randomUUID().toString(); // 고유 번호 생성
-        String status = "예약 완료"; // 상태 설정
+        // 새 예약 정보 생성
+        ReservationData newReservation = new ReservationData(
+                UUID.randomUUID().toString(), // 고유 번호 생성
+                name,
+                address,
+                phone,
+                checkInDate,
+                checkOutDate,
+                roomNumber,
+                guestCount,
+                stayCost,
+                paymentMethod,
+                status
+        );
 
-        // 파일에 체크인 정보 저장
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservation.txt", true))) {
-            writer.write(uniqueNumber + "," + fullName + "," + phone + "," + roomNumber + "," + "1" + "," + stayCost + "," + paymentMethod + "," + status);
-            writer.newLine();
-            JOptionPane.showMessageDialog(null, "손님 체크인 등록이 완료되었습니다.", "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
+        // 파일에 예약 정보 저장
+        ReservationManager reservationManager = new ReservationManager();
+        reservationManager.addReservation(newReservation);
 
-            // 입력 필드 초기화
-            nameTextField.setText("이름");
-            phoneTextField1.setText("010");
-            phoneTextField2.setText("");
-            phoneTextField3.setText("");
-            roomNumberTextField.setText("");
-            stayCostTextField.setText("0");
-
-            // 새로 등록된 정보를 테이블에 즉시 반영 (CheckIn 클래스의 테이블 포함)
-            if (reservationListTable != null) {
-                DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-                Object[] rowData = {
-                    uniqueNumber, // 고유 번호
-                    fullName,     // 이름
-                    phone,        // 전화 번호
-                    roomNumber,   // 방 번호
-                    "1",          // 인원수 (기본값 1)
-                    stayCost,     // 객실 금액
-                    paymentMethod,// 결제 수단
-                    status        // 상태
-                };
-                model.addRow(rowData);
-            }
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "저장 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
+        // 테이블에 새 예약 정보 추가
+        if (checkInUI != null) {
+            checkInUI.addReservationToTable(newReservation);
         }
+
+        JOptionPane.showMessageDialog(this, "예약이 완료되었습니다.", "예약 완료", JOptionPane.INFORMATION_MESSAGE);
+
+        // 텍스트 필드 초기화
+        nameTextField.setText("");
+        phoneTextField1.setText("010");
+        phoneTextField2.setText("");
+        phoneTextField3.setText("");
+        roomNumberTextField.setText("");
+        checkInDateTextField.setText("");
+        checkOutDateTextField.setText("");
+        guestCountTextField.setText("");
+        stayCostTextField.setText("");
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -469,24 +463,16 @@ public class GuestRegist extends javax.swing.JFrame {
     }//GEN-LAST:event_paymentTypeActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
-        // hotelRoomInfo 인스턴스를 생성하여 새로운 창을 엽니다.
-        SwingUtilities.invokeLater(() -> {
-            HotelRoomInfo  hotelRoomInfo = new HotelRoomInfo (); // hotelRoomInfo 창을 띄웁니다.
-        });
+        HotelRoomReservationUI hotelRoomReservationUI = new HotelRoomReservationUI();
+        hotelRoomReservationUI.showUI();
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 
     private void nameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextFieldFocusGained
 
-        if (nameTextField.getText().equals("성")) { // 기본값 "성"(사용자 임의 입력이 "성"일 경우 포함)이면 Text Field에 focus가 생길 경우 Text Field를 비움
-            nameTextField.setText("");
-        }
     }//GEN-LAST:event_nameTextFieldFocusGained
 
     private void nameTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextFieldFocusLost
-        // TODO add your handling code here:
-        if (nameTextField.getText().equals("")) { // 기본값 "성이름"(사용자 임의 입력이 "성이름"일 경우 포함)이면 Text Field에 focus가 생길 경우 Text Field를 비움
-            nameTextField.setText("성이름");
-        }
+
     }//GEN-LAST:event_nameTextFieldFocusLost
 
     private void roomNumberTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomNumberTextFieldActionPerformed

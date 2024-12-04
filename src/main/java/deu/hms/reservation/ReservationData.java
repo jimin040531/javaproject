@@ -41,8 +41,6 @@ public ReservationData(String name, String address, String phoneNumber,
     this.stayCost = stayCost;
     this.paymentMethod = paymentMethod;
     this.status = status;
-
-    
 }
 
 // 기존 데이터 로드용 생성자

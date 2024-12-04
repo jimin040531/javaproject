@@ -170,7 +170,8 @@ public class MainScreenManager extends javax.swing.JFrame {
     }//GEN-LAST:event_GoReservationManagerActionPerformed
 
     private void GoCheckinManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoCheckinManagerActionPerformed
-        deu.hms.checkin.CheckIn checkinFrame = new deu.hms.checkin.CheckIn(new java.awt.Frame(), true);
+        // CheckInUI 인스턴스를 기본 생성자를 사용해 생성합니다.
+        deu.hms.checkin.CheckInUI checkinFrame = new deu.hms.checkin.CheckInUI();
         checkinFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         checkinFrame.setVisible(true);
         this.dispose();  // 현재 창 닫기
