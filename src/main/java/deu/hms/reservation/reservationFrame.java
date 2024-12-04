@@ -30,7 +30,7 @@ import deu.hms.login.MainScreenManager;
  *
  * @author adsd3
  */
-public class reservationFrame extends javax.swing.JDialog {
+public class ReservationFrame extends javax.swing.JDialog {
 
     private Registration registrationFrame;
     private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 중이 아님)
@@ -55,7 +55,7 @@ public class reservationFrame extends javax.swing.JDialog {
     registrationFrame.setVisible(true);
     }
 
-    public reservationFrame(java.awt.Frame parent, boolean modal) {
+    public ReservationFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         initializeTableFromFile(); // 테이블 초기화
@@ -80,7 +80,7 @@ private void initializeTableFromFile() {
     }
 }
     // 기본 생성자 추가
-    public reservationFrame() {
+    public ReservationFrame() {
     // 테이블 초기화
     mainTable = new JTable();
 
@@ -351,7 +351,7 @@ private String getCellValue(javax.swing.JTable table, int row, int column, Strin
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                reservationFrame frame = new reservationFrame();
+                ReservationFrame frame = new ReservationFrame();
                 
             // 테이블 초기화 (파일 로드)
             frame.initializeTableFromFile();

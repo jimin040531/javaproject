@@ -137,7 +137,7 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void goReservationEmployeesActionPerformed(java.awt.event.ActionEvent evt) {                                                       
-        deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
+        deu.hms.reservation.ReservationFrame reservationFrame = new deu.hms.reservation.ReservationFrame(new java.awt.Frame(), true);
         
         reservationFrame.repaint();     // 업데이트된 상태를 반영하여 다시 그리기
 

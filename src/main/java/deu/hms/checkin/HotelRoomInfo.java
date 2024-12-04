@@ -10,7 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import deu.hms.reservation.Registration;
 import deu.hms.reservation.ReservationData;
-import deu.hms.reservation.reservationFrame;
+import deu.hms.reservation.ReservationFrame;
 
 public class HotelRoomInfo  {
     final JFrame frame; // 메인 프레임
@@ -18,7 +18,7 @@ public class HotelRoomInfo  {
     private JComboBox<String> floorSelector; // 층 선택 콤보박스
     private final JPanel roomPanel; // 객실 상태를 표시할 패널
     private final hotelReservationManager reservationManager; // 예약 관리 객체
-         private final reservationFrame parentFrame;
+         private final ReservationFrame parentFrame;
     private final Registration registration;
 
 
@@ -28,7 +28,7 @@ public class HotelRoomInfo  {
     
     // 생성자: GUI 초기화 및 예약 관리 객체 생성
     public HotelRoomInfo () {
-                this.parentFrame = new reservationFrame(); // 객체 생성
+                this.parentFrame = new ReservationFrame(); // 객체 생성
 
         reservationManager = new hotelReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
         initializeRoomPricesAndGrades(); // 객실 가격 및 등급 초기화

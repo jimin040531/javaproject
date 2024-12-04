@@ -28,7 +28,7 @@ import deu.hms.checkin.HotelRoomInfo; // HotelRoomInfo 클래스 import
  */
 public class Registration extends JFrame {
     
-    private reservationFrame reservationFrame;
+    private ReservationFrame reservationFrame;
     private JTable mainTable; // Reservation 테이블과 연결
     private DefaultTableModel tableModel;
     private static int uniqueNumber = 1;
@@ -36,7 +36,7 @@ public class Registration extends JFrame {
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); //타이머 
     private CardManager cardManager = new CardManager();
     private ReservationStatusScheduler statusScheduler = new ReservationStatusScheduler();
-private reservationFrame parentFrame;
+private ReservationFrame parentFrame;
 //버튼
     private ButtonGroup paymentGroup = new ButtonGroup(); // 클래스 필드로 선언
 private javax.swing.JLabel reservationStatusLabel;
@@ -67,7 +67,7 @@ private javax.swing.JLabel reservationStatusLabel;
     }
         
     }
-    public Registration(reservationFrame parentFrame) {
+    public Registration(ReservationFrame parentFrame) {
      this.parentFrame = parentFrame;
     if (parentFrame == null) {
         System.err.println("parentFrame이 null입니다. reservationFrame 객체가 제대로 전달되지 않았습니다.");
@@ -183,41 +183,12 @@ public void transferRegistrationToReservation() {
         System.err.println("textCheckInDate 또는 textCheckOutDate가 초기화되지 않았습니다.");
     }
       
-        initRadioButtons();              // 라디오 버튼 초기화
-        configurePaymentButtonState();   // 라디오 버튼의 상태 변경 이벤트 연결
-        // 초기 화면에서 paymentTypeRegistButton 비활성화
         paymentTypeRegistButton.setEnabled(false);
         paymentType.setEnabled(false);
-  // initRadioButtons 메소드
-        if (textCheckInDate == null || textCheckOutDate == null) {
-        System.err.println("textCheckInDate 또는 textCheckOutDate가 초기화되지 않았습니다.");
+ 
     }
-    }
-   public Registration(Frame frame, boolean b) { //버튼할떄 추가했는데 이것도 포함인지 모르겠다 ㄱ
-        throw new UnsupportedOperationException("Not supported yet."); // d
-    }
+ 
 
-    private void initRadioButtons() {
-        // paymentGroup은 이미 생성되어 있다고 가정
-        paymentGroup.add(onSitePaymentButton);
-        paymentGroup.add(cardRegistButton);
-    }
-
-    private void configurePaymentButtonState() {
-        // cardRegistButton을 선택했을 때 paymentTypeRegistButton 활성화
-        cardRegistButton.addActionListener(e -> {
-            paymentTypeRegistButton.setEnabled(true);
-            paymentType.setEnabled(false);
-        });
-
-        // onSitePaymentButton을 선택했을 때 paymentTypeRegistButton 비활성화
-        onSitePaymentButton.addActionListener(e -> {
-            paymentTypeRegistButton.setEnabled(false);
-            paymentType.setEnabled(true);
-        });
-    }
-    // 다른 컴포넌트 초기화 후에 호출되는 메서드에 작성
-      
  //카드상태를 보여주는거
 public void showCardRegistrationStatus() {
     labelCardStatus.setText("등록완료");
@@ -228,12 +199,9 @@ public void showCardRegistrationStatus() {
     if (textCheckInDate != null && textCheckOutDate != null) {
         textCheckInDate.setText(checkInDate); // 텍스트 필드에 값 설정
         textCheckOutDate.setText(checkOutDate); // 텍스트 필드에 값 설정
-        System.out.println("Registration 클래스에 날짜 업데이트됨: " + checkInDate + ", " + checkOutDate);
-    } else {
-        System.err.println("textCheckInDate 또는 textCheckOutDate가 초기화되지 않았습니다.");
-    }
+    } 
 }
-    public reservationFrame getParentFrame() { //저장버튼에 null뜨는현상
+    public ReservationFrame getParentFrame() { //저장버튼에 null뜨는현상
         return parentFrame;
     }
     @SuppressWarnings("unchecked")
@@ -611,7 +579,7 @@ private String readCardInfoFromFile() {
 
     } else {
         // reservationFrame이 없으면 새로 생성해서 표시
-            reservationFrame newReservationFrame = new reservationFrame();
+            ReservationFrame newReservationFrame = new ReservationFrame();
 
         newReservationFrame.setVisible(true); 
         newReservationFrame.setSize(850, 250);

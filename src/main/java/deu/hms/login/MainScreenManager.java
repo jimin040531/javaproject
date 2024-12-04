@@ -170,7 +170,7 @@ public class MainScreenManager extends javax.swing.JFrame {
     }//GEN-LAST:event_goRestaurantManagerActionPerformed
 
     private void goReservationManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationManagerActionPerformed
-        deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
+        deu.hms.reservation.ReservationFrame reservationFrame = new deu.hms.reservation.ReservationFrame(new java.awt.Frame(), true);
         reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         reservationFrame.setVisible(true);
        // this.dispose(); //현재 창 닫기
