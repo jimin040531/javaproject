@@ -2,28 +2,33 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package deu.hms.checkin;
+package deu.hms.roomReservation;
 
+import deu.hms.checkin.CheckInUI;
 import javax.swing.JOptionPane;
 import deu.hms.reservation.Registration;
+import javax.swing.JFrame;
 
 /**
  *
  * @author Jimin
  */
-public class cardRegist extends javax.swing.JFrame {
-private Registration registration; // Registration 객체 참조
+public class CardRegistFrame extends javax.swing.JFrame {
+    private Registration registration; // Registration 객체 참조
+    private CheckInUI parent;
 
-    
-    
-    /**
-     * Creates new form cardRegist
-     */
-    
- 
-    public cardRegist() {
+    public CardRegistFrame() {
         initComponents();
+        setLocationRelativeTo(null); // 화면 중앙에 위치
         initializePlaceholders();
+    }
+
+    // 부모 프레임을 설정하는 생성자: GuestRegist에서 호출될 때 사용
+    public CardRegistFrame(JFrame parent) {
+        this.parent = (CheckInUI) parent;
+        initComponents();
+        setSize(600, 400); // 창 크기 설정
+        setLocationRelativeTo(parent); // 부모 창 기준으로 중앙에 위치
     }
     
     private void initializePlaceholders() {
@@ -59,7 +64,7 @@ private Registration registration; // Registration 객체 참조
             }
         });
     }
-    public cardRegist(Registration registration) {
+    public CardRegistFrame(Registration registration) {
     this.registration = registration; // Registration 객체 저장
     initComponents(); // NetBeans GUI에서 자동 생성된 초기화 코드
     initializePlaceholders(); // 기존 초기화 코드
@@ -231,8 +236,6 @@ private Registration registration; // Registration 객체 참조
     }// </editor-fold>//GEN-END:initComponents
 
     private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
-    // 입력 필드에서 값 가져오기
-   
         String cardNum1 = cardNumTextField1.getText().trim();
         String cardNum2 = cardNumTextField2.getText().trim();
         String cardNum3 = cardNumTextField3.getText().trim();
@@ -243,31 +246,15 @@ private Registration registration; // Registration 객체 참조
         String cvc = cvcTextField.getText().trim();
 
         try {
-            // cardRegistLoad 객체 생성
-            cardRegistLoad cardInfoObj = new cardRegistLoad(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc);
+            CardDetails cardDetails = new CardDetails(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc);
+            CardRegistService cardService = new CardRegistService();
+            cardService.saveCardInformation(cardDetails);
 
-            // 카드 정보 저장
-            cardInfoObj.saveCardInformation();
-             if (registration != null) {
-            registration.showCardRegistrationStatus();
-        }
             JOptionPane.showMessageDialog(this, "카드 정보가 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
-            //    labelCardStatus.setVisible(true);
-
-            // 입력 필드 초기화 및 프레임 닫기
-            cardNumTextField1.setText("");
-            cardNumTextField2.setText("");
-            cardNumTextField3.setText("");
-            cardNumTextField4.setText("");
-            monthTextField.setText("");
-            yearTextField.setText("");
-            pwTextField.setText("");
-            cvcTextField.setText("");
             this.setVisible(false);
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
         }
-       
     }//GEN-LAST:event_registButtonActionPerformed
 
     private void cardNumTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardNumTextField1ActionPerformed
@@ -289,37 +276,6 @@ private Registration registration; // Registration 객체 참조
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(cardRegist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new cardRegist().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Label1;

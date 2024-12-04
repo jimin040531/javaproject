@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 public class MainScreenManager extends javax.swing.JFrame {
     
     private UserAuthentication auth;
+    private Object deu;
     
         public MainScreenManager() {
         setTitle("Manager Main Screen");
@@ -176,8 +177,14 @@ public class MainScreenManager extends javax.swing.JFrame {
        // this.dispose(); //현재 창 닫기
     }//GEN-LAST:event_goReservationManagerActionPerformed
 
+<<<<<<< HEAD
     private void goCheckinManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckinManagerActionPerformed
         deu.hms.checkin.checkIn checkinFrame = new deu.hms.checkin.checkIn(new java.awt.Frame(), true);
+=======
+    private void GoCheckinManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoCheckinManagerActionPerformed
+        // CheckInUI 인스턴스를 기본 생성자를 사용해 생성합니다.
+        deu.hms.checkin.CheckInUI checkinFrame = new deu.hms.checkin.CheckInUI();
+>>>>>>> new_jimin_12_03
         checkinFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         checkinFrame.setVisible(true);
         this.dispose();  // 현재 창 닫기

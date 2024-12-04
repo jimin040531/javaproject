@@ -11,58 +11,46 @@ package deu.hms.roomManagement;
 
 import java.io.*;
 import java.util.*;
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class roomManagementLoad {
+// RoomRepository 클래스 업데이트
+class RoomRepository {
     private final String FILE_NAME = "roomInfo.txt";
-    private final List<roomInfo> roomList;
-
-    public roomManagementLoad() {
+    private final List<Room> roomList;
+    
+    public RoomRepository() {
         roomList = new ArrayList<>();
         loadRoomInfoFromFile();
     }
-
-    public void addRoom(int floor, int roomNumber, int price, String grade) {
-        roomInfo newRoom = new roomInfo(floor, roomNumber, price, grade);
-        roomList.add(newRoom);
-        saveRoomInfoToFile();
-    }
-
-    public void deleteRoom(int floor, int roomNumber) {
-        Iterator<roomInfo> iterator = roomList.iterator();
-        while (iterator.hasNext()) {
-            roomInfo room = iterator.next();
-            if (room.getFloor() == floor && room.getRoomNumber() == roomNumber) {
-                iterator.remove();
-                saveRoomInfoToFile();
-                return;
-            }
-        }
-        JOptionPane.showMessageDialog(null, "해당 객실을 찾을 수 없습니다.");
-    }
-
-    public List<roomInfo> getRoomList() {
+    
+    public List<Room> getRoomList() {
         return roomList;
     }
 
-    public void loadRoomDataToTable(JTable table) {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0); // 기존 데이터 삭제
-        for (roomInfo room : roomList) {
-            model.addRow(new Object[]{room.getFloor(), room.getRoomNumber(), room.getPrice(), room.getGrade()});
-        }
+    public Room findRoom(int floor, int roomNumber) {
+        return roomList.stream()
+                .filter(room -> room.getFloor() == floor && room.getRoomNumber() == roomNumber)
+                .findFirst()
+                .orElse(null);
     }
 
-    private void saveRoomInfoToFile() {
+    public void saveRoomInfoToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
-            for (roomInfo room : roomList) {
-                writer.write(room.getFloor() + "," + room.getRoomNumber() + "," + room.getPrice() + "," + room.getGrade());
+            for (Room room : roomList) {
+                writer.write(room.getFloor() + "," + room.getRoomNumber() + "," + room.getPrice() + "," + room.getGrade() + "," + room.getCapacity());
                 writer.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "객실 정보 저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+            System.out.println("객실 정보 저장 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    public void loadRoomDataToTable(javax.swing.JTable roomTable) {
+        DefaultTableModel model = (DefaultTableModel) roomTable.getModel();
+        model.setRowCount(0); // 기존 데이터 삭제
+        for (Room room : roomList) {
+            model.addRow(new Object[]{room.getFloor(), room.getRoomNumber(), room.getPrice(), room.getGrade(), room.getCapacity()});
         }
     }
 
@@ -76,7 +64,7 @@ public class roomManagementLoad {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "객실 정보 파일 생성 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+                System.out.println("객실 정보 파일 생성 중 오류가 발생했습니다: " + e.getMessage());
             }
             return;
         }
@@ -85,12 +73,13 @@ public class roomManagementLoad {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
-                if (data.length == 4) {
+                if (data.length == 5) {
                     int floor = Integer.parseInt(data[0].trim());
                     int roomNumber = Integer.parseInt(data[1].trim());
                     int price = Integer.parseInt(data[2].trim());
-                    String grade = data[3].trim();
-                    roomList.add(new roomInfo(floor, roomNumber, price, grade));
+                    String grade = String.valueOf(data[3].trim().toUpperCase());
+                    int capacity = Integer.parseInt(data[4].trim());
+                    roomList.add(new Room(floor, roomNumber, price, grade, capacity));
                 } else {
                     System.out.println("잘못된 데이터 형식: " + line);
                 }
