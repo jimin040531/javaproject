@@ -1,156 +1,72 @@
 package deu.hms.checkin;
 
-import deu.hms.reservation.ReservationData;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ReservationManager {
 
-    private static final String RESERVATION_FILE_PATH = "Reservation.txt"; // 예약 파일 경로
-    private static final String CHECK_IN_FILE_PATH = "CheckInData.txt";    // 체크인 파일 경로
-    private static final int RESERVATION_FIELD_COUNT = 11;                 // 예약 데이터 필드 수
-    private static final int CHECK_IN_FIELD_COUNT = 12;                    // 체크인 데이터 필드 수
+    private String reservationFilePath = "Reservation.txt"; // 예약 파일 경로
+    private String checkInFilePath = "CheckInData.txt"; // 체크인 데이터 파일 경로
 
-    // 모든 예약 데이터를 가져오는 메서드
-    public List<ReservationData> getAllReservations() {
-        List<String> fileContent = FileHandler.loadFromFile(RESERVATION_FILE_PATH);
-        List<ReservationData> reservations = new ArrayList<>();
-
-        for (String line : fileContent) {
-            ReservationData reservation = parseReservationData(line);
-            if (reservation != null) {
-                reservations.add(reservation);
-            }
-        }
-        return reservations;
-    }
-
-    // 상태가 "예약 완료"인 예약 데이터만 가져오는 메서드
-    public List<ReservationData> getPendingReservations() {
-        List<ReservationData> allReservations = getAllReservations();
-        List<ReservationData> pendingReservations = new ArrayList<>();
-
-        for (ReservationData reservation : allReservations) {
-            if ("예약 완료".equals(reservation.getStatus())) {
-                pendingReservations.add(reservation);
-            }
-        }
-        return pendingReservations;
-    }
-
-    // 검색 기능 구현
-    public List<ReservationData> searchReservations(String searchTerm, String searchType) {
-        List<ReservationData> filteredReservations = new ArrayList<>();
-        for (ReservationData reservation : getPendingReservations()) {
-            if ("고유 번호".equals(searchType) && reservation.getUniqueNumber().contains(searchTerm)) {
-                filteredReservations.add(reservation);
-            } else if ("성이름".equals(searchType) && reservation.getName().contains(searchTerm)) {
-                filteredReservations.add(reservation);
-            } else if ("방 번호".equals(searchType) && reservation.getRoomNumber().contains(searchTerm)) {
-                filteredReservations.add(reservation);
-            }
-        }
-        return filteredReservations;
-    }
-
-    // 체크인 데이터를 가져오는 메서드
-    public List<CheckInData> getAllCheckInData() {
-        List<String> fileContent = FileHandler.loadFromFile(CHECK_IN_FILE_PATH);
+    // 예약 데이터를 모두 가져오는 메서드 (필터링된 데이터만 반환)
+    public List<CheckInData> getCheckInDataList() {
         List<CheckInData> checkInDataList = new ArrayList<>();
-
-        for (String line : fileContent) {
-            CheckInData checkInData = parseCheckInData(line);
-            if (checkInData != null) {
-                checkInDataList.add(checkInData);
+        try (BufferedReader reader = new BufferedReader(new FileReader(reservationFilePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // 예약 정보를 파싱하여 필요한 데이터만 추출
+                CheckInData checkInData = parseCheckInData(line);
+                if (checkInData != null) {
+                    checkInDataList.add(checkInData);
+                }
             }
+        } catch (IOException e) {
+            System.err.println("파일 읽기 오류: " + e.getMessage());
         }
         return checkInDataList;
     }
 
-    // 예약 추가 메서드
-    public void addReservation(ReservationData reservation) {
-        List<ReservationData> reservations = getAllReservations();
-        reservations.add(reservation);
-        saveReservations(reservations);
-    }
+    // Reservation.txt 한 줄을 읽어서 CheckInData 객체로 변환하는 메서드
+    private CheckInData parseCheckInData(String csvLine) {
+        String[] fields = csvLine.split(",");
+        if (fields.length == 11) { // 고유번호, 이름, 주소, 전화번호, 예상 체크인 날짜, 예상 체크 아웃 날짜, 방 번호, 인원 수 , 금액, 결제 수단, 상태
+            String uniqueNumber = fields[0].trim();
+            String name = fields[1].trim();
+            String phoneNumber = fields[3].trim(); // 전화번호
+            String roomNumber = fields[6].trim(); // 방 번호
+            String guestCount = fields[7].trim(); // 인원 수
+            String stayCost = fields[8].trim(); // 객실 금액
+            String paymentMethod = fields[9].trim(); // 결제 수단
+            String status = fields[10].trim(); // 상태
 
-    // 체크인 데이터 저장 메서드
-    public void saveCheckInData(ReservationData reservation, String requestDetails) {
-        CheckInData checkInData = new CheckInData(reservation, requestDetails); // CheckInData 생성
-        saveCheckInData(checkInData); // CheckInData를 처리하는 기존 메서드 호출
-    }
+            // 요청 사항은 null로 초기화 (필요에 따라 수정 가능)
+            String requestDetails = "";
 
-    // 기존 CheckInData를 받는 saveCheckInData 메서드 유지
-    public void saveCheckInData(CheckInData checkInData) {
-        FileHandler.appendToFile(CHECK_IN_FILE_PATH, checkInData.toCSV());
-    }
-
-    // 특정 예약 상태 업데이트 메서드
-    public void updateReservationStatus(String reservationId, String status) {
-        List<ReservationData> reservations = getAllReservations();
-        for (ReservationData reservation : reservations) {
-            if (reservation.getUniqueNumber().equals(reservationId)) {
-                reservation.setStatus(status);
-                break;
-            }
+            return new CheckInData(uniqueNumber, name, phoneNumber, roomNumber, guestCount, stayCost, paymentMethod, status, requestDetails);
         }
-        saveReservations(reservations);
-    }
-    
-    // 특정 예약 ID로 예약 데이터를 검색하는 메서드
-    public ReservationData findReservationById(String reservationId) {
-        List<ReservationData> reservations = getAllReservations();
-        for (ReservationData reservation : reservations) {
-            if (reservation.getUniqueNumber().equals(reservationId)) {
-                return reservation; // 일치하는 예약 반환
-            }
-        }
-        return null; // 일치하는 예약이 없으면 null 반환
-    }
-
-    // 예약 데이터를 파일에 저장하는 메서드
-    private void saveReservations(List<ReservationData> reservations) {
-        List<String> fileContent = new ArrayList<>();
-        for (ReservationData reservation : reservations) {
-            fileContent.add(reservation.toCSV());
-        }
-        FileHandler.writeToFile(RESERVATION_FILE_PATH, fileContent);
+        return null; // 잘못된 형식의 데이터는 null 반환
     }
 
     // 체크인 데이터를 파일에 저장하는 메서드
-    private void saveCheckInDataList(List<CheckInData> checkInDataList) {
-        List<String> fileContent = new ArrayList<>();
-        for (CheckInData checkInData : checkInDataList) {
-            fileContent.add(checkInData.toCSV());
+    public void saveCheckInData(CheckInData checkInData) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(reservationFilePath, true))) {
+            writer.write(checkInData.toCSV()); // CheckInData 객체를 CSV 형식으로 변환하여 저장
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("체크인 데이터 쓰기 오류: " + e.getMessage());
         }
-        FileHandler.writeToFile(CHECK_IN_FILE_PATH, fileContent);
     }
 
-    // ReservationData CSV 변환 메서드
-    private ReservationData parseReservationData(String csvLine) {
-        String[] fields = csvLine.split(",");
-        if (fields.length == RESERVATION_FIELD_COUNT) {
-            return new ReservationData(
-                fields[0].trim(), fields[1].trim(), fields[2].trim(), fields[3].trim(),
-                fields[4].trim(), fields[5].trim(), fields[6].trim(), fields[7].trim(),
-                fields[8].trim(), fields[9].trim(), fields[10].trim()
-            );
+    // 체크인 데이터를 요청 사항과 함께 파일에 저장하는 메서드
+    public void saveCheckInDataWithRequest(CheckInData checkInData, String requestDetails) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(checkInFilePath, true))) {
+            // 요청 사항을 포함하여 CSV 형식으로 저장
+            String fullCsvData = checkInData.toCSV() + "," + requestDetails;
+            writer.write(fullCsvData); // 요청 사항 포함된 데이터 저장
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("체크인 데이터와 요청 사항 쓰기 오류: " + e.getMessage());
         }
-        return null;
-    }
-
-    // CheckInData CSV 변환 메서드
-    private CheckInData parseCheckInData(String csvLine) {
-        String[] fields = csvLine.split(",");
-        if (fields.length == CHECK_IN_FIELD_COUNT) {
-            String[] reservationFields = Arrays.copyOfRange(fields, 0, RESERVATION_FIELD_COUNT);
-            String joinedFields = String.join(",", reservationFields);
-            ReservationData reservation = parseReservationData(joinedFields);
-            if (reservation != null) {
-                return new CheckInData(reservation, fields[RESERVATION_FIELD_COUNT].trim());
-            }
-        }
-        return null;
     }
 }

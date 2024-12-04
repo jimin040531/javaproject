@@ -106,7 +106,6 @@ deu\hms\roomservice\roomserviceFrame$6.class
 deu\hms\checkin\CheckInUI$2.class
 deu\hms\checkin\CheckInUI.class
 deu\hms\userManagement\UserDeleteManager.class
-deu\hms\checkin\CheckInUI$10.class
 deu\hms\checkin\GuestRegist$14.class
 deu\hms\restaurant\ReservationDialog$3.class
 deu\hms\checkin\CheckInUI$3.class
@@ -135,7 +134,6 @@ deu\hms\login\MainScreenEmployees$2.class
 deu\hms\roomManagement\RoomService.class
 deu\hms\reservation\reservationFrame$2.class
 deu\hms\management\managementFrame$5.class
-deu\hms\checkin\FileHandler.class
 deu\hms\checkin\GuestRegist$9.class
 deu\hms\login\loginFrame$4.class
 deu\hms\reservation\CardManager.class
