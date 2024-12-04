@@ -10,6 +10,8 @@ package deu.hms.management;
  */
 public class managementFrame extends javax.swing.JDialog {
 
+    private Object deu;
+
     /**
      * Creates new form managementFrame
      * @param parent
@@ -20,6 +22,7 @@ public class managementFrame extends javax.swing.JDialog {
         initComponents();
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,10 +116,17 @@ public class managementFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_userInfoButtonActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
-       deu.hms.roomManagement.roomManagement roommanagementFrame = new deu.hms.roomManagement.roomManagement();
-       roommanagementFrame.setLocationRelativeTo(null);
-       roommanagementFrame.setVisible(true);
-       this.dispose();  // 현재 창 닫기
+        // RoomManagementFrame 인스턴스를 생성합니다.
+        deu.hms.roomManagement.RoomManagementFrame roomManagementFrame = new deu.hms.roomManagement.RoomManagementFrame();
+
+        // 화면 가운데 배치
+        roomManagementFrame.setLocationRelativeTo(null);
+
+        // RoomManagementFrame을 화면에 표시
+        roomManagementFrame.setVisible(true);
+
+        // 현재 창 닫기
+        this.dispose();
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 
     private void restButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restButtonActionPerformed

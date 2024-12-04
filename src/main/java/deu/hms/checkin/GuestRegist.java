@@ -5,8 +5,8 @@
 package deu.hms.checkin;
 
 import deu.hms.reservation.ReservationData;
-import deu.hms.roomReservation.CardRegistFrame;
-import deu.hms.roomReservation.HotelRoomReservationUI;
+import deu.hms.roomAndCardRegist.CardRegistFrame;
+import deu.hms.roomAndCardRegist.HotelRoomReservationUI;
 import javax.swing.*;
 import java.util.UUID;
 import javax.swing.table.DefaultTableModel;
@@ -69,7 +69,6 @@ public class GuestRegist extends JFrame {
         back = new javax.swing.JButton();
         labelCardStatus = new javax.swing.JLabel();
         paymentType = new javax.swing.JComboBox<>();
-        roomInfoButton = new javax.swing.JButton();
         wonLabel = new javax.swing.JLabel();
         phoneTextField3 = new javax.swing.JTextField();
         phoneTextField2 = new javax.swing.JTextField();
@@ -90,6 +89,7 @@ public class GuestRegist extends JFrame {
         guestCountTextField = new javax.swing.JTextField();
         meongLabel = new javax.swing.JLabel();
         guestPlusButton = new javax.swing.JButton();
+        calendar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,13 +141,6 @@ public class GuestRegist extends JFrame {
         paymentType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paymentTypeActionPerformed(evt);
-            }
-        });
-
-        roomInfoButton.setText("객실 정보");
-        roomInfoButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roomInfoButtonActionPerformed(evt);
             }
         });
 
@@ -245,6 +238,13 @@ public class GuestRegist extends JFrame {
             }
         });
 
+        calendar.setText("☎");
+        calendar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calendarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -266,12 +266,11 @@ public class GuestRegist extends JFrame {
                                     .addComponent(phoneNumberLabel)
                                     .addComponent(nameLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(roomNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(hoLabel))
-                                    .addComponent(checkOutDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addComponent(nameTextField, javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,18 +281,20 @@ public class GuestRegist extends JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(phoneTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(roomInfoButton))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(stayCostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(wonLabel))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(guestCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(meongLabel)))
-                                .addGap(132, 132, 132)))
+                                        .addComponent(meongLabel))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(checkOutDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(calendar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(151, 151, 151)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -341,7 +342,7 @@ public class GuestRegist extends JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(checkInDateLabel)
                             .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(roomInfoButton))
+                            .addComponent(calendar))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(checkOutDateLabel)
@@ -462,11 +463,6 @@ public class GuestRegist extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_paymentTypeActionPerformed
 
-    private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
-        HotelRoomReservationUI hotelRoomReservationUI = new HotelRoomReservationUI();
-        hotelRoomReservationUI.showUI();
-    }//GEN-LAST:event_roomInfoButtonActionPerformed
-
     private void nameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextFieldFocusGained
 
     }//GEN-LAST:event_nameTextFieldFocusGained
@@ -525,12 +521,18 @@ public class GuestRegist extends JFrame {
         }
     }//GEN-LAST:event_guestPlusButtonActionPerformed
 
+    private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
+        HotelRoomReservationUI hotelRoomReservationUI = new HotelRoomReservationUI();
+        hotelRoomReservationUI.showUI();
+    }//GEN-LAST:event_calendarActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
+    private javax.swing.JButton calendar;
     private javax.swing.JRadioButton cardRegistButton;
     private javax.swing.JLabel checkInDateLabel;
     private javax.swing.JTextField checkInDateTextField;
@@ -554,7 +556,6 @@ public class GuestRegist extends JFrame {
     private javax.swing.ButtonGroup radiobuttonGroup;
     private javax.swing.JButton registButton;
     private javax.swing.JButton reservationsubmit;
-    private javax.swing.JButton roomInfoButton;
     private javax.swing.JLabel roomNumberLabel;
     private javax.swing.JTextField roomNumberTextField;
     private javax.swing.JLabel stayCostLabel;

@@ -1,4 +1,4 @@
-package deu.hms.checkin;
+/* package deu.hms.checkin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class HotelRoomInfo  {
     private JComboBox<String> floorSelector; // 층 선택 콤보박스
     private final JPanel roomPanel; // 객실 상태를 표시할 패널
     private final hotelReservationManager reservationManager; // 예약 관리 객체
-         private final reservationFrame parentFrame;
+    private final reservationFrame parentFrame;
     private final Registration registration;
 
 
@@ -334,3 +334,4 @@ panel.add(backButton); // 패널에 뒤로가기 버튼 추가
         SwingUtilities.invokeLater(HotelRoomInfo ::new);
     }
 }
+*/

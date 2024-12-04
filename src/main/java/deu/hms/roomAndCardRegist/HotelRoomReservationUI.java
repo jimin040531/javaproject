@@ -1,4 +1,4 @@
-package deu.hms.roomReservation;
+package deu.hms.roomAndCardRegist;
 
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
@@ -77,34 +77,60 @@ public class HotelRoomReservationUI {
     }
 
 
-    // 상단 패널 생성 메서드
+    // 상단 패널 생성 (층 선택, 체크인/체크아웃 날짜 선택 등)
     private JPanel createControlPanel() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel panel = new JPanel(new FlowLayout()); // 플로우 레이아웃을 사용한 패널 생성
 
-        // 체크인 및 체크아웃 날짜 선택기 생성
+        // 체크인 및 체크아웃 날짜 선택기를 패널에 추가
         checkInDateChooser = new JDateChooser();
-        checkInDateChooser.setDateFormatString("yyyy-MM-dd");
-        checkInDateChooser.setPreferredSize(new Dimension(100, 30)); // 날짜 선택기 크기 조정
-        checkOutDateChooser = new JDateChooser();
-        checkOutDateChooser.setDateFormatString("yyyy-MM-dd");
-        checkOutDateChooser.setPreferredSize(new Dimension(100, 30)); // 날짜 선택기 크기 조정
-
-        // 층 선택 콤보박스 생성
-        floorSelector = new JComboBox<>();
-        for (int i = 1; i <= 10; i++) {
-            floorSelector.addItem("Floor " + i);
-        }
-        floorSelector.setPreferredSize(new Dimension(100, 30)); // 콤보박스 크기 조정
-
-        floorSelector.addActionListener(e -> updateRoomAvailability());
-
-        // 상단 패널에 컴포넌트 추가
-        panel.add(new JLabel("체크인 날짜:"));
+        checkInDateChooser.setPreferredSize(new Dimension(120, 30)); // 크기 설정 (너비 150, 높이 30)
+        panel.add(new JLabel("예상 체크인 날짜:"));
         panel.add(checkInDateChooser);
-        panel.add(new JLabel("체크아웃 날짜:"));
+
+        checkOutDateChooser = new JDateChooser();
+        checkOutDateChooser.setPreferredSize(new Dimension(120, 30)); // 크기 설정 (너비 150, 높이 30)
+        panel.add(new JLabel("예상 체크아웃 날짜:"));
         panel.add(checkOutDateChooser);
+
+        // 층 선택 콤보박스를 생성하고 패널에 추가
+        floorSelector = new JComboBox<>();
+        for (int i = 1; i <= 10; i++) floorSelector.addItem("Floor " + i);
         panel.add(new JLabel("층 선택:"));
         panel.add(floorSelector);
+            
+        // 저장 버튼
+        JButton saveButton = new JButton("저장"); // 버튼 이름 지정
+        saveButton.addActionListener(e -> {
+            // 체크인 날짜와 체크아웃 날짜 가져오기
+            String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
+            String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
+
+            System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
+
+            // 예약 관련 처리 로직 추가 가능
+            frame.setVisible(false);
+        });
+
+        // 버튼을 패널에 추가
+        panel.add(saveButton);
+
+        // 뒤로가기 버튼
+        JButton backButton = new JButton("이전");
+        backButton.addActionListener(e -> {
+            frame.setVisible(false);
+        });
+        panel.add(backButton); // 패널에 뒤로가기 버튼 추가
+
+        // 층 선택 시 객실 상태 업데이트
+        floorSelector.addActionListener(e -> {
+            LocalDate checkInDate = getLocalDate(checkInDateChooser.getDate());
+            LocalDate checkOutDate = getLocalDate(checkOutDateChooser.getDate());
+            if (checkInDate == null || checkOutDate == null) {
+                JOptionPane.showMessageDialog(frame, "체크인 및 체크아웃 날짜를 선택해 주세요.", "날짜 미선택 오류", JOptionPane.WARNING_MESSAGE);
+            } else {
+                updateRoomAvailability(); // 선택된 날짜에 따른 객실 상태 업데이트
+            }
+        });
 
         return panel;
     }

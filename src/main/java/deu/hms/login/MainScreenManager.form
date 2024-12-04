@@ -31,7 +31,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="goRoomserviceManager" min="-2" pref="132" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
@@ -39,7 +39,7 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="goCheckinManager" min="-2" pref="132" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="goCheckoutManager" min="-2" pref="132" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -65,9 +65,9 @@
                   <Component id="logoutButton" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="goCheckinManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
-                  <Component id="goCheckoutManager" alignment="3" min="-2" pref="65" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="goCheckoutManager" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="goCheckinManager" min="-2" pref="65" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -99,14 +99,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goReservationManagerActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="goCheckinManager">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&#xccb4;&#xd06c;&#xc778;"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goCheckinManagerActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="goCheckoutManager">
@@ -147,6 +139,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="goCheckinManager">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#xccb4;&#xd06c;&#xc778;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goCheckinManagerActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

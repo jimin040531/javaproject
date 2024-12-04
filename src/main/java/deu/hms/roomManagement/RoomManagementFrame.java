@@ -13,6 +13,10 @@ import javax.swing.UIManager;
  */
 public class RoomManagementFrame extends javax.swing.JFrame {
     private RoomService roomService;
+    
+    public RoomManagementFrame() {
+        initComponents();
+    }
 
     public RoomManagementFrame(RoomService roomService) {
         this.roomService = roomService;
