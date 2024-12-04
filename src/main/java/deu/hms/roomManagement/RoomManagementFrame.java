@@ -99,6 +99,11 @@ public class RoomManagementFrame extends javax.swing.JFrame {
         });
 
         backButton.setText("<");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -188,6 +193,10 @@ public class RoomManagementFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "올바른 숫자를 입력해 주세요.", "입력 오류", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
