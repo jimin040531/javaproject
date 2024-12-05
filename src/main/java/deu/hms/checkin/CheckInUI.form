@@ -258,7 +258,7 @@
           <Font name="&#xb9d1;&#xc740; &#xace0;&#xb515;" size="12" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="&#xc190;&#xb2d8; &#xba85;&#xb2e8;"/>
+        <Property name="text" type="java.lang.String" value="&#xace0;&#xac1d; &#xba85;&#xb2e8;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="roomAmountLabel">
@@ -271,7 +271,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="guestRegistButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#xc190;&#xb2d8; &#xb4f1;&#xb85d;"/>
+        <Property name="text" type="java.lang.String" value="&#xace0;&#xac1d; &#xb4f1;&#xb85d;"/>
         <Property name="actionCommand" type="java.lang.String" value="&#xb4f1;&#xb85d;"/>
       </Properties>
       <Events>

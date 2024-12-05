@@ -167,12 +167,12 @@ public class CheckInUI extends JFrame {
 
         reservationlistLabel.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         reservationlistLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        reservationlistLabel.setText("손님 명단");
+        reservationlistLabel.setText("고객 명단");
 
         roomAmountLabel.setFont(new java.awt.Font("맑은 고딕", 1, 12)); // NOI18N
         roomAmountLabel.setText("객실 금액");
 
-        guestRegistButton.setText("손님 등록");
+        guestRegistButton.setText("고객 등록");
         guestRegistButton.setActionCommand("등록");
         guestRegistButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

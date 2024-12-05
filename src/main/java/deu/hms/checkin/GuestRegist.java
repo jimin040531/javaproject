@@ -244,7 +244,7 @@ public class GuestRegist extends JFrame {
             }
         });
 
-        calendar.setText("☎");
+        calendar.setText("객실 선택");
         calendar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 calendarActionPerformed(evt);
@@ -272,7 +272,7 @@ public class GuestRegist extends JFrame {
                                     .addComponent(phoneNumberLabel)
                                     .addComponent(nameLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(roomNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -294,13 +294,12 @@ public class GuestRegist extends JFrame {
                                         .addComponent(guestCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(meongLabel))
+                                    .addComponent(checkOutDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(checkOutDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(calendar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(151, 151, 151)))
+                                        .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(calendar)))
+                                .addGap(132, 132, 132)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -390,12 +389,11 @@ public class GuestRegist extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onSitePaymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSitePaymentButtonActionPerformed
-        labelCardStatus.setVisible(false);
+
     }//GEN-LAST:event_onSitePaymentButtonActionPerformed
 
     private void cardRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardRegistButtonActionPerformed
-        labelCardStatus.setVisible(true); // 카드 상태 표시
-        JOptionPane.showMessageDialog(this, "카드 등록이 필요합니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+        
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
@@ -403,31 +401,6 @@ public class GuestRegist extends JFrame {
         CardRegistFrame cardRegistFrame = new CardRegistFrame();
         cardRegistFrame.setVisible(true);
         cardRegistFrame.setLocationRelativeTo(this);  // 현재 창을 기준으로 중앙에 배치
-
-    // 창이 닫힌 후 카드 정보가 등록되었는지 확인
-    cardRegistFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-        @Override
-       public void windowClosed(java.awt.event.WindowEvent e) {
-            // 파일에서 카드 정보 읽기
-            String cardInfo = readCardInfoFromFile();
-            if (cardInfo != null) {
-                labelCardStatus.setText("등록완료"); // 등록완료로 변경
-                labelCardStatus.setVisible(true);
-            } else {
-                labelCardStatus.setText("미등록"); // 미등록 상태로 설정
-                labelCardStatus.setVisible(false);
-            }
-        }
-    });
-}
-    // 파일에서 카드 정보를 읽는 메서드
-    private String readCardInfoFromFile() {
-        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("card_data.txt"))) {
-            return reader.readLine(); // 첫 번째 줄 읽기
-        } catch (java.io.IOException ex) {
-            return null; // 읽기 실패 시 null 반환
-    } 
-    // 카드 등록 완료 후 라벨 업데이트
     }//GEN-LAST:event_registButtonActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
@@ -484,12 +457,7 @@ public class GuestRegist extends JFrame {
     }//GEN-LAST:event_backActionPerformed
 
     private void paymentTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeActionPerformed
-        // 결제 방식에 따라 UI 변경
-        if ("카드".equals(paymentType.getSelectedItem().toString())) {
-            labelCardStatus.setVisible(true);
-        } else {
-            labelCardStatus.setVisible(false);
-        }
+
     }//GEN-LAST:event_paymentTypeActionPerformed
 
     private void nameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextFieldFocusGained
