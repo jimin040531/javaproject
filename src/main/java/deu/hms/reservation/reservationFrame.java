@@ -54,6 +54,8 @@ public class reservationFrame extends javax.swing.JDialog {
         registrationFrame = new Registration(this); // `this` 전달
     }
     registrationFrame.setVisible(true);
+    
+    
     }
 
     public reservationFrame(java.awt.Frame parent, boolean modal) {

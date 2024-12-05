@@ -8,6 +8,7 @@ import deu.hms.reservation.ReservationData;
 import deu.hms.utility.CardRegistFrame;
 import deu.hms.utility.HotelRoomReservationUI;
 import java.awt.event.ActionEvent;
+import deu.hms.reservation.reservationFrame;
 
 import javax.swing.*;
 import java.util.UUID;
@@ -17,6 +18,7 @@ public class GuestRegist extends JFrame {
     
     private final CheckInUI parentUI;  // CheckInUI 인스턴스를 저장
     private final JTable reservationListTable;  // reservationListTable을 저장
+private reservationFrame parentFrame; // reservationFrame의 인스턴스
 
     public GuestRegist(CheckInUI parentUI, JTable reservationListTable) {
         this.parentUI = parentUI;
@@ -520,8 +522,8 @@ public class GuestRegist extends JFrame {
 
     private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
         SwingUtilities.invokeLater(() -> {  
-            new HotelRoomReservationUI(); // HotelRoomInfo 생성자 호출 캘린더
-        });
+        new HotelRoomReservationUI(this.parentFrame); // parentFrame을 전달하여 생성
+    });       
     }//GEN-LAST:event_calendarActionPerformed
 
     /**

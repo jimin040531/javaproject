@@ -20,6 +20,7 @@ import deu.hms.utility.CardRegistFrame; //카드등록 불러옴
 import java.awt.Frame;
 import javax.swing.ButtonGroup;
 import deu.hms.utility.HotelRoomReservationUI;
+import java.awt.FlowLayout;
 
 
 /**
@@ -67,11 +68,11 @@ private javax.swing.JLabel reservationStatusLabel;
     }
         
     }
-    public Registration(reservationFrame parentFrame) {
-     this.parentFrame = parentFrame;
+ public Registration(reservationFrame parentFrame) {
     if (parentFrame == null) {
-        System.err.println("parentFrame이 null입니다. reservationFrame 객체가 제대로 전달되지 않았습니다.");
+        throw new IllegalArgumentException("ReservationFrame 객체가 null입니다.");
     }
+    this.parentFrame = parentFrame;
     initComponents();
 }
 
@@ -170,9 +171,7 @@ public void transferRegistrationToReservation() {
         textGuestCount.setText("");
     }
 
-    /**
-     * Creates new form Registration
-     */
+   
     
 
     public Registration() {
@@ -236,6 +235,7 @@ public void showCardRegistrationStatus() {
     public reservationFrame getParentFrame() { //저장버튼에 null뜨는현상
         return parentFrame;
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -646,12 +646,13 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_paymentTypeActionPerformed
 
     private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
-        this.setVisible(false); // 현재 창(Registration)을 닫기
-        this.setLocationRelativeTo(null);  // 화면 가운데 배치
-
-        SwingUtilities.invokeLater(() -> {  
-        new HotelRoomReservationUI(); // HotelRoomInfo 생성자 호출 캘린더
-    });
+     SwingUtilities.invokeLater(() -> {
+    if (this.parentFrame == null) {
+        JOptionPane.showMessageDialog(this, "ReservationFrame 객체가 null입니다.", "오류", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    new HotelRoomReservationUI(this.parentFrame); // parentFrame 전달
+});
     }//GEN-LAST:event_calendarActionPerformed
 
     private void guestPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guestPlusButtonActionPerformed

@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import deu.hms.reservation.Registration;
+import deu.hms.reservation.reservationFrame;
 
 /**
  *
@@ -27,11 +28,20 @@ public class HotelRoomReservationUI {
     private JDateChooser checkOutDateChooser;
     private JComboBox<String> floorSelector;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
+private final reservationFrame parentFrame; // parentFrame 변수 선언
 
-    // 생성자: UI 초기화 및 예약 관리자 객체 생성
-    public HotelRoomReservationUI() {
-        reservationManager = new ReservationManager(10, 10);
-        loadRoomInfoFromFile(); // 파일에서 객실 정보 불러오기
+    // 기본 생성자 (parentFrame이 없는 경우)
+   
+
+    // parentFrame을 받는 생성자
+    public HotelRoomReservationUI(reservationFrame parentFrame) {
+                 if (parentFrame == null) {
+        throw new IllegalArgumentException("ReservationFrame 객체가 null입니다.");
+    }
+    this.parentFrame = parentFrame;
+    reservationManager = new ReservationManager(10, 10);
+    loadRoomInfoFromFile();
+
         frame = new JFrame("호텔 객실 정보");
         roomPanel = new JPanel(new GridLayout(10, 10));
         frame.setLayout(new BorderLayout());
@@ -42,21 +52,6 @@ public class HotelRoomReservationUI {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
-    /*public HotelRoomReservationUI(reservationFrame parentFrame) {
-    this.parentFrame = parentFrame;
-    reservationManager = new ReservationManager(10, 10);
-    loadRoomInfoFromFile(); // 파일에서 객실 정보 불러오기
-    frame = new JFrame("호텔 객실 정보");
-    roomPanel = new JPanel(new GridLayout(10, 10));
-    frame.setLayout(new BorderLayout());
-    frame.add(createControlPanel(), BorderLayout.NORTH);
-    frame.add(roomPanel, BorderLayout.CENTER);
-    frame.setSize(1100, 180); // 전체 프레임 크기 설정
-    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    frame.setLocationRelativeTo(null);
-    frame.setVisible(true);
-}*/
     // 외부에서 창을 표시할 수 있도록 하는 메서드
     public void showUI() {
         frame.setVisible(true);
