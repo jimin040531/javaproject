@@ -6,6 +6,8 @@ package deu.hms.management;
 
 import deu.hms.roomManagement.RoomService;  // RoomService 임포트
 import deu.hms.roomManagement.RoomManagementFrame;  // RoomManagementFrame 임포트
+import deu.hms.restaurantManagement.restaurantManagementFrame;
+
 /**
  *
  * @author Jimin
@@ -130,10 +132,7 @@ public class managementFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 
     private void restButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restButtonActionPerformed
-        /*deu.hms.restaurantManagement.restaurantFrame restaurnatmanagementFrame = new deu.hms.restaurantManagement.restaurantFrame();
-        restaurnatmanagementFrame.setLocationRelativeTo(null);
-        restaurnatmanagementFrame.setVIsible(true);
-        this.dispose();  // 현재 창 닫기*/
+        
     }//GEN-LAST:event_restButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
