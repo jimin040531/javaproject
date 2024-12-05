@@ -132,7 +132,10 @@ public class managementFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 
     private void restButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restButtonActionPerformed
-        
+        deu.hms.restaurantManagement.restaurantManagementFrame restmanagementframe = new deu.hms.restaurantManagement.restaurantManagementFrame(null, true);
+        this.dispose();  // 현재 창 닫기
+        // RoomManagementFrame을 현재 창 위에 띄움
+        restmanagementframe.setVisible(true);
     }//GEN-LAST:event_restButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
