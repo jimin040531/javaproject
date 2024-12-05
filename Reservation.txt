@@ -1,1 +1,2 @@
 7e78cc11-f3b8-4f2a-a61b-5c8d7881db4b,wer,rwewre,rwe,,,,,,카드결제,카드미등록
+fddbca9f-c5c2-4d0d-9a5a-36e342ef3b23,,,,,,,,,카드결제,카드미등록

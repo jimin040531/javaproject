@@ -36,15 +36,10 @@ public class HotelRoomReservationUI {
     // parentFrame을 받는 생성자
     public HotelRoomReservationUI(reservationFrame parentFrame) {
      
- this.parentFrame = parentFrame; // 초기화
-
-    if (this.parentFrame == null) {
-        System.err.println("parentFrame이 null입니다!");
-    } else {
-        System.out.println("parentFrame 전달 성공: " + this.parentFrame);
-    }    reservationManager = new ReservationManager(10, 10);
-    loadRoomInfoFromFile(); // 파일에서 객실 정보 불러오기
-
+       this.parentFrame = new reservationFrame(); // 객체 생성
+      reservationManager = new hotelReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
+     initializeRoomPricesAndGrades(); // 객실 가격 및 등급 초기화
+    registration = new Registration(parentFrame); // 생성한 객체 전달
     frame = new JFrame("호텔 객실 정보");
     roomPanel = new JPanel(new GridLayout(10, 10));
     frame.setLayout(new BorderLayout());
@@ -133,19 +128,11 @@ public class HotelRoomReservationUI {
         // Registration에 날짜 전달
         registration.updateDates(checkInDate, checkOutDate);
 
-        // Registration 폼을 다시 보이도록 설정
-        registration.setVisible(true); // 폼 보이기
-        registration.toFront();        // 최상단으로 가져오기
-        registration.setSize(500, 450);
-        frame.setVisible(false);       // 현재 폼 숨기기
-
-    } catch (NullPointerException ex) {
-        JOptionPane.showMessageDialog(null, "날짜 선택기가 초기화되지 않았습니다.", "오류", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, "알 수 없는 오류 발생: " + ex.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    }
+         registration.setVisible(true);    // 폼 보이기
+    registration.toFront();           // 최상단으로 가져오기
+    registration.setSize(500, 450);
+     frame.setVisible(false);
+// 폼 강제 업데이트
 });
 
 // 버튼을 패널에 추가
