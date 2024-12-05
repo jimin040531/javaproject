@@ -4,15 +4,15 @@
  */
 package deu.hms.roomManagement;
 
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Jimin
  */
 public class RoomManagementFrame extends javax.swing.JFrame {
-    private RoomService roomService;
+    private final RoomService roomService;
     
     public RoomManagementFrame(RoomService roomService) {
         this.roomService = roomService;
@@ -156,37 +156,38 @@ public class RoomManagementFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // 삭제 버튼 클릭 시 RoomService를 이용하여 객실 삭제 기능 호출
-        String floorStr = JOptionPane.showInputDialog(this, "삭제할 객실의 층 번호를 입력하세요:");
-        String roomNumberStr = JOptionPane.showInputDialog(this, "삭제할 객실의 방 번호를 입력하세요:");
-        
+        int selectedRow = roomTable.getSelectedRow(); // 테이블에서 선택된 행을 가져옴
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "삭제할 객실을 선택해 주세요.", "삭제 오류", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) roomTable.getModel();
+        int floor = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+        int roomNumber = Integer.parseInt(model.getValueAt(selectedRow, 1).toString());
+
         try {
-            int floor = Integer.parseInt(floorStr.trim());
-            int roomNumber = Integer.parseInt(roomNumberStr.trim());
             roomService.deleteRoom(floor, roomNumber);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "올바른 숫자를 입력해 주세요.", "입력 오류", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "객실이 성공적으로 삭제되었습니다.", "삭제 성공", JOptionPane.INFORMATION_MESSAGE);
+            roomService.getRoomRepository().loadRoomDataToTable(roomTable);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "객실 삭제 중 오류가 발생했습니다: " + e.getMessage(), "삭제 오류", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        // 추가 버튼 클릭 시 RoomService를 이용하여 객실 추가 기능 호출
-        String floorStr = JOptionPane.showInputDialog(this, "추가할 객실의 층 번호를 입력하세요:");
-        String roomNumberStr = JOptionPane.showInputDialog(this, "추가할 객실의 방 번호를 입력하세요:");
-        String priceStr = JOptionPane.showInputDialog(this, "객실의 가격을 입력하세요:");
-        String grade = JOptionPane.showInputDialog(this, "객실의 등급을 입력하세요 (Standard, Deluxe, Suite):");
-        String capacityStr = JOptionPane.showInputDialog(this, "객실의 수용 인원을 입력하세요:");
-        
         try {
-            int floor = Integer.parseInt(floorStr.trim());
-            int roomNumber = Integer.parseInt(roomNumberStr.trim());
-            int price = Integer.parseInt(priceStr.trim());
-            int capacity = Integer.parseInt(capacityStr.trim());
-            
-            Room newRoom = new Room(floor, roomNumber, price, grade, capacity);
-            roomService.addRoom(newRoom);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "올바른 숫자를 입력해 주세요.", "입력 오류", JOptionPane.WARNING_MESSAGE);
+            int floor = Integer.parseInt(JOptionPane.showInputDialog(this, "추가할 객실의 층 번호를 입력하세요:"));
+            int roomNumber = Integer.parseInt(JOptionPane.showInputDialog(this, "추가할 객실의 방 번호를 입력하세요:"));
+            int price = Integer.parseInt(JOptionPane.showInputDialog(this, "객실의 가격을 입력하세요:"));
+            String grade = JOptionPane.showInputDialog(this, "객실의 등급을 입력하세요 (Standard, Deluxe, Suite):");
+            int capacity = Integer.parseInt(JOptionPane.showInputDialog(this, "객실의 수용 인원을 입력하세요:"));
+
+            roomService.addRoom(new Room(floor, roomNumber, price, grade, capacity));
+            JOptionPane.showMessageDialog(this, "객실이 성공적으로 추가되었습니다.", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
+            roomService.getRoomRepository().loadRoomDataToTable(roomTable);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "객실 추가 중 오류가 발생했습니다: " + e.getMessage(), "등록 오류", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 

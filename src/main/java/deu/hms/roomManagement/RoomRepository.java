@@ -1,30 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package deu.hms.roomManagement;
-
-/**
- *
- * @author Jimin
- */
 
 import java.io.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 
-// RoomRepository 클래스 업데이트
-class RoomRepository {
+public class RoomRepository {
     private final String FILE_NAME = "roomInfo.txt";
     private final List<Room> roomList;
-    
+
     public RoomRepository() {
-        roomList = new ArrayList<>();
+        this.roomList = new ArrayList<>();
         loadRoomInfoFromFile();
     }
-    
+
     public List<Room> getRoomList() {
-        return roomList;
+        return Collections.unmodifiableList(roomList);
     }
 
     public Room findRoom(int floor, int roomNumber) {
@@ -34,10 +24,40 @@ class RoomRepository {
                 .orElse(null);
     }
 
+    public void addRoom(Room room) {
+        if (findRoom(room.getFloor(), room.getRoomNumber()) != null) {
+            throw new IllegalArgumentException("이미 존재하는 객실입니다.");
+        }
+        roomList.add(room);
+        saveRoomInfoToFile();
+    }
+
+    public void deleteRoom(int floor, int roomNumber) {
+        Room room = findRoom(floor, roomNumber);
+        if (room != null) {
+            roomList.remove(room);
+            saveRoomInfoToFile();
+        } else {
+            throw new IllegalArgumentException("삭제할 객실을 찾을 수 없습니다.");
+        }
+    }
+
+    public void updateRoom(Room room, int newPrice, String newGrade, int newCapacity) {
+        Room targetRoom = findRoom(room.getFloor(), room.getRoomNumber());
+        if (targetRoom != null) {
+            targetRoom.setPrice(newPrice);
+            targetRoom.setGrade(newGrade);
+            targetRoom.setCapacity(newCapacity);
+            saveRoomInfoToFile();
+        } else {
+            throw new IllegalArgumentException("수정할 객실을 찾을 수 없습니다.");
+        }
+    }
+
     public void saveRoomInfoToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (Room room : roomList) {
-                writer.write(room.getFloor() + "," + room.getRoomNumber() + "," + room.getPrice() + "," + room.getGrade() + "," + room.getCapacity());
+                writer.write(room.toString());
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -48,7 +68,7 @@ class RoomRepository {
 
     public void loadRoomDataToTable(javax.swing.JTable roomTable) {
         DefaultTableModel model = (DefaultTableModel) roomTable.getModel();
-        model.setRowCount(0); // 기존 데이터 삭제
+        model.setRowCount(0);
         for (Room room : roomList) {
             model.addRow(new Object[]{room.getFloor(), room.getRoomNumber(), room.getPrice(), room.getGrade(), room.getCapacity()});
         }
@@ -58,14 +78,6 @@ class RoomRepository {
         File file = new File(FILE_NAME);
         if (!file.exists()) {
             System.out.println("객실 정보 파일이 존재하지 않습니다. 새 파일을 생성합니다.");
-            try {
-                if (file.createNewFile()) {
-                    System.out.println("새로운 객실 정보 파일이 생성되었습니다.");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("객실 정보 파일 생성 중 오류가 발생했습니다: " + e.getMessage());
-            }
             return;
         }
 
@@ -77,7 +89,7 @@ class RoomRepository {
                     int floor = Integer.parseInt(data[0].trim());
                     int roomNumber = Integer.parseInt(data[1].trim());
                     int price = Integer.parseInt(data[2].trim());
-                    String grade = String.valueOf(data[3].trim().toUpperCase());
+                    String grade = data[3].trim();
                     int capacity = Integer.parseInt(data[4].trim());
                     roomList.add(new Room(floor, roomNumber, price, grade, capacity));
                 } else {
