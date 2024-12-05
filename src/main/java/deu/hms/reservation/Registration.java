@@ -43,8 +43,6 @@ private reservationFrame parentFrame;
 private javax.swing.JLabel reservationStatusLabel;
 
 
-
-
     // 수정 중인 행 인덱스 설정 메서드 수정버튼을 눌렸을때 작동하는 메소드
     public void setEditingRow(int rowIndex) {
     this.editingRow = rowIndex;
@@ -69,10 +67,10 @@ private javax.swing.JLabel reservationStatusLabel;
         
     }
  public Registration(reservationFrame parentFrame) {
-     if (parentFrame == null) {
+    if (parentFrame == null) {
         throw new IllegalArgumentException("ReservationFrame 객체가 null입니다.");
     }
-    System.out.println("ReservationFrame 전달 성공!");
+    System.out.println("parentFrame 전달 성공: " + parentFrame);
     this.parentFrame = parentFrame;
     initComponents();
 }
@@ -588,8 +586,10 @@ public void showCardRegistrationStatus() {
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
     try {
         if (parentFrame == null) {
-            throw new NullPointerException("parentFrame이 null입니다. ReservationFrame 객체가 전달되지 않았습니다.");
-        }
+     parentFrame.setVisible(true); // reservationFrame 다시 표시
+        parentFrame.toFront(); // 최상단으로 가져오기
+        parentFrame.repaint();// 새로고침
+        parentFrame.setSize(850, 250);        }
 
         DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
         ReservationData updatedData = populateReservationData();
@@ -617,8 +617,9 @@ public void showCardRegistrationStatus() {
         JOptionPane.showMessageDialog(this, "저장 실패: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
-
+    
     editingRow = -1; 
+    
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -647,10 +648,16 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_paymentTypeActionPerformed
 
     private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
-     this.setVisible(false); // 현재 창 숨기기
+        this.dispose(); // 현재 화면을 닫음 (이동 후 현재 화면을 숨기고 싶다면)
     SwingUtilities.invokeLater(() -> {
-        HotelRoomReservationUI hotelRoomReservationUI = new HotelRoomReservationUI(this.parentFrame); // parentFrame 전달
-        hotelRoomReservationUI.setVisible(true); // setVisible 호출
+        if (this.parentFrame != null) {
+            HotelRoomReservationUI hotelRoomReservationUI = new HotelRoomReservationUI(this.parentFrame);
+            hotelRoomReservationUI.setVisible(true);
+        } else {
+            System.err.println("parentFrame이 null입니다. ReservationFrame을 새로 생성합니다.");
+            reservationFrame newReservationFrame = new reservationFrame();
+            newReservationFrame.setVisible(true);
+        }
     });
     }//GEN-LAST:event_calendarActionPerformed
 

@@ -1,1 +1,1 @@
-ea7e11a5-8949-453d-baad-da3eebcf81d0,,,,,,,,,카드결제,카드미등록
+7e78cc11-f3b8-4f2a-a61b-5c8d7881db4b,wer,rwewre,rwe,,,,,,카드결제,카드미등록
