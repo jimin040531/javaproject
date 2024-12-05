@@ -4,11 +4,9 @@
  */
 package deu.hms.checkin;
 
-import deu.hms.checkin.CheckInData;
 import deu.hms.login.MainScreenEmployees;
 import deu.hms.login.MainScreenManager;
 import deu.hms.login.UserAuthentication;
-import deu.hms.reservation.ReservationData;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
