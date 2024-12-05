@@ -13,8 +13,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
-import deu.hms.reservation.Registration;
-
 /**
  *
  * @author Jimin
@@ -43,20 +41,6 @@ public class HotelRoomReservationUI {
         frame.setVisible(true);
     }
     
-    /*public HotelRoomReservationUI(reservationFrame parentFrame) {
-    this.parentFrame = parentFrame;
-    reservationManager = new ReservationManager(10, 10);
-    loadRoomInfoFromFile(); // 파일에서 객실 정보 불러오기
-    frame = new JFrame("호텔 객실 정보");
-    roomPanel = new JPanel(new GridLayout(10, 10));
-    frame.setLayout(new BorderLayout());
-    frame.add(createControlPanel(), BorderLayout.NORTH);
-    frame.add(roomPanel, BorderLayout.CENTER);
-    frame.setSize(1100, 180); // 전체 프레임 크기 설정
-    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    frame.setLocationRelativeTo(null);
-    frame.setVisible(true);
-}*/
     // 외부에서 창을 표시할 수 있도록 하는 메서드
     public void showUI() {
         frame.setVisible(true);
@@ -70,10 +54,17 @@ public class HotelRoomReservationUI {
                 String[] parts = line.split(",");
                 if (parts.length == 5) {
                     int floor = Integer.parseInt(parts[0].trim()) - 1; // 층 번호를 인덱스로 맞추기 위해 1 감소
-                    int roomNumber = Integer.parseInt(parts[1].trim()) - 101; // 방 번호를 인덱스로 맞추기 위해 시작 번호를 조정
+                    int roomNumber = Integer.parseInt(parts[1].trim()) % 100 - 1; // 방 번호를 101로 시작해서 100을 나누고 1 감소
 
-                    // roomsPerFloor에 따라 방 번호를 조정해야 함
-                    if (roomNumber < 0 || roomNumber >= reservationManager.getFloors().get(floor).getRooms().size()) {
+                    // 층 번호가 유효한 범위인지 확인
+                    if (floor < 0 || floor >= reservationManager.getFloors().size()) {
+                        System.out.println("Invalid floor index: " + floor);
+                        continue;
+                    }
+
+                    // 방 번호가 유효한 범위인지 확인
+                    HotelFloor currentFloor = reservationManager.getFloor(floor);
+                    if (roomNumber < 0 || roomNumber >= currentFloor.getRooms().size()) {
                         System.out.println("Invalid room index: " + roomNumber);
                         continue;
                     }
@@ -84,19 +75,18 @@ public class HotelRoomReservationUI {
 
                     // 객실 정보를 ReservationManager에 설정
                     reservationManager.setRoomInfo(floor, roomNumber, price, grade, capacity);
-                } 
+                }
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(frame, "객실 정보를 파일에서 불러오는 중 오류가 발생했습니다.", "불러오기 오류", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    }
+}
+
 
 
     // 상단 패널 생성 (층 선택, 체크인/체크아웃 날짜 선택 등)
     private JPanel createControlPanel() {
-       Registration registration = new Registration(); // registration 객체 초기화
-
         JPanel panel = new JPanel(new FlowLayout()); // 플로우 레이아웃을 사용한 패널 생성
 
         // 체크인 및 체크아웃 날짜 선택기를 패널에 추가
@@ -117,19 +107,20 @@ public class HotelRoomReservationUI {
         panel.add(floorSelector);
             
         // 저장 버튼
-       JButton saveButton = new JButton("저장");
-    saveButton.addActionListener(e -> {
-        String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
-        String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
+        JButton saveButton = new JButton("저장"); // 버튼 이름 지정
+        saveButton.addActionListener(e -> {
+            // 체크인 날짜와 체크아웃 날짜 가져오기
+            String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
+            String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
 
-        registration.updateDates(checkInDate, checkOutDate); // 날짜 전달
-        registration.setVisible(true); // 폼 표시
-        registration.toFront();
-        registration.setSize(500, 450);
-        frame.setVisible(false); // 현재 UI 숨기기
-    });
+            System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
 
-    panel.add(saveButton);
+            // 예약 관련 처리 로직 추가 가능
+            frame.setVisible(false);
+        });
+
+        // 버튼을 패널에 추가
+        panel.add(saveButton);
 
         // 뒤로가기 버튼
         JButton backButton = new JButton("이전");
@@ -172,7 +163,7 @@ public class HotelRoomReservationUI {
 
         final int selectedFloor = floorSelector.getSelectedIndex();
         final HotelFloor currentFloor = reservationManager.getFloor(selectedFloor);
-        roomPanel.setLayout(new GridLayout(2, 5));
+        roomPanel.setLayout(new GridLayout(2, 5)); // 실제 방의 개수에 따라 그리드 레이아웃 조정 필요
 
         for (int roomIndex = 0; roomIndex < currentFloor.getRooms().size(); roomIndex++) {
             final int finalRoomIndex = roomIndex; // roomIndex를 final로 선언하여 사용
@@ -204,13 +195,14 @@ public class HotelRoomReservationUI {
                     JOptionPane.showMessageDialog(frame, "이미 예약된 방입니다.", "예약 불가", JOptionPane.WARNING_MESSAGE);
                 }
             });
-
+    
             roomPanel.add(roomButton);
         }
 
         roomPanel.revalidate();
         roomPanel.repaint();
     }
+
 
     // 특정 층의 특정 방을 예약하는 메서드
     private void reserveRoom(int floor, int roomNumber, LocalDate checkInDate, LocalDate checkOutDate, int totalCost) {
@@ -249,5 +241,9 @@ public class HotelRoomReservationUI {
             return null;
         }
         return date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+    }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(HotelRoomReservationUI ::new);
     }
 }

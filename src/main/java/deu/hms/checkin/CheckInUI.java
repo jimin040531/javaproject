@@ -7,6 +7,7 @@ package deu.hms.checkin;
 import deu.hms.login.MainScreenEmployees;
 import deu.hms.login.MainScreenManager;
 import deu.hms.login.UserAuthentication;
+import deu.hms.utility.HotelRoomReservationUI;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -107,6 +108,7 @@ public class CheckInUI extends JFrame {
         guestRegistButton = new javax.swing.JButton();
         searchButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
+        calendar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -197,6 +199,13 @@ public class CheckInUI extends JFrame {
             }
         });
 
+        calendar.setText("객실 선택");
+        calendar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calendarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -226,7 +235,8 @@ public class CheckInUI extends JFrame {
                             .addComponent(reservationlistLabel)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(guestRegistButton)
-                            .addGap(0, 0, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(calendar))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(reqestTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
@@ -253,7 +263,8 @@ public class CheckInUI extends JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(reservationlistLabel)
-                    .addComponent(guestRegistButton))
+                    .addComponent(guestRegistButton)
+                    .addComponent(calendar))
                 .addGap(18, 18, 18)
                 .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -398,6 +409,12 @@ public class CheckInUI extends JFrame {
     this.dispose(); // 현재 창 닫기
     }//GEN-LAST:event_backButtonActionPerformed
 
+    private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            new HotelRoomReservationUI(); // HotelRoomInfo 생성자 호출 캘린더
+        });
+    }//GEN-LAST:event_calendarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -451,6 +468,7 @@ public class CheckInUI extends JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScrollPane;
     private javax.swing.JButton backButton;
+    private javax.swing.JButton calendar;
     private javax.swing.JLabel checkInLabel;
     private javax.swing.JButton checkinButton;
     private javax.swing.JButton guestRegistButton;

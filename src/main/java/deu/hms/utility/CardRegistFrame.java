@@ -7,6 +7,7 @@ package deu.hms.utility;
 import deu.hms.checkin.GuestRegist;
 import javax.swing.JOptionPane;
 import deu.hms.reservation.Registration;
+import deu.hms.reservation.ReservationData;
 import javax.swing.JFrame;
 
 /**
@@ -23,13 +24,13 @@ public class CardRegistFrame extends javax.swing.JFrame {
         initializePlaceholders();
     }
 
-    // 부모 프레임을 설정하는 생성자: GuestRegist에서 호출될 때 사용
-    public CardRegistFrame(JFrame parent) {
-        this.parent = (GuestRegist) parent;
+    public CardRegistFrame(Registration registration) {
+        this.registration = registration; // Registration 객체 저장
         initComponents();
-        setSize(600, 400); // 창 크기 설정
-        setLocationRelativeTo(parent); // 부모 창 기준으로 중앙에 위치
+        setLocationRelativeTo(null); // 화면 중앙에 위치
+        initializePlaceholders(); // 기존 초기화 코드
     }
+    
     
     private void initializePlaceholders() {
         setTextFieldPlaceholder(cardNumTextField1, "****");
@@ -64,11 +65,7 @@ public class CardRegistFrame extends javax.swing.JFrame {
             }
         });
     }
-    public CardRegistFrame(Registration registration) {
-    this.registration = registration; // Registration 객체 저장
-    initComponents(); // NetBeans GUI에서 자동 생성된 초기화 코드
-    initializePlaceholders(); // 기존 초기화 코드
-}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -236,6 +233,7 @@ public class CardRegistFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
+        // 카드 정보 입력 필드에서 값 가져오기
         String cardNum1 = cardNumTextField1.getText().trim();
         String cardNum2 = cardNumTextField2.getText().trim();
         String cardNum3 = cardNumTextField3.getText().trim();
@@ -246,13 +244,43 @@ public class CardRegistFrame extends javax.swing.JFrame {
         String cvc = cvcTextField.getText().trim();
 
         try {
-            CardDetails cardDetails = new CardDetails(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc);
-            CardRegistService cardService = new CardRegistService();
-            cardService.saveCardInformation(cardDetails);
+            // 카드 정보 객체 생성
+            CardDetails cardInfoObj = new CardDetails(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc);
 
+            // CardRegistService를 사용하여 카드 정보 저장
+            CardRegistService cardRegistService = new CardRegistService();
+            cardRegistService.saveCardInformation(cardInfoObj);  // 카드 정보 저장
+
+            // 카드 등록 상태 표시 (필요 시)
+            if (registration != null) {
+                registration.showCardRegistrationStatus(); // Registration 객체의 카드 등록 상태 표시
+            }
+
+            // 예약 데이터 생성 (ReservationData 객체 생성)
+            ReservationData reservationData = registration.populateReservationData(); // Registration에서 예약 데이터 가져오기
+
+            // 예약 정보 처리 (예: 데이터베이스 저장, UI에 표시 등)
+            // 예시: 예약 데이터를 로그로 출력하거나 다른 로직 처리
+            System.out.println("예약 정보: " + reservationData.toString());
+
+            // 예약 정보 처리 후 메시지 표시
             JOptionPane.showMessageDialog(this, "카드 정보가 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
+
+            // 입력 필드 초기화
+            cardNumTextField1.setText("");
+            cardNumTextField2.setText("");
+            cardNumTextField3.setText("");
+            cardNumTextField4.setText("");
+            monthTextField.setText("");
+            yearTextField.setText("");
+            pwTextField.setText("");
+            cvcTextField.setText("");
+
+            // 프레임 숨기기
             this.setVisible(false);
+
         } catch (IllegalArgumentException ex) {
+            // 예외 처리
             JOptionPane.showMessageDialog(this, ex.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_registButtonActionPerformed
