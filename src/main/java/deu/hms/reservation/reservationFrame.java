@@ -197,7 +197,7 @@ private void initializeTableFromFile() {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 13, Short.MAX_VALUE)
+                        .addGap(0, 12, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(goDelete)
                             .addComponent(goEitFom)))
