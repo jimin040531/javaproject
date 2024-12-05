@@ -155,7 +155,6 @@ public class HotelRoomInfo  {
     String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
     String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
 
-    System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
 
     // Registration에 날짜 전달
     registration.updateDates(checkInDate, checkOutDate);
