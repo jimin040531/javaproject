@@ -119,16 +119,14 @@ public class managementFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_userInfoButtonActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
-        // RoomService 객체를 생성
-        RoomService roomService = new RoomService();  // RoomService 객체 생성
+        // RoomService 객체 생성 (필요한 경우 RoomService 생성자에 인자를 전달)
+    RoomService roomService = new RoomService();
 
-        // RoomManagementFrame을 생성하고 화면 중앙에 띄운다
-        RoomManagementFrame roomManagementFrame = new RoomManagementFrame(roomService);
-
-        // RoomManagementFrame을 managementFrame 위에 띄운다
-        roomManagementFrame.setLocationRelativeTo(this);  // this는 managementFrame을 의미
-
-        roomManagementFrame.setVisible(true); // RoomManagementFrame을 화면에 표시
+    // RoomManagementFrame 객체 생성 (RoomService 객체를 전달)
+    deu.hms.roomManagement.RoomManagementFrame roommanagementframe = new deu.hms.roomManagement.RoomManagementFrame(roomService);
+    this.dispose();  // 현재 창 닫기
+    // RoomManagementFrame을 현재 창 위에 띄움
+    roommanagementframe.setVisible(true);            // RoomManagementFrame 표시
     }//GEN-LAST:event_roomInfoButtonActionPerformed
 
     private void restButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restButtonActionPerformed
