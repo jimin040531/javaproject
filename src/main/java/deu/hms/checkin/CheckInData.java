@@ -4,6 +4,8 @@ public class CheckInData {
     private String uniqueNumber;
     private String name;
     private String phoneNumber;
+    private String checkInDate;
+    private String checkOutDate;
     private String roomNumber;
     private String guestCount;
     private String stayCost;
@@ -11,12 +13,13 @@ public class CheckInData {
     private String status;
     private String requestDetails;
 
-    public CheckInData(String uniqueNumber, String name, String phoneNumber, String roomNumber, 
-                        String guestCount, String stayCost, String paymentMethod, String status, 
-                        String requestDetails) {
+    public CheckInData(String uniqueNumber, String name, String phoneNumber, String checkInDate, String checkOutDate, 
+                    String roomNumber, String guestCount, String stayCost, String paymentMethod, String status, String requestDetails) {
         this.uniqueNumber = uniqueNumber;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
         this.roomNumber = roomNumber;
         this.guestCount = guestCount;
         this.stayCost = stayCost;
@@ -26,7 +29,7 @@ public class CheckInData {
     }
 
     public String toCSV() {
-        return uniqueNumber + "," + name + "," + phoneNumber + "," + roomNumber + ","
+        return uniqueNumber + "," + name + "," + phoneNumber + "," + checkInDate + "," + checkOutDate + "," + roomNumber + ","
                 + guestCount + "," + stayCost + "," + paymentMethod + "," + status + "," + requestDetails;
     }
 
@@ -43,6 +46,14 @@ public class CheckInData {
         return phoneNumber;
     }
 
+    public String getCheckInDate() {
+        return checkInDate; 
+    }
+
+    public String getCheckOutDate() {
+        return checkOutDate;
+    }
+    
     public String getRoomNumber() {
         return roomNumber;
     }

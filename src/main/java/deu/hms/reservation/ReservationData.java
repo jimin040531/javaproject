@@ -58,7 +58,7 @@ public ReservationData(String uniqueNumber, String name, String address, String 
     this.guestCount = guestCount;
     this.stayCost = stayCost;
     this.paymentMethod = paymentMethod;
-        this.status = status;
+    this.status = status;
 
 }
 

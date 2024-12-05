@@ -23,22 +23,23 @@ public class CheckInUI extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
-    // 예약 정보를 테이블에 로드
     public void loadReservations(List<CheckInData> checkInDataList) {
         updateTable(checkInDataList);
     }
 
-    // 테이블 업데이트
     private void updateTable(List<CheckInData> data) {
         DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-        model.setRowCount(0); // 기존 데이터 초기화
 
-        // filteredData를 테이블에 추가
+        // 테이블 초기화
+        model.setRowCount(0); 
+
         for (CheckInData checkInData : data) {
             model.addRow(new Object[]{
                 checkInData.getUniqueNumber(),
                 checkInData.getName(),
                 checkInData.getPhoneNumber(),
+                checkInData.getCheckInDate(),
+                checkInData.getCheckOutDate(),
                 checkInData.getRoomNumber(),
                 checkInData.getGuestCount(),
                 checkInData.getStayCost(),
@@ -48,41 +49,38 @@ public class CheckInUI extends JFrame {
         }
     }
 
-    // 체크인 버튼 클릭 시 호출되는 메서드
     private void handleCheckIn() {
-        // 선택된 예약이 없으면 오류 메시지 출력
         int selectedRow = reservationListTable.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "체크인할 예약을 선택하세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // 요청 사항을 텍스트 필드에서 가져옴
+        String uniqueNumber = (String) reservationListTable.getValueAt(selectedRow, 0);
+        String name = (String) reservationListTable.getValueAt(selectedRow, 1);
+        String phoneNumber = (String) reservationListTable.getValueAt(selectedRow, 2);
+        String checkInDate = (String) reservationListTable.getValueAt(selectedRow, 3);
+        String checkOutDate = (String) reservationListTable.getValueAt(selectedRow, 4);
+        String roomNumber = (String) reservationListTable.getValueAt(selectedRow, 5);
+        String guestCount = (String) reservationListTable.getValueAt(selectedRow, 6);
+        String stayCost = (String) reservationListTable.getValueAt(selectedRow, 7);
+        String paymentMethod = (String) reservationListTable.getValueAt(selectedRow, 8);
+        String status = "체크인 완료";
         String requestDetails = reqestTextField.getText().trim();
 
-        // 선택된 예약에서 해당 값을 추출
-        String uniqueNumber = (String) reservationListTable.getValueAt(selectedRow, 0); // 고유번호
-        String name = (String) reservationListTable.getValueAt(selectedRow, 1); // 이름
-        String phoneNumber = (String) reservationListTable.getValueAt(selectedRow, 2); // 전화번호
-        String roomNumber = (String) reservationListTable.getValueAt(selectedRow, 3); // 방번호
-        String guestCount = (String) reservationListTable.getValueAt(selectedRow, 4); // 인원 수
-        String stayCost = (String) reservationListTable.getValueAt(selectedRow, 5); // 객실 금액
-        String paymentMethod = (String) reservationListTable.getValueAt(selectedRow, 6); // 결제 방법
-        String status = "체크인 완료"; // 상태
+        CheckInData checkInData = new CheckInData(uniqueNumber, name, phoneNumber, checkInDate, checkOutDate, roomNumber, guestCount, stayCost, paymentMethod, status, requestDetails);
 
-        // 새로운 CheckInData 객체 생성
-        CheckInData checkInData = new CheckInData(uniqueNumber, name, phoneNumber, roomNumber, 
-                                                   guestCount, stayCost, paymentMethod, status, requestDetails);
+        reservationManager.saveCheckInDataWithRequest(checkInData, requestDetails);  // 메서드 변경됨
 
-        // 체크인 데이터를 파일에 저장
-        reservationManager.saveCheckInData(checkInData);
-
-        // 체크인 완료 메시지
         JOptionPane.showMessageDialog(this, "체크인이 완료되었습니다.\n요청 사항: " + requestDetails, "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
 
-        // 요청 사항 필드 초기화
+        DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
+        model.removeRow(selectedRow);
+
         reqestTextField.setText("");
+        roomCountTextField.setText("");
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -152,13 +150,17 @@ public class CheckInUI extends JFrame {
 
             },
             new String [] {
-                "고유 번호", "이름", "전화 번호", "방 번호", "인원수", "객실 금액", "결제 수단", "상태"
+                "고유 번호", "이름", "전화 번호", "체크인 날짜", "체크아웃 날짜", "방 번호", "인원수", "객실 금액", "결제 수단", "상태"
             }
         ));
         ScrollPane.setViewportView(reservationListTable);
         if (reservationListTable.getColumnModel().getColumnCount() > 0) {
             reservationListTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+            reservationListTable.getColumnModel().getColumn(3).setPreferredWidth(110);
+            reservationListTable.getColumnModel().getColumn(4).setPreferredWidth(120);
             reservationListTable.getColumnModel().getColumn(7).setPreferredWidth(100);
+            reservationListTable.getColumnModel().getColumn(8).setPreferredWidth(100);
+            reservationListTable.getColumnModel().getColumn(9).setPreferredWidth(100);
         }
 
         reqestTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -213,53 +215,51 @@ public class CheckInUI extends JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ScrollPane)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(272, 272, 272)
                         .addComponent(checkInLabel)
-                        .addGap(244, 244, 244))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(searchComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(12, 12, 12)
-                            .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                        .addComponent(ScrollPane)
-                        .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(searchComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 8, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(reqestLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(roomAmountLabel)
-                            .addGap(85, 85, 85))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(reservationlistLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(guestRegistButton)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(calendar))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(reqestTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(roomCountTextField)
-                                .addComponent(checkinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(19, 19, 19))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(reservationlistLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(guestRegistButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(calendar))
+                            .addComponent(reqestTextField))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(roomAmountLabel))
+                            .addComponent(roomCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(checkinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backButton)
+                    .addComponent(checkInLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkInLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(backButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(searchComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(reservationlistLabel)
@@ -293,44 +293,7 @@ public class CheckInUI extends JFrame {
     }//GEN-LAST:event_searchComboBoxActionPerformed
 
     private void checkinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkinButtonActionPerformed
-        // 선택된 손님의 정보를 가져오기 (테이블에서 선택된 행)
-        int selectedRow = reservationListTable.getSelectedRow();
-        if (selectedRow == -1) {
-            // 테이블에서 선택된 손님이 없으면 오류 메시지 출력
-            JOptionPane.showMessageDialog(this, "체크인할 손님을 선택하세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // 테이블에서 선택된 손님의 정보를 가져옴
-        String uniqueNumber = (String) reservationListTable.getValueAt(selectedRow, 0); // 고유번호
-        String name = (String) reservationListTable.getValueAt(selectedRow, 1); // 이름
-        String phoneNumber = (String) reservationListTable.getValueAt(selectedRow, 2); // 전화번호
-        String roomNumber = (String) reservationListTable.getValueAt(selectedRow, 3); // 방번호
-        String guestCount = (String) reservationListTable.getValueAt(selectedRow, 4); // 인원 수
-        String stayCost = (String) reservationListTable.getValueAt(selectedRow, 5); // 객실 금액
-        String paymentMethod = (String) reservationListTable.getValueAt(selectedRow, 6); // 결제 방법
-        String status = "체크인 완료"; // 상태
-
-        // 요청 사항을 reqestTextField에서 가져옴
-        String requestDetails = reqestTextField.getText().trim();
-
-        // 새 CheckInData 객체 생성 (요청 사항 포함)
-        CheckInData checkInData = new CheckInData(uniqueNumber, name, phoneNumber, roomNumber,
-                                                   guestCount, stayCost, paymentMethod, status, requestDetails);
-
-        // 체크인 데이터를 파일에 저장
-        reservationManager.saveCheckInDataWithRequest(checkInData, requestDetails);
-
-        // 체크인 완료 메시지
-        JOptionPane.showMessageDialog(this, "체크인이 완료되었습니다.\n요청 사항: " + requestDetails, "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
-
-        // 테이블에서 해당 고객의 정보 삭제
-        DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
-        model.removeRow(selectedRow);
-
-        // 요청 사항 필드 초기화
-        reqestTextField.setText("");
-        roomCountTextField.setText("");
+        handleCheckIn();
     }//GEN-LAST:event_checkinButtonActionPerformed
 
     private void reqestTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reqestTextFieldActionPerformed

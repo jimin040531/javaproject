@@ -29,11 +29,13 @@ public class CheckInManager {
 
     // Reservation.txt 한 줄을 읽어서 CheckInData 객체로 변환하는 메서드
     private CheckInData parseCheckInData(String csvLine) {
-        String[] fields = csvLine.split(",");
+        String[] fields = csvLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         if (fields.length == 11) { // 고유번호, 이름, 주소, 전화번호, 예상 체크인 날짜, 예상 체크 아웃 날짜, 방 번호, 인원 수 , 금액, 결제 수단, 상태
             String uniqueNumber = fields[0].trim();
             String name = fields[1].trim();
             String phoneNumber = fields[3].trim(); // 전화번호
+            String checkInDate = fields[4].trim(); // 체크인 날짜
+            String checkOutDate = fields[5].trim(); // 체크아웃 날짜
             String roomNumber = fields[6].trim(); // 방 번호
             String guestCount = fields[7].trim(); // 인원 수
             String stayCost = fields[8].trim(); // 객실 금액
@@ -43,14 +45,14 @@ public class CheckInManager {
             // 요청 사항은 null로 초기화 (필요에 따라 수정 가능)
             String requestDetails = "";
             
-            return new CheckInData(uniqueNumber, name, phoneNumber, roomNumber, guestCount, stayCost, paymentMethod, status, requestDetails);
+            return new CheckInData(uniqueNumber, name, phoneNumber, checkInDate, checkOutDate, roomNumber, guestCount, stayCost, paymentMethod, status, requestDetails);
         }
         return null; // 잘못된 형식의 데이터는 null 반환
     }
 
     // 체크인 데이터를 파일에 저장하는 메서드
     public void saveCheckInData(CheckInData checkInData) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(reservationFilePath, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(checkInFilePath, true))) {
             writer.write(checkInData.toCSV()); // CheckInData 객체를 CSV 형식으로 변환하여 저장
             writer.newLine();
         } catch (IOException e) {
