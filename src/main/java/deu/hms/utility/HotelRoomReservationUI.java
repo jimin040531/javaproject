@@ -250,4 +250,9 @@ public class HotelRoomReservationUI {
         }
         return date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
     }
+    public void setVisible(boolean visible) {
+    if (frame != null) {
+        frame.setVisible(visible);
+    }
+}
 }

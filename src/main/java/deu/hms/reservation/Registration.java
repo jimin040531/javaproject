@@ -647,11 +647,11 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_paymentTypeActionPerformed
 
     private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
-      this.setVisible(false); // 현재 창 숨기기
+     this.setVisible(false); // 현재 창 숨기기
     SwingUtilities.invokeLater(() -> {
-        Registration registration = new Registration(this.parentFrame); // parentFrame 전달
-        registration.setVisible(true);
-});
+        HotelRoomReservationUI hotelRoomReservationUI = new HotelRoomReservationUI(this.parentFrame); // parentFrame 전달
+        hotelRoomReservationUI.setVisible(true); // setVisible 호출
+    });
     }//GEN-LAST:event_calendarActionPerformed
 
     private void guestPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guestPlusButtonActionPerformed

@@ -82,7 +82,7 @@ private void initializeTableFromFile() {
     public reservationFrame() {
     // 테이블 초기화
     mainTable = new JTable();
-
+    registrationFrame = new Registration(this); // `this` 전달
     // 테이블 모델 설정
     mainTable.setModel(new DefaultTableModel(
         new Object[][]{},
