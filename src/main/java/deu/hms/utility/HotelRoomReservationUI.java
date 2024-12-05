@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+import deu.hms.reservation.Registration;
+
 /**
  *
  * @author Jimin
@@ -41,6 +43,20 @@ public class HotelRoomReservationUI {
         frame.setVisible(true);
     }
     
+    /*public HotelRoomReservationUI(reservationFrame parentFrame) {
+    this.parentFrame = parentFrame;
+    reservationManager = new ReservationManager(10, 10);
+    loadRoomInfoFromFile(); // 파일에서 객실 정보 불러오기
+    frame = new JFrame("호텔 객실 정보");
+    roomPanel = new JPanel(new GridLayout(10, 10));
+    frame.setLayout(new BorderLayout());
+    frame.add(createControlPanel(), BorderLayout.NORTH);
+    frame.add(roomPanel, BorderLayout.CENTER);
+    frame.setSize(1100, 180); // 전체 프레임 크기 설정
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+}*/
     // 외부에서 창을 표시할 수 있도록 하는 메서드
     public void showUI() {
         frame.setVisible(true);
@@ -79,6 +95,8 @@ public class HotelRoomReservationUI {
 
     // 상단 패널 생성 (층 선택, 체크인/체크아웃 날짜 선택 등)
     private JPanel createControlPanel() {
+       Registration registration = new Registration(); // registration 객체 초기화
+
         JPanel panel = new JPanel(new FlowLayout()); // 플로우 레이아웃을 사용한 패널 생성
 
         // 체크인 및 체크아웃 날짜 선택기를 패널에 추가
@@ -99,20 +117,19 @@ public class HotelRoomReservationUI {
         panel.add(floorSelector);
             
         // 저장 버튼
-        JButton saveButton = new JButton("저장"); // 버튼 이름 지정
-        saveButton.addActionListener(e -> {
-            // 체크인 날짜와 체크아웃 날짜 가져오기
-            String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
-            String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
+       JButton saveButton = new JButton("저장");
+    saveButton.addActionListener(e -> {
+        String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
+        String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
 
-            System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
+        registration.updateDates(checkInDate, checkOutDate); // 날짜 전달
+        registration.setVisible(true); // 폼 표시
+        registration.toFront();
+        registration.setSize(500, 450);
+        frame.setVisible(false); // 현재 UI 숨기기
+    });
 
-            // 예약 관련 처리 로직 추가 가능
-            frame.setVisible(false);
-        });
-
-        // 버튼을 패널에 추가
-        panel.add(saveButton);
+    panel.add(saveButton);
 
         // 뒤로가기 버튼
         JButton backButton = new JButton("이전");

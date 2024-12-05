@@ -123,7 +123,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="goCheckinEmployees">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#xccb4;&#xd06c;&#xc544;&#xc6c3;"/>
+        <Property name="text" type="java.lang.String" value="&#xccb4;&#xd06c;&#xc778;"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goCheckinEmployeesActionPerformed"/>

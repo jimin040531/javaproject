@@ -646,6 +646,9 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_paymentTypeActionPerformed
 
     private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
+        this.setVisible(false); // 현재 창(Registration)을 닫기
+        this.setLocationRelativeTo(null);  // 화면 가운데 배치
+
         SwingUtilities.invokeLater(() -> {  
         new HotelRoomReservationUI(); // HotelRoomInfo 생성자 호출 캘린더
     });

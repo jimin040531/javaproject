@@ -84,7 +84,7 @@ public class MainScreenEmployees extends javax.swing.JFrame {
             }
         });
 
-        goCheckinEmployees.setText("체크아웃");
+        goCheckinEmployees.setText("체크인");
         goCheckinEmployees.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 goCheckinEmployeesActionPerformed(evt);
