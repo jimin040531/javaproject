@@ -28,29 +28,29 @@ public class HotelRoomReservationUI {
     private JDateChooser checkOutDateChooser;
     private JComboBox<String> floorSelector;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
-private final reservationFrame parentFrame; // parentFrame 변수 선언
+    private final reservationFrame parentFrame;
 
     // 기본 생성자 (parentFrame이 없는 경우)
    
 
     // parentFrame을 받는 생성자
     public HotelRoomReservationUI(reservationFrame parentFrame) {
-                 if (parentFrame == null) {
-        throw new IllegalArgumentException("ReservationFrame 객체가 null입니다.");
-    }
-    this.parentFrame = parentFrame;
+      if (parentFrame == null) {
+            throw new IllegalArgumentException("ReservationFrame 객체는 null일 수 없습니다.");
+        }
+        this.parentFrame = parentFrame; // 초기화
     reservationManager = new ReservationManager(10, 10);
-    loadRoomInfoFromFile();
+    loadRoomInfoFromFile(); // 파일에서 객실 정보 불러오기
 
-        frame = new JFrame("호텔 객실 정보");
-        roomPanel = new JPanel(new GridLayout(10, 10));
-        frame.setLayout(new BorderLayout());
-        frame.add(createControlPanel(), BorderLayout.NORTH);
-        frame.add(roomPanel, BorderLayout.CENTER);
-        frame.setSize(1100, 180); // 전체 프레임 크기 설정
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    frame = new JFrame("호텔 객실 정보");
+    roomPanel = new JPanel(new GridLayout(10, 10));
+    frame.setLayout(new BorderLayout());
+    frame.add(createControlPanel(), BorderLayout.NORTH);
+    frame.add(roomPanel, BorderLayout.CENTER);
+    frame.setSize(1100, 180); // 전체 프레임 크기 설정
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
     }
     // 외부에서 창을 표시할 수 있도록 하는 메서드
     public void showUI() {
@@ -111,19 +111,24 @@ private final reservationFrame parentFrame; // parentFrame 변수 선언
         panel.add(new JLabel("층 선택:"));
         panel.add(floorSelector);
             
-        // 저장 버튼
-       JButton saveButton = new JButton("저장");
-    saveButton.addActionListener(e -> {
-        String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
-        String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
+       //저장버튼
+        JButton saveButton = new JButton("저장"); // 버튼 이름 지정
+        saveButton.addActionListener(e -> {
+         // 체크인 날짜와 체크아웃 날짜 가져오기
+    String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
+    String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
 
-        registration.updateDates(checkInDate, checkOutDate); // 날짜 전달
-        registration.setVisible(true); // 폼 표시
-        registration.toFront();
-        registration.setSize(500, 450);
-        frame.setVisible(false); // 현재 UI 숨기기
-    });
 
+    // Registration에 날짜 전달
+    registration.updateDates(checkInDate, checkOutDate);
+
+    // Registration 폼을 다시 보이도록 설정
+    registration.setVisible(true);    // 폼 보이기
+    registration.toFront();           // 최상단으로 가져오기
+    registration.setSize(500, 450);
+     frame.setVisible(false);
+// 폼 강제 업데이트
+});
     panel.add(saveButton);
 
         // 뒤로가기 버튼

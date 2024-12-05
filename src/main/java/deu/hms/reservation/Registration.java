@@ -69,9 +69,10 @@ private javax.swing.JLabel reservationStatusLabel;
         
     }
  public Registration(reservationFrame parentFrame) {
-    if (parentFrame == null) {
+     if (parentFrame == null) {
         throw new IllegalArgumentException("ReservationFrame 객체가 null입니다.");
     }
+    System.out.println("ReservationFrame 전달 성공!");
     this.parentFrame = parentFrame;
     initComponents();
 }
@@ -646,12 +647,10 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_paymentTypeActionPerformed
 
     private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
-     SwingUtilities.invokeLater(() -> {
-    if (this.parentFrame == null) {
-        JOptionPane.showMessageDialog(this, "ReservationFrame 객체가 null입니다.", "오류", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    new HotelRoomReservationUI(this.parentFrame); // parentFrame 전달
+      this.setVisible(false); // 현재 창 숨기기
+    SwingUtilities.invokeLater(() -> {
+        Registration registration = new Registration(this.parentFrame); // parentFrame 전달
+        registration.setVisible(true);
 });
     }//GEN-LAST:event_calendarActionPerformed
 

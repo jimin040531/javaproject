@@ -36,6 +36,7 @@ public class reservationFrame extends javax.swing.JDialog {
     private Registration registrationFrame;
     private int editingRow = -1; // 수정 중인 행의 인덱스 (-1은 수정 중이 아님)
     private DefaultTableModel tableModel;
+    private reservationFrame parentFrame; // 부모 프레임 변수 선언
 
 
     
@@ -50,12 +51,8 @@ public class reservationFrame extends javax.swing.JDialog {
 
 
     private void openRegistrationFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
-       if (registrationFrame == null) {
-        registrationFrame = new Registration(this); // `this` 전달
-    }
-    registrationFrame.setVisible(true);
-    
-    
+       Registration registration = new Registration(this.parentFrame); // parentFrame 전달
+    registration.setVisible(true);
     }
 
     public reservationFrame(java.awt.Frame parent, boolean modal) {
@@ -226,7 +223,7 @@ private void initializeTableFromFile() {
         registrationFrame.setTitle("정보등록");
         registrationFrame.setVisible(true);
         registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
-
+        
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
