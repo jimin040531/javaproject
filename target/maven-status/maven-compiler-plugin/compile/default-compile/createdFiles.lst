@@ -1,4 +1,5 @@
 deu\hms\reservation\ReservationUtils.class
+deu\hms\utility\HotelRoomReservationUI.class
 deu\hms\checkin\GuestRegist$11.class
 deu\hms\checkin\GuestRegist$2.class
 deu\hms\roomManagement\RoomManagementFrame.class
@@ -19,11 +20,14 @@ deu\hms\checkin\GuestRegist$8.class
 deu\hms\checkin\CheckInUI$5.class
 deu\hms\roomservice\roomserviceFrame$3.class
 deu\hms\restaurantManagement\restaurantFrame$5.class
+deu\hms\checkin\GuestRegist$16.class
 deu\hms\reservation\reservationFrame.class
+deu\hms\utility\CardRegistFrame.class
 deu\hms\login\MainScreenEmployees$3.class
 deu\hms\report\reportFrame$1$1.class
 deu\hms\restaurant\ReservationDialog$5$1.class
 deu\hms\roomservice\roomserviceFrame$2.class
+deu\hms\utility\CardRegistFrame$3.class
 deu\hms\checkin\GuestRegist$10.class
 deu\hms\userManagement\UserAdd$3.class
 deu\hms\restaurantManagement\restaurantFrame$6$1.class
@@ -33,6 +37,7 @@ deu\hms\restaurantManagement\restaurantFrame$4.class
 deu\hms\checkin\CheckInUI$4.class
 deu\hms\restaurant\ReservationDialog$1.class
 deu\hms\roomManagement\RoomManagementFrame$2.class
+deu\hms\utility\CardRegistFrame$4.class
 deu\hms\checkin\GuestRegist$3.class
 deu\hms\userManagement\UserAdd$2.class
 deu\hms\roomservice\roomserviceFrame$8.class
@@ -40,11 +45,13 @@ deu\hms\restaurant\ReservationViewDialog$1$1.class
 deu\hms\report\reportFrame$1.class
 deu\hms\reservation\Registration.class
 deu\hms\checkout\checkoutFrame$7.class
+deu\hms\utility\CardRegistService.class
 deu\hms\checkout\checkoutFrame$9$1.class
 deu\hms\reservation\Registration$3.class
 deu\hms\restaurant\restaurantFrame$2.class
 deu\hms\roomManagement\RoomManagementFrame$5.class
 deu\hms\checkin\GuestRegist$18.class
+deu\hms\utility\HotelFloor.class
 deu\hms\login\MainScreenManager$1.class
 deu\hms\userManagement\UserTableManager.class
 deu\hms\login\loginFrame.class
@@ -60,6 +67,7 @@ deu\hms\restaurantManagement\restaurantFrame$6.class
 deu\hms\userManagement\UserAdd$1.class
 deu\hms\report\reportFrame.class
 deu\hms\restaurant\ReservationDialog.class
+deu\hms\utility\CardRegistFrame$2.class
 deu\hms\reservation\reservationFrame$4.class
 deu\hms\roomservice\roomserviceFrame$5.class
 deu\hms\checkout\checkoutFrame.class
@@ -83,10 +91,12 @@ deu\hms\userManagement\UserAdd$5.class
 deu\hms\login\MainScreenEmployees$1.class
 deu\hms\checkin\GuestRegist$5.class
 deu\hms\checkout\checkoutFrame$9.class
+deu\hms\utility\ReservationManager.class
 deu\hms\restaurant\restaurantFrame.class
 deu\hms\checkin\CheckInUI$8.class
 deu\hms\userManagement\UserModify$6.class
 deu\hms\roomservice\roomserviceFrame$10.class
+deu\hms\utility\CardRegistFrame$1.class
 deu\hms\login\MainScreenManager$2.class
 deu\hms\restaurant\restaurantFrame$3.class
 deu\hms\userManagement\UserAdd.class
@@ -123,6 +133,7 @@ deu\hms\checkin\GuestRegist$20.class
 deu\hms\login\MainScreenManager$9.class
 deu\hms\reservation\Registration$1.class
 deu\hms\login\UserAuthentication.class
+deu\hms\utility\HotelRoom.class
 deu\hms\reservation\Registration$2.class
 deu\hms\login\MainScreenManager.class
 deu\hms\userManagement\UserModifyManager.class
@@ -133,13 +144,16 @@ deu\hms\login\MainScreenEmployees$2.class
 deu\hms\roomManagement\RoomService.class
 deu\hms\reservation\reservationFrame$2.class
 deu\hms\management\managementFrame$5.class
+deu\hms\utility\CardRegistFrame$5.class
 deu\hms\checkin\CheckInManager.class
 deu\hms\checkin\GuestRegist$9.class
+deu\hms\checkin\GuestRegist$15.class
 deu\hms\login\loginFrame$4.class
 deu\hms\reservation\CardManager.class
 deu\hms\checkin\CheckInUI$1.class
 deu\hms\login\loginFrame$1.class
 deu\hms\login\MainScreenManager$4.class
+deu\hms\utility\CardDetails.class
 deu\hms\userManagement\userManagementFrame.class
 deu\hms\reservation\Registration$10.class
 deu\hms\userManagement\UserAdd$4.class
@@ -160,6 +174,7 @@ deu\hms\userManagement\UserAddManager.class
 deu\hms\restaurantManagement\restaurantFrame$2.class
 deu\hms\checkin\GuestRegist$13.class
 deu\hms\userManagement\UserModify$4.class
+deu\hms\utility\CardRegistFrame$6.class
 deu\hms\login\MainScreenEmployees$6.class
 deu\hms\checkin\GuestRegist$6.class
 deu\hms\reservation\Registration$12.class
