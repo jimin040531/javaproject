@@ -174,7 +174,7 @@ public class MainScreenManager extends javax.swing.JFrame {
         deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
         reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         reservationFrame.setVisible(true);
-       // this.dispose(); //현재 창 닫기
+        this.dispose(); //현재 창 닫기
     }//GEN-LAST:event_goReservationManagerActionPerformed
                                             
     private void goCheckoutManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckoutManagerActionPerformed
@@ -185,7 +185,7 @@ public class MainScreenManager extends javax.swing.JFrame {
     }//GEN-LAST:event_goCheckoutManagerActionPerformed
 
     private void goRoomserviceManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goRoomserviceManagerActionPerformed
-        /*deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
+        deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
         roomserviceFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         roomserviceFrame.setVisible(true);
         this.dispose();  // 현재 창 닫기*/
