@@ -934,9 +934,9 @@ public class restaurantFrame extends javax.swing.JFrame {
        Pay.setLocationRelativeTo(null);
        Pay.setVisible(true);
 
-       tableManager.reset((DefaultTableModel) jTable3.getModel(), total3);
-       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable3.getModel());
-       menuManager.updateTotal((DefaultTableModel) jTable3.getModel(), total3);
+       tableManager.reset((DefaultTableModel) jTable1.getModel(), total3);
+       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable1.getModel());
+       menuManager.updateTotal((DefaultTableModel) jTable1.getModel(), total3);
     } else {
         JOptionPane.showMessageDialog(null, 
            "결제할 정보가 없습니다. 결제 창을 열 수 없습니다.",
@@ -982,7 +982,7 @@ public class restaurantFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
          // 예약 하기 버튼
     
-        DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
+        DefaultTableModel model5 = (DefaultTableModel) jTable1.getModel();
 
     if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
        Pay.setSize(530, 470);
