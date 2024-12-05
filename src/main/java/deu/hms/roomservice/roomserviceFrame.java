@@ -1,120 +1,65 @@
-
 package deu.hms.roomservice;
+
+import deu.hms.roomservice.ReservationData;
+import deu.hms.roomservice.TableManager;
+import deu.hms.roomservice.FileHandler;
+import deu.hms.roomservice.MenuManager;
+import deu.hms.roomservice.ReservationManager;
+import deu.hms.roomservice.TimeManager;
+import deu.hms.roomservice.PaymentManager;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Calendar;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.text.html.FormView;
+
+
 
 
 
     
 public class roomserviceFrame extends javax.swing.JFrame {
     private Calendar calendar;
-  
+    private TableManager tableManager;
+    private FileHandler fileHandler;
+    private MenuManager menuManager;
+    private ReservationManager reservationManager;
+    private TimeManager timeManager;
+    private PaymentManager paymentManager;
+    
+    // 기본 생성자
     public roomserviceFrame() {
         initComponents();
-        addTempMenu();
-        initCurrentDateTime();
-    }          
-    
-    
-    private void saveReservationToFile(DefaultTableModel model) {
-    try {
-        String userHome = System.getProperty("user.home");
-        String desktopPath = userHome + "/Desktop";
-        
-        java.io.FileWriter fw = new java.io.FileWriter("예약목록.txt", true);
-        java.io.BufferedWriter bw = new java.io.BufferedWriter(fw);
-        
-        for (int i = 0; i < model.getRowCount(); i++) {
-            for (int j = 0; j < model.getColumnCount(); j++) {
-                bw.write(model.getValueAt(i, j).toString());
-                if (j < model.getColumnCount() - 1) {
-                    bw.write(",");
-                }
-            }
-            bw.newLine();
-        }
-        
-        bw.close();
-        fw.close();
-        
-        javax.swing.JOptionPane.showMessageDialog(null, "예약 정보가 저장되었습니다.", 
-            "저장 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(null, "파일 저장 중 오류가 발생했습니다: " + e.getMessage(),
-            "저장 오류", javax.swing.JOptionPane.ERROR_MESSAGE);
-    }
-}
-    
-    
-    //임시메뉴
-  private void addTempMenu() {
-    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-    model.setColumnIdentifiers(new String[]{"메뉴명", "가격"});
-    
-    // 임시 메뉴 데이터 추가 
-    model.addRow(new Object[]{"불고기", 25000});
-    model.addRow(new Object[]{"비빔밥", 15000});
-    model.addRow(new Object[]{"김치찌개", 12000});
-}
-    
-    private void updateTotal() {
-    DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
-    int sum = 0;
-    
-    for (int i = 0; i < model.getRowCount(); i++) {
-        sum += (int) model.getValueAt(i, 2);
+        initializeManagers();
+        initializeData();
     }
     
-    total.setText(String.valueOf(sum) + "원");
-}
-
-    
-    
-    
-    
-    
-    // 현재 날짜/시간으로 초기화하는 메소드
-    public void initCurrentDateTime() {
-    calendar = Calendar.getInstance(); // 현재 날짜/시간 가져오기
-    
-    // 현재 날짜/시간으로 스피너 초기화
-    jSpinner1.setValue(calendar.get(Calendar.YEAR));
-    jSpinner2.setValue(calendar.get(Calendar.MONTH) + 1);
-    jSpinner3.setValue(calendar.get(Calendar.DATE));
-    jSpinner4.setValue(calendar.get(Calendar.HOUR_OF_DAY));
-    jSpinner5.setValue(calendar.get(Calendar.MINUTE));
-    
-    // 스피너 모델 설정 - 각 단위별 범위 지정
-    jSpinner1.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.YEAR), 2000, 2100, 1)); // 년도
-    jSpinner2.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.MONTH) + 1, 1, 12, 1)); // 월
-    jSpinner3.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.DATE), 1, 31, 1)); // 일
-    jSpinner4.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.HOUR_OF_DAY), 0, 23, 1)); // 시
-    jSpinner5.setModel(new javax.swing.SpinnerNumberModel(calendar.get(Calendar.MINUTE), 0, 59, 1)); 
-}
-
-    
-    
-    
-    public void reset(){
-    
+    // Frame, modal을 받는 생성자
+    public roomserviceFrame(java.awt.Frame parent, boolean modal) {
+        super();
+        initComponents();
+        initializeManagers();
+        initializeData();
     }
     
-    
-    
-    
-    public void addtable(String name,int Qty,double Price){
-        
+    // 매니저 초기화를 위한 별도 메소드
+    private void initializeManagers() {
+        tableManager = new TableManager();
+        fileHandler = new FileHandler();
+        menuManager = new MenuManager();
+        reservationManager = new ReservationManager();
+        timeManager = new TimeManager();
+        paymentManager = new PaymentManager();  // PaymentManager 추가
     }
+    
+    // 데이터 초기화를 위한 별도 메소드
+    private void initializeData() {
+        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "룸서비스메뉴.txt");
+        timeManager.initCurrentDateTime(jSpinner1, jSpinner2, jSpinner3, jSpinner4, jSpinner5);
+    }
+    
    
-    
-    
-   public void cal(){
-        
-   }
-   
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -133,7 +78,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        roomNumber = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
@@ -154,11 +99,26 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        total2 = new javax.swing.JLabel();
+        Pay = new javax.swing.JFrame();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel13 = new javax.swing.JPanel();
+        total3 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -201,9 +161,17 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "순번", "날짜", "시간", "호실", "메뉴", "수량", "총 금액"
+                "순번", "타입", "날짜", "시간", "호실", "메뉴", "수량", "총 금액"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable4);
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
@@ -232,17 +200,15 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel29Layout.createSequentialGroup()
                 .addComponent(jButton6)
-                .addContainerGap())
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel29Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
@@ -289,10 +255,9 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
         jLabel1.setText("호실:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "101호", "102호", "103호" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        roomNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                roomNumberActionPerformed(evt);
             }
         });
 
@@ -320,7 +285,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(roomNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -356,7 +321,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(roomNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -383,7 +348,15 @@ public class roomserviceFrame extends javax.swing.JFrame {
             new String [] {
                 "메뉴", "수량", "가격"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
@@ -433,9 +406,9 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("맑은 고딕", 1, 14)); // NOI18N
         jLabel4.setText("금액:");
 
-        jLabel6.setFont(new java.awt.Font("맑은 고딕", 1, 14)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("0");
+        total2.setFont(new java.awt.Font("맑은 고딕", 1, 14)); // NOI18N
+        total2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        total2.setText("0");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -447,7 +420,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(total2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -457,7 +430,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(total2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -474,8 +447,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
                     .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -511,6 +484,169 @@ public class roomserviceFrame extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        jLabel12.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("결제");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "메뉴", "수량", "가격"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jTable3);
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 7, Short.MAX_VALUE))
+        );
+
+        total3.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
+        total3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        total3.setText("0");
+
+        jLabel15.setFont(new java.awt.Font("맑은 고딕", 1, 18)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("총 금액:");
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(total3, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(total3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+        );
+
+        jButton4.setText("결제");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setText("현금 결제");
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("카드 결제");
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addGap(0, 10, Short.MAX_VALUE)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jRadioButton2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jRadioButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButton2)))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout PayLayout = new javax.swing.GroupLayout(Pay.getContentPane());
+        Pay.getContentPane().setLayout(PayLayout);
+        PayLayout.setHorizontalGroup(
+            PayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        PayLayout.setVerticalGroup(
+            PayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PayLayout.createSequentialGroup()
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(850, 650));
@@ -527,12 +663,21 @@ public class roomserviceFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("<");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addContainerGap()
+                .addComponent(jButton3)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -540,11 +685,10 @@ public class roomserviceFrame extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -563,7 +707,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -615,6 +759,11 @@ public class roomserviceFrame extends javax.swing.JFrame {
         });
 
         jButton25.setText("결제");
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
 
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -623,7 +772,15 @@ public class roomserviceFrame extends javax.swing.JFrame {
             new String [] {
                 "메뉴", "수량", "가격"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane6.setViewportView(jTable5);
 
         jButton8.setText("메뉴 삭제");
@@ -756,138 +913,77 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-    // 예약 창 버튼
-    Reservation.setSize(800, 600);
-        Reservation.setLocationRelativeTo(null);
-        Reservation.setVisible(true);
-     
-    // jTable5의 모델 가져오기
-    DefaultTableModel sourceModel = (DefaultTableModel) jTable5.getModel();
-    DefaultTableModel targetModel = (DefaultTableModel) jTable1.getModel();
-    
-    // jTable1의 기존 데이터 삭제
-    targetModel.setRowCount(0);
-    
-    // jTable5의 데이터를 jTable1로 복사
-    for (int i = 0; i < sourceModel.getRowCount(); i++) {
-        Object[] rowData = new Object[sourceModel.getColumnCount()];
-        for (int j = 0; j < sourceModel.getColumnCount(); j++) {
-            rowData[j] = sourceModel.getValueAt(i, j);
+    // 예약 창 실행 버튼
+    DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
+
+    if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
+      Reservation.setSize(800, 600);
+      Reservation.setLocationRelativeTo(null);
+      Reservation.setVisible(true);
+
+      tableManager.reset((DefaultTableModel) jTable1.getModel(), total);
+      tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable1.getModel());
+      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "ReservationLoad.txt");
+      menuManager.updateTotal((DefaultTableModel) jTable1.getModel(), total2);
+    }else {
+        JOptionPane.showMessageDialog(null, 
+           "예약할 정보가 없습니다. 예약 창을 열 수 없습니다.",
+           "예약 오류", 
+           JOptionPane.WARNING_MESSAGE);
         }
-        targetModel.addRow(rowData);
-    }     
-   
-   updateTotal();
-    jLabel6.setText(total.getText());
+    tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
         
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // 초기화
-        DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
-        model.setRowCount(0); // 테이블의 모든 행 삭제
-        total.setText("0원");
+        // 초기화 버튼
+         tableManager.reset((DefaultTableModel) jTable5.getModel(),total);
         
-        
-        reset();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // 메뉴 삭제
-        
-     
-        DefaultTableModel dt = (DefaultTableModel) jTable5.getModel();
+        // 메뉴 삭제 버튼
+        DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
         int rw = jTable5.getSelectedRow();
-        
-        // 선택된 행의 금액 가져오기
-        double value = Double.valueOf(jTable5.getValueAt(rw, 2).toString());
-        
+       
         // 행 삭제
-        dt.removeRow(rw);
+        model.removeRow(rw);
             
          // 삭제 후 총액 업데이트 호출
-         updateTotal();
+         menuManager.updateTotal((DefaultTableModel) jTable5.getModel(),total);
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void roomNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomNumberActionPerformed
+        //        
+    }//GEN-LAST:event_roomNumberActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    DefaultTableModel dt = (DefaultTableModel) jTable4.getModel();
-    int rw = jTable4.getSelectedRow();
-    
-    if (rw >= 0) {
-        dt.removeRow(rw);
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(null, "삭제할 행을 선택해주세요.", "선택 오류", javax.swing.JOptionPane.WARNING_MESSAGE);
-    }
-        
+        // 예약 리스트 삭제
+      reservationManager.deleteReservation((DefaultTableModel) jTable4.getModel(),jTable4);
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-   
+ 
+    // 예약 하기 버튼
+    ReservationData reservationData = new ReservationData(
+        (DefaultTableModel) jTable4.getModel(),
+        (DefaultTableModel) jTable1.getModel(),
+        jSpinner1.getValue().toString(),
+        jSpinner2.getValue().toString(),
+        jSpinner3.getValue().toString(),
+        jSpinner4.getValue().toString(),
+        jSpinner5.getValue().toString(),
+        roomNumber.getSelectedItem().toString()
+    );
     
-      // 예약 하기 버튼
-        DefaultTableModel reservationModel = (DefaultTableModel) jTable4.getModel();
-        DefaultTableModel orderModel = (DefaultTableModel) jTable1.getModel();
-        
-        // 현재 시간 가져오기
-        Calendar now = Calendar.getInstance();
-        
-        // 예약 시간 생성
-        Calendar reservationTime = Calendar.getInstance();
-        reservationTime.set(Calendar.YEAR, Integer.parseInt(jSpinner1.getValue().toString()));
-        reservationTime.set(Calendar.MONTH, Integer.parseInt(jSpinner2.getValue().toString()) - 1);
-        reservationTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(jSpinner3.getValue().toString()));
-        reservationTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(jSpinner4.getValue().toString()));
-        reservationTime.set(Calendar.MINUTE, Integer.parseInt(jSpinner5.getValue().toString()));
-        
-        // 예약 시간이 현재 시간보다 이전인지 확인
-        if (reservationTime.before(now)) {
-            javax.swing.JOptionPane.showMessageDialog(null, "예약 시간을 확인해주세요.", "시간 오류", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        // 현재 예약 테이블의 행 개수로 순번 계산
-        int orderNumber = reservationModel.getRowCount() + 1;
-        
-        // 날짜와 시간 정보 가져오기
-        String year = jSpinner1.getValue().toString();
-        String month = jSpinner2.getValue().toString(); 
-        String day = jSpinner3.getValue().toString();
-        String hour = jSpinner4.getValue().toString();
-        String minute = jSpinner5.getValue().toString();
-        
-        // 호실 정보 가져오기
-        String room = jComboBox1.getSelectedItem().toString();
-        
-        // 주문 정보 가져오기
-        for(int i = 0; i < orderModel.getRowCount(); i++) {
-            String menu = orderModel.getValueAt(i, 0).toString();
-            String quantity = orderModel.getValueAt(i, 1).toString();
-            String total = orderModel.getValueAt(i, 2).toString();
-            
-            // 예약 테이블에 데이터 추가 (순번 포함)
-            reservationModel.addRow(new Object[]{
-                orderNumber,
-                year + "-" + month + "-" + day,
-                hour + ":" + minute,
-                room,
-                menu,
-                quantity,
-                total
-            });
-            orderNumber++; // 다음 주문을 위해 순번 증가
-        }
-        saveReservationToFile((DefaultTableModel) jTable4.getModel());
-        
-    // 예약 완료 메시지 표시
-    javax.swing.JOptionPane.showMessageDialog(null, "예약이 완료되었습니다.", "예약 완료", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-    // 예약 창 닫기
+    // 예약 처리
+    reservationManager.makeReservation(reservationData);
+    
+    // 예약 완료 후 처리
+    tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
     Reservation.setVisible(false);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -895,52 +991,59 @@ public class roomserviceFrame extends javax.swing.JFrame {
         Reservationlist.setVisible(true);
         Reservationlist.setSize(640, 470);
         Reservationlist.setLocationRelativeTo(null);
+        
+        fileHandler.loadReservationFromFile((DefaultTableModel) jTable4.getModel());
+        
+        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // 추가 버튼
-    DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
-    DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
-    
-    int selectedRow = jTable2.getSelectedRow();
-    
-    if (selectedRow != -1) {
-        String menuName = (String) model2.getValueAt(selectedRow, 0);
-        int price = (int) model2.getValueAt(selectedRow, 1);
-              
-        boolean found = false;
-        
-        // 이미 존재하는 메뉴인지 확인
-        for (int i = 0; i < model5.getRowCount(); i++) {
-            if (model5.getValueAt(i, 0).equals(menuName)) {
-                // 기존 수량과 가격 가져오기
-                int quantity = (int) model5.getValueAt(i, 1);
-                
-                // 수량 증가
-                quantity++;
-                
-                // 새로운 가격 계산
-                int newPrice = price * quantity;
-                
-                // 테이블 업데이트
-                model5.setValueAt(quantity, i, 1);
-                model5.setValueAt(newPrice, i, 2);
-                
-                found = true;
-                break;
-            }
-        }
-        
-        // 새로운 메뉴라면 추가
-        if (!found) {
-            model5.addRow(new Object[]{menuName, 1, price});
-        }
-        
-        // 총액 업데이트
-        updateTotal();
-    }
+    menuManager.addMenuToOrder(jTable2, jTable5,total);
+       
+     
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        // TODO add your handling code here:
+        
+        DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
+
+    if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
+       Pay.setSize(530, 470);
+       Pay.setLocationRelativeTo(null);
+       Pay.setVisible(true);
+
+       tableManager.reset((DefaultTableModel) jTable3.getModel(), total3);
+       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable3.getModel());
+       menuManager.updateTotal((DefaultTableModel) jTable3.getModel(), total3);
+    } else {
+        JOptionPane.showMessageDialog(null, 
+           "결제할 정보가 없습니다. 결제 창을 열 수 없습니다.",
+           "결제 오류", 
+           JOptionPane.WARNING_MESSAGE);
+      }
+
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       // 결제 하기
+      paymentManager.processPayment(
+        jRadioButton1,  // 현금결제 버튼
+        jRadioButton2,  // 카드결제 버튼
+        (DefaultTableModel) jTable3.getModel(),"룸서비스"
+    );
+    tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+   // 뒤로가기 버튼
+                                        
+    
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -983,6 +1086,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFrame Pay;
     private javax.swing.JFrame Reservation;
     private javax.swing.JFrame Reservationlist;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -990,27 +1094,34 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel88;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel26;
@@ -1024,9 +1135,12 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
@@ -1035,8 +1149,12 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
+    private javax.swing.JComboBox<String> roomNumber;
     private javax.swing.JLabel total;
+    private javax.swing.JLabel total2;
+    private javax.swing.JLabel total3;
     // End of variables declaration//GEN-END:variables
 }
