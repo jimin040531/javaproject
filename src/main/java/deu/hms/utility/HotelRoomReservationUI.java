@@ -109,26 +109,19 @@ public class HotelRoomReservationUI {
         panel.add(new JLabel("층 선택:"));
         panel.add(floorSelector);
             
-       //저장버튼
-          //저장버튼
+      //저장버튼
         JButton saveButton = new JButton("저장"); // 버튼 이름 지정
         saveButton.addActionListener(e -> {
-    try {
-        // 체크인 날짜와 체크아웃 날짜 가져오기
-        String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText().trim();
-        String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText().trim();
+         // 체크인 날짜와 체크아웃 날짜 가져오기
+    String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
+    String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
 
-        if (checkInDate.isEmpty() || checkOutDate.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "체크인 및 체크아웃 날짜를 선택해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
 
-        System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
+    // Registration에 날짜 전달
+    registration.updateDates(checkInDate, checkOutDate);
 
-        // Registration에 날짜 전달
-        registration.updateDates(checkInDate, checkOutDate);
-
-         registration.setVisible(true);    // 폼 보이기
+    // Registration 폼을 다시 보이도록 설정
+    registration.setVisible(true);    // 폼 보이기
     registration.toFront();           // 최상단으로 가져오기
     registration.setSize(500, 450);
      frame.setVisible(false);
@@ -137,6 +130,8 @@ public class HotelRoomReservationUI {
 
 // 버튼을 패널에 추가
 panel.add(saveButton);
+        //여기까지가 저장버튼 
+
 
         // 뒤로가기 버튼
         JButton backButton = new JButton("이전");
