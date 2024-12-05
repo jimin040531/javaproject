@@ -541,13 +541,12 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
-    // CardRegistFrame 인스턴스를 생성하여 카드 등록 창을 표시
-        CardRegistFrame cardRegistFrame = new CardRegistFrame();
-        cardRegistFrame.setVisible(true);
-        cardRegistFrame.setLocationRelativeTo(this);  // 현재 창을 기준으로 중앙에 배치
+    CardRegistFrame cardRegistWindow = new CardRegistFrame(this);
+    cardRegistWindow.setVisible(true);
+        cardRegistWindow.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
 
     // 창이 닫힌 후 카드 정보가 등록되었는지 확인
-    cardRegistFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+    cardRegistWindow.addWindowListener(new java.awt.event.WindowAdapter() {
         @Override
        public void windowClosed(java.awt.event.WindowEvent e) {
             // 파일에서 카드 정보 읽기
@@ -569,11 +568,10 @@ public void showCardRegistrationStatus() {
             return reader.readLine(); // 첫 번째 줄 읽기
         } catch (java.io.IOException ex) {
             return null; // 읽기 실패 시 null 반환
-    }
-   
-    
-    // 카드 등록 완료 후 라벨 업데이트
+        }
 
+    
+// 카드 등록 완료 후 라벨 업데이트
     }//GEN-LAST:event_paymentTypeRegistButtonActionPerformed
 
     private void textNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNameActionPerformed

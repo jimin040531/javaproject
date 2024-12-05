@@ -1,6 +1,8 @@
 package deu.hms.utility;
 
 import com.toedter.calendar.JDateChooser;
+import deu.hms.reservation.Registration;
+import deu.hms.reservation.reservationFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+
+
 /**
  *
  * @author Jimin
@@ -25,10 +29,20 @@ public class HotelRoomReservationUI {
     private JDateChooser checkOutDateChooser;
     private JComboBox<String> floorSelector;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
-
+    private final reservationFrame parentFrame;
+    private final Registration registration;
+    
     // 생성자: UI 초기화 및 예약 관리자 객체 생성
     public HotelRoomReservationUI() {
-        reservationManager = new ReservationManager(10, 10);
+       
+        
+        this.parentFrame = new reservationFrame(); // 객체 생성
+
+        reservationManager = new ReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
+        loadRoomInfoFromFile(); // 객실 가격 및 등급 초기화
+        
+        registration = new Registration(parentFrame); // 생성한 객체 전달
+
         loadRoomInfoFromFile(); // 파일에서 객실 정보 불러오기
         frame = new JFrame("호텔 객실 정보");
         roomPanel = new JPanel(new GridLayout(10, 10));
@@ -115,8 +129,13 @@ public class HotelRoomReservationUI {
 
             System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
 
-            // 예약 관련 처리 로직 추가 가능
+            registration.updateDates(checkInDate, checkOutDate);
+            
+            registration.setVisible(true);    // 폼 보이기
+            registration.toFront();           // 최상단으로 가져오기
+            registration.setSize(500, 450);
             frame.setVisible(false);
+        // 폼 강제 업데이트
         });
 
         // 버튼을 패널에 추가
@@ -203,7 +222,7 @@ public class HotelRoomReservationUI {
         roomPanel.repaint();
     }
 
-
+    
     // 특정 층의 특정 방을 예약하는 메서드
     private void reserveRoom(int floor, int roomNumber, LocalDate checkInDate, LocalDate checkOutDate, int totalCost) {
         if (reservationManager.isRoomAvailable(floor - 1, roomNumber - 1, checkInDate, checkOutDate)) {

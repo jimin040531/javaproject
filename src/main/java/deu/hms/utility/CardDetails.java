@@ -4,6 +4,11 @@
  */
 package deu.hms.utility;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jimin
@@ -14,6 +19,7 @@ public class CardDetails {
     private String password;
     private String cvc;
 
+    
     // 생성자
     public CardDetails(String cardNum1, String cardNum2, String cardNum3, String cardNum4,
                        String month, String year, String pw, String cvc) {
@@ -36,6 +42,19 @@ public class CardDetails {
         this.cvc = cvc;
     }
 
+    // 카드 정보를 파일에 저장하는 메서드
+    public void saveCardInformation() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("card_data.txt", true))) {
+            writer.write("카드 번호: " + cardNumber + ", 유효기간: " + expirationDate
+                    + ", 비밀번호: " + password + ", CVC: " + cvc);
+            writer.newLine();
+            JOptionPane.showMessageDialog(null, "카드 정보가 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "저장 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }
+    
     // 카드 정보 반환 메서드
     public String getCardNumber() {
         return cardNumber;

@@ -247,21 +247,10 @@ public class CardRegistFrame extends javax.swing.JFrame {
             // 카드 정보 객체 생성
             CardDetails cardInfoObj = new CardDetails(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc);
 
-            // CardRegistService를 사용하여 카드 정보 저장
-            CardRegistService cardRegistService = new CardRegistService();
-            cardRegistService.saveCardInformation(cardInfoObj);  // 카드 정보 저장
-
-            // 카드 등록 상태 표시 (필요 시)
-            if (registration != null) {
-                registration.showCardRegistrationStatus(); // Registration 객체의 카드 등록 상태 표시
-            }
-
-            // 예약 데이터 생성 (ReservationData 객체 생성)
-            ReservationData reservationData = registration.populateReservationData(); // Registration에서 예약 데이터 가져오기
-
-            // 예약 정보 처리 (예: 데이터베이스 저장, UI에 표시 등)
-            // 예시: 예약 데이터를 로그로 출력하거나 다른 로직 처리
-            System.out.println("예약 정보: " + reservationData.toString());
+            cardInfoObj.saveCardInformation();
+                if (registration != null) {
+               registration.showCardRegistrationStatus();
+           }
 
             // 예약 정보 처리 후 메시지 표시
             JOptionPane.showMessageDialog(this, "카드 정보가 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
