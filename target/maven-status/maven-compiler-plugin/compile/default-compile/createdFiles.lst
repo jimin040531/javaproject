@@ -84,6 +84,7 @@ deu\hms\roomReservation\HotelRoom.class
 deu\hms\roomservice\roomserviceFrame$10.class
 deu\hms\accountManagement\accountFrame.class
 deu\hms\login\MainScreenManager$2.class
+deu\hms\accountManagement\accountFrame$1.class
 deu\hms\restaurant\restaurantFrame$3.class
 deu\hms\login\MainScreenEmployees$7.class
 deu\hms\reservation\reservationFrame$1.class
