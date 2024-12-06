@@ -20,7 +20,7 @@ public class HotelRoom implements Serializable {
     private int price;
     private String grade;
 
-    // 기본 생성자: 수용 인원, 가격, 등급을 기본 값으로 설정
+    // 수용 인원, 가격, 등급을 기본 값으로 설정
     public HotelRoom() {
         this.capacity = 0;
         this.price = 0;
@@ -70,7 +70,7 @@ public class HotelRoom implements Serializable {
             date = date.plusDays(1);
         }
     }
-
+    
     // 수용 인원 반환 및 설정 메서드
     public int getCapacity() { return capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }

@@ -257,7 +257,7 @@ public class HotelRoomReservationUI {
         String checkInDateStr = checkInDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String checkOutDateStr = checkOutDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("RoomRegist.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("reservation.txt", true))) {
             writer.write(uniqueNumber + "," + floor + "," + roomNumber + "," + checkInDateStr + "," + checkOutDateStr + "," + totalCost + "," + status);
             writer.newLine();
         } catch (IOException e) {
@@ -274,4 +274,7 @@ public class HotelRoomReservationUI {
         return date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
     }
     
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(HotelRoomReservationUI ::new);
+    }
 }

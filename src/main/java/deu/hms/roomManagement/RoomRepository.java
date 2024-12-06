@@ -38,9 +38,7 @@ public class RoomRepository {
         if (room != null) {
             roomList.remove(room);
             saveRoomInfoToFile();
-        } else {
-            throw new IllegalArgumentException("삭제할 객실을 찾을 수 없습니다.");
-        }
+        } 
     }
 
     public void updateRoom(Room room, int newPrice, String newGrade, int newCapacity) {
@@ -101,7 +99,8 @@ public class RoomRepository {
             System.out.println("파일을 읽는 중 문제가 발생했습니다: " + e.getMessage());
         }
     }
-        public void saveTableDataToFile(DefaultTableModel model) {
+    
+    public void saveTableDataToFile(DefaultTableModel model) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, false))) {
             // 테이블의 각 행 데이터를 파일에 작성
             for (int i = 0; i < model.getRowCount(); i++) {
