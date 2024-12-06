@@ -6,6 +6,7 @@ import deu.hms.roomservice.MenuManager;
 import deu.hms.roomservice.ReservationManager;
 import deu.hms.roomservice.TimeManager;
 import deu.hms.roomservice.PaymentManager;
+import deu.hms.roomservice.ReservationData;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Calendar;
@@ -926,17 +927,17 @@ public class restaurantFrame extends javax.swing.JFrame {
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
         // TODO add your handling code here:
-
-    DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
+        
+        DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
 
     if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
        Pay.setSize(530, 470);
        Pay.setLocationRelativeTo(null);
        Pay.setVisible(true);
 
-       tableManager.reset((DefaultTableModel) jTable1.getModel(), total3);
-       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable1.getModel());
-       menuManager.updateTotal((DefaultTableModel) jTable1.getModel(), total3);
+       tableManager.reset((DefaultTableModel) jTable3.getModel(), total3);
+       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable3.getModel());
+       menuManager.updateTotal((DefaultTableModel) jTable3.getModel(), total3);
     } else {
         JOptionPane.showMessageDialog(null, 
            "결제할 정보가 없습니다. 결제 창을 열 수 없습니다.",
@@ -980,37 +981,34 @@ public class restaurantFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_roomNumberActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         // 예약 하기 버튼
+// 예약 하기 버튼
+    ReservationData reservationData = new ReservationData(
+        (DefaultTableModel) jTable4.getModel(),
+        (DefaultTableModel) jTable1.getModel(),
+        jSpinner1.getValue().toString(),
+        jSpinner2.getValue().toString(),
+        jSpinner3.getValue().toString(),
+        jSpinner4.getValue().toString(),
+        jSpinner5.getValue().toString(),
+        roomNumber.getSelectedItem().toString()
+    );
     
-        DefaultTableModel model5 = (DefaultTableModel) jTable1.getModel();
-
-    if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
-       Pay.setSize(530, 470);
-       Pay.setLocationRelativeTo(null);
-       Pay.setVisible(true);
-
-       tableManager.reset((DefaultTableModel) jTable3.getModel(), total3);
-       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable3.getModel());
-       menuManager.updateTotal((DefaultTableModel) jTable3.getModel(), total3);
-    } else {
-        JOptionPane.showMessageDialog(null, 
-           "결제할 정보가 없습니다. 결제 창을 열 수 없습니다.",
-           "결제 오류", 
-           JOptionPane.WARNING_MESSAGE);
-      }
+    // 예약 처리
+    reservationManager.makeReservation(reservationData);
+    
+    // 예약 완료 후 처리
+    tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
+    Reservation.setVisible(false);
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-         // 결제 하기
+    // 결제 하기
       paymentManager.processPayment(
         jRadioButton1,  // 현금결제 버튼
         jRadioButton2,  // 카드결제 버튼
-        (DefaultTableModel) jTable3.getModel(),"레스토랑"
+        (DefaultTableModel) jTable3.getModel(),"룸서비스"
     );
-    
-    // 결제 창 닫기
-    Pay.setVisible(false);
     tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
 
     }//GEN-LAST:event_jButton4ActionPerformed

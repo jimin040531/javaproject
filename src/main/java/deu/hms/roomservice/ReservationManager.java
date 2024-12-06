@@ -124,30 +124,47 @@ public class ReservationManager {
     
     private void processReservation(ReservationData data, int orderNumber) {
         data.getReservationModel().setRowCount(0);
-        DefaultTableModel orderModel = data.getOrderModel();
-        
-        for(int i = 0; i < orderModel.getRowCount(); i++) {
-            addReservationRow(data, orderNumber + i);
-        }
-    }
+    DefaultTableModel orderModel = data.getOrderModel();
     
-    private void addReservationRow(ReservationData data, int orderNumber) {
-        DefaultTableModel orderModel = data.getOrderModel();
-        DefaultTableModel reservationModel = data.getReservationModel();
-        
+    // 순번을 1부터 시작하도록 수정
+    for(int i = 0; i < orderModel.getRowCount(); i++) {
         String[] rowData = {
-            String.valueOf(orderNumber),
+            String.valueOf(i + 1),  // 1부터 시작하는 순번
             "룸서비스",
             formatDate(data),
             formatTime(data),
             data.getRoom(),
-            orderModel.getValueAt(orderModel.getRowCount()-1, 0).toString(),
-            orderModel.getValueAt(orderModel.getRowCount()-1, 1).toString(),
-            orderModel.getValueAt(orderModel.getRowCount()-1, 2).toString()
+            orderModel.getValueAt(i, 0).toString(),
+            orderModel.getValueAt(i, 1).toString(),
+            orderModel.getValueAt(i, 2).toString()
         };
         
-        reservationModel.addRow(rowData);
+        data.getReservationModel().addRow(rowData);
     }
+}
+    
+private void addReservationRow(ReservationData data, int orderNumber) {
+    // 기존 데이터를 지우고 새로운 데이터만 추가
+    data.getReservationModel().setRowCount(0);
+    DefaultTableModel orderModel = data.getOrderModel();
+    
+    // addReservationRow 메소드를 직접 호출하지 않고 여기서 처리
+    for(int i = 0; i < orderModel.getRowCount(); i++) {
+        String[] rowData = {
+            String.valueOf(orderNumber + i),
+            "룸서비스",
+            formatDate(data),
+            formatTime(data),
+            data.getRoom(),
+            orderModel.getValueAt(i, 0).toString(),  // i번째 행의 메뉴 이름
+            orderModel.getValueAt(i, 1).toString(),  // i번째 행의 수량
+            orderModel.getValueAt(i, 2).toString()   // i번째 행의 가격
+        };
+        
+        data.getReservationModel().addRow(rowData);
+    }
+}
+
     
     private void updateFileAfterDeletion(DefaultTableModel model) throws Exception {
         FileWriter fw = new FileWriter(filePath, false);
