@@ -179,10 +179,11 @@ public class MainScreenManager extends javax.swing.JFrame {
     }//GEN-LAST:event_goReservationManagerActionPerformed
                                             
     private void goCheckoutManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckoutManagerActionPerformed
-        deu.hms.checkout.checkoutFrame checkoutFrame = new deu.hms.checkout.checkoutFrame(new java.awt.Frame(), true);
-        checkoutFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
-        checkoutFrame.setVisible(true);
-        this.dispose();  // 현재 창 닫기
+     //     checkout  checkoutFrame = new checkout(this);
+      //  checkoutFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+     //   checkoutFrame.setVisible(true);
+     //   this.dispose();  // 현재 창 닫기
+        
     }//GEN-LAST:event_goCheckoutManagerActionPerformed
 
     private void goRoomserviceManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goRoomserviceManagerActionPerformed

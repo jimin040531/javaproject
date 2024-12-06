@@ -15,6 +15,7 @@ C:\javaProject\javaproject\src\main\java\deu\hms\login\Users.java
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\CardManager.java
 C:\javaProject\javaproject\src\main\java\deu\hms\login\MainScreenManager.java
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\ReservationStatusScheduler.java
+C:\javaProject\javaproject\src\main\java\checkOut\CheckOut.java
 C:\javaProject\javaproject\src\main\java\deu\hms\checkin\CheckInManager.java
 C:\javaProject\javaproject\src\main\java\deu\hms\login\UserAuthentication.java
 C:\javaProject\javaproject\src\main\java\deu\hms\utility\ReservationManager.java
@@ -24,7 +25,6 @@ C:\javaProject\javaproject\src\main\java\deu\hms\userManagement\UserTableManager
 C:\javaProject\javaproject\src\main\java\deu\hms\utility\CardRegistFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\roomservice\TimeManager.java
 C:\javaProject\javaproject\src\main\java\deu\hms\userManagement\UserAdd.java
-C:\javaProject\javaproject\src\main\java\deu\hms\checkout\checkoutFrame.java
 C:\javaProject\javaproject\src\main\java\deu\hms\userManagement\User.java
 C:\javaProject\javaproject\src\main\java\deu\hms\reservation\ReservationData.java
 C:\javaProject\javaproject\src\main\java\deu\hms\roomManagement\Room.java

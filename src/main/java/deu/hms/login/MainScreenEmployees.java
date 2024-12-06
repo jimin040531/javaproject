@@ -151,9 +151,9 @@ public class MainScreenEmployees extends javax.swing.JFrame {
         }                                                 
 
     private void goCheckoutEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckoutEmployeesActionPerformed
-        deu.hms.checkout.checkoutFrame checkoutFrame = new deu.hms.checkout.checkoutFrame(new java.awt.Frame(), true);
-        checkoutFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
-        checkoutFrame.setVisible(true);
+      //  checkout  checkoutFrame = new checkout(this);
+     //   checkoutFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+     //   checkoutFrame.setVisible(true);
     }//GEN-LAST:event_goCheckoutEmployeesActionPerformed
 
     private void goRoomserviceEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goRoomserviceEmployeesActionPerformed
