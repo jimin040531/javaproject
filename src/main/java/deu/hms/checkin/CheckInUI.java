@@ -307,7 +307,7 @@ public class CheckInUI extends JFrame {
     }//GEN-LAST:event_guestRegistButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // 검색어와 검색 기준을 가져옵니다
+        // 검색어와 검색 기준을 가져오기
         String searchTerm = searchTextField.getText().trim();  // 입력된 검색어
         String searchType = (String) searchComboBox.getSelectedItem();  // 선택된 검색 기준
 
@@ -346,15 +346,7 @@ public class CheckInUI extends JFrame {
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void roomCountTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomCountTextFieldActionPerformed
-        // 테이블에서 선택된 행을 가져옵니다.
-        int selectedRow = reservationListTable.getSelectedRow();
-        if (selectedRow != -1) { // 선택된 행이 있을 경우
-            // 선택된 행에서 객실 금액을 가져옵니다.
-            String stayCost = (String) reservationListTable.getValueAt(selectedRow, 5); // 5번째 열은 객실 금액
 
-            // 객실 금액을 roomCountTextField에 설정합니다.
-            roomCountTextField.setText(stayCost); // 텍스트 필드에 객실 금액을 설정
-        }
     }//GEN-LAST:event_roomCountTextFieldActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed

@@ -227,7 +227,7 @@ public class HotelRoomReservationUI {
     private void reserveRoom(int floor, int roomNumber, LocalDate checkInDate, LocalDate checkOutDate, int totalCost) {
         if (reservationManager.isRoomAvailable(floor - 1, roomNumber - 1, checkInDate, checkOutDate)) {
             if (reservationManager.reserveRoom(floor - 1, roomNumber - 1, checkInDate, checkOutDate)) {
-                JOptionPane.showMessageDialog(frame, "객실 예약이 완료되었습니다. 총 요금: " + totalCost + "원", "예약 성공", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "객실 예약이 완료되었습니다." , "예약 성공", JOptionPane.INFORMATION_MESSAGE);
                 saveReservationToFile(floor, roomNumber, checkInDate, checkOutDate, totalCost);
                 updateRoomAvailability();
             } else {

@@ -50,21 +50,11 @@ public class CheckInManager {
         return null; // 잘못된 형식의 데이터는 null 반환
     }
 
-    // 체크인 데이터를 파일에 저장하는 메서드
-    public void saveCheckInData(CheckInData checkInData) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(checkInFilePath, true))) {
-            writer.write(checkInData.toCSV()); // CheckInData 객체를 CSV 형식으로 변환하여 저장
-            writer.newLine();
-        } catch (IOException e) {
-            System.err.println("체크인 데이터 쓰기 오류: " + e.getMessage());
-        }
-    }
-
     // 체크인 데이터를 요청 사항과 함께 파일에 저장하는 메서드
     public void saveCheckInDataWithRequest(CheckInData checkInData, String requestDetails) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(checkInFilePath, true))) {
             // 요청 사항을 포함하여 CSV 형식으로 저장
-            String fullCsvData = checkInData.toCSV() + "," + requestDetails;
+            String fullCsvData = checkInData.toCSV();
             writer.write(fullCsvData); // 요청 사항 포함된 데이터 저장
             writer.newLine();
         } catch (IOException e) {
@@ -72,3 +62,9 @@ public class CheckInManager {
         }
     }
 }
+
+
+
+
+
+
