@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.util.Vector;
+import deu.hms.login.MainScreenEmployees;
 
 public class checkout extends JFrame {
 
@@ -18,11 +19,22 @@ public class checkout extends JFrame {
     private DefaultTableModel tableModel;
     private JButton refreshButton;
     private ButtonGroup paymentGroup;
+    private JPanel topPanel; // topPanel 멤버 변수 선언
 
     public checkout() {//
         setTitle("체크아웃");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+
+        topPanel = new JPanel(new BorderLayout()); // topPanel 초기화
+        add(topPanel, BorderLayout.NORTH); // topPanel을 프레임에 추가
+
+        // 뒤로가기 버튼 생성 및 추가
+        JButton backButton = new JButton("이전 페이지로");
+        backButton.addActionListener(e -> {
+            dispose(); // 현재 창 닫기
+        });
+        topPanel.add(backButton, BorderLayout.WEST); // 뒤로가기 버튼을 topPanel에 추가
 
         // 예약자 명단 테이블
         String[] columnNames = {"고유 번호", "이름", "전화 번호", "방 번호", "객실 금액", "결제 수단", "상태", "총 금액"};
@@ -55,8 +67,6 @@ public class checkout extends JFrame {
         // 수정 버튼
         JButton editButton = new JButton("수정");
         editButton.addActionListener(e -> editReservation());
-
-        
 
         // FeedBack 패널
         JPanel feedbackPanel = new JPanel(new BorderLayout());
@@ -769,5 +779,14 @@ public class checkout extends JFrame {
             JOptionPane.showMessageDialog(this, "resultText.txt 저장 중 오류 발생!", "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public static void main(String[] args) {//
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SwingUtilities.invokeLater(checkout::new);
+
+    }
 }
-    
