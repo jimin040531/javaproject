@@ -19,8 +19,6 @@ public class checkout extends JFrame {
     private JButton refreshButton;
     private ButtonGroup paymentGroup;
 
-    private final String DATA_FILE = "Reservation.txt"; // 데이터 파일 이름
-
     public checkout() {//
         setTitle("체크아웃");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -58,9 +56,7 @@ public class checkout extends JFrame {
         JButton editButton = new JButton("수정");
         editButton.addActionListener(e -> editReservation());
 
-        // 추가 버튼
-        JButton addButton = new JButton("추가");
-        addButton.addActionListener(e -> addReservation());
+        
 
         // FeedBack 패널
         JPanel feedbackPanel = new JPanel(new BorderLayout());
@@ -99,7 +95,6 @@ public class checkout extends JFrame {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(editButton);
-        buttonPanel.add(addButton);
         bottomPanel.add(buttonPanel, BorderLayout.WEST);
         bottomPanel.add(feedbackPanel, BorderLayout.CENTER);
         bottomPanel.add(paymentPanel, BorderLayout.EAST);
@@ -131,8 +126,12 @@ public class checkout extends JFrame {
                 writer.write(String.join(",",
                         tableModel.getValueAt(i, 0).toString(),
                         tableModel.getValueAt(i, 1).toString(),
+                        "-",
                         tableModel.getValueAt(i, 2).toString(),
+                        "-",
+                        "-",
                         tableModel.getValueAt(i, 3).toString(),
+                        "-",
                         tableModel.getValueAt(i, 4).toString(),
                         tableModel.getValueAt(i, 5).toString(),
                         tableModel.getValueAt(i, 6).toString()));
@@ -208,56 +207,82 @@ public class checkout extends JFrame {
 
     private int getAdditionalAmountFromFile(String roomNumber) {
         int additionalAmount = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader("RoomserviceList.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("ServiceList.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 // 쉼표 양쪽 공백 제거 후 데이터 분리
-                String[] data = line.split("\\s*,\\s*");
+                String[] data = line.split(",");
                 if (data.length >= 8 && data[4].trim().equals(roomNumber)) { // 방 번호 일치 확인
                     try {
                         int price = Integer.parseInt(data[data.length - 1].trim()); // 마지막 필드의 가격 파싱
                         additionalAmount += price; // 총 금액에 추가
                     } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "RoomserviceList.txt의 가격 형식이 잘못되었습니다: " + data[data.length - 1], "오류", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "ServiceList.txt의 가격 형식이 잘못되었습니다: " + data[data.length - 1], "오류", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "RoomserviceList.txt 파일을 찾을 수 없습니다!", "정보", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ServiceList.txt 파일을 찾을 수 없습니다!", "정보", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "RoomserviceList 파일 읽기 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
-        }
-        return additionalAmount;
-    }
-    
-    private int getAdditionalAmountFromFile2(String roomNumber) {
-        int additionalAmount = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader("Restaurantmenu.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // 쉼표 양쪽 공백 제거 후 데이터 분리
-                String[] data = line.split("\\s*,\\s*");
-                if (data.length >= 8 && data[4].trim().equals(roomNumber)) { // 방 번호 일치 확인
-                    try {
-                        int price = Integer.parseInt(data[data.length - 1].trim()); // 마지막 필드의 가격 파싱
-                        additionalAmount += price; // 총 금액에 추가
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "Restaurantmenu.txt의 가격 형식이 잘못되었습니다: " + data[data.length - 1], "오류", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Restaurantmenu.txt 파일을 찾을 수 없습니다!", "정보", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Restaurantmenu 파일 읽기 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ServiceList 파일 읽기 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
         }
         return additionalAmount;
     }
 
-    //ServiceList.txt에서 방번호에 해당하는 추가 금액 가져오기
-    
+    private void loadReservationData() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Reservation.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // 쉼표로 구분된 데이터를 파싱
+                String[] data = line.split(",");
+                if (data.length >= 11) { // 최소 11개의 데이터가 있어야 처리 가능
+                    // 필요한 데이터 추출
+                    String id = data[0].trim(); // 고유 번호
+                    String name = data[1].trim(); // 이름
+                    String phone = data[3].trim(); // 전화번호
+                    String roomNumber = data[6].trim(); // 방 번호
+                    String basePrice = data[8].trim(); // 객실 금액
+                    String paymentMethod = data[9].trim(); // 결제 유형
+                    String status = data[10].trim(); // 상태
+
+                    int totalPrice = 0;
+
+                    try {
+                        int basePriceInt = Integer.parseInt(basePrice);
+                        // 추가 금액 계산
+                        int additionalAmount = getAdditionalAmountFromFile(roomNumber);
+                        totalPrice = basePriceInt + additionalAmount;
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(this, "객실 금액 형식이 잘못되었습니다: " + basePrice, "오류", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    // 테이블에 데이터 추가
+                    tableModel.addRow(new Object[]{
+                        id, // 고유 번호
+                        name, // 이름
+                        phone, // 전화번호
+                        roomNumber, // 방 번호
+                        String.format("%,d", Integer.parseInt(basePrice)), // 객실 금액 (포맷 적용)
+                        paymentMethod, // 결제 유형
+                        status, // 상태
+                        String.format("%,d", totalPrice) // 총 금액
+                    });
+                }
+            }
+            JOptionPane.showMessageDialog(this, "예약자 데이터를 성공적으로 불러왔습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "데이터 파일을 찾을 수 없습니다. 새로 생성됩니다.", "정보", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "예약자 데이터를 불러오는 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "예약 데이터 중 숫자 형식이 잘못되었습니다!", "오류", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // ServiceList.txt에서 방번호에 해당하는 추가 금액 가져오기
+    /*
     // 예약자 데이터 로드
-    private void loadReservationData1() {
+    private void loadReservationData() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
             Vector<Vector<Object>> data = (Vector<Vector<Object>>) ois.readObject();
             for (Vector<Object> row : data) {
@@ -267,14 +292,15 @@ public class checkout extends JFrame {
             // 데이터 파일이 없거나 문제가 있을 경우 무시
         }
     }
-     
+     */
+ /* 잠깐 주석처리
     // 데이터 로드
     private void loadReservationData() {
         try (BufferedReader reader = new BufferedReader(new FileReader("Reservation.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split(", ");
-                if (data.length >= 7) { // 데이터가 충분한지 확인
+                String[] data = line.split(",");
+                if (data.length >= 11) { // 데이터가 충분한지 확인
                     String basePrice = data[4];
                     int additionalAmount = getAdditionalAmountFromFile(data[3]);
                     int totalPrice = Integer.parseInt(basePrice.replace(",", "")) + additionalAmount; // 총 금액 계산
@@ -282,12 +308,16 @@ public class checkout extends JFrame {
                     tableModel.addRow(new Object[]{
                         data[0], // 고유 번호
                         data[1], // 이름
-                        data[2], // 전화 번호
-                        data[3], // 방 번호
+                        data[3], // 전화 번호
+                        data[6], // 방 번호
                         basePrice, // 객실 금액
-                        data[5], // 결제 수단
-                        data[6], // 상태
+                        data[9], // 결제 수단
+                        data[10], // 상태
+                        
+                        
                         String.format("%,d", totalPrice) // 총 금액
+                            
+                            
                     });
                 }
             }
@@ -298,7 +328,7 @@ public class checkout extends JFrame {
             JOptionPane.showMessageDialog(this, "예약자 데이터를 불러오는 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+잠깐 주석처리*/
     private void performSearch(String searchType) {
         String searchInput = searchTextField.getText().trim();
         if (searchInput.isEmpty()) {
@@ -738,5 +768,14 @@ public class checkout extends JFrame {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "resultText.txt 저장 중 오류 발생!", "오류", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public static void main(String[] args) {//
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SwingUtilities.invokeLater(checkout::new);
     }
 }

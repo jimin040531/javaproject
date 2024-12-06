@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ReservationManager {
     private final List<HotelFloor> floors;
-    private static final String FILE_NAME = "roomInfo.txt";
+    private static final String FILE_NAME = "reservation.txt";
 
     // 생성자: 층 수와 층당 객실 수를 받아 초기화
     public ReservationManager(int numFloors, int roomsPerFloor) {

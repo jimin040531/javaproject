@@ -20,7 +20,7 @@ public class PaymentManager {
     // 생성자에서 초기화
     public PaymentManager() {
         this.fileHandler = new FileHandler();
-        this.paymentFilePath = "결제.txt";
+        this.paymentFilePath = "Payment.txt";
         this.currentPaymentModel = null;
         this.currentPaymentMethod = "";
         this.currentOrderNumber = 0;

@@ -9,6 +9,7 @@ import deu.hms.roomservice.MenuManager;
 import deu.hms.roomservice.ReservationManager;
 import deu.hms.roomservice.TimeManager;
 import deu.hms.roomservice.PaymentManager;
+import deu.hms.roomservice.ReservationData;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Calendar;
@@ -51,7 +52,7 @@ public class restaurantFrame extends javax.swing.JFrame {
     
     // 데이터 초기화를 위한 별도 메소드
     private void initializeData() {
-        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "룸서비스메뉴.txt");
+        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "RoomserviceList.txt");
         timeManager.initCurrentDateTime(jSpinner1, jSpinner2, jSpinner3, jSpinner4, jSpinner5);
     }
     @SuppressWarnings("unchecked")
@@ -910,7 +911,7 @@ public class restaurantFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-        // 예약 창 실행 버튼
+    // 예약 창 실행 버튼
        DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
 
     if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
@@ -920,7 +921,7 @@ public class restaurantFrame extends javax.swing.JFrame {
 
       tableManager.reset((DefaultTableModel) jTable1.getModel(), total);
       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable1.getModel());
-      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "ReservationLoad.txt");
+      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "CheckInData");
       menuManager.updateTotal((DefaultTableModel) jTable1.getModel(), total2);
     }else {
         JOptionPane.showMessageDialog(null, 
@@ -929,7 +930,7 @@ public class restaurantFrame extends javax.swing.JFrame {
            JOptionPane.WARNING_MESSAGE);
         }
     tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
-        
+
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed

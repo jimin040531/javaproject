@@ -126,7 +126,8 @@ public class HotelRoomReservationUI {
             // 체크인 날짜와 체크아웃 날짜 가져오기
             String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
             String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
-
+            
+            
             System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
 
             registration.updateDates(checkInDate, checkOutDate);
@@ -260,5 +261,5 @@ public class HotelRoomReservationUI {
             return null;
         }
         return date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-    } 
+    }
 }
