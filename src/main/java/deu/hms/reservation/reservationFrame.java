@@ -228,7 +228,7 @@ private void initializeTableFromFile() {
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
-     
+      
     int selectedRow = mainTable.getSelectedRow(); // 선택된 행 가져오기
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
@@ -250,6 +250,9 @@ private void initializeTableFromFile() {
     String paymentMethod = getCellValue(mainTable, selectedRow, 9, "현장결제");
     String roomSelection = getCellValue(mainTable, selectedRow, 10, "선택 없음");
 
+    if (registrationFrame == null) {
+        registrationFrame = new Registration(this); // registrationFrame 객체 초기화
+    }
     // Registration 화면으로 데이터 전달
     registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate, 
                                           roomNumber, guestCount, paymentMethod, roomSelection, stayCost);
@@ -263,7 +266,6 @@ private void initializeTableFromFile() {
 private String getCellValue(javax.swing.JTable table, int row, int column, String defaultValue) {
     Object value = table.getValueAt(row, column);
     return value != null ? value.toString() : defaultValue;
-
    
     }//GEN-LAST:event_goEitFomActionPerformed
 
