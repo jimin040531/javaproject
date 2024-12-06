@@ -20,7 +20,9 @@ public class FileManager {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             writer.write(data);
             writer.newLine();
-        }
+        } catch (IOException e) {
+            System.err.println("파일 저장 테스트 실패: " + e.getMessage());
+    }
     }
 
     // 파일에서 데이터를 불러오고 ReservationData 객체 리스트로 변환

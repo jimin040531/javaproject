@@ -19,7 +19,7 @@ public class checkout extends JFrame {
     private JButton refreshButton;
     private ButtonGroup paymentGroup;
 
-    private final String DATA_FILE = "reservation_data.dat"; // 데이터 파일 이름
+    private final String DATA_FILE = "Reservation.txt"; // 데이터 파일 이름
 
     public checkout() {//
         setTitle("체크아웃");
@@ -128,7 +128,7 @@ public class checkout extends JFrame {
     private void saveReservationData() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservation.txt"))) {
             for (int i = 0; i < tableModel.getRowCount(); i++) {
-                writer.write(String.join(", ",
+                writer.write(String.join(",",
                         tableModel.getValueAt(i, 0).toString(),
                         tableModel.getValueAt(i, 1).toString(),
                         tableModel.getValueAt(i, 2).toString(),
@@ -208,7 +208,7 @@ public class checkout extends JFrame {
 
     private int getAdditionalAmountFromFile(String roomNumber) {
         int additionalAmount = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader("ServiceList.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("RoomserviceList.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 // 쉼표 양쪽 공백 제거 후 데이터 분리
@@ -218,14 +218,38 @@ public class checkout extends JFrame {
                         int price = Integer.parseInt(data[data.length - 1].trim()); // 마지막 필드의 가격 파싱
                         additionalAmount += price; // 총 금액에 추가
                     } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "ServiceList.txt의 가격 형식이 잘못되었습니다: " + data[data.length - 1], "오류", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "RoomserviceList.txt의 가격 형식이 잘못되었습니다: " + data[data.length - 1], "오류", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "ServiceList.txt 파일을 찾을 수 없습니다!", "정보", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "RoomserviceList.txt 파일을 찾을 수 없습니다!", "정보", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "ServiceList 파일 읽기 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "RoomserviceList 파일 읽기 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
+        }
+        return additionalAmount;
+    }
+    
+    private int getAdditionalAmountFromFile2(String roomNumber) {
+        int additionalAmount = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader("Restaurantmenu.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // 쉼표 양쪽 공백 제거 후 데이터 분리
+                String[] data = line.split("\\s*,\\s*");
+                if (data.length >= 8 && data[4].trim().equals(roomNumber)) { // 방 번호 일치 확인
+                    try {
+                        int price = Integer.parseInt(data[data.length - 1].trim()); // 마지막 필드의 가격 파싱
+                        additionalAmount += price; // 총 금액에 추가
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Restaurantmenu.txt의 가격 형식이 잘못되었습니다: " + data[data.length - 1], "오류", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Restaurantmenu.txt 파일을 찾을 수 없습니다!", "정보", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Restaurantmenu 파일 읽기 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
         }
         return additionalAmount;
     }
