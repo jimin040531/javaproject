@@ -31,7 +31,8 @@ public class checkout extends JFrame {
         // 뒤로가기 버튼 생성 및 추가
         JButton backButton = new JButton("이전 페이지로");
         backButton.addActionListener(e -> {
-            dispose(); // 현재 창 닫기
+            this.dispose(); // 현재 창 닫기
+       // this.setVisible(false);
         });
         topPanel.add(backButton, BorderLayout.WEST); // 뒤로가기 버튼을 topPanel에 추가
 

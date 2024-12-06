@@ -220,7 +220,7 @@ private void initializeTableFromFile() {
         // 현재 reservationFrame 숨기기
         this.setVisible(false); 
         Registration registrationFrame = new Registration(this);
-        registrationFrame.setSize(500, 450);
+        registrationFrame.setSize(450, 500);
         registrationFrame.setTitle("정보등록");
         registrationFrame.setVisible(true);
         registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
