@@ -231,36 +231,7 @@ public class MainScreenManager extends javax.swing.JFrame {
         checkinFrame.setVisible(true);
     }//GEN-LAST:event_goCheckinManagerActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-        // UserAuthentication 객체 생성 후 MainScreenManager 실행
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                UserAuthentication auth = new UserAuthentication();  // UserAuthentication 객체 생성
-                new MainScreenManager(auth).setVisible(true);  // 생성된 auth 객체를 전달
-            }
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton goCheckinManager;
