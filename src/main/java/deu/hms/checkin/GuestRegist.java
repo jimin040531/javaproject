@@ -236,9 +236,9 @@ public class GuestRegist extends JFrame {
             }
         });
 
-        checkInDateLabel.setText("예상 체크인 날짜");
+        checkInDateLabel.setText("체크인 날짜");
 
-        checkOutDateLabel.setText("예상 체크아웃 날짜");
+        checkOutDateLabel.setText("체크아웃 날짜");
 
         checkOutDateTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -262,7 +262,7 @@ public class GuestRegist extends JFrame {
             }
         });
 
-        guestCountLabel.setText("인원수");
+        guestCountLabel.setText("추가 인원 수");
 
         guestCountTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -298,6 +298,17 @@ public class GuestRegist extends JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(paymentMethodLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                        .addComponent(onSitePaymentButton)
+                        .addGap(7, 7, 7)
+                        .addComponent(paymentType, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cardRegistButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(registButton)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -311,7 +322,7 @@ public class GuestRegist extends JFrame {
                                     .addComponent(roomNumberLabel)
                                     .addComponent(phoneNumberLabel)
                                     .addComponent(nameLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(roomNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -326,47 +337,36 @@ public class GuestRegist extends JFrame {
                                                 .addComponent(phoneTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(phoneTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(stayCostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(wonLabel))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(guestCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(meongLabel))
                                     .addComponent(checkOutDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(calendar)))
-                                .addGap(132, 132, 132)))
+                                    .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(151, 151, 151)))
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(guestCountLabel)
+                                .addGap(149, 149, 149)
+                                .addComponent(guestPlusButton))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(stayCostLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(guestCountLabel)
-                                    .addComponent(paymentMethodLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(onSitePaymentButton)
-                                .addGap(7, 7, 7)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(paymentType, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(110, 110, 110)
+                                .addComponent(guestCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cardRegistButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(registButton)
-                                .addContainerGap())
+                                .addComponent(meongLabel)
+                                .addGap(42, 42, 42)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(stayCostLabel)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(guestPlusButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(labelCardStatus)
-                                .addGap(17, 17, 17))))))
+                                .addGap(110, 110, 110)
+                                .addComponent(stayCostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(wonLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(calendar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelCardStatus)
+                        .addGap(17, 17, 17))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,8 +386,7 @@ public class GuestRegist extends JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(checkInDateLabel)
-                            .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(calendar))
+                            .addComponent(checkInDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(checkOutDateLabel)
@@ -399,15 +398,16 @@ public class GuestRegist extends JFrame {
                             .addComponent(hoLabel))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(stayCostLabel)
-                            .addComponent(stayCostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wonLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(guestPlusButton)
                             .addComponent(guestCountLabel)
                             .addComponent(guestCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(meongLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(stayCostLabel)
+                            .addComponent(stayCostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(wonLabel)
+                            .addComponent(calendar))
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelCardStatus)
@@ -437,10 +437,37 @@ public class GuestRegist extends JFrame {
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void registButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registButtonActionPerformed
-        // CardRegistFrame 인스턴스를 생성하여 카드 등록 창을 표시
-        CardRegistFrame cardRegistFrame = new CardRegistFrame();
-        cardRegistFrame.setVisible(true);
-        cardRegistFrame.setLocationRelativeTo(this);  // 현재 창을 기준으로 중앙에 배치
+        CardRegistFrame cardRegistWindow = new CardRegistFrame();
+        cardRegistWindow.setVisible(true);
+        cardRegistWindow.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+
+        // 창이 닫힌 후 카드 정보가 등록되었는지 확인
+        cardRegistWindow.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent e) {
+            // 파일에서 카드 정보 읽기
+            String cardInfo = readCardInfoFromFile();
+            if (cardInfo != null) {
+                labelCardStatus.setText("등록완료"); // 등록완료로 변경
+                labelCardStatus.setVisible(true);
+            } else {
+                labelCardStatus.setText("미등록"); // 미등록 상태로 설정
+                labelCardStatus.setVisible(false);
+            }
+        }
+    });
+}
+
+    // 파일에서 카드 정보를 읽는 메서드
+    private String readCardInfoFromFile() {
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader("card_data.txt"))) {
+            return reader.readLine(); // 첫 번째 줄 읽기
+        } catch (java.io.IOException ex) {
+            return null; // 읽기 실패 시 null 반환
+        }
+
+    
+    // 카드 등록 완료 후 라벨 업데이트
     }//GEN-LAST:event_registButtonActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed

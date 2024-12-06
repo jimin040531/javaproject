@@ -127,20 +127,18 @@ public class checkout extends JFrame {
         });
     }
 // 예약자 데이터 저장
+    
 // 선택된 예약자의 결제 수단과 총 금액 표시
 
     private void saveReservationData() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("CheckInData.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("resultText.txt"))) {
             for (int i = 0; i < tableModel.getRowCount(); i++) {
                 writer.write(String.join(",",
                         tableModel.getValueAt(i, 0).toString(),
                         tableModel.getValueAt(i, 1).toString(),
-                        "-",
                         tableModel.getValueAt(i, 2).toString(),
-                        "-",
-                        "-",
                         tableModel.getValueAt(i, 3).toString(),
-                        "-",
+                        
                         tableModel.getValueAt(i, 4).toString(),
                         tableModel.getValueAt(i, 5).toString(),
                         tableModel.getValueAt(i, 6).toString()));
@@ -191,7 +189,7 @@ public class checkout extends JFrame {
     // 총 금액 계산 메서드
     private void calculateroomPrice() {
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("CheckInData.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("resultText.txt"))) {
             for (int i = 0; i < tableModel.getRowCount(); i++) {
                 String id = tableModel.getValueAt(i, 0).toString();
                 String name = tableModel.getValueAt(i, 1).toString();
@@ -254,7 +252,7 @@ public class checkout extends JFrame {
                     data[7], // 객실 금액
                     data[8], // 결제 수단
                     data[9], // 상태
-                    data[10] // 총 금액
+                    "-"
                 });
             }
         }
@@ -496,7 +494,7 @@ public class checkout extends JFrame {
             tableModel.addRow(newRow);
 
             // 파일에 저장
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("CheckInData.txt", true))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("resultText.txt", true))) {
                 writer.write(String.join(", ", newRow));
                 writer.newLine();
             } catch (IOException ex) {
@@ -521,6 +519,7 @@ public class checkout extends JFrame {
         String paymentAmount = tableModel.getValueAt(selectedRow, 4).toString();
         roomPriceField.setText(paymentAmount);
     }
+    
 // 체크아웃 처리
 
     private void performCheckout() {
@@ -583,13 +582,13 @@ public class checkout extends JFrame {
 
         feedbackTextArea.setText("");
         roomPriceField.setText("");
-        JOptionPane.showMessageDialog(this, "체크아웃 완료! 추가 요금: " + String.format("%,d원", additionalLateFee), "성공", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "체크아웃 완료! " , "성공", JOptionPane.INFORMATION_MESSAGE);
     }
 
 // resultText.txt에 정보 저장 (중복 방지)
     private void saveTOresultText(String id, String name, String phone, String room, int roomPrice, String paymentType, String status) {
         try {
-            File resultTextFile = new File("resultText.txt");
+            File resultTextFile = new File("FeedBack.txt");
             boolean entryExists = false;
 
             // 기존 데이터 확인 및 수정

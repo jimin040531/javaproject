@@ -79,6 +79,7 @@ public class CheckInUI extends JFrame {
 
         reqestTextField.setText("");
         roomCountTextField.setText("");
+        searchTextField.setText("");
     }
 
 
@@ -349,7 +350,15 @@ public class CheckInUI extends JFrame {
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void roomCountTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomCountTextFieldActionPerformed
+        int selectedRow = reservationListTable.getSelectedRow();
 
+        if (selectedRow > 0) { // 선택된 행이 있을 경우
+            // reservationListTable에서 값 가져오기
+            String stayCost = (String) reservationListTable.getValueAt(selectedRow, 7);
+            roomCountTextField.setText(stayCost);
+        } else {
+            System.out.println("테이블에서 행이 선택되지 않았습니다.");
+        }
     }//GEN-LAST:event_roomCountTextFieldActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
