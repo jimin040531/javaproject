@@ -41,8 +41,6 @@ public ReservationData(String name, String address, String phoneNumber,
     this.stayCost = stayCost;
     this.paymentMethod = paymentMethod;
     this.status = status;
-
-    
 }
 
 // 기존 데이터 로드용 생성자
@@ -77,8 +75,7 @@ public ReservationData(String uniqueNumber, String name, String address, String 
            stayCost + "," +
            paymentMethod + "," +
            status;
-         
-}
+         }
 private void updateFileStatus(DefaultTableModel model, int rowIndex, String newStatus) {
     try {
         String uniqueNumber = (String) model.getValueAt(rowIndex, 0); // 고유번호 가져오기
