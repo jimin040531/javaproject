@@ -72,13 +72,14 @@ public class CheckInUI extends JFrame {
 
         reservationManager.saveCheckInDataWithRequest(checkInData, requestDetails);  // 메서드 변경됨
 
-        JOptionPane.showMessageDialog(this, "체크인이 완료되었습니다.\n요청 사항: " + requestDetails, "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "체크인이 완료되었습니다." , "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
 
         DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
         model.removeRow(selectedRow);
 
         reqestTextField.setText("");
         roomCountTextField.setText("");
+        searchTextField.setText("");
     }
 
 
@@ -311,11 +312,11 @@ public class CheckInUI extends JFrame {
         String searchTerm = searchTextField.getText().trim();  // 입력된 검색어
         String searchType = (String) searchComboBox.getSelectedItem();  // 선택된 검색 기준
 
-        // 전체 예약 데이터를 가져옵니다
+        // 전체 예약 데이터 가져오기
         List<CheckInData> allReservations = reservationManager.getCheckInDataList();
         List<CheckInData> filteredData = new ArrayList<>();
 
-        // 검색 기준에 맞는 데이터를 필터링합니다
+        // 검색 기준에 맞는 데이터를 필터링
         for (CheckInData checkInData : allReservations) {
             switch (searchType) {
                 case "고유 번호":
@@ -341,12 +342,12 @@ public class CheckInUI extends JFrame {
             JOptionPane.showMessageDialog(this, "검색 결과가 없습니다.", "검색 결과", JOptionPane.INFORMATION_MESSAGE);
         }
 
-        // 테이블에 필터링된 데이터를 업데이트합니다
+        // 테이블에 필터링된 데이터 업데이트
         updateTable(filteredData);
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void roomCountTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomCountTextFieldActionPerformed
-
+        
     }//GEN-LAST:event_roomCountTextFieldActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed

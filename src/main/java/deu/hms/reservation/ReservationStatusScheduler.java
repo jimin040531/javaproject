@@ -55,7 +55,6 @@ public class ReservationStatusScheduler {
                         String cardStatus = (String) model.getValueAt(rowIndex, 10); // 상태 열 가져오기
                         String newStatus = "카드등록".equals(cardStatus) ? "예약확정" : "예약취소";
                         model.setValueAt(newStatus, rowIndex, 10); // 테이블에서 상태 변경
-                        System.out.println("테이블 상태 업데이트: " + newStatus);
 
                         // 파일 상태 업데이트
                         updateFileStatus(model, rowIndex, newStatus);
@@ -74,7 +73,6 @@ public class ReservationStatusScheduler {
     private void updateFileStatus(DefaultTableModel model, int rowIndex, String newStatus) {
         try {
             String uniqueNumber = (String) model.getValueAt(rowIndex, 0); // 고유번호 가져오기
-            System.out.println("파일 업데이트: 고유번호=" + uniqueNumber + ", 새 상태=" + newStatus);
 
             // 상태 업데이트
             FileManager.updateStatus(uniqueNumber, newStatus, "Reservation.txt");

@@ -1,5 +1,3 @@
-1,101,80000,Standard,2
-1,102,80000,Standard,2
 1,103,80000,Standard,2
 1,104,80000,Standard,2
 1,105,80000,Standard,2
