@@ -115,8 +115,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        cashButton = new javax.swing.JRadioButton();
+        cardButton = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -575,11 +575,16 @@ public class roomserviceFrame extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("현금 결제");
+        buttonGroup1.add(cashButton);
+        cashButton.setText("현금 결제");
+        cashButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cashButtonActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("카드 결제");
+        buttonGroup1.add(cardButton);
+        cardButton.setText("카드 결제");
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -588,8 +593,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
                 .addGap(0, 10, Short.MAX_VALUE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jRadioButton2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(cashButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cardButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -600,9 +605,9 @@ public class roomserviceFrame extends javax.swing.JFrame {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
+                        .addComponent(cashButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton2)))
+                        .addComponent(cardButton)))
                 .addContainerGap())
         );
 
@@ -981,7 +986,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
     );
     
     // 예약 처리
-    reservationManager.makeReservation(reservationData);
+    reservationManager.makeReservation(reservationData,"룸서비스");
     
     // 예약 완료 후 처리
     tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
@@ -1032,9 +1037,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        // 결제 하기
-      paymentManager.processPayment(
-        jRadioButton1,  // 현금결제 버튼
-        jRadioButton2,  // 카드결제 버튼
+      paymentManager.processPayment(cashButton,  // 현금결제 버튼
+        cardButton,  // 카드결제 버튼
         (DefaultTableModel) jTable3.getModel(),"룸서비스"
     );
     tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
@@ -1066,11 +1070,17 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void cashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cashButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame Pay;
     private javax.swing.JFrame Reservation;
     private javax.swing.JFrame Reservationlist;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton cardButton;
+    private javax.swing.JRadioButton cashButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton24;
@@ -1116,8 +1126,6 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

@@ -567,8 +567,10 @@ public class restaurantFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("현금 결제");
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("카드 결제");
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -921,7 +923,7 @@ public class restaurantFrame extends javax.swing.JFrame {
 
       tableManager.reset((DefaultTableModel) jTable1.getModel(), total);
       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable1.getModel());
-      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "CheckInData");
+      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "CheckInData.txt");
       menuManager.updateTotal((DefaultTableModel) jTable1.getModel(), total2);
     }else {
         JOptionPane.showMessageDialog(null, 
@@ -990,23 +992,23 @@ public class restaurantFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
          // 예약 하기 버튼
+    ReservationData reservationData = new ReservationData(
+        (DefaultTableModel) jTable4.getModel(),
+        (DefaultTableModel) jTable1.getModel(),
+        jSpinner1.getValue().toString(),
+        jSpinner2.getValue().toString(),
+        jSpinner3.getValue().toString(),
+        jSpinner4.getValue().toString(),
+        jSpinner5.getValue().toString(),
+        roomNumber.getSelectedItem().toString()
+    );
     
-        DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
-
-    if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
-       Pay.setSize(530, 470);
-       Pay.setLocationRelativeTo(null);
-       Pay.setVisible(true);
-
-       tableManager.reset((DefaultTableModel) jTable3.getModel(), total3);
-       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable3.getModel());
-       menuManager.updateTotal((DefaultTableModel) jTable3.getModel(), total3);
-    } else {
-        JOptionPane.showMessageDialog(null, 
-           "결제할 정보가 없습니다. 결제 창을 열 수 없습니다.",
-           "결제 오류", 
-           JOptionPane.WARNING_MESSAGE);
-      }
+    // 예약 처리
+    reservationManager.makeReservation(reservationData,"레스토랑");
+    
+    // 예약 완료 후 처리
+    tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
+    Reservation.setVisible(false);
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

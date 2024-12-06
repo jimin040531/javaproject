@@ -78,7 +78,7 @@ public class FileHandler {
     // 예약 목록 파일 불러오기
     public void loadReservationFromFile(DefaultTableModel model) {
         this.tableModel = model;
-        this.filePath = "예약목록.txt";
+        this.filePath = "ServiceList.txt";
         
         try {
             initializeReader();
@@ -128,7 +128,7 @@ public class FileHandler {
         while ((line = bufferedReader.readLine()) != null) {
             String[] data = line.split(",");
             if (isValidRoomData(data)) {
-                comboBoxModel.addElement(data[6].trim());
+                comboBoxModel.addElement(data[5].trim());
             }
         }
     }
@@ -151,7 +151,7 @@ public class FileHandler {
         }
     }
     
-    private void saveReservationData() throws IOException {
+   private void saveReservationData() throws IOException {
       int lastNumber = 0;
     if (fileExists()) {
         initializeReader();
