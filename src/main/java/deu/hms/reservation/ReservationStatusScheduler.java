@@ -37,8 +37,7 @@ public class ReservationStatusScheduler {
                 System.err.println("체크인 날짜 형식이 잘못되었습니다: " + checkInDate);
                 return;
             }
-            LocalDateTime targetTime = LocalDateTime.now().plusSeconds(10);
-          //  LocalDateTime targetTime = checkInDay.atTime(18, 0); // 오후 6시 기준
+            LocalDateTime targetTime = checkInDay.atTime(18, 0); // 오후 6시 기준
             long delay = Duration.between(now, targetTime).toMillis();
 
             if (delay < 0) {

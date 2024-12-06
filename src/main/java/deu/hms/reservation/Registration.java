@@ -488,9 +488,11 @@ public void showCardRegistrationStatus() {
     }//GEN-LAST:event_cardRegistButtonActionPerformed
 
     private void paymentTypeRegistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentTypeRegistButtonActionPerformed
-   cardRegist cardRegistWindow = new cardRegist(this);
-    cardRegistWindow.setVisible(true);
-        cardRegistWindow.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+
+        
+        cardRegist cardRegistWindow = new cardRegist(this);
+        cardRegistWindow.setVisible(true);
+        cardRegistWindow.setLocationRelativeTo(this);            // 부모 컴포넌트를 기준으로 중앙에 배치  
 
     // 창이 닫힌 후 카드 정보가 등록되었는지 확인
     cardRegistWindow.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -531,10 +533,12 @@ private String readCardInfoFromFile() {
     }//GEN-LAST:event_textAddressActionPerformed
 
     private void reservationsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationsubmitActionPerformed
-    try {
+   try {
         if (parentFrame == null) {
-            throw new NullPointerException("parentFrame이 null입니다. ReservationFrame 객체가 전달되지 않았습니다.");
-        }
+     parentFrame.setVisible(true); // reservationFrame 다시 표시
+        parentFrame.toFront(); // 최상단으로 가져오기
+        parentFrame.repaint();// 새로고침
+        parentFrame.setSize(850, 250);        }
 
         DefaultTableModel model = (DefaultTableModel) parentFrame.getMainTable().getModel();
         ReservationData updatedData = populateReservationData();
@@ -562,8 +566,9 @@ private String readCardInfoFromFile() {
         JOptionPane.showMessageDialog(this, "저장 실패: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
-
+    
     editingRow = -1; 
+    
     }//GEN-LAST:event_reservationsubmitActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -592,11 +597,11 @@ private String readCardInfoFromFile() {
     }//GEN-LAST:event_paymentTypeActionPerformed
 
     private void calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calendarActionPerformed
-        
+
         this.setVisible(false); 
         SwingUtilities.invokeLater(() -> {  
-        new HotelRoomInfo(); // HotelRoomInfo 생성자 호출 캘린더
-    });
+        new HotelRoomInfo();                        // HotelRoomInfo 생성자 호출 캘린더
+         });
     }//GEN-LAST:event_calendarActionPerformed
 
 

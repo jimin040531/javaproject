@@ -221,7 +221,7 @@ private void initializeTableFromFile() {
         registrationFrame.setSize(500, 450);
         registrationFrame.setTitle("정보등록");
         registrationFrame.setVisible(true);
-        registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
+        registrationFrame.setLocationRelativeTo(this);             // 부모 컴포넌트를 기준으로 중앙에 배치  
 
     }//GEN-LAST:event_goReservationActionPerformed
 
@@ -351,10 +351,10 @@ private String getCellValue(javax.swing.JTable table, int row, int column, Strin
                 reservationFrame frame = new reservationFrame();
                 
             // 테이블 초기화 (파일 로드)
-          //  frame.initializeTableFromFile();
+           frame.initializeTableFromFile();
 
-         //   frame.setVisible(true); // 메인 화면 표시
-          //     frame.setSize(850, 250);
+            frame.setVisible(true); // 메인 화면 표시
+             frame.setSize(850, 250);
             }
         });
     }
