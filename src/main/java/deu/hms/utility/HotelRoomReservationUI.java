@@ -260,9 +260,5 @@ public class HotelRoomReservationUI {
             return null;
         }
         return date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(HotelRoomReservationUI ::new);
-    }
+    } 
 }

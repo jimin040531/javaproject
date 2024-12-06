@@ -168,21 +168,20 @@ public class MainScreenManager extends javax.swing.JFrame {
         deu.hms.restaurant.restaurantFrame restaurantFrame = new deu.hms.restaurant.restaurantFrame(new java.awt.Frame(), true);
         restaurantFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         restaurantFrame.setVisible(true);
-   //     this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_goRestaurantManagerActionPerformed
 
     private void goReservationManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationManagerActionPerformed
         deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
         reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         reservationFrame.setVisible(true);
-       // this.dispose(); //현재 창 닫기
     }//GEN-LAST:event_goReservationManagerActionPerformed
                                             
     private void goCheckoutManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckoutManagerActionPerformed
-     //     checkout  checkoutFrame = new checkout(this);
-      //  checkoutFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
-     //   checkoutFrame.setVisible(true);
-     //   this.dispose();  // 현재 창 닫기
+    //checkout  checkoutFrame = new checkout(this);
+    deu.hms.checkout.checkout checkoutFrame = new deu.hms.checkout.checkout();
+    checkoutFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+    checkoutFrame.setVisible(true);
+    this.dispose();  // 현재 창 닫기
         
     }//GEN-LAST:event_goCheckoutManagerActionPerformed
 
@@ -232,36 +231,6 @@ public class MainScreenManager extends javax.swing.JFrame {
         checkinFrame.setVisible(true);
     }//GEN-LAST:event_goCheckinManagerActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-        // UserAuthentication 객체 생성 후 MainScreenManager 실행
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                UserAuthentication auth = new UserAuthentication();  // UserAuthentication 객체 생성
-                new MainScreenManager(auth).setVisible(true);  // 생성된 auth 객체를 전달
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton goCheckinManager;

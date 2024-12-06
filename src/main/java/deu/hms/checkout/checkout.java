@@ -1,4 +1,4 @@
-package newpackage;
+package deu.hms.checkout;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -230,10 +230,10 @@ public class checkout extends JFrame {
         return additionalAmount;
     }
 
-    // ServiceList.txt에서 방번호에 해당하는 추가 금액 가져오기
-    /*
+    //ServiceList.txt에서 방번호에 해당하는 추가 금액 가져오기
+    
     // 예약자 데이터 로드
-    private void loadReservationData() {
+    private void loadReservationData1() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
             Vector<Vector<Object>> data = (Vector<Vector<Object>>) ois.readObject();
             for (Vector<Object> row : data) {
@@ -243,7 +243,7 @@ public class checkout extends JFrame {
             // 데이터 파일이 없거나 문제가 있을 경우 무시
         }
     }
-     */
+     
     // 데이터 로드
     private void loadReservationData() {
         try (BufferedReader reader = new BufferedReader(new FileReader("Reservation.txt"))) {
@@ -714,14 +714,5 @@ public class checkout extends JFrame {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "resultText.txt 저장 중 오류 발생!", "오류", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    public static void main(String[] args) {//
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        SwingUtilities.invokeLater(checkout::new);
     }
 }
