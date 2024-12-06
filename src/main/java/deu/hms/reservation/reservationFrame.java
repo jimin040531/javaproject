@@ -342,10 +342,7 @@ private String getCellValue(javax.swing.JTable table, int row, int column, Strin
         }
         //</editor-fold>
         //</editor-fold>
-          LocalDateTime now = LocalDateTime.now();
-    String testCheckInDate = now.toLocalDate().toString(); // 오늘 날짜를 체크인 날짜로 설정
-    int testRowIndex = 0; // 테스트할 테이블 행 인덱스
-
+      
 
     // 테이블 모델 생성 및 데이터 삽입
         /* Create and display the dialog */
@@ -354,10 +351,10 @@ private String getCellValue(javax.swing.JTable table, int row, int column, Strin
                 reservationFrame frame = new reservationFrame();
                 
             // 테이블 초기화 (파일 로드)
-            frame.initializeTableFromFile();
+          //  frame.initializeTableFromFile();
 
-            frame.setVisible(true); // 메인 화면 표시
-               frame.setSize(850, 250);
+         //   frame.setVisible(true); // 메인 화면 표시
+          //     frame.setSize(850, 250);
             }
         });
     }
