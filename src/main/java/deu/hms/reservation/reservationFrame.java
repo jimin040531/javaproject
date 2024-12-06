@@ -257,6 +257,8 @@ private void initializeTableFromFile() {
     registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate, 
                                           roomNumber, guestCount, paymentMethod, roomSelection, stayCost);
     registrationFrame.setEditingRow(editingRow); // 수정 행 인덱스 전달
+    this.setVisible(false); 
+
     registrationFrame.setVisible(true); // Registration 화면 표시
     registrationFrame.setSize(500, 450); // 창 크기 설정
     registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
