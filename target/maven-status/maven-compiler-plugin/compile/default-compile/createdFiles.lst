@@ -2,6 +2,7 @@ deu\hms\userManagement\User.class
 deu\hms\checkout\checkout.class
 deu\hms\checkout\checkout$1.class
 deu\hms\roomManagement\RoomRepository.class
+deu\hms\roomservice\roomserviceFrame$17.class
 deu\hms\roomManagement\Room.class
 deu\hms\login\loginFrame$6$1.class
 deu\hms\login\loginFrame$6.class
