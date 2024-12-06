@@ -51,7 +51,7 @@ public class restaurantFrame extends javax.swing.JFrame {
     
     // 데이터 초기화를 위한 별도 메소드
     private void initializeData() {
-        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "룸서비스메뉴.txt");
+        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "레스토랑메뉴.txt");
         timeManager.initCurrentDateTime(jSpinner1, jSpinner2, jSpinner3, jSpinner4, jSpinner5);
     }
     @SuppressWarnings("unchecked")

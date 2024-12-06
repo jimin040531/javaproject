@@ -1,8 +1,5 @@
 package deu.hms.roomservice;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.io.FileWriter;
@@ -50,35 +47,44 @@ public class ReservationManager {
     }
     
     // 예약 생성 메소드
-  public void makeReservation(ReservationData reservationData) {
-    if (!validateReservationTime(reservationData)) {
-        return;
+    public void makeReservation(ReservationData reservationData) {
+        if (!validateReservationTime(reservationData)) {
+            return;
+        }
+        
+        try {
+            int orderNumber = getNextOrderNumber();
+            processReservation(reservationData, orderNumber);
+            saveReservationToFile(reservationData.getReservationModel());
+            showSuccessMessage("예약이 성공적으로 생성되었습니다.");
+        } catch (Exception e) {
+            showErrorMessage("예약 생성 중 오류가 발생했습니다: " + e.getMessage());
+        }
     }
-    
-    try {
-        processReservation(reservationData);
-        showSuccessMessage("예약이 성공적으로 생성되었습니다.");
-    } catch (Exception e) {
-        showErrorMessage("예약 생성 중 오류가 발생했습니다: " + e.getMessage());
-    }
-}
     
     // 예약 삭제 메소드
     public void deleteReservation(DefaultTableModel model, JTable table) {
-        selectedRow = table.getSelectedRow();
-        
-        if (isValidRowSelection(selectedRow)) {
-            try {
-                processDeleteReservation(model);
-                updateFileAfterDeletion(model);
-                showSuccessMessage("예약이 성공적으로 삭제되었습니다.");
-            } catch (Exception ex) {
-                showErrorMessage("파일 업데이트 중 오류가 발생했습니다.");
-            }
-        } else {
-            showErrorMessage("삭제할 행을 선택해주세요.");
+    int selectedRow = table.getSelectedRow();  // 지역 변수로 변경
+    
+    if (selectedRow >= 0) {  // 행이 선택되었는지 확인
+        try {
+            // 선택된 행 번호를 매개변수로 전달
+            processDeleteReservation(model, selectedRow);
+            updateFileAfterDeletion(model);
+            showSuccessMessage("예약이 성공적으로 삭제되었습니다.");
+        } catch (Exception ex) {
+            showErrorMessage("파일 업데이트 중 오류가 발생했습니다.");
         }
+    } else {
+        showErrorMessage("삭제할 행을 선택해주세요.");
     }
+}
+
+private void processDeleteReservation(DefaultTableModel model, int row) {
+    int deletedOrderNumber = Integer.parseInt(model.getValueAt(row, 0).toString());
+    model.removeRow(row);
+    updateOrderNumbers(model, deletedOrderNumber);
+}
     
     // 내부 검증 메소드들
     private boolean validateReservationTime(ReservationData data) {
@@ -123,61 +129,26 @@ public class ReservationManager {
         }
     }
     
-    private void processReservation(ReservationData data) {
+    private void processReservation(ReservationData data, int orderNumber) {
+  
+    // 기존 데이터를 지우고 새로운 데이터만 추가
+    data.getReservationModel().setRowCount(0);
     DefaultTableModel orderModel = data.getOrderModel();
-    DefaultTableModel reservationModel = data.getReservationModel();
     
-    try {
-        // 기존 예약 데이터를 임시로 저장
-        DefaultTableModel tempModel = new DefaultTableModel(
-            new Object[]{"순번", "타입", "날짜", "시간", "호실", "메뉴", "수량", "가격"}, 0
-        );
+    // 각 메뉴 항목별로 예약 데이터 생성
+    for(int i = 0; i < orderModel.getRowCount(); i++) {
+        String[] rowData = {
+            String.valueOf(orderNumber + i),  // 순차적인 순번
+            "룸서비스",
+            formatDate(data),
+            formatTime(data),
+            data.getRoom(),
+            orderModel.getValueAt(i, 0).toString(),  // 메뉴 이름
+            orderModel.getValueAt(i, 1).toString(),  // 수량
+            orderModel.getValueAt(i, 2).toString()   // 가격
+        };
         
-        // 기존 데이터 복사
-        for (int i = 0; i < reservationModel.getRowCount(); i++) {
-            Object[] row = new Object[8];
-            for (int j = 0; j < 8; j++) {
-                row[j] = reservationModel.getValueAt(i, j);
-            }
-            tempModel.addRow(row);
-        }
-        
-        // 마지막 순번 가져오기
-        int lastOrderNumber = 0;
-        if (tempModel.getRowCount() > 0) {
-            lastOrderNumber = Integer.parseInt(tempModel.getValueAt(tempModel.getRowCount()-1, 0).toString());
-        }
-        
-        // 새로운 예약 추가
-        for (int i = 0; i < orderModel.getRowCount(); i++) {
-            Object[] rowData = {
-                String.valueOf(lastOrderNumber + i + 1),  // 순차적으로 증가하는 순번
-                "룸서비스",
-                formatDate(data),
-                formatTime(data),
-                data.getRoom(),
-                orderModel.getValueAt(i, 0).toString(),  // 메뉴
-                orderModel.getValueAt(i, 1).toString(),  // 수량
-                orderModel.getValueAt(i, 2).toString()   // 가격
-            };
-            tempModel.addRow(rowData);
-        }
-        
-        // 파일에 저장
-        fileHandler.saveReservationToFile(tempModel, "ServiceList.txt");
-        
-        // 예약 모델 업데이트
-        reservationModel.setRowCount(0);
-        for (int i = 0; i < tempModel.getRowCount(); i++) {
-            Object[] row = new Object[8];
-            for (int j = 0; j < 8; j++) {
-                row[j] = tempModel.getValueAt(i, j);
-            }
-            reservationModel.addRow(row);
-        }
-        
-    } catch (Exception e) {
-        showErrorMessage("예약 처리 중 오류가 발생했습니다: " + e.getMessage());
+        data.getReservationModel().addRow(rowData);
     }
 }
     
@@ -224,11 +195,12 @@ private void addReservationRow(ReservationData data, int orderNumber) {
     }
     
     private int getNextOrderNumber() {
-         int lastNumber = 0;
+        int lastNumber = 0;
     try {
-        File file = new File("ServiceList.txt");
+        java.io.File file = new java.io.File(filePath);
         if (file.exists()) {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            java.io.BufferedReader reader = new java.io.BufferedReader(
+                new java.io.FileReader(file));
             String lastLine = null;
             String line;
             while ((line = reader.readLine()) != null) {
@@ -244,7 +216,7 @@ private void addReservationRow(ReservationData data, int orderNumber) {
         showErrorMessage("주문번호 생성 중 오류가 발생했습니다: " + e.getMessage());
     }
     return lastNumber;
-};
+}
     
     
     private int getLastOrderNumber() {
