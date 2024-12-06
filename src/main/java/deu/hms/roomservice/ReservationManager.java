@@ -49,14 +49,14 @@ public class ReservationManager {
     }
     
     // 예약 생성 메소드
-    public void makeReservation(ReservationData reservationData) {
+    public void makeReservation(ReservationData reservationData, String processName) {
         if (!validateReservationTime(reservationData)) {
             return;
         }
         
         try {
             int orderNumber = getNextOrderNumber();
-            processReservation(reservationData, orderNumber);
+            processReservation(reservationData, orderNumber, processName);
             saveReservationToFile(reservationData.getReservationModel());
             showSuccessMessage("예약이 성공적으로 생성되었습니다.");
         } catch (Exception e) {
@@ -124,7 +124,7 @@ public class ReservationManager {
         }
     }
     
-    private void processReservation(ReservationData data, int orderNumber) {
+    private void processReservation(ReservationData data, int orderNumber, String processName) {
   
     // 기존 데이터를 지우고 새로운 데이터만 추가
     data.getReservationModel().setRowCount(0);
@@ -134,7 +134,7 @@ public class ReservationManager {
     for(int i = 0; i < orderModel.getRowCount(); i++) {
         String[] rowData = {
             String.valueOf(orderNumber + i),  // 순차적인 순번
-            "룸서비스",
+            processName,
             formatDate(data),
             formatTime(data),
             data.getRoom(),

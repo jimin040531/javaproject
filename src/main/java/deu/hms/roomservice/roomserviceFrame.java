@@ -981,7 +981,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
     );
     
     // 예약 처리
-    reservationManager.makeReservation(reservationData);
+    reservationManager.makeReservation(reservationData,"룸서비스");
     
     // 예약 완료 후 처리
     tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
