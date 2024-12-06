@@ -217,8 +217,21 @@ public class UserModify extends javax.swing.JFrame {
         String id = inUserIDModify.getText();
         String password = inUserPWModify.getText();
         String role = pickEmployeeModify.isSelected() ? "Employee" : "Manager";
-
+        
+        // 수정된 정보를 TableModel에 업데이트
+        tableModel.setValueAt(name, selectedRow, 2); // 이름
+        tableModel.setValueAt(id, selectedRow, 0);   // 아이디
+        tableModel.setValueAt(password, selectedRow, 1); // 비밀번호
+        tableModel.setValueAt(role, selectedRow, 3); // 역할
+        
+        // UserModifyManager를 통해 저장 처리 (옵션)
         UserModifyManager.modifyUser(id, new User(id, password, name, role));
+        
+        // 저장 완료 메시지 출력
+        JOptionPane.showMessageDialog(this, "사용자 정보가 수정되었습니다.", "저장 성공", JOptionPane.INFORMATION_MESSAGE);
+
+        // 창 닫기
+        dispose();
     
     }//GEN-LAST:event_saveButtonModifyActionPerformed
 

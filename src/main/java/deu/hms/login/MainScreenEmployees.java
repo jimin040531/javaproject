@@ -18,6 +18,7 @@ public class MainScreenEmployees extends javax.swing.JFrame {
         setTitle("Employee Main Screen");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("메인화면");
 
     }
 
@@ -157,10 +158,10 @@ public class MainScreenEmployees extends javax.swing.JFrame {
     }//GEN-LAST:event_goCheckoutEmployeesActionPerformed
 
     private void goRoomserviceEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goRoomserviceEmployeesActionPerformed
-        /*deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
+        deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
         roomserviceFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         roomserviceFrame.setVisible(true);
-        this.dispose();  // 현재 창 닫기*/
+        this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_goRoomserviceEmployeesActionPerformed
 
     private void goRestaurantEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goRestaurantEmployeesActionPerformed
