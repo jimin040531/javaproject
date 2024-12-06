@@ -245,6 +245,7 @@ private Registration registration; // Registration 객체 참조
         try {
             // cardRegistLoad 객체 생성
             cardRegistLoad cardInfoObj = new cardRegistLoad(cardNum1, cardNum2, cardNum3, cardNum4, month, year, pw, cvc);
+             System.out.println("카드 정보 저장 테스트 성공: " + cardNum1 + "-" + cardNum2 + "-" + cardNum3 + "-" + cardNum4);
 
             // 카드 정보 저장
             cardInfoObj.saveCardInformation();
