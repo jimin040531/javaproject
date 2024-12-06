@@ -220,7 +220,7 @@ private void initializeTableFromFile() {
         // 현재 reservationFrame 숨기기
         this.setVisible(false); 
         Registration registrationFrame = new Registration(this);
-        registrationFrame.setSize(500, 450);
+        registrationFrame.setSize(450, 500);
         registrationFrame.setTitle("정보등록");
         registrationFrame.setVisible(true);
         registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
@@ -228,7 +228,7 @@ private void initializeTableFromFile() {
     }//GEN-LAST:event_goReservationActionPerformed
 
     private void goEitFomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goEitFomActionPerformed
-     
+      
     int selectedRow = mainTable.getSelectedRow(); // 선택된 행 가져오기
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "수정할 행을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
@@ -250,10 +250,15 @@ private void initializeTableFromFile() {
     String paymentMethod = getCellValue(mainTable, selectedRow, 9, "현장결제");
     String roomSelection = getCellValue(mainTable, selectedRow, 10, "선택 없음");
 
+    if (registrationFrame == null) {
+        registrationFrame = new Registration(this); // registrationFrame 객체 초기화
+    }
     // Registration 화면으로 데이터 전달
     registrationFrame.setRegistrationData(name, address, phoneNumber, checkInDate, checkOutDate, 
                                           roomNumber, guestCount, paymentMethod, roomSelection, stayCost);
     registrationFrame.setEditingRow(editingRow); // 수정 행 인덱스 전달
+    this.setVisible(false); 
+
     registrationFrame.setVisible(true); // Registration 화면 표시
     registrationFrame.setSize(500, 450); // 창 크기 설정
     registrationFrame.setLocationRelativeTo(this);  // 부모 컴포넌트를 기준으로 중앙에 배치  
@@ -263,7 +268,6 @@ private void initializeTableFromFile() {
 private String getCellValue(javax.swing.JTable table, int row, int column, String defaultValue) {
     Object value = table.getValueAt(row, column);
     return value != null ? value.toString() : defaultValue;
-
    
     }//GEN-LAST:event_goEitFomActionPerformed
 
@@ -316,55 +320,6 @@ private String getCellValue(javax.swing.JTable table, int row, int column, Strin
     this.dispose();
 
     }//GEN-LAST:event_backButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-   public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-          LocalDateTime now = LocalDateTime.now();
-    String testCheckInDate = now.toLocalDate().toString(); // 오늘 날짜를 체크인 날짜로 설정
-    int testRowIndex = 0; // 테스트할 테이블 행 인덱스
-
-
-    // 테이블 모델 생성 및 데이터 삽입
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                reservationFrame frame = new reservationFrame();
-                
-            // 테이블 초기화 (파일 로드)
-            frame.initializeTableFromFile();
-
-            frame.setVisible(true); // 메인 화면 표시
-               frame.setSize(850, 250);
-            }
-        });
-    }
-
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;

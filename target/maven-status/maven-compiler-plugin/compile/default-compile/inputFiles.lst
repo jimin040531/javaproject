@@ -3,6 +3,7 @@ C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\reservation\
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\checkin\CheckInUI.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\checkin\CheckInData.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\roomManagement\RoomService.java
+C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\checkout\checkout.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\userManagement\UserDeleteManager.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\userManagement\UserAddManager.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\userManagement\UserModify.java
@@ -13,7 +14,6 @@ C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\reservation\
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\reservation\ReservationUtils.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\utility\HotelRoomReservationUI.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\restaurant\restaurantFrame.java
-C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\checkout\checkoutFrame.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\roomManagement\RoomRepository.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\roomservice\MenuManager.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\management\managementFrame.java
@@ -36,6 +36,7 @@ C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\userManageme
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\reservation\FileManager.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\roomManagement\RoomManagementFrame.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\userManagement\UserModifyManager.java
+C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\HMS.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\utility\CardDetails.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\restaurantManagement\restaurantManagementFrame.java
 C:\Users\Jimin\Documents\2-2 java project\HMS\src\main\java\deu\hms\roomservice\TimeManager.java

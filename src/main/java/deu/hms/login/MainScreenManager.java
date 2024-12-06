@@ -27,6 +27,7 @@ public class MainScreenManager extends javax.swing.JFrame {
     public MainScreenManager(UserAuthentication auth) {
         this.auth = auth;  // 로그인 인증 객체를 생성자로 전달받음
         initComponents();
+        
     }
     
      @Override
@@ -135,7 +136,7 @@ public class MainScreenManager extends javax.swing.JFrame {
                                 .addGap(40, 40, 40)
                                 .addComponent(goManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -167,28 +168,26 @@ public class MainScreenManager extends javax.swing.JFrame {
         deu.hms.restaurant.restaurantFrame restaurantFrame = new deu.hms.restaurant.restaurantFrame(new java.awt.Frame(), true);
         restaurantFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         restaurantFrame.setVisible(true);
-        this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_goRestaurantManagerActionPerformed
 
     private void goReservationManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationManagerActionPerformed
         deu.hms.reservation.reservationFrame reservationFrame = new deu.hms.reservation.reservationFrame(new java.awt.Frame(), true);
         reservationFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         reservationFrame.setVisible(true);
-       // this.dispose(); //현재 창 닫기
     }//GEN-LAST:event_goReservationManagerActionPerformed
                                             
     private void goCheckoutManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goCheckoutManagerActionPerformed
-        deu.hms.checkout.checkoutFrame checkoutFrame = new deu.hms.checkout.checkoutFrame(new java.awt.Frame(), true);
-        checkoutFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
-        checkoutFrame.setVisible(true);
-        this.dispose();  // 현재 창 닫기
+    //checkout  checkoutFrame = new checkout(this);
+    deu.hms.checkout.checkout checkoutFrame = new deu.hms.checkout.checkout();
+    checkoutFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
+    checkoutFrame.setVisible(true);
+        
     }//GEN-LAST:event_goCheckoutManagerActionPerformed
 
     private void goRoomserviceManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goRoomserviceManagerActionPerformed
-        /*deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
+        deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
         roomserviceFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         roomserviceFrame.setVisible(true);
-        this.dispose();  // 현재 창 닫기*/
     }//GEN-LAST:event_goRoomserviceManagerActionPerformed
 
     private void goManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goManagementActionPerformed
@@ -204,7 +203,7 @@ public class MainScreenManager extends javax.swing.JFrame {
          deu.hms.report.reportFrame reportScreen = new deu.hms.report.reportFrame(this, true);
         reportScreen.setLocationRelativeTo(null); // 중앙에 띄우기
         reportScreen.setVisible(true); // 화면에 표시
-        this.dispose(); // 현재 화면을 닫음 (이동 후 현재 화면을 숨기고 싶다면)
+        //this.dispose(); // 현재 화면을 닫음 (이동 후 현재 화면을 숨기고 싶다면)
     }//GEN-LAST:event_goReportActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -230,36 +229,6 @@ public class MainScreenManager extends javax.swing.JFrame {
         checkinFrame.setVisible(true);
     }//GEN-LAST:event_goCheckinManagerActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainScreenManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-        // UserAuthentication 객체 생성 후 MainScreenManager 실행
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                UserAuthentication auth = new UserAuthentication();  // UserAuthentication 객체 생성
-                new MainScreenManager(auth).setVisible(true);  // 생성된 auth 객체를 전달
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton goCheckinManager;

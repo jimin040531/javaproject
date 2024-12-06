@@ -1,6 +1,9 @@
 package deu.hms.restaurantManagement;
 
 
+import deu.hms.login.MainScreenEmployees;
+import deu.hms.login.MainScreenManager;
+import deu.hms.login.UserAuthentication;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -465,6 +468,11 @@ public class restaurantManagementFrame extends javax.swing.JDialog {
         });
 
         backButton.setText("<");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         ChangeButton.setText("수정");
         ChangeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -590,48 +598,28 @@ public class restaurantManagementFrame extends javax.swing.JDialog {
     }
     }//GEN-LAST:event_ChangeButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(restaurantManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(restaurantManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(restaurantManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(restaurantManagementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+       UserAuthentication userAuth = new UserAuthentication();
+    String userId = userAuth.getCurrentUserId(); // 현재 로그인한 사용자 ID
+    String userRole = userAuth.getUserRole(userId); // 사용자 역할 가져오기
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                restaurantManagementFrame dialog = new restaurantManagementFrame(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    if (userRole != null) {
+        // 역할에 따라 화면 전환
+        if (userRole.equalsIgnoreCase("employee")) {
+            // 직원용 메인 화면으로 이동
+            MainScreenEmployees mainScreen = new MainScreenEmployees();
+            mainScreen.setVisible(true);
+        } else if  (userRole.equalsIgnoreCase("manager")) {
+            // 관리자용 메인 화면으로 이동
+            MainScreenManager mainScreen = new MainScreenManager();
+            mainScreen.setVisible(true);
+        } 
+    } 
+
+    // 현재 화면 닫기
+    this.dispose();
+
+    }//GEN-LAST:event_backButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ChangeButton;

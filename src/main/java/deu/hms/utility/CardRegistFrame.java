@@ -253,7 +253,7 @@ public class CardRegistFrame extends javax.swing.JFrame {
            }
 
             // 예약 정보 처리 후 메시지 표시
-            JOptionPane.showMessageDialog(this, "카드 정보가 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(this, "카드 정보가 성공적으로 저장되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
 
             // 입력 필드 초기화
             cardNumTextField1.setText("");

@@ -1,11 +1,15 @@
 package deu.hms.restaurant;
 
+import deu.hms.login.MainScreenEmployees;
+import deu.hms.login.MainScreenManager;
+import deu.hms.login.UserAuthentication;
 import deu.hms.roomservice.TableManager;
 import deu.hms.roomservice.FileHandler;
 import deu.hms.roomservice.MenuManager;
 import deu.hms.roomservice.ReservationManager;
 import deu.hms.roomservice.TimeManager;
 import deu.hms.roomservice.PaymentManager;
+import deu.hms.roomservice.ReservationData;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Calendar;
@@ -48,7 +52,7 @@ public class restaurantFrame extends javax.swing.JFrame {
     
     // 데이터 초기화를 위한 별도 메소드
     private void initializeData() {
-        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "룸서비스메뉴.txt");
+        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "RoomserviceList.txt");
         timeManager.initCurrentDateTime(jSpinner1, jSpinner2, jSpinner3, jSpinner4, jSpinner5);
     }
     @SuppressWarnings("unchecked")
@@ -563,8 +567,10 @@ public class restaurantFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("현금 결제");
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("카드 결제");
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -653,6 +659,11 @@ public class restaurantFrame extends javax.swing.JFrame {
         });
 
         jButton3.setText("<");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -902,7 +913,7 @@ public class restaurantFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-        // 예약 창 실행 버튼
+    // 예약 창 실행 버튼
        DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
 
     if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
@@ -912,7 +923,7 @@ public class restaurantFrame extends javax.swing.JFrame {
 
       tableManager.reset((DefaultTableModel) jTable1.getModel(), total);
       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable1.getModel());
-      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "ReservationLoad.txt");
+      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "CheckInData.txt");
       menuManager.updateTotal((DefaultTableModel) jTable1.getModel(), total2);
     }else {
         JOptionPane.showMessageDialog(null, 
@@ -921,7 +932,7 @@ public class restaurantFrame extends javax.swing.JFrame {
            JOptionPane.WARNING_MESSAGE);
         }
     tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
-        
+
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
@@ -981,23 +992,23 @@ public class restaurantFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
          // 예약 하기 버튼
+    ReservationData reservationData = new ReservationData(
+        (DefaultTableModel) jTable4.getModel(),
+        (DefaultTableModel) jTable1.getModel(),
+        jSpinner1.getValue().toString(),
+        jSpinner2.getValue().toString(),
+        jSpinner3.getValue().toString(),
+        jSpinner4.getValue().toString(),
+        jSpinner5.getValue().toString(),
+        roomNumber.getSelectedItem().toString()
+    );
     
-        DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
-
-    if (model5.getRowCount() > 0) { // jTable5에 정보가 있는지 확인
-       Pay.setSize(530, 470);
-       Pay.setLocationRelativeTo(null);
-       Pay.setVisible(true);
-
-       tableManager.reset((DefaultTableModel) jTable3.getModel(), total3);
-       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable3.getModel());
-       menuManager.updateTotal((DefaultTableModel) jTable3.getModel(), total3);
-    } else {
-        JOptionPane.showMessageDialog(null, 
-           "결제할 정보가 없습니다. 결제 창을 열 수 없습니다.",
-           "결제 오류", 
-           JOptionPane.WARNING_MESSAGE);
-      }
+    // 예약 처리
+    reservationManager.makeReservation(reservationData,"레스토랑");
+    
+    // 예약 완료 후 처리
+    tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
+    Reservation.setVisible(false);
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -1015,41 +1026,27 @@ public class restaurantFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(restaurantFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        UserAuthentication userAuth = new UserAuthentication();
+    String userId = userAuth.getCurrentUserId(); // 현재 로그인한 사용자 ID
+    String userRole = userAuth.getUserRole(userId); // 사용자 역할 가져오기
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new restaurantFrame().setVisible(true);
-            }
-        });
-    }
+    if (userRole != null) {
+        // 역할에 따라 화면 전환
+        if (userRole.equalsIgnoreCase("employee")) {
+            // 직원용 메인 화면으로 이동
+            MainScreenEmployees mainScreen = new MainScreenEmployees();
+            mainScreen.setVisible(true);
+        } else if  (userRole.equalsIgnoreCase("manager")) {
+            // 관리자용 메인 화면으로 이동
+            MainScreenManager mainScreen = new MainScreenManager();
+            mainScreen.setVisible(true);
+        } 
+    } 
+
+    // 현재 화면 닫기
+    this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame Pay;

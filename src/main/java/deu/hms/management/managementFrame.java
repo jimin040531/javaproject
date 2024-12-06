@@ -4,6 +4,9 @@
  */
 package deu.hms.management;
 
+import deu.hms.login.MainScreenEmployees;
+import deu.hms.login.MainScreenManager;
+import deu.hms.login.UserAuthentication;
 import deu.hms.roomManagement.RoomService;  // RoomService 임포트
 import deu.hms.roomManagement.RoomManagementFrame;  // RoomManagementFrame 임포트
 import deu.hms.restaurantManagement.restaurantManagementFrame;
@@ -118,7 +121,9 @@ public class managementFrame extends javax.swing.JDialog {
         deu.hms.userManagement.userManagementFrame usermanagementframe = new deu.hms.userManagement.userManagementFrame();
         usermanagementframe.setLocationRelativeTo(null);
         usermanagementframe.setVisible(true);
-        this.dispose();  // 현재 창 닫기
+       this.dispose();  // 현재 창 닫기
+      
+       
     }//GEN-LAST:event_userInfoButtonActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
@@ -139,50 +144,17 @@ public class managementFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_restButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
+            // 현재 창을 닫고 MainScreenManager로 이동
+        this.dispose();  // userManagementFrame 닫기
+
+        // UserAuthentication 객체 생성 (예시: 로그인 정보를 사용)
+        UserAuthentication userAuth = new UserAuthentication();
+
+        // MainScreenManager로 이동, UserAuthentication 객체 전달
+        MainScreenManager mainScreenManager = new MainScreenManager(userAuth);
+        mainScreenManager.setLocationRelativeTo(null);  // 화면 가운데 배치
+        mainScreenManager.setVisible(true);  // MainScreenManager 창을 표시
     }//GEN-LAST:event_backButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(managementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(managementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(managementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(managementFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                managementFrame dialog = new managementFrame(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;

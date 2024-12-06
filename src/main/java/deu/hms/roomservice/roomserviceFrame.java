@@ -1,5 +1,8 @@
 package deu.hms.roomservice;
 
+import deu.hms.login.MainScreenEmployees;
+import deu.hms.login.MainScreenManager;
+import deu.hms.login.UserAuthentication;
 import deu.hms.roomservice.ReservationData;
 import deu.hms.roomservice.TableManager;
 import deu.hms.roomservice.FileHandler;
@@ -55,7 +58,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
     
     // 데이터 초기화를 위한 별도 메소드
     private void initializeData() {
-        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "룸서비스메뉴.txt");
+        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "RoomserviceList.txt");
         timeManager.initCurrentDateTime(jSpinner1, jSpinner2, jSpinner3, jSpinner4, jSpinner5);
     }
     
@@ -112,8 +115,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        cashButton = new javax.swing.JRadioButton();
+        cardButton = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -572,11 +575,16 @@ public class roomserviceFrame extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("현금 결제");
+        buttonGroup1.add(cashButton);
+        cashButton.setText("현금 결제");
+        cashButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cashButtonActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("카드 결제");
+        buttonGroup1.add(cardButton);
+        cardButton.setText("카드 결제");
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -585,8 +593,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
                 .addGap(0, 10, Short.MAX_VALUE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jRadioButton2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(cashButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cardButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -597,9 +605,9 @@ public class roomserviceFrame extends javax.swing.JFrame {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
+                        .addComponent(cashButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton2)))
+                        .addComponent(cardButton)))
                 .addContainerGap())
         );
 
@@ -923,7 +931,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
       tableManager.reset((DefaultTableModel) jTable1.getModel(), total);
       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable1.getModel());
-      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "ReservationLoad.txt");
+      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "CheckInData.txt");
       menuManager.updateTotal((DefaultTableModel) jTable1.getModel(), total2);
     }else {
         JOptionPane.showMessageDialog(null, 
@@ -978,7 +986,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
     );
     
     // 예약 처리
-    reservationManager.makeReservation(reservationData);
+    reservationManager.makeReservation(reservationData,"룸서비스");
     
     // 예약 완료 후 처리
     tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
@@ -1029,9 +1037,8 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        // 결제 하기
-      paymentManager.processPayment(
-        jRadioButton1,  // 현금결제 버튼
-        jRadioButton2,  // 카드결제 버튼
+      paymentManager.processPayment(cashButton,  // 현금결제 버튼
+        cardButton,  // 카드결제 버튼
         (DefaultTableModel) jTable3.getModel(),"룸서비스"
     );
     tableManager.reset((DefaultTableModel) jTable5.getModel(), total);
@@ -1039,57 +1046,41 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-   // 뒤로가기 버튼
+     UserAuthentication userAuth = new UserAuthentication();
+    String userId = userAuth.getCurrentUserId(); // 현재 로그인한 사용자 ID
+    String userRole = userAuth.getUserRole(userId); // 사용자 역할 가져오기
+
+    if (userRole != null) {
+        // 역할에 따라 화면 전환
+        if (userRole.equalsIgnoreCase("employee")) {
+            // 직원용 메인 화면으로 이동
+            MainScreenEmployees mainScreen = new MainScreenEmployees();
+            mainScreen.setVisible(true);
+        } else if  (userRole.equalsIgnoreCase("manager")) {
+            // 관리자용 메인 화면으로 이동
+            MainScreenManager mainScreen = new MainScreenManager();
+            mainScreen.setVisible(true);
+        } 
+    } 
+
+    // 현재 화면 닫기
+    this.dispose();
                                         
     
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(roomserviceFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                
-                new roomserviceFrame().setVisible(true);
-                
-            }
-        });
-    }
-
-
+    private void cashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cashButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame Pay;
     private javax.swing.JFrame Reservation;
     private javax.swing.JFrame Reservationlist;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton cardButton;
+    private javax.swing.JRadioButton cashButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton24;
@@ -1135,8 +1126,6 @@ public class roomserviceFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
