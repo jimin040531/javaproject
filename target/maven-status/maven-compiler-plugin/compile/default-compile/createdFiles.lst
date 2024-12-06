@@ -1,9 +1,11 @@
 deu\hms\reservation\ReservationUtils.class
 deu\hms\utility\HotelRoomReservationUI.class
 deu\hms\checkin\GuestRegist$11.class
+deu\hms\restaurantManagement\restaurantManagementFrame$13.class
 deu\hms\checkin\GuestRegist$2.class
 deu\hms\roomManagement\RoomManagementFrame.class
 deu\hms\userManagement\userManagementFrame$1.class
+deu\hms\restaurantManagement\restaurantManagementFrame$13$1.class
 deu\hms\roomservice\roomserviceFrame$13.class
 deu\hms\login\MainScreenEmployees$4.class
 deu\hms\userManagement\User.class
@@ -96,6 +98,7 @@ deu\hms\reservation\Registration$11.class
 deu\hms\userManagement\UserAdd$5.class
 deu\hms\login\MainScreenEmployees$1.class
 deu\hms\checkin\GuestRegist$5.class
+deu\hms\restaurant\restaurantFrame$17.class
 deu\hms\restaurantManagement\restaurantManagementFrame$10.class
 deu\hms\checkout\checkoutFrame$9.class
 deu\hms\utility\ReservationManager.class
@@ -133,7 +136,6 @@ deu\hms\checkin\CheckInUI$10.class
 deu\hms\checkin\GuestRegist$14.class
 deu\hms\roomservice\ReservationManager.class
 deu\hms\checkin\CheckInUI$3.class
-deu\hms\restaurantManagement\restaurantManagementFrame$12$1.class
 deu\hms\restaurantManagement\restaurantManagementFrame$7.class
 deu\hms\login\loginFrame$6$1.class
 deu\hms\login\MainScreenManager$3.class

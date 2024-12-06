@@ -1,5 +1,8 @@
 package deu.hms.roomservice;
 
+import deu.hms.login.MainScreenEmployees;
+import deu.hms.login.MainScreenManager;
+import deu.hms.login.UserAuthentication;
 import deu.hms.roomservice.ReservationData;
 import deu.hms.roomservice.TableManager;
 import deu.hms.roomservice.FileHandler;
@@ -1039,7 +1042,25 @@ public class roomserviceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-   // 뒤로가기 버튼
+     UserAuthentication userAuth = new UserAuthentication();
+    String userId = userAuth.getCurrentUserId(); // 현재 로그인한 사용자 ID
+    String userRole = userAuth.getUserRole(userId); // 사용자 역할 가져오기
+
+    if (userRole != null) {
+        // 역할에 따라 화면 전환
+        if (userRole.equalsIgnoreCase("employee")) {
+            // 직원용 메인 화면으로 이동
+            MainScreenEmployees mainScreen = new MainScreenEmployees();
+            mainScreen.setVisible(true);
+        } else if  (userRole.equalsIgnoreCase("manager")) {
+            // 관리자용 메인 화면으로 이동
+            MainScreenManager mainScreen = new MainScreenManager();
+            mainScreen.setVisible(true);
+        } 
+    } 
+
+    // 현재 화면 닫기
+    this.dispose();
                                         
     
 

@@ -4,6 +4,9 @@
  */
 package deu.hms.management;
 
+import deu.hms.login.MainScreenEmployees;
+import deu.hms.login.MainScreenManager;
+import deu.hms.login.UserAuthentication;
 import deu.hms.roomManagement.RoomService;  // RoomService 임포트
 import deu.hms.roomManagement.RoomManagementFrame;  // RoomManagementFrame 임포트
 import deu.hms.restaurantManagement.restaurantManagementFrame;
@@ -118,7 +121,9 @@ public class managementFrame extends javax.swing.JDialog {
         deu.hms.userManagement.userManagementFrame usermanagementframe = new deu.hms.userManagement.userManagementFrame();
         usermanagementframe.setLocationRelativeTo(null);
         usermanagementframe.setVisible(true);
-        this.dispose();  // 현재 창 닫기
+       this.dispose();  // 현재 창 닫기
+      
+       
     }//GEN-LAST:event_userInfoButtonActionPerformed
 
     private void roomInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomInfoButtonActionPerformed
@@ -139,7 +144,16 @@ public class managementFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_restButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
+            // 현재 창을 닫고 MainScreenManager로 이동
+        this.dispose();  // userManagementFrame 닫기
+
+        // UserAuthentication 객체 생성 (예시: 로그인 정보를 사용)
+        UserAuthentication userAuth = new UserAuthentication();
+
+        // MainScreenManager로 이동, UserAuthentication 객체 전달
+        MainScreenManager mainScreenManager = new MainScreenManager(userAuth);
+        mainScreenManager.setLocationRelativeTo(null);  // 화면 가운데 배치
+        mainScreenManager.setVisible(true);  // MainScreenManager 창을 표시
     }//GEN-LAST:event_backButtonActionPerformed
 
     /**

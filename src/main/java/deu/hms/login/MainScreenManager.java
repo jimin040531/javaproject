@@ -27,7 +27,7 @@ public class MainScreenManager extends javax.swing.JFrame {
     public MainScreenManager(UserAuthentication auth) {
         this.auth = auth;  // 로그인 인증 객체를 생성자로 전달받음
         initComponents();
-        setTitle("메인화면");
+        
     }
     
      @Override
@@ -168,7 +168,7 @@ public class MainScreenManager extends javax.swing.JFrame {
         deu.hms.restaurant.restaurantFrame restaurantFrame = new deu.hms.restaurant.restaurantFrame(new java.awt.Frame(), true);
         restaurantFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         restaurantFrame.setVisible(true);
-        this.dispose();  // 현재 창 닫기
+   //     this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_goRestaurantManagerActionPerformed
 
     private void goReservationManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goReservationManagerActionPerformed
@@ -189,7 +189,7 @@ public class MainScreenManager extends javax.swing.JFrame {
         deu.hms.roomservice.roomserviceFrame roomserviceFrame = new deu.hms.roomservice.roomserviceFrame(new java.awt.Frame(), true);
         roomserviceFrame.setLocationRelativeTo(null);  // 화면 가운데 배치
         roomserviceFrame.setVisible(true);
-        this.dispose();  // 현재 창 닫기
+        //this.dispose();  // 현재 창 닫기
     }//GEN-LAST:event_goRoomserviceManagerActionPerformed
 
     private void goManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goManagementActionPerformed
@@ -205,7 +205,7 @@ public class MainScreenManager extends javax.swing.JFrame {
          deu.hms.report.reportFrame reportScreen = new deu.hms.report.reportFrame(this, true);
         reportScreen.setLocationRelativeTo(null); // 중앙에 띄우기
         reportScreen.setVisible(true); // 화면에 표시
-        this.dispose(); // 현재 화면을 닫음 (이동 후 현재 화면을 숨기고 싶다면)
+        //this.dispose(); // 현재 화면을 닫음 (이동 후 현재 화면을 숨기고 싶다면)
     }//GEN-LAST:event_goReportActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
