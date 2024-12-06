@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.io.*;
 import java.util.Vector;
 import deu.hms.login.MainScreenEmployees;
-
 public class checkout extends JFrame {
 
     private JTable reservationListTable;
@@ -20,12 +19,12 @@ public class checkout extends JFrame {
     private JButton refreshButton;
     private ButtonGroup paymentGroup;
     private JPanel topPanel; // topPanel 멤버 변수 선언
-
     public checkout() {//
         setTitle("체크아웃");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        
         topPanel = new JPanel(new BorderLayout()); // topPanel 초기화
         add(topPanel, BorderLayout.NORTH); // topPanel을 프레임에 추가
 
@@ -36,6 +35,8 @@ public class checkout extends JFrame {
         });
         topPanel.add(backButton, BorderLayout.WEST); // 뒤로가기 버튼을 topPanel에 추가
 
+        
+        
         // 예약자 명단 테이블
         String[] columnNames = {"고유 번호", "이름", "전화 번호", "방 번호", "객실 금액", "결제 수단", "상태", "총 금액"};
         tableModel = new DefaultTableModel(columnNames, 0);
@@ -64,9 +65,7 @@ public class checkout extends JFrame {
         searchPanel.add(searchButton);
         searchPanel.add(refreshButton);
 
-        // 수정 버튼
-        JButton editButton = new JButton("수정");
-        editButton.addActionListener(e -> editReservation());
+        
 
         // FeedBack 패널
         JPanel feedbackPanel = new JPanel(new BorderLayout());
@@ -104,7 +103,6 @@ public class checkout extends JFrame {
         JScrollPane tableScrollPane = new JScrollPane(reservationListTable);
         JPanel bottomPanel = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(editButton);
         bottomPanel.add(buttonPanel, BorderLayout.WEST);
         bottomPanel.add(feedbackPanel, BorderLayout.CENTER);
         bottomPanel.add(paymentPanel, BorderLayout.EAST);
@@ -787,6 +785,6 @@ public class checkout extends JFrame {
             e.printStackTrace();
         }
         SwingUtilities.invokeLater(checkout::new);
-
+        
     }
 }
