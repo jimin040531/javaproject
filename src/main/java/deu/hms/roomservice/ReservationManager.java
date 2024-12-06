@@ -123,20 +123,22 @@ public class ReservationManager {
     }
     
     private void processReservation(ReservationData data, int orderNumber) {
-        data.getReservationModel().setRowCount(0);
+  
+    // 기존 데이터를 지우고 새로운 데이터만 추가
+    data.getReservationModel().setRowCount(0);
     DefaultTableModel orderModel = data.getOrderModel();
     
-    // 순번을 1부터 시작하도록 수정
+    // 각 메뉴 항목별로 예약 데이터 생성
     for(int i = 0; i < orderModel.getRowCount(); i++) {
         String[] rowData = {
-            String.valueOf(i + 1),  // 1부터 시작하는 순번
+            String.valueOf(orderNumber + i),  // 순차적인 순번
             "룸서비스",
             formatDate(data),
             formatTime(data),
             data.getRoom(),
-            orderModel.getValueAt(i, 0).toString(),
-            orderModel.getValueAt(i, 1).toString(),
-            orderModel.getValueAt(i, 2).toString()
+            orderModel.getValueAt(i, 0).toString(),  // 메뉴 이름
+            orderModel.getValueAt(i, 1).toString(),  // 수량
+            orderModel.getValueAt(i, 2).toString()   // 가격
         };
         
         data.getReservationModel().addRow(rowData);
@@ -186,8 +188,29 @@ private void addReservationRow(ReservationData data, int orderNumber) {
     }
     
     private int getNextOrderNumber() {
-        return getLastOrderNumber() + 1;
+        int lastNumber = 0;
+    try {
+        java.io.File file = new java.io.File(filePath);
+        if (file.exists()) {
+            java.io.BufferedReader reader = new java.io.BufferedReader(
+                new java.io.FileReader(file));
+            String lastLine = null;
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lastLine = line;
+            }
+            if (lastLine != null) {
+                String[] data = lastLine.split(",");
+                lastNumber = Integer.parseInt(data[0]);
+            }
+            reader.close();
+        }
+    } catch (Exception e) {
+        showErrorMessage("주문번호 생성 중 오류가 발생했습니다: " + e.getMessage());
     }
+    return lastNumber;
+}
+    
     
     private int getLastOrderNumber() {
         int lastNumber = 0;
