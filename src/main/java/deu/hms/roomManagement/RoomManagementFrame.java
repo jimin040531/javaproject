@@ -4,6 +4,8 @@
  */
 package deu.hms.roomManagement;
 
+import deu.hms.login.MainScreenManager;
+import deu.hms.login.UserAuthentication;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,8 +15,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class RoomManagementFrame extends javax.swing.JFrame {
     private final RoomService roomService;
+    private final RoomRepository roomRepository;
     
     public RoomManagementFrame(RoomService roomService) {
+        roomRepository = new RoomRepository();
         this.roomService = roomService;
         initComponents();
         setLocationRelativeTo(null);
@@ -31,7 +35,7 @@ public class RoomManagementFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         roomManagement = new javax.swing.JLabel();
-        jScrollPane = new javax.swing.JScrollPane();
+        roomManagementTable = new javax.swing.JScrollPane();
         roomTable = new javax.swing.JTable();
         saveButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
@@ -67,7 +71,7 @@ public class RoomManagementFrame extends javax.swing.JFrame {
                 roomTableMouseClicked(evt);
             }
         });
-        jScrollPane.setViewportView(roomTable);
+        roomManagementTable.setViewportView(roomTable);
         if (roomTable.getColumnModel().getColumnCount() > 0) {
             roomTable.getColumnModel().getColumn(0).setPreferredWidth(50);
             roomTable.getColumnModel().getColumn(3).setPreferredWidth(100);
@@ -120,7 +124,7 @@ public class RoomManagementFrame extends javax.swing.JFrame {
                             .addComponent(deleteButton)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(saveButton))
-                        .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(roomManagementTable, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -133,7 +137,7 @@ public class RoomManagementFrame extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(roomManagement)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roomManagementTable, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
@@ -150,13 +154,15 @@ public class RoomManagementFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_roomTableMouseClicked
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // 저장 버튼 클릭 시 RoomRepository를 이용하여 객실 정보를 파일에 저장
-        roomService.getRoomRepository().saveRoomInfoToFile();
-        JOptionPane.showMessageDialog(this, "객실 정보가 파일에 저장되었습니다.", "저장 성공", JOptionPane.INFORMATION_MESSAGE);
+        saveTableData();
     }//GEN-LAST:event_saveButtonActionPerformed
-
+    private void saveTableData() {
+        DefaultTableModel model = (DefaultTableModel) roomTable.getModel();
+        roomRepository.saveTableDataToFile(model); // 테이블 데이터를 파일에 저장합니다.
+        JOptionPane.showMessageDialog(this, "데이터가 성공적으로 저장되었습니다.", "저장 성공!", JOptionPane.INFORMATION_MESSAGE);
+    }
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int selectedRow = roomTable.getSelectedRow(); // 테이블에서 선택된 행을 가져옴
+     int selectedRow = roomTable.getSelectedRow(); // 테이블에서 선택된 행을 가져옴
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "삭제할 객실을 선택해 주세요.", "삭제 오류", JOptionPane.WARNING_MESSAGE);
             return;
@@ -168,31 +174,40 @@ public class RoomManagementFrame extends javax.swing.JFrame {
 
         try {
             roomService.deleteRoom(floor, roomNumber);
-            JOptionPane.showMessageDialog(this, "객실이 성공적으로 삭제되었습니다.", "삭제 성공", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "객실이 성공적으로 삭제되었습니다.", "삭제 성공!", JOptionPane.INFORMATION_MESSAGE);
             roomService.getRoomRepository().loadRoomDataToTable(roomTable);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "객실 삭제 중 오류가 발생했습니다: " + e.getMessage(), "삭제 오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "객실 삭제 중 오류 발생: " + e.getMessage(), "삭제 오류", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         try {
-            int floor = Integer.parseInt(JOptionPane.showInputDialog(this, "추가할 객실의 층 번호를 입력하세요:"));
-            int roomNumber = Integer.parseInt(JOptionPane.showInputDialog(this, "추가할 객실의 방 번호를 입력하세요:"));
+            int floor = Integer.parseInt(JOptionPane.showInputDialog(this, "등록할 객실의 층 번호를 입력하세요:"));
+            int roomNumber = Integer.parseInt(JOptionPane.showInputDialog(this, "등록할 객실의 방 번호를 입력하세요:"));
             int price = Integer.parseInt(JOptionPane.showInputDialog(this, "객실의 가격을 입력하세요:"));
             String grade = JOptionPane.showInputDialog(this, "객실의 등급을 입력하세요 (Standard, Deluxe, Suite):");
             int capacity = Integer.parseInt(JOptionPane.showInputDialog(this, "객실의 수용 인원을 입력하세요:"));
 
             roomService.addRoom(new Room(floor, roomNumber, price, grade, capacity));
-            JOptionPane.showMessageDialog(this, "객실이 성공적으로 추가되었습니다.", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "객실이 성공적으로 등록되었습니다.", "등록 성공!", JOptionPane.INFORMATION_MESSAGE);
             roomService.getRoomRepository().loadRoomDataToTable(roomTable);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "객실 추가 중 오류가 발생했습니다: " + e.getMessage(), "등록 오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "객실 추가 중 오류 발생: " + e.getMessage(), "등록 오류", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-            
+        // 현재 창을 닫고 MainScreenManager로 이동
+        this.dispose();  // userManagementFrame 닫기
+
+        // UserAuthentication 객체 생성 (예시: 로그인 정보를 사용)
+        UserAuthentication userAuth = new UserAuthentication();
+
+        // MainScreenManager로 이동, UserAuthentication 객체 전달
+        MainScreenManager mainScreenManager = new MainScreenManager(userAuth);
+        mainScreenManager.setLocationRelativeTo(null);  // 화면 가운데 배치
+        mainScreenManager.setVisible(true);  // MainScreenManager 창을 표시
     }//GEN-LAST:event_backButtonActionPerformed
 
     /**
@@ -203,8 +218,8 @@ public class RoomManagementFrame extends javax.swing.JFrame {
     private javax.swing.JButton addButton;
     private javax.swing.JButton backButton;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JLabel roomManagement;
+    private javax.swing.JScrollPane roomManagementTable;
     private javax.swing.JTable roomTable;
     private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables

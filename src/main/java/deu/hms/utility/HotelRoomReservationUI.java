@@ -163,7 +163,7 @@ public class HotelRoomReservationUI {
     }
 
     // 객실 예약 가능 상태 업데이트 메서드
-    private void updateRoomAvailability() {
+        private void updateRoomAvailability() {
         roomPanel.removeAll();
 
         if (checkInDateChooser.getDate() == null || checkOutDateChooser.getDate() == null) {
@@ -181,7 +181,14 @@ public class HotelRoomReservationUI {
         }
 
         final int selectedFloor = floorSelector.getSelectedIndex();
-        final HotelFloor currentFloor = reservationManager.getFloor(selectedFloor);
+        HotelFloor currentFloor;
+        try {
+            currentFloor = reservationManager.getFloor(selectedFloor);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(frame, "유효하지 않은 층 번호입니다.", "오류", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         roomPanel.setLayout(new GridLayout(2, 5)); // 실제 방의 개수에 따라 그리드 레이아웃 조정 필요
 
         for (int roomIndex = 0; roomIndex < currentFloor.getRooms().size(); roomIndex++) {
@@ -189,14 +196,12 @@ public class HotelRoomReservationUI {
             HotelRoom roomObj = currentFloor.getRoom(finalRoomIndex);
             String roomNumber = (selectedFloor + 1) + String.format("%02d", (finalRoomIndex + 1));
             boolean isAvailable = roomObj.isAvailable(checkInDate, checkOutDate);
-
-            int inDay = Integer.parseInt(dateFormat.format(checkInDateChooser.getDate()));
-            int outDay = Integer.parseInt(dateFormat.format(checkOutDateChooser.getDate()));
-
+                
             int roomPrice = roomObj.getPrice();
             String roomGrade = roomObj.getGrade();
-            if ((outDay - inDay) > 1) {
-                roomPrice += ((outDay - inDay) - 1) * (roomObj.getPrice() / 2);
+            int stayDays = (int) (checkOutDate.toEpochDay() - checkInDate.toEpochDay());
+            if (stayDays > 1) {
+                roomPrice += (stayDays - 1) * (roomObj.getPrice() / 2);
             }
             final int finalRoomPrice = roomPrice; // roomPrice를 final로 설정
             int roomCapacity = roomObj.getCapacity();
@@ -205,6 +210,12 @@ public class HotelRoomReservationUI {
             JButton roomButton = new JButton(buttonText);
             roomButton.setPreferredSize(new Dimension(150, 50)); // 버튼 크기 조정 (적당한 크기로 조정)
             roomButton.setBackground(isAvailable ? Color.GREEN : Color.LIGHT_GRAY);
+            
+            // 가격이 0인 경우 버튼 비활성화
+            if (roomObj.getPrice() == 0) {
+                roomButton.setEnabled(false);
+                roomButton.setBackground(Color.LIGHT_GRAY);
+            }
 
             // 람다 표현식 내 사용 변수는 반드시 final 또는 effectively final이어야 함
             roomButton.addActionListener((ActionEvent e) -> {
@@ -214,7 +225,7 @@ public class HotelRoomReservationUI {
                     JOptionPane.showMessageDialog(frame, "이미 예약된 방입니다.", "예약 불가", JOptionPane.WARNING_MESSAGE);
                 }
             });
-    
+
             roomPanel.add(roomButton);
         }
 
@@ -222,19 +233,20 @@ public class HotelRoomReservationUI {
         roomPanel.repaint();
     }
 
+
     
     // 특정 층의 특정 방을 예약하는 메서드
     private void reserveRoom(int floor, int roomNumber, LocalDate checkInDate, LocalDate checkOutDate, int totalCost) {
         if (reservationManager.isRoomAvailable(floor - 1, roomNumber - 1, checkInDate, checkOutDate)) {
             if (reservationManager.reserveRoom(floor - 1, roomNumber - 1, checkInDate, checkOutDate)) {
-                JOptionPane.showMessageDialog(frame, "객실 예약이 완료되었습니다." , "예약 성공", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "객실 등록이 완료되었습니다." , "등록 성공", JOptionPane.INFORMATION_MESSAGE);
                 saveReservationToFile(floor, roomNumber, checkInDate, checkOutDate, totalCost);
                 updateRoomAvailability();
             } else {
-                JOptionPane.showMessageDialog(frame, "이미 예약된 방입니다.", "예약 불가", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "이미 등록된 방입니다.", "등록 불가", JOptionPane.WARNING_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(frame, "잘못된 객실 번호이거나 예약 불가 상태입니다.", "예약 불가", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "잘못된 객실 번호이거나 예약 불가 상태입니다.", "등록 불가", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -245,7 +257,7 @@ public class HotelRoomReservationUI {
         String checkInDateStr = checkInDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String checkOutDateStr = checkOutDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservation.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("reservation.txt", true))) {
             writer.write(uniqueNumber + "," + floor + "," + roomNumber + "," + checkInDateStr + "," + checkOutDateStr + "," + totalCost + "," + status);
             writer.newLine();
         } catch (IOException e) {

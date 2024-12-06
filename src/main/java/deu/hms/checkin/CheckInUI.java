@@ -308,31 +308,34 @@ public class CheckInUI extends JFrame {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // 검색어와 검색 기준을 가져오기
-        String searchTerm = searchTextField.getText().trim();  // 입력된 검색어
+        String searchTerm = searchTextField.getText().trim();  // 입력된 검색어 
         String searchType = (String) searchComboBox.getSelectedItem();  // 선택된 검색 기준
 
-        // 전체 예약 데이터를 가져옵니다
+        // 전체 예약 데이터를 가져오기
         List<CheckInData> allReservations = reservationManager.getCheckInDataList();
         List<CheckInData> filteredData = new ArrayList<>();
 
-        // 검색 기준에 맞는 데이터를 필터링합니다
+        // 검색 기준에 맞는 데이터를 필터링
         for (CheckInData checkInData : allReservations) {
             switch (searchType) {
-                case "고유 번호":
-                    if (checkInData.getUniqueNumber().contains(searchTerm)) {
-                        filteredData.add(checkInData);
-                    }
-                    break;
-                case "성이름":
-                    if (checkInData.getName().contains(searchTerm)) {
-                        filteredData.add(checkInData);
-                    }
-                    break;
                 case "방 번호":
                     if (checkInData.getRoomNumber().contains(searchTerm)) {
                         filteredData.add(checkInData);
                     }
                     break;
+                
+                case "고유 번호":
+                    if (checkInData.getUniqueNumber().contains(searchTerm)) {
+                        filteredData.add(checkInData);
+                    }
+                    break;
+                
+                case "성이름":
+                    if (checkInData.getName().contains(searchTerm)) {
+                        filteredData.add(checkInData);
+                    }
+                    break;
+                
             }
         }
 
