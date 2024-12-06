@@ -1,11 +1,15 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package deu.hms.roomManagement;
 
 public class Room {
-    private final int floor; // 층 번호
-    private final int roomNumber; // 방 번호
-    private int price; // 방 가격
-    private String grade; // 방 등급 (Standard, Deluxe, Suite)
-    private int capacity; // 방 수용 인원
+    private final int floor;
+    private final int roomNumber;
+    private int price;
+    private String grade;
+    private int capacity;
 
     public Room(int floor, int roomNumber, int price, String grade, int capacity) {
         this.floor = floor;
