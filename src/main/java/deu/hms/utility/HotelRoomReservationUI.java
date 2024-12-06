@@ -37,9 +37,6 @@ public class HotelRoomReservationUI {
     public HotelRoomReservationUI(reservationFrame parentFrame) {
      
        this.parentFrame = new reservationFrame(); // 객체 생성
-      reservationManager = new hotelReservationManager(10, 10); // 10층, 층당 10개의 객실 초기화
-     initializeRoomPricesAndGrades(); // 객실 가격 및 등급 초기화
-    registration = new Registration(parentFrame); // 생성한 객체 전달
     frame = new JFrame("호텔 객실 정보");
     roomPanel = new JPanel(new GridLayout(10, 10));
     frame.setLayout(new BorderLayout());
