@@ -78,7 +78,7 @@ public class FileHandler {
     // 예약 목록 파일 불러오기
     public void loadReservationFromFile(DefaultTableModel model) {
         this.tableModel = model;
-        this.filePath = "ServiceList.txt";
+        this.filePath = "예약목록.txt";
         
         try {
             initializeReader();
@@ -92,19 +92,17 @@ public class FileHandler {
     
     // 예약 목록 파일 저장
     public void saveReservationToFile(DefaultTableModel model, String filePath) {
-      this.tableModel = model;
-    this.filePath = filePath;
-    
-    try {
-        // true 파라미터를 제거하여 덮어쓰기 모드로 변경
-        fileWriter = new FileWriter(filePath, false);  // append 모드 해제
-        bufferedWriter = new BufferedWriter(fileWriter);
-        saveReservationData();
-        closeWriter();
-    } catch (Exception e) {
-        showError("예약 목록 저장 중 오류가 발생했습니다: " + e.getMessage());
+        this.tableModel = model;
+        this.filePath = filePath;
+        
+        try {
+            initializeWriter();
+            saveReservationData();
+            closeWriter();
+        } catch (Exception e) {
+            showError("예약 목록 저장 중 오류가 발생했습니다: " + e.getMessage());
+        }
     }
-}
     
     // 내부 헬퍼 메소드들
     private void initializeReader() throws IOException {
@@ -130,7 +128,7 @@ public class FileHandler {
         while ((line = bufferedReader.readLine()) != null) {
             String[] data = line.split(",");
             if (isValidRoomData(data)) {
-                comboBoxModel.addElement(data[3].trim());
+                comboBoxModel.addElement(data[6].trim());
             }
         }
     }
@@ -154,16 +152,37 @@ public class FileHandler {
     }
     
     private void saveReservationData() throws IOException {
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            for (int j = 0; j < tableModel.getColumnCount(); j++) {
-                bufferedWriter.write(tableModel.getValueAt(i, j).toString());
-                if (j < tableModel.getColumnCount() - 1) {
-                    bufferedWriter.write(",");
-                }
+      int lastNumber = 0;
+    if (fileExists()) {
+        initializeReader();
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] data = line.split(",");
+            try {
+                lastNumber = Integer.parseInt(data[0]);
+            } catch (NumberFormatException e) {
+                // 숫자 변환 실패 시 무시
             }
-            bufferedWriter.newLine();
         }
+        closeReader();
     }
+    
+    // 새로운 예약의 순번을 마지막 번호 + 1로 설정
+    for (int i = 0; i < tableModel.getRowCount(); i++) {
+        lastNumber++; // 각 행마다 순번 증가
+        bufferedWriter.write(String.valueOf(lastNumber));
+        bufferedWriter.write(",");
+        
+        // 나머지 데이터 저장
+        for (int j = 1; j < tableModel.getColumnCount(); j++) {
+            bufferedWriter.write(tableModel.getValueAt(i, j).toString());
+            if (j < tableModel.getColumnCount() - 1) {
+                bufferedWriter.write(",");
+            }
+        }
+        bufferedWriter.newLine();
+    }
+}
     
     private boolean isValidRoomData(String[] data) {
         return data.length >= 7 && !data[6].trim().isEmpty();

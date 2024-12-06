@@ -17,9 +17,11 @@ public class ReservationManager {
     // 생성자
     public ReservationManager() {
         this.fileHandler = new FileHandler();
-        this.filePath = "예약목록.txt";
+        this.filePath = "ServiceList.txt";
         this.calendar = Calendar.getInstance();
     }
+    
+    
     
     // Getter/Setter 메소드
     public DefaultTableModel getReservationModel() {
@@ -64,27 +66,20 @@ public class ReservationManager {
     
     // 예약 삭제 메소드
     public void deleteReservation(DefaultTableModel model, JTable table) {
-    int selectedRow = table.getSelectedRow();  // 지역 변수로 변경
-    
-    if (selectedRow >= 0) {  // 행이 선택되었는지 확인
-        try {
-            // 선택된 행 번호를 매개변수로 전달
-            processDeleteReservation(model, selectedRow);
-            updateFileAfterDeletion(model);
-            showSuccessMessage("예약이 성공적으로 삭제되었습니다.");
-        } catch (Exception ex) {
-            showErrorMessage("파일 업데이트 중 오류가 발생했습니다.");
+        selectedRow = table.getSelectedRow();
+        
+        if (isValidRowSelection(selectedRow)) {
+            try {
+                processDeleteReservation(model);
+                updateFileAfterDeletion(model);
+                showSuccessMessage("예약이 성공적으로 삭제되었습니다.");
+            } catch (Exception ex) {
+                showErrorMessage("파일 업데이트 중 오류가 발생했습니다.");
+            }
+        } else {
+            showErrorMessage("삭제할 행을 선택해주세요.");
         }
-    } else {
-        showErrorMessage("삭제할 행을 선택해주세요.");
     }
-}
-
-private void processDeleteReservation(DefaultTableModel model, int row) {
-    int deletedOrderNumber = Integer.parseInt(model.getValueAt(row, 0).toString());
-    model.removeRow(row);
-    updateOrderNumbers(model, deletedOrderNumber);
-}
     
     // 내부 검증 메소드들
     private boolean validateReservationTime(ReservationData data) {
