@@ -78,7 +78,7 @@ public class FileHandler {
     // 예약 목록 파일 불러오기
     public void loadReservationFromFile(DefaultTableModel model) {
         this.tableModel = model;
-        this.filePath = "예약목록.txt";
+        this.filePath = "ServiceList.txt";
         
         try {
             initializeReader();
@@ -92,17 +92,19 @@ public class FileHandler {
     
     // 예약 목록 파일 저장
     public void saveReservationToFile(DefaultTableModel model, String filePath) {
-        this.tableModel = model;
-        this.filePath = filePath;
-        
-        try {
-            initializeWriter();
-            saveReservationData();
-            closeWriter();
-        } catch (Exception e) {
-            showError("예약 목록 저장 중 오류가 발생했습니다: " + e.getMessage());
-        }
+      this.tableModel = model;
+    this.filePath = filePath;
+    
+    try {
+        // true 파라미터를 제거하여 덮어쓰기 모드로 변경
+        fileWriter = new FileWriter(filePath, false);  // append 모드 해제
+        bufferedWriter = new BufferedWriter(fileWriter);
+        saveReservationData();
+        closeWriter();
+    } catch (Exception e) {
+        showError("예약 목록 저장 중 오류가 발생했습니다: " + e.getMessage());
     }
+}
     
     // 내부 헬퍼 메소드들
     private void initializeReader() throws IOException {
@@ -128,7 +130,7 @@ public class FileHandler {
         while ((line = bufferedReader.readLine()) != null) {
             String[] data = line.split(",");
             if (isValidRoomData(data)) {
-                comboBoxModel.addElement(data[6].trim());
+                comboBoxModel.addElement(data[3].trim());
             }
         }
     }

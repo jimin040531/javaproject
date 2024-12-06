@@ -1,5 +1,6 @@
 deu\hms\userManagement\User.class
 deu\hms\checkout\checkout.class
+deu\hms\HMS.class
 deu\hms\checkout\checkout$1.class
 deu\hms\roomManagement\RoomRepository.class
 deu\hms\roomManagement\Room.class

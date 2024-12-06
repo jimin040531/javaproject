@@ -58,7 +58,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
     
     // 데이터 초기화를 위한 별도 메소드
     private void initializeData() {
-        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "룸서비스메뉴.txt");
+        fileHandler.loadMenuFromFile((DefaultTableModel) jTable2.getModel(), "RoomserviceList.txt");
         timeManager.initCurrentDateTime(jSpinner1, jSpinner2, jSpinner3, jSpinner4, jSpinner5);
     }
     
@@ -926,7 +926,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
       tableManager.reset((DefaultTableModel) jTable1.getModel(), total);
       tableManager.copyTableData((DefaultTableModel) jTable5.getModel(), (DefaultTableModel) jTable1.getModel());
-      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "ReservationLoad.txt");
+      fileHandler.loadRoomNumbersFromFile((DefaultComboBoxModel<String>) roomNumber.getModel(), "Reservation.txt");
       menuManager.updateTotal((DefaultTableModel) jTable1.getModel(), total2);
     }else {
         JOptionPane.showMessageDialog(null, 
@@ -968,8 +968,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
  
-    // 예약 하기 버튼
-    ReservationData reservationData = new ReservationData(
+   ReservationData reservationData = new ReservationData(
         (DefaultTableModel) jTable4.getModel(),
         (DefaultTableModel) jTable1.getModel(),
         jSpinner1.getValue().toString(),
