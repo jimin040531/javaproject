@@ -185,7 +185,7 @@ public class FileHandler {
 }
     
     private boolean isValidRoomData(String[] data) {
-        return data.length >= 7 && !data[6].trim().isEmpty();
+        return data.length >= 7 && !data[5].trim().isEmpty();
     }
     
     private void closeReader() throws IOException {
