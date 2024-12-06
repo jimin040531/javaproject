@@ -2,6 +2,7 @@ package deu.hms.roomManagement;
 
 import java.io.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class RoomRepository {
@@ -98,6 +99,26 @@ public class RoomRepository {
             }
         } catch (IOException e) {
             System.out.println("파일을 읽는 중 문제가 발생했습니다: " + e.getMessage());
+        }
+    }
+        public void saveTableDataToFile(DefaultTableModel model) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, false))) {
+            // 테이블의 각 행 데이터를 파일에 작성
+            for (int i = 0; i < model.getRowCount(); i++) {
+                StringBuilder rowBuilder = new StringBuilder();
+                
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    rowBuilder.append(model.getValueAt(i, j).toString()); // 각 셀의 값을 가져오기
+                    if (j < model.getColumnCount() - 1) {
+                        rowBuilder.append(","); // 쉼표로 구분
+                    }
+                }
+                
+                bufferedWriter.write(rowBuilder.toString()); // 행 데이터를 파일에 작성
+                bufferedWriter.newLine();
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "파일 저장 중 오류가 발생했습니다: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

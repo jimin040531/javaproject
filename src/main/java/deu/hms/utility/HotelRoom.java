@@ -24,7 +24,7 @@ public class HotelRoom implements Serializable {
     public HotelRoom() {
         this.capacity = 0;
         this.price = 0;
-        this.grade = "Standard";
+        this.grade = "empty room";
     }
 
     // 생성자: 수용 인원, 가격, 등급을 초기화

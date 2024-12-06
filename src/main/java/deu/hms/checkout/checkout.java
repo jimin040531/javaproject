@@ -130,7 +130,7 @@ public class checkout extends JFrame {
 // 선택된 예약자의 결제 수단과 총 금액 표시
 
     private void saveReservationData() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservation.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("CheckInData.txt"))) {
             for (int i = 0; i < tableModel.getRowCount(); i++) {
                 writer.write(String.join(",",
                         tableModel.getValueAt(i, 0).toString(),
@@ -191,7 +191,7 @@ public class checkout extends JFrame {
     // 총 금액 계산 메서드
     private void calculateroomPrice() {
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservation.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("CheckInData.txt"))) {
             for (int i = 0; i < tableModel.getRowCount(); i++) {
                 String id = tableModel.getValueAt(i, 0).toString();
                 String name = tableModel.getValueAt(i, 1).toString();
@@ -239,105 +239,36 @@ public class checkout extends JFrame {
     }
 
     private void loadReservationData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Reservation.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // 쉼표로 구분된 데이터를 파싱
-                String[] data = line.split(",");
-                if (data.length >= 11) { // 최소 11개의 데이터가 있어야 처리 가능
-                    // 필요한 데이터 추출
-                    String id = data[0].trim(); // 고유 번호
-                    String name = data[1].trim(); // 이름
-                    String phone = data[3].trim(); // 전화번호
-                    String roomNumber = data[6].trim(); // 방 번호
-                    String basePrice = data[8].trim(); // 객실 금액
-                    String paymentMethod = data[9].trim(); // 결제 유형
-                    String status = data[10].trim(); // 상태
-
-                    int totalPrice = 0;
-
-                    try {
-                        int basePriceInt = Integer.parseInt(basePrice);
-                        // 추가 금액 계산
-                        int additionalAmount = getAdditionalAmountFromFile(roomNumber);
-                        totalPrice = basePriceInt + additionalAmount;
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(this, "객실 금액 형식이 잘못되었습니다: " + basePrice, "오류", JOptionPane.ERROR_MESSAGE);
-                    }
-
-                    // 테이블에 데이터 추가
-                    tableModel.addRow(new Object[]{
-                        id, // 고유 번호
-                        name, // 이름
-                        phone, // 전화번호
-                        roomNumber, // 방 번호
-                        String.format("%,d", Integer.parseInt(basePrice)), // 객실 금액 (포맷 적용)
-                        paymentMethod, // 결제 유형
-                        status, // 상태
-                        String.format("%,d", totalPrice) // 총 금액
-                    });
-                }
+    try (BufferedReader reader = new BufferedReader(new FileReader("CheckInData.txt"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            // 쉼표로 구분된 데이터를 파싱
+            String[] data = line.split(",");
+            if (data.length >= 11) { // 최소 11개의 데이터가 있어야 처리 가능
+                // 새로운 순서로 테이블에 추가
+                tableModel.addRow(new Object[]{
+                    data[0], // 고유 번호
+                    data[1], // 이름
+                    data[2], // 전화 번호
+                    data[5], // 방 번호
+                    data[7], // 객실 금액
+                    data[8], // 결제 수단
+                    data[9], // 상태
+                    data[10] // 총 금액
+                });
             }
-            JOptionPane.showMessageDialog(this, "예약자 데이터를 성공적으로 불러왔습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "데이터 파일을 찾을 수 없습니다. 새로 생성됩니다.", "정보", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "예약자 데이터를 불러오는 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "예약 데이터 중 숫자 형식이 잘못되었습니다!", "오류", JOptionPane.ERROR_MESSAGE);
         }
+        JOptionPane.showMessageDialog(this, "예약자 데이터를 성공적으로 불러왔습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
+    } catch (FileNotFoundException ex) {
+        JOptionPane.showMessageDialog(this, "데이터 파일을 찾을 수 없습니다. 새로 생성됩니다.", "정보", JOptionPane.INFORMATION_MESSAGE);
+    } catch (IOException ex) {
+        JOptionPane.showMessageDialog(this, "예약자 데이터를 불러오는 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "예약 데이터 중 숫자 형식이 잘못되었습니다!", "오류", JOptionPane.ERROR_MESSAGE);
     }
+}
 
-    // ServiceList.txt에서 방번호에 해당하는 추가 금액 가져오기
-    /*
-    // 예약자 데이터 로드
-    private void loadReservationData() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
-            Vector<Vector<Object>> data = (Vector<Vector<Object>>) ois.readObject();
-            for (Vector<Object> row : data) {
-                tableModel.addRow(row.toArray());
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            // 데이터 파일이 없거나 문제가 있을 경우 무시
-        }
-    }
-     */
- /* 잠깐 주석처리
-    // 데이터 로드
-    private void loadReservationData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Reservation.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 11) { // 데이터가 충분한지 확인
-                    String basePrice = data[4];
-                    int additionalAmount = getAdditionalAmountFromFile(data[3]);
-                    int totalPrice = Integer.parseInt(basePrice.replace(",", "")) + additionalAmount; // 총 금액 계산
 
-                    tableModel.addRow(new Object[]{
-                        data[0], // 고유 번호
-                        data[1], // 이름
-                        data[3], // 전화 번호
-                        data[6], // 방 번호
-                        basePrice, // 객실 금액
-                        data[9], // 결제 수단
-                        data[10], // 상태
-                        
-                        
-                        String.format("%,d", totalPrice) // 총 금액
-                            
-                            
-                    });
-                }
-            }
-            JOptionPane.showMessageDialog(this, "예약자 데이터를 성공적으로 불러왔습니다.", "성공", JOptionPane.INFORMATION_MESSAGE);
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "데이터 파일을 찾을 수 없습니다. 새로 생성됩니다.", "정보", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "예약자 데이터를 불러오는 중 오류가 발생했습니다!", "오류", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-잠깐 주석처리*/
     private void performSearch(String searchType) {
         String searchInput = searchTextField.getText().trim();
         if (searchInput.isEmpty()) {
@@ -487,86 +418,7 @@ public class checkout extends JFrame {
         }
     }
 
-    /*
-    private void addReservation() {
-        // 예약자 추가 패널 생성
-        JPanel addPanel = new JPanel(new GridLayout(7, 2));
-        String[] columnNames = {"고유 번호", "이름", "방 번호"};
-        JTextField[] fields = new JTextField[columnNames.length];
-
-        // 일반 입력 필드 추가
-        for (int i = 0; i < columnNames.length; i++) {
-            addPanel.add(new JLabel(columnNames[i] + ":"));
-            fields[i] = new JTextField();
-            addPanel.add(fields[i]);
-        }
-
-        // 전화번호 입력 필드 세분화
-        addPanel.add(new JLabel("전화 번호:"));
-        JPanel phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField phonePart1 = new JTextField(3);
-        JTextField phonePart2 = new JTextField(4);
-        JTextField phonePart3 = new JTextField(4);
-        phonePanel.add(phonePart1);
-        phonePanel.add(new JLabel("-"));
-        phonePanel.add(phonePart2);
-        phonePanel.add(new JLabel("-"));
-        phonePanel.add(phonePart3);
-        addPanel.add(phonePanel);
-
-        // 객실 금액 입력 필드 추가
-        JTextField roomPriceField = new JTextField();
-        addPanel.add(new JLabel("객실 금액:"));
-        addPanel.add(roomPriceField);
-
-        // 결제 수단 선택
-        JComboBox<String> paymentComboBox = new JComboBox<>(new String[]{"현장 결제", "카드 결제"});
-        addPanel.add(new JLabel("결제 수단:"));
-        addPanel.add(paymentComboBox);
-
-        // 다이얼로그 표시
-        int result = JOptionPane.showConfirmDialog(this, addPanel, "예약자 추가", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            String[] newRow = new String[7];
-
-            // 고유 번호 및 이름
-            newRow[0] = fields[0].getText().trim(); // 고유 번호
-            newRow[1] = fields[1].getText().trim(); // 이름
-
-            // 전화번호 유효성 검사 및 포맷팅
-            String phone1 = phonePart1.getText().trim();
-            String phone2 = phonePart2.getText().trim();
-            String phone3 = phonePart3.getText().trim();
-            if (phone1.length() != 3 || phone2.length() != 4 || phone3.length() != 4
-                    || !phone1.matches("\\d{3}") || !phone2.matches("\\d{4}") || !phone3.matches("\\d{4}")) {
-                JOptionPane.showMessageDialog(this, "유효한 전화번호를 입력해주세요 (예: 010-1234-5678)", "입력 오류", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            newRow[2] = phone1 + "-" + phone2 + "-" + phone3; // 전화 번호
-
-            // 방 번호
-            newRow[3] = fields[2].getText().trim();
-
-            // 객실 금액 입력 및 유효성 검사
-            String roomPrice = roomPriceField.getText().trim();
-            if (!roomPrice.matches("\\d+")) {
-                JOptionPane.showMessageDialog(this, "객실 금액은 숫자로 입력해야 합니다.", "입력 오류", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            // 쉼표 포함한 금액 표시
-            newRow[4] = String.format("%,d", Integer.parseInt(roomPrice));
-
-            // 결제 수단 설정
-            newRow[5] = paymentComboBox.getSelectedItem().toString();
-
-            // 상태 기본값
-            newRow[6] = "-";
-
-            // 테이블에 추가
-            tableModel.addRow(newRow);
-        }
-    }
-     */
+   
     private void addReservation() {
         // 예약자 추가 패널 생성
         JPanel addPanel = new JPanel(new GridLayout(7, 2));
@@ -644,7 +496,7 @@ public class checkout extends JFrame {
             tableModel.addRow(newRow);
 
             // 파일에 저장
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservation.txt", true))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("CheckInData.txt", true))) {
                 writer.write(String.join(", ", newRow));
                 writer.newLine();
             } catch (IOException ex) {

@@ -105,7 +105,6 @@ public class FileManager {
                 String[] fields = line.split(",");
                 fields[10] = newStatus; // 상태 열 수정
                 writer.write(String.join(",", fields)); // 수정된 데이터 쓰기
-                System.out.println("상태 업데이트 성공: " + String.join(",", fields));
             } else {
                 writer.write(line); // 기존 데이터 유지
             }

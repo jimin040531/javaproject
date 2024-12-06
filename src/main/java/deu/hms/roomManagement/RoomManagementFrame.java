@@ -4,6 +4,8 @@
  */
 package deu.hms.roomManagement;
 
+import deu.hms.login.MainScreenManager;
+import deu.hms.login.UserAuthentication;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,8 +15,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class RoomManagementFrame extends javax.swing.JFrame {
     private final RoomService roomService;
-    
+    private final RoomRepository roomRepository;
     public RoomManagementFrame(RoomService roomService) {
+        roomRepository = new RoomRepository();
         this.roomService = roomService;
         initComponents();
         setLocationRelativeTo(null);
@@ -150,11 +153,13 @@ public class RoomManagementFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_roomTableMouseClicked
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // 저장 버튼 클릭 시 RoomRepository를 이용하여 객실 정보를 파일에 저장
-        roomService.getRoomRepository().saveRoomInfoToFile();
-        JOptionPane.showMessageDialog(this, "객실 정보가 파일에 저장되었습니다.", "저장 성공", JOptionPane.INFORMATION_MESSAGE);
+       saveTableData();
     }//GEN-LAST:event_saveButtonActionPerformed
-
+private void saveTableData() {
+        DefaultTableModel model = (DefaultTableModel) roomTable.getModel();
+        roomRepository.saveTableDataToFile(model); // 테이블 데이터를 파일에 저장합니다.
+        JOptionPane.showMessageDialog(this, "데이터가 성공적으로 저장되었습니다.", "저장 성공!", JOptionPane.INFORMATION_MESSAGE);
+    }
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int selectedRow = roomTable.getSelectedRow(); // 테이블에서 선택된 행을 가져옴
         if (selectedRow == -1) {
@@ -192,7 +197,16 @@ public class RoomManagementFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-            
+// 현재 창을 닫고 MainScreenManager로 이동
+        this.dispose();  // userManagementFrame 닫기
+
+        // UserAuthentication 객체 생성 (예시: 로그인 정보를 사용)
+        UserAuthentication userAuth = new UserAuthentication();
+
+        // MainScreenManager로 이동, UserAuthentication 객체 전달
+        MainScreenManager mainScreenManager = new MainScreenManager(userAuth);
+        mainScreenManager.setLocationRelativeTo(null);  // 화면 가운데 배치
+        mainScreenManager.setVisible(true);  // MainScreenManager 창을 표시            
     }//GEN-LAST:event_backButtonActionPerformed
 
     /**
