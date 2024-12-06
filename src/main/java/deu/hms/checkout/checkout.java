@@ -777,14 +777,4 @@ public class checkout extends JFrame {
             JOptionPane.showMessageDialog(this, "resultText.txt 저장 중 오류 발생!", "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    public static void main(String[] args) {//
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        SwingUtilities.invokeLater(checkout::new);
-        
-    }
 }
