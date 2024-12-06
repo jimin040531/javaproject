@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.text.html.FormView;
+
 
 
 
@@ -53,7 +53,7 @@ public class roomserviceFrame extends javax.swing.JFrame {
         menuManager = new MenuManager();
         reservationManager = new ReservationManager();
         timeManager = new TimeManager();
-        paymentManager = new PaymentManager();  // PaymentManager 추가
+        paymentManager = new PaymentManager();  
     }
     
     // 데이터 초기화를 위한 별도 메소드
