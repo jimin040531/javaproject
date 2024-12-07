@@ -190,6 +190,8 @@ public class UserAdd extends javax.swing.JFrame {
             try {
                 UserAddManager.addUser(newUser, parent);
                 javax.swing.JOptionPane.showMessageDialog(this, "사용자가 성공적으로 추가되었습니다.");
+                System.out.println("사용자 추가 성공: " + newUser);
+
                 this.dispose(); // 창 닫기
             } catch (Exception e) {
                 javax.swing.JOptionPane.showMessageDialog(this, "사용자 추가 중 오류가 발생했습니다: " + e.getMessage(), "오류", javax.swing.JOptionPane.ERROR_MESSAGE);

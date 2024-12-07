@@ -165,11 +165,13 @@ public class userManagementFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "삭제할 사용자를 선택해주세요!", "오류", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         String id = (String) userInfoTable.getValueAt(selectedRow, 0);
 
         // 삭제 처리
         UserDeleteManager.deleteUser(id, "users.txt");
+        System.out.println("사용자 삭제 성공: ");
+
         loadUserTableData(); // 테이블 갱신
         JOptionPane.showMessageDialog(this, "사용자가 삭제되었습니다.");
     }//GEN-LAST:event_userDeleteButtonActionPerformed
