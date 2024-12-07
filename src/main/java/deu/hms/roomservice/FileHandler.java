@@ -75,6 +75,21 @@ public class FileHandler {
         }
     }
     
+      // 예약 목록 파일 저장
+    public void saveReservationToFile(DefaultTableModel model, String filePath) {
+        this.tableModel = model;
+        this.filePath = filePath;
+        
+        try {
+            initializeWriter();
+            saveReservationData();
+            closeWriter();
+        } catch (Exception e) {
+            showError("예약 목록 저장 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+    
+    
     // 예약 목록 파일 불러오기
     public void loadReservationFromFile(DefaultTableModel model) {
         this.tableModel = model;
@@ -90,20 +105,7 @@ public class FileHandler {
         }
     }
     
-    // 예약 목록 파일 저장
-    public void saveReservationToFile(DefaultTableModel model, String filePath) {
-        this.tableModel = model;
-        this.filePath = filePath;
-        
-        try {
-            initializeWriter();
-            saveReservationData();
-            closeWriter();
-        } catch (Exception e) {
-            showError("예약 목록 저장 중 오류가 발생했습니다: " + e.getMessage());
-        }
-    }
-    
+  
     // 내부 헬퍼 메소드들
     private void initializeReader() throws IOException {
         fileReader = new FileReader(filePath);
