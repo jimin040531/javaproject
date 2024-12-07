@@ -27,13 +27,6 @@ public class HotelRoom implements Serializable {
         this.grade = "empty room";
     }
 
-    // 생성자: 수용 인원, 가격, 등급을 초기화
-    public HotelRoom(int capacity, int price, String grade) {
-        this.capacity = capacity;
-        this.price = price;
-        this.grade = grade;
-    }
-
     // 예약 가능한지 확인하는 메서드
     public boolean isAvailable(LocalDate checkIn, LocalDate checkOut) {
         if (checkIn == null || checkOut == null) {
