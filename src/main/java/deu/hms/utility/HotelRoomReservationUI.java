@@ -120,26 +120,6 @@ public class HotelRoomReservationUI {
         panel.add(new JLabel("층 선택:"));
         panel.add(floorSelector);
             
-        // 저장 버튼
-        JButton saveButton = new JButton("저장"); // 버튼 이름 지정
-        saveButton.addActionListener(e -> {
-            // 체크인 날짜와 체크아웃 날짜 가져오기
-            String checkInDate = ((JTextField) checkInDateChooser.getDateEditor().getUiComponent()).getText();
-            String checkOutDate = ((JTextField) checkOutDateChooser.getDateEditor().getUiComponent()).getText();
-
-            System.out.println("체크인 날짜: " + checkInDate + ", 체크아웃 날짜: " + checkOutDate);
-
-            registration.updateDates(checkInDate, checkOutDate);
-            
-            registration.setVisible(true);    // 폼 보이기
-            registration.toFront();           // 최상단으로 가져오기
-            registration.setSize(500, 450);
-            frame.setVisible(false);
-        // 폼 강제 업데이트
-        });
-
-        // 버튼을 패널에 추가
-        panel.add(saveButton);
 
         // 뒤로가기 버튼
         JButton backButton = new JButton("이전");
