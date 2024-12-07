@@ -232,7 +232,7 @@ public class UserModify extends javax.swing.JFrame {
 
         // 창 닫기
         dispose();
-    
+
     }//GEN-LAST:event_saveButtonModifyActionPerformed
 
     private void pickEmployeeModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickEmployeeModifyActionPerformed
