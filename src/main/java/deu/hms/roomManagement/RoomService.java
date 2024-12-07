@@ -3,34 +3,27 @@ package deu.hms.roomManagement;
 public class RoomService {
     private final RoomRepository roomRepository;
 
+    // 생성자
     public RoomService(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 
+    // 객실 추가
     public void addRoom(Room room) {
-        try {
-            roomRepository.addRoom(room);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("객실 추가 실패: " + e.getMessage());
-        }
+        roomRepository.addRoom(room);
     }
 
+    // 객실 삭제
     public void deleteRoom(int floor, int roomNumber) {
-        try {
-            roomRepository.deleteRoom(floor, roomNumber);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("객실 삭제 실패: " + e.getMessage());
-        }
+        roomRepository.deleteRoom(floor, roomNumber);
     }
 
+    // 객실 수정
     public void updateRoom(Room room, int newPrice, String newGrade, int newCapacity) {
-        try {
-            roomRepository.updateRoom(room, newPrice, newGrade, newCapacity);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("객실 수정 실패: " + e.getMessage());
-        }
+        roomRepository.updateRoom(room, newPrice, newGrade, newCapacity);
     }
 
+    // RoomRepository 반환
     public RoomRepository getRoomRepository() {
         return roomRepository;
     }

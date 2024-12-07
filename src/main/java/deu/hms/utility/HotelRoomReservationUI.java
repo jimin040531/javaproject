@@ -237,7 +237,7 @@ public class HotelRoomReservationUI {
         String checkInDateStr = checkInDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String checkOutDateStr = checkOutDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("reservation.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("roomInfo.txt", true))) {
             writer.write(uniqueNumber + "," + floor + "," + roomNumber + "," + checkInDateStr + "," + checkOutDateStr + "," + totalCost + "," + status);
             writer.newLine();
         } catch (IOException e) {
