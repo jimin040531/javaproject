@@ -599,26 +599,16 @@ public class restaurantManagementFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_ChangeButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-       UserAuthentication userAuth = new UserAuthentication();
-    String userId = userAuth.getCurrentUserId(); // 현재 로그인한 사용자 ID
-    String userRole = userAuth.getUserRole(userId); // 사용자 역할 가져오기
+       // 현재 창을 닫고 MainScreenManager로 이동
+        this.dispose();  // userManagementFrame 닫기
 
-    if (userRole != null) {
-        // 역할에 따라 화면 전환
-        if (userRole.equalsIgnoreCase("employee")) {
-            // 직원용 메인 화면으로 이동
-            MainScreenEmployees mainScreen = new MainScreenEmployees();
-            mainScreen.setVisible(true);
-        } else if  (userRole.equalsIgnoreCase("manager")) {
-            // 관리자용 메인 화면으로 이동
-            MainScreenManager mainScreen = new MainScreenManager();
-            mainScreen.setVisible(true);
-        } 
-    } 
+        // UserAuthentication 객체 생성 (예시: 로그인 정보를 사용)
+        UserAuthentication userAuth = new UserAuthentication();
 
-    // 현재 화면 닫기
-    this.dispose();
-
+        // MainScreenManager로 이동, UserAuthentication 객체 전달
+        MainScreenManager mainScreenManager = new MainScreenManager(userAuth);
+        mainScreenManager.setLocationRelativeTo(null);  // 화면 가운데 배치
+        mainScreenManager.setVisible(true);  // MainScreenManager 창을 표시
     }//GEN-LAST:event_backButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

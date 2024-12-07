@@ -29,7 +29,7 @@ public class CheckInManager {
 
     // Reservation.txt 한 줄을 읽어서 CheckInData 객체로 변환하는 메서드
     private CheckInData parseCheckInData(String csvLine) {
-        String[] fields = csvLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+        String[] fields = csvLine.split(",");
         if (fields.length == 11) { // 고유번호, 이름, 주소, 전화번호, 예상 체크인 날짜, 예상 체크 아웃 날짜, 방 번호, 인원 수 , 금액, 결제 수단, 상태
             String uniqueNumber = fields[0].trim();
             String name = fields[1].trim();
