@@ -57,13 +57,13 @@ public class restaurantManagementFrame extends javax.swing.JDialog {
 
     private void saveMenuToFile(DefaultTableModel model) {
     try {
-        java.io.FileWriter fw = new java.io.FileWriter("메뉴목록.txt", false);
+        java.io.FileWriter fw = new java.io.FileWriter("menuList.txt", false);
         java.io.BufferedWriter bw = new java.io.BufferedWriter(fw);
         
-        java.io.FileWriter roomServiceFw = new java.io.FileWriter("룸서비스메뉴.txt", false);
+        java.io.FileWriter roomServiceFw = new java.io.FileWriter("RoomserviceList.txt", false);
         java.io.BufferedWriter roomServiceBw = new java.io.BufferedWriter(roomServiceFw);
         
-        java.io.FileWriter restaurantFw = new java.io.FileWriter("레스토랑메뉴.txt", false);
+        java.io.FileWriter restaurantFw = new java.io.FileWriter("Restaurantmenu.txt", false);
         java.io.BufferedWriter restaurantBw = new java.io.BufferedWriter(restaurantFw);
         
         for (int i = 0; i < model.getRowCount(); i++) {
@@ -105,7 +105,7 @@ public class restaurantManagementFrame extends javax.swing.JDialog {
     private void loadMenuFromFile(DefaultTableModel model) {
     try {
         
-        java.io.FileReader fr = new java.io.FileReader("메뉴목록.txt");
+        java.io.FileReader fr = new java.io.FileReader("menuList.txt");
         java.io.BufferedReader br = new java.io.BufferedReader(fr);
         
         model.setRowCount(0); // 기존 데이터 초기화
