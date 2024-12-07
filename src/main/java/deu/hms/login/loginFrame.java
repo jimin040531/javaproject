@@ -294,7 +294,11 @@ public class loginFrame extends javax.swing.JDialog {
         }
 
         UserAuthentication auth = new UserAuthentication(); 
-        /* Create and display the dialog */
+        /* Create and display the dialog */  
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
