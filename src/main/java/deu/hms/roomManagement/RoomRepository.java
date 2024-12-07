@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class RoomRepository {
-    private final String FILE_NAME = "roomInfo.txt";
     private final List<Room> roomList;
 
     public RoomRepository() {
@@ -66,7 +65,7 @@ public class RoomRepository {
     }
 
     public void saveRoomInfoToFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("roomInfo.txt"))) {
             for (Room room : roomList) {
                 writer.write(room.toString());
                 writer.newLine();
@@ -86,7 +85,7 @@ public class RoomRepository {
     }
 
     private void loadRoomInfoFromFile() {
-        File file = new File(FILE_NAME);
+        File file = new File("roomInfo.txt");
         if (!file.exists()) {
             System.out.println("객실 정보 파일이 존재하지 않습니다. 새 파일을 생성합니다.");
             return;
@@ -112,7 +111,7 @@ public class RoomRepository {
         }
     }
         public void saveTableDataToFile(DefaultTableModel model) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, false))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("roomInfo.txt", false))) {
             // 테이블의 각 행 데이터를 파일에 작성
             for (int i = 0; i < model.getRowCount(); i++) {
                 StringBuilder rowBuilder = new StringBuilder();

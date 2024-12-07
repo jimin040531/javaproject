@@ -158,8 +158,8 @@ public class RoomManagementFrame extends javax.swing.JFrame {
     private void saveTableData() {
             DefaultTableModel model = (DefaultTableModel) roomTable.getModel();
             roomRepository.saveTableDataToFile(model); // 테이블 데이터를 파일에 저장합니다.
-            JOptionPane.showMessageDialog(this, "데이터가 성공적으로 저장되었습니다.", "저장 성공!", JOptionPane.INFORMATION_MESSAGE);
-        }
+            JOptionPane.showMessageDialog(this, "객실 정보가 성공적으로 저장되었습니다.", "저장 성공!", JOptionPane.INFORMATION_MESSAGE);
+    }
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int selectedRow = roomTable.getSelectedRow(); // 테이블에서 선택된 행을 가져옴
         if (selectedRow == -1) {
