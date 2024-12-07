@@ -55,36 +55,47 @@ public class CheckInUI extends JFrame {
     }
 
     private void handleCheckIn() {
+        // 사용자가 선택한 테이블의 행을 가져옴
         int selectedRow = reservationListTable.getSelectedRow();
+
+        // 선택된 행이 없을 경우 오류 메시지를 표시하고 종료
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "체크인할 예약을 선택하세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
-            return;
+            return; // 메서드 종료
         }
 
-        String uniqueNumber = (String) reservationListTable.getValueAt(selectedRow, 0);
-        String name = (String) reservationListTable.getValueAt(selectedRow, 1);
-        String phoneNumber = (String) reservationListTable.getValueAt(selectedRow, 2);
-        String checkInDate = (String) reservationListTable.getValueAt(selectedRow, 3);
-        String checkOutDate = (String) reservationListTable.getValueAt(selectedRow, 4);
-        String roomNumber = (String) reservationListTable.getValueAt(selectedRow, 5);
-        String guestCount = (String) reservationListTable.getValueAt(selectedRow, 6);
-        String stayCost = (String) reservationListTable.getValueAt(selectedRow, 7);
-        String paymentMethod = (String) reservationListTable.getValueAt(selectedRow, 8);
-        String status = "체크인 완료";
-        String requestDetails = reqestTextField.getText().trim();
+        // 선택된 행에서 각 예약 정보를 가져옴
+        String uniqueNumber = (String) reservationListTable.getValueAt(selectedRow, 0); // 고유 번호
+        String name = (String) reservationListTable.getValueAt(selectedRow, 1); // 이름
+        String phoneNumber = (String) reservationListTable.getValueAt(selectedRow, 2); // 전화번호
+        String checkInDate = (String) reservationListTable.getValueAt(selectedRow, 3); // 체크인 날짜
+        String checkOutDate = (String) reservationListTable.getValueAt(selectedRow, 4); // 체크아웃 날짜
+        String roomNumber = (String) reservationListTable.getValueAt(selectedRow, 5); // 방 번호
+        String guestCount = (String) reservationListTable.getValueAt(selectedRow, 6); // 인원 수
+        String stayCost = (String) reservationListTable.getValueAt(selectedRow, 7); // 객실 금액
+        String paymentMethod = (String) reservationListTable.getValueAt(selectedRow, 8); // 결제 수단
+        String status = "체크인 완료"; // 상태 -> 체크인 완료로 설정
+        String requestDetails = reqestTextField.getText().trim(); // 요청 사항 입력 필드에서 값 가져오기
 
-        CheckInData checkInData = new CheckInData(uniqueNumber, name, phoneNumber, checkInDate, checkOutDate, roomNumber, guestCount, stayCost, paymentMethod, status, requestDetails);
+        // CheckInData 객체를 생성
+        CheckInData checkInData = new CheckInData(uniqueNumber, name, phoneNumber, checkInDate, checkOutDate, roomNumber, 
+                                                    guestCount, stayCost, paymentMethod, status, requestDetails);
 
-        reservationManager.saveCheckInDataWithRequest(checkInData, requestDetails);  // 메서드 변경됨
+        // ReservationManager를 사용하여 체크인 데이터를 요청 사항과 함께 저장
+        reservationManager.saveCheckInDataWithRequest(checkInData, requestDetails); // 메서드 호출로 데이터 저장
 
+        // 체크인 완료 메시지를 사용자에게 표시
         JOptionPane.showMessageDialog(this, "체크인이 완료되었습니다.\n요청 사항: " + requestDetails, "체크인 완료", JOptionPane.INFORMATION_MESSAGE);
 
+        // 예약 목록 테이블에서 선택된 행을 삭제
         DefaultTableModel model = (DefaultTableModel) reservationListTable.getModel();
         model.removeRow(selectedRow);
 
-        reqestTextField.setText("");
-        roomCountTextField.setText("");
+        reqestTextField.setText(""); // 요청 사항 입력 초기화
+        roomCountTextField.setText(""); // 방 수 입력 초기화 (추가된 필드일 경우)
+        searchTextField.setText(""); // 검색창 초기화
     }
+
 
 
     /**
@@ -313,28 +324,28 @@ public class CheckInUI extends JFrame {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // 검색어와 검색 기준을 가져오기
-        String searchTerm = searchTextField.getText().trim();  // 입력된 검색어
-        String searchType = (String) searchComboBox.getSelectedItem();  // 선택된 검색 기준
+        String searchTerm = searchTextField.getText().trim();  // 입력된 검색어 공백 제거
+        String searchType = (String) searchComboBox.getSelectedItem();  // 콤보박스에서 선택된 항목 가져오기
 
         // 전체 예약 데이터를 가져옵니다
-        List<CheckInData> allReservations = reservationManager.getCheckInDataList();
-        List<CheckInData> filteredData = new ArrayList<>();
+        List<CheckInData> allReservations = reservationManager.getCheckInDataList(); // 예약 관리자로부터 모든 예약 데이터 로드
+        List<CheckInData> filteredData = new ArrayList<>(); // 데이터 저장 리스트 생성
 
         // 검색 기준에 맞는 데이터를 필터링합니다
-        for (CheckInData checkInData : allReservations) {
+        for (CheckInData checkInData : allReservations) { // 향상된 for문을 써서 모든 예약 데이터를 순회
             switch (searchType) {
-                case "고유 번호":
-                    if (checkInData.getUniqueNumber().contains(searchTerm)) {
+                case "고유 번호": // "고유 번호"인 경우
+                    if (checkInData.getUniqueNumber().contains(searchTerm)) { // 고유 번호에 검색어가 포함되어 있는지 확인
                         filteredData.add(checkInData);
                     }
                     break;
-                case "성이름":
-                    if (checkInData.getName().contains(searchTerm)) {
+                case "성이름": // "성이름"인 경우
+                    if (checkInData.getName().contains(searchTerm)) { // 이름에 검색어가 포함되어 있는지 확인
                         filteredData.add(checkInData);
                     }
                     break;
-                case "방 번호":
-                    if (checkInData.getRoomNumber().contains(searchTerm)) {
+                case "방 번호": // "방 번호"인 경우
+                    if (checkInData.getRoomNumber().contains(searchTerm)) { // 방 번호에 검색어가 포함되어 있는지 확인
                         filteredData.add(checkInData);
                     }
                     break;
@@ -342,12 +353,13 @@ public class CheckInUI extends JFrame {
         }
 
         // 검색 결과가 없으면 사용자에게 알림
-        if (filteredData.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "검색 결과가 없습니다.", "검색 결과", JOptionPane.INFORMATION_MESSAGE);
+        if (filteredData.isEmpty()) { // 필터링된 데이터 리스트가 비어 있는 경우
+            JOptionPane.showMessageDialog(this, "검색 결과가 없습니다.", "검색 결과", JOptionPane.INFORMATION_MESSAGE); // 알림창 표시
         }
 
         // 테이블에 필터링된 데이터를 업데이트합니다
-        updateTable(filteredData);
+        updateTable(filteredData); // 필터링된 데이터를 기반으로 테이블 업데이트
+
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void roomCountTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomCountTextFieldActionPerformed

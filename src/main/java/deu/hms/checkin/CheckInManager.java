@@ -4,7 +4,6 @@
  */
 package deu.hms.checkin;
 
-import deu.hms.checkin.CheckInData;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,28 +13,15 @@ import java.util.List;
  */
 
 /**
- * CheckInManager 클래스는 체크인 관련 데이터를 처리하는 기능을 제공합니다.
- * - 예약 데이터를 불러와 필요한 데이터를 필터링하고 반환
- * - 체크인 데이터를 파일에 저장
+ * 
+ * 
+ *체크인 관련 데이터를 처리하는 기능을 제공
  */
 public class CheckInManager {
 
-    // 예약 데이터가 저장된 파일의 경로
-    private String reservationFilePath = "Reservation.txt";
-
-    // 체크인 데이터가 저장될 파일의 경로
-    private String checkInFilePath = "CheckInData.txt";
-
-    /**
-     * 예약 데이터를 모두 가져오는 메서드
-     * Reservation.txt 파일에서 데이터를 읽어와 CheckInData 객체 리스트로 반환합니다.
-     * 필요한 데이터만 필터링해서 반환합니다.
-     * 
-     * @return List<CheckInData> 필터링된 체크인 데이터 리스트
-     */
     public List<CheckInData> getCheckInDataList() {
         List<CheckInData> checkInDataList = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(reservationFilePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Reservation.txt"))) {
             String line;
             // 파일의 각 줄을 읽어서 처리
             while ((line = reader.readLine()) != null) {
@@ -48,17 +34,16 @@ public class CheckInManager {
             }
         } catch (IOException e) {
             // 파일 읽기 중 오류 발생 시 콘솔에 출력
-            System.err.println("파일 읽기 오류: " + e.getMessage());
+            System.err.println("예약 명단 파일 읽기 오류: " + e.getMessage());
         }
         return checkInDataList; // 읽어온 데이터 리스트 반환
     }
 
     /**
-     * Reservation.txt 파일의 한 줄을 읽어 CheckInData 객체로 변환하는 메서드
-     * 각 필드를 ','로 구분하여 파싱한 후 필요한 데이터만 객체로 생성합니다.
      * 
-     * @param csvLine CSV 형식의 예약 데이터 한 줄
-     * @return CheckInData 변환된 체크인 데이터 객체
+     * 
+     * Reservation.txt 파일의 한 줄을 읽어 CheckInData 객체로 변환하는 메서드
+     * 각 필드를 ','로 구분하여 파싱한 후 필요한 데이터만 객체 생성
      */
     private CheckInData parseCheckInData(String csvLine) {
         // ','로 데이터를 분리
@@ -87,14 +72,16 @@ public class CheckInManager {
     }
 
     /**
-     * 체크인 데이터를 요청 사항과 함께 파일에 저장하는 메서드
-     * CheckInData 객체와 요청 사항을 포함하여 CheckInData.txt 파일에 추가로 저장합니다.
      * 
-     * @param checkInData CheckInData 객체
-     * @param requestDetails 고객이 요청한 추가 사항
+     * 
+     * 체크인 데이터를 요청 사항과 함께 파일에 저장하는 메서드
+     * CheckInData 객체와 요청 사항을 포함하여 CheckInData.txt 파일에 추가로 저장
+     * 
+     * @param checkInData
+     * @param requestDetails
      */
     public void saveCheckInDataWithRequest(CheckInData checkInData, String requestDetails) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(checkInFilePath, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("CheckInData.txt", true))) {
             // CheckInData 객체를 CSV 형식으로 변환
             String fullCsvData = checkInData.toCSV();
             // 요청 사항 포함: 필요 시 fullCsvData에 추가 작업 가능
