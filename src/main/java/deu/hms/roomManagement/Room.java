@@ -1,4 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 package deu.hms.roomManagement;
+
+/**
+ *
+ * @author Jimin
+ */
 
 public class Room {
     private final int floor; // 층 번호
