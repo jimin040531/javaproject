@@ -4,6 +4,11 @@
  */
 package deu.hms.checkin;
 
+/**
+ *
+ * @author Jimin
+ */
+
 import deu.hms.utility.CardRegistFrame;
 import deu.hms.utility.HotelRoomReservationUI;
 import java.awt.event.ActionEvent;
