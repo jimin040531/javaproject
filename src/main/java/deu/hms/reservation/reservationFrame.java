@@ -25,7 +25,7 @@ import java.io.IOException;
 import deu.hms.login.UserAuthentication;
 import deu.hms.login.MainScreenEmployees;
 import deu.hms.login.MainScreenManager;
-
+//수정한상태
 /**
  * d
  *
@@ -71,12 +71,12 @@ private void initializeTableFromFile() {
         // 파일에서 데이터를 읽음
         List<String[]> fileData = tableManager.readFile("Reservation.txt");
 
-        // 데이터를 테이블에 로드
+        // 데이터를 테이블에 로드sad
         tableManager.loadTableData(fileData);
-
+        
     } catch (Exception e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "파일을 불러오는 중 오류가 발생했습니다: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "파일을 불러오는 중 오류가 발생했습니다::: " + e.getMessage());
     }
 }
     // 기본 생성자 추가
